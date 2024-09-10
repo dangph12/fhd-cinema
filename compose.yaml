@@ -12,7 +12,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    port:
+    ports:
       - 8080:8080
   db:
     # We use a mariadb image which supports both amd64 & arm64 architecture
