@@ -1,6 +1,4 @@
-CREATE DATABASE fhd_cinema;
-
-USE fhd_cinema;
+CREATE DATABASE IF NOT EXISTS fhd_cinema;
 
 CREATE TABLE IF NOT EXISTS fhd_cinema.greetings (
     id INTEGER AUTO_INCREMENT,
