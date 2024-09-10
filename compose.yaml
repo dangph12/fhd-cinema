@@ -20,7 +20,7 @@ services:
     # If you really want to use MySQL, uncomment the following line
     image: mysql:8.0.36-debian
     environment:
-      - MYSQL_DATABASE=example
+      - MYSQL_DATABASE=fhd_cinema
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
     restart: always
     healthcheck:

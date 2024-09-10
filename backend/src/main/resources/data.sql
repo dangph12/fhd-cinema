@@ -1,1 +1,1 @@
-INSERT INTO example.greetings(name) values ('Docker');
+INSERT INTO fhd_cinema.greetings(name) values ('Docker');
