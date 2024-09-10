@@ -1,3 +1,4 @@
+CREATE DATABASE fhd_cinema;
 
 USE fhd_cinema;
 
