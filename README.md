@@ -5,6 +5,7 @@
 + Phan Hải Đăng - HE181217
 + Phạm Nam Dương - HE181501
 + Nguyễn Đình Anh Đức - HE181048
++ Vũ Linh Trang - HE181187
 
 Cấu trúc project
 ```
