@@ -1,5 +1,8 @@
-## Mẫu project cho môn SWP391
-### Web app sử dụng React, Spring Boot và MySQL
+## FHD-Cinema
+### Web app bán vé xem phim sử dụng React, Spring Boot và MySQL
+
+## Thành viên
++ Phan Hải Đăng - HE181217
 
 Cấu trúc project
 ```
@@ -16,32 +19,7 @@ Cấu trúc project
 └── README.md
 ```
 
-## Đăng nhập Github bằng Github CLI
-
-Tải về và cài đặt [Github CLI](https://cli.github.com/)
-
-Mở cmd và chạy lệnh
-```
-gh auth login
-```
-Chọn `Github.com`
-
-Phân protocol, chọn `HTTPS`
-
-Phần credentials, chọn `Yes`
-
-Phần authenticate, chọn `Login with a browser`
-
-Cmd sẽ hiện ra mã xác thực, nhấn Enter để mở browser và nhập mã.
-
-## Tải repo bằng Github CLI
-
-Mở cmd và chạy lệnh
-```
-gh repo clone dangph12/swp-template -- --depth=1
-```
-
-## Chạy các container bằng Docker
+## Chạy project bằng Docker
 
 Tải về và cài đặt [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
@@ -52,9 +30,9 @@ $ docker compose up -d --build
 ```
 Kết quả trả về
 ```
-Creating swp-template-frontend-1 ... done
-Creating swp-template-db-1       ... done
-Creating swp-template-backend-1  ... done
+Creating fhd-cinema-frontend-1 ... done
+Creating fhd-cinema-db-1       ... done
+Creating fhd-cinema-backend-1  ... done
 ```
 
 Hướng dẫn cách điều hướng nhanh đến thư mục trên Windows xem tại [Phụ lục 1](#1-phụ-lục-1).
@@ -82,8 +60,8 @@ $ docker ps
 Kết quả trả về
 ```
 CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                                NAMES
-a63dee74d79e        swp-template-backend      "java -cp app:app/li…"   39 seconds ago      Up 37 seconds       8080/tcp                             swp-template_backend-1
-6a7364c0812e        swp-template-frontend     "docker-entrypoint.s…"   39 seconds ago      Up 33 seconds       0.0.0.0:3000->3000/tcp               swp-template_frontend-1
+a63dee74d79e        fhd-cinema-backend      "java -cp app:app/li…"   39 seconds ago      Up 37 seconds       0.0.0.0:8080->8080/tcp                             swp-template_backend-1
+6a7364c0812e        fhd-cinema-frontend     "docker-entrypoint.s…"   39 seconds ago      Up 33 seconds       0.0.0.0:3000->3000/tcp               swp-template_frontend-1
 b176b18fbec4        mysql:8.0.36-debian       "docker-entrypoint.s…"   39 seconds ago      Up 37 seconds       0.0.0.0:3306->3306/tcp, 33060/tcp    swp-template_db-1
 ```
 
@@ -97,7 +75,7 @@ Kiểm tra cổng 3306 của MySQL bằng MySQL Workbench với tài khoản `ro
 
 ![page](./tutorials/database.jpg)
 
-## Huỷ các container bằng Docker
+## Dừng project bằng Docker
 
 Sử dụng Docker Desktop để huỷ hoặc sử dụng cmd và chạy lệnh
 
@@ -106,13 +84,13 @@ $ docker compose down
 ```
 Kết quả mong muốn
 ```
-Stopping swp-template-backend-1  ... done
-Stopping swp-template-frontend-1 ... done
-Stopping swp-template-db-1       ... done
-Removing swp-template-backend-1  ... done
-Removing swp-template-frontend-1 ... done
-Removing swp-template-db-1       ... done
-Removing network swp-template-default
+Stopping fhd-cinema-backend-1  ... done
+Stopping fhd-cinema-frontend-1 ... done
+Stopping fhd-cinema-db-1       ... done
+Removing fhd-cinema-backend-1  ... done
+Removing fhd-cinema-frontend-1 ... done
+Removing fhd-cinema-db-1       ... done
+Removing network fhd-cinema-default
 ```
 
 ## Phụ lục
