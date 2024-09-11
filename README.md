@@ -3,6 +3,7 @@
 
 ## Thành viên
 + Phan Hải Đăng - HE181217
++ Phạm Nam Dương - HE181501
 
 Cấu trúc project
 ```
