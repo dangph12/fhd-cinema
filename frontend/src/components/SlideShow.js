@@ -5,25 +5,25 @@ import 'react-slideshow-image/dist/styles.css';
 const Example = () => {
     const images = [
         "https://bhdstar.vn/wp-content/uploads/2024/08/d01da503e99955ab7e8.jpg",
-        "https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80",
-        "https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
+        "https://bhdstar.vn/wp-content/uploads/2024/08/referenceSchemeHeadOfficeallowPlaceHoldertrueheight1069ldapp-13.jpg",
+        "https://bhdstar.vn/wp-content/uploads/2024/07/z5613171744207_7d4285303094c19fd80de02beea34e0b.jpg",
+        "https://bhdstar.vn/wp-content/uploads/2024/07/z5613171762164_5c6451cbc2e353eed46a4b819ab386b8.jpg",
+        "https://bhdstar.vn/wp-content/uploads/2024/07/z5639242205108_12db8cc10b81f6c9deba248ca68bdecf.jpg",
+        "https://bhdstar.vn/wp-content/uploads/2024/07/z5613022018407_76fddb90fa1896ff5317324ca73f97b8.jpg",
     ];
 
     return (
         <Slide>
             <div className="each-slide-effect">
                 <div style={{ 'backgroundImage': `url(${images[0]})` }}>
-                    <span></span>
                 </div>
             </div>
             <div className="each-slide-effect">
                 <div style={{ 'backgroundImage': `url(${images[1]})` }}>
-                    <span></span>
                 </div>
             </div>
             <div className="each-slide-effect">
                 <div style={{ 'backgroundImage': `url(${images[2]})` }}>
-                    <span></span>
                 </div>
             </div>
         </Slide>
