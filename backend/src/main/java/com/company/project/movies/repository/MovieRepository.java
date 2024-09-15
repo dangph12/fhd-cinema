@@ -1,6 +1,6 @@
-package com.company.project.repository;
+package com.company.project.movies.repository;
 
-import com.company.project.entity.Movie;
+import com.company.project.movies.entity.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
-package com.company.project.service;
+package com.company.project.movies.service;
 
-import com.company.project.dto.request.MovieCreationRequest;
-import com.company.project.entity.Movie;
-import com.company.project.repository.MovieRepository;
+import com.company.project.movies.dto.request.MovieCreationRequest;
+import com.company.project.movies.entity.Movie;
+import com.company.project.movies.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
