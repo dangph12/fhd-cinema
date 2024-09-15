@@ -10,12 +10,12 @@ public class MovieCreationRequest {
     private String movie_cast;
     private String movie_status;
     private String movie_format;
-    private int movie_duration_min;
+    private int movie_duration_minute;
     private Date movie_release_date;
     private String movie_trailer_url;
     private String movie_description;
     private String movie_language;
-    private String movie_poster_image;
+    private String movie_poster_url;
 
     public String getRating_id() {
         return rating_id;
@@ -73,12 +73,12 @@ public class MovieCreationRequest {
         this.movie_format = movie_format;
     }
 
-    public int getMovie_duration_min() {
-        return movie_duration_min;
+    public int getMovie_duration_minute() {
+        return movie_duration_minute;
     }
 
-    public void setMovie_duration_min(int movie_duration_min) {
-        this.movie_duration_min = movie_duration_min;
+    public void setMovie_duration_minute(int movie_duration_minute) {
+        this.movie_duration_minute = movie_duration_minute;
     }
 
     public Date getMovie_release_date() {
@@ -113,11 +113,11 @@ public class MovieCreationRequest {
         this.movie_language = movie_language;
     }
 
-    public String getMovie_poster_image() {
-        return movie_poster_image;
+    public String getMovie_poster_url() {
+        return movie_poster_url;
     }
 
-    public void setMovie_poster_image(String movie_poster_image) {
-        this.movie_poster_image = movie_poster_image;
+    public void setMovie_poster_url(String movie_poster_url) {
+        this.movie_poster_url = movie_poster_url;
     }
 }

@@ -17,12 +17,32 @@ public class Movie {
     private String movie_cast;
     private String movie_status;
     private String movie_format;
-    private int movie_duration_min;
+    private int movie_duration_minute;
     private Date movie_release_date;
     private String movie_trailer_url;
     private String movie_description;
     private String movie_language;
-    private String movie_poster_image;
+    private String movie_poster_url;
+
+    public Movie() {
+    }
+
+    public Movie(String movie_id, String rating_id, String movie_title, String movie_genre, String movie_director, String movie_cast, String movie_status, String movie_format, int movie_duration_minute, Date movie_release_date, String movie_trailer_url, String movie_description, String movie_language, String movie_poster_url) {
+        this.movie_id = movie_id;
+        this.rating_id = rating_id;
+        this.movie_title = movie_title;
+        this.movie_genre = movie_genre;
+        this.movie_director = movie_director;
+        this.movie_cast = movie_cast;
+        this.movie_status = movie_status;
+        this.movie_format = movie_format;
+        this.movie_duration_minute = movie_duration_minute;
+        this.movie_release_date = movie_release_date;
+        this.movie_trailer_url = movie_trailer_url;
+        this.movie_description = movie_description;
+        this.movie_language = movie_language;
+        this.movie_poster_url = movie_poster_url;
+    }
 
     public String getMovie_id() {
         return movie_id;
@@ -88,12 +108,12 @@ public class Movie {
         this.movie_format = movie_format;
     }
 
-    public int getMovie_duration_min() {
-        return movie_duration_min;
+    public int getMovie_duration_minute() {
+        return movie_duration_minute;
     }
 
-    public void setMovie_duration_min(int movie_duration_min) {
-        this.movie_duration_min = movie_duration_min;
+    public void setMovie_duration_minute(int movie_duration_minute) {
+        this.movie_duration_minute = movie_duration_minute;
     }
 
     public Date getMovie_release_date() {
@@ -128,11 +148,11 @@ public class Movie {
         this.movie_language = movie_language;
     }
 
-    public String getMovie_poster_image() {
-        return movie_poster_image;
+    public String getMovie_poster_url() {
+        return movie_poster_url;
     }
 
-    public void setMovie_poster_image(String movie_poster_image) {
-        this.movie_poster_image = movie_poster_image;
+    public void setMovie_poster_url(String movie_poster_url) {
+        this.movie_poster_url = movie_poster_url;
     }
 }
