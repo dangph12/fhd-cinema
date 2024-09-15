@@ -6,6 +6,7 @@ import SlideShow from './components/SlideShow'
 import Banner from './components/Banner';
 import Footer from './components/Footer';
 import BodyFirst from "./components/BodyFirst";
+import BodySecond from "./components/BodySecond";
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <SlideBar/>
         <Banner/> 
         <BodyFirst/>
+        <BodySecond/>
 
         <Footer/>
     </div>
