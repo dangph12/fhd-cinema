@@ -22,8 +22,12 @@ function BodyFirst() {
                                             <h2>Boruto: Naruto Next Generations</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -36,8 +40,12 @@ function BodyFirst() {
                                             <h2>Doraemon</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -50,8 +58,12 @@ function BodyFirst() {
                                             <h2>Detective Conan - Thám Tử Lừng Danh Conan</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -64,8 +76,12 @@ function BodyFirst() {
                                             <h2>One Piece - Đảo Hải Tặc</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -78,8 +94,12 @@ function BodyFirst() {
                                             <h2>Dragon Quest: Chuyến Phiêu Lưu Của Dai</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -92,8 +112,12 @@ function BodyFirst() {
                                             <h2>Inazma Deliverys</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -106,8 +130,12 @@ function BodyFirst() {
                                             <h2>Doraemon Movie 2023: Nobita và vùng đất lý tưởng trên bầu trời</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -120,8 +148,12 @@ function BodyFirst() {
                                             <h2>ODDTAXI - Chuyến Taxi Bất Ổn</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -134,8 +166,12 @@ function BodyFirst() {
                                             <h2>Mashimaro - Chú Thỏ Tinh Nghịch</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -148,8 +184,12 @@ function BodyFirst() {
                                             <h2>Ninja Hattori</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -162,8 +202,12 @@ function BodyFirst() {
                                             <h2>Naruto Shippuden</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>
@@ -176,8 +220,12 @@ function BodyFirst() {
                                             <h2>Naruto Shippuden</h2>
                                         </div>
                                         <div className="vietsub">
-                                            <span className="btnsub">Lồng tiếng</span>
-                                            <span className="chap">603 tập</span>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                    <i class="fas fa-star"></i>
+                                                </button>
+                                            </span>
                                         </div>
                                     </a>
                                 </div>

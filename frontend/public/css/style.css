@@ -388,13 +388,13 @@ display: block;
     margin-top: 5px;
     align-items: center;
     justify-content: space-between;
-    color: #fff;
+    color: #fdfafa;
     padding-right: 10px;
 }
 
 .btnsub {
     padding: 5px;
-    background-color: #0079ff;
+    background-color: #3b70c0;
     font-size: 14px;
 }
 
@@ -3749,3 +3749,4 @@ textarea {
     border-radius: 50%;
     background: rgba(59, 93, 80, 0.2);
 }
+
