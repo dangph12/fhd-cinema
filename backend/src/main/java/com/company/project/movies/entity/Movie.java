@@ -1,8 +1,15 @@
-package com.company.project.dto.request;
+package com.company.project.movies.entity;
+
+import jakarta.persistence.*;
 
 import java.util.Date;
 
-public class MovieCreationRequest {
+@Entity
+@Table(name = "movies")
+public class Movie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String movie_id;
     private String rating_id;
     private String movie_title;
     private String movie_genre;
@@ -16,6 +23,14 @@ public class MovieCreationRequest {
     private String movie_description;
     private String movie_language;
     private String movie_poster_image;
+
+    public String getMovie_id() {
+        return movie_id;
+    }
+
+    public void setMovie_id(String movie_id) {
+        this.movie_id = movie_id;
+    }
 
     public String getRating_id() {
         return rating_id;

@@ -1,8 +1,8 @@
-package com.company.project.controllers;
+package com.company.project.movies.controller;
 
-import com.company.project.dto.request.MovieCreationRequest;
-import com.company.project.entity.Movie;
-import com.company.project.service.MovieService;
+import com.company.project.movies.dto.request.MovieCreationRequest;
+import com.company.project.movies.entity.Movie;
+import com.company.project.movies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
