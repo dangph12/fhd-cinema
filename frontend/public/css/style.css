@@ -251,14 +251,13 @@ display: block;
 
 .title-heading::before {
     position: absolute;
-    width: 6px;
+    width: 10px;
     height: 30px;
     background: linear-gradient(180deg, var(--heading_custom_border_color_1, #f80), var(--heading_custom_border_color_2, #ea3c2a));
     border-radius: 1rem;
     left: 0;
     content: "";
     display: block;
-
 }
 
 .hot-series {

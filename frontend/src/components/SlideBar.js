@@ -6,11 +6,11 @@ function SlideBar() {
         superLargeDesktop: {
             // the naming can be any, depends on you.
             breakpoint: { max: 4000, min: 1024 },
-            items: 3,
+            items: 4,
             slideToSlide: 3
         },
         desktop: {
-            breakpoint: { max: 1024 ,min: 800 },
+            breakpoint: { max: 1024, min: 800 },
             items: 3
         },
         tablet: {
@@ -28,7 +28,7 @@ function SlideBar() {
                 <div class="hot-series">
                     <div class="hot-label">
                         <h2 class="title-heading">
-                            <span class="pd-l">Hot Series</span>
+                            <h3 class="hot-series">Hot Series</h3>
                         </h2>
                     </div>
                     <Carousel responsive={responsive}>

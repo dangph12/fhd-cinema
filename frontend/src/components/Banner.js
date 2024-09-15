@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 function Banner() {
     return (
         <div>
-            <a href="#" class="banner">
-                <img style="margin-left: 100px;" src="img/14.jpg" alt=""/>
+            <a href="#" className="banner">
+                <img style={{marginLeft: '0px'}} src="https://pops-shop-vn.akamaized.net/2023/02/One-Piece_web-1.jpg" alt=""/>
             </a>
         </div>
-    )
+    );
 }
 
-export default Banner
+export default Banner;
