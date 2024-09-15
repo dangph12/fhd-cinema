@@ -62,12 +62,16 @@ function SlideBar() {
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>
+                        <div className="card">
+                            <img className="product--image" src="img/15.jpg" />
+                            {/* <h2>Ma Da</h2>
+                            <p className="price">$14</p> */}
+                        </div>
                     </Carousel>;
                 </div>
             </div>
         </div>
     )
 }
-
 export default SlideBar
 
