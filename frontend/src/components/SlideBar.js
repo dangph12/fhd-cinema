@@ -1,44 +1,73 @@
-import React from 'react'
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 function SlideBar() {
+    const responsive = {
+        superLargeDesktop: {
+            // the naming can be any, depends on you.
+            breakpoint: { max: 4000, min: 1024 },
+            items: 3,
+            slideToSlide: 3
+        },
+        desktop: {
+            breakpoint: { max: 1024 ,min: 800 },
+            items: 3
+        },
+        tablet: {
+            breakpoint: { max: 800, min: 464 },
+            items: 2
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1
+        }
+    };
     return (
         <div>
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src="img/referenceSchemeHeadOfficeallowPlaceHoldertrueheight1069ldapp-13.jpg" alt="First slide" />
+            <div class="grid">
+                <div class="hot-series">
+                    <div class="hot-label">
+                        <h2 class="title-heading">
+                            <span class="pd-l">Hot Series</span>
+                        </h2>
                     </div>
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src="img/d01da503e99955ab7e8.jpg" alt="First slide" />
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="img/z5613022018407_76fddb90fa1896ff5317324ca73f97b8.jpg" alt="Second slide" />
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="img/d01da503e99955ab7e8.jpg" alt="Third slide" />
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="img/z5613171762164_5c6451cbc2e353eed46a4b819ab386b8.jpg" alt="Third slide" />
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="img/z5639242205108_12db8cc10b81f6c9deba248ca68bdecf.jpg" alt="Third slide" />
-                    </div>
+                    <Carousel responsive={responsive}>
+                        <div className="card">
+                            <img className="product--image" src="img/10.jpg" />
+                            {/* <h2>Ma Da</h2>
+                            <p className="price">$14</p> */}
+                        </div>
+                        <div className="card">
+                            <img className="product--image" src="img/9.jpg" />
+                            {/* <h2>Ma Da</h2>
+                            <p className="price">$14</p> */}
+                        </div>
+                        <div className="card">
+                            <img className="product--image" src="img/8.jpg" />
+                            {/* <h2>Ma Da</h2>
+                            <p className="price">$14</p> */}
+                        </div>
+                        <div className="card">
+                            <img className="product--image" src="img/11.jpg" />
+                            {/* <h2>Ma Da</h2>
+                            <p className="price">$14</p> */}
+                        </div>
+                        <div className="card">
+                            <img className="product--image" src="img/12.jpg" />
+                            {/* <h2>Ma Da</h2>
+                            <p className="price">$14</p> */}
+                        </div>
+                        <div className="card">
+                            <img className="product--image" src="img/2.jpg" />
+                            {/* <h2>Ma Da</h2>
+                            <p className="price">$14</p> */}
+                        </div>
+                    </Carousel>;
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
             </div>
-
-           
-
         </div>
-
     )
 }
 
 export default SlideBar
+

@@ -3,13 +3,16 @@ import "./App.css";
 import NavBar from './components/NavBar';
 import SlideBar from './components/SlideBar';
 import SlideShow from './components/SlideShow'
+import Banner from "./components/Banner";
 
 function App() {
   return (
     <div className="App">
         <NavBar/>
         <SlideShow/>
-        {/* <SlideBar/> */}
+        {/* <Banner/> */}
+        <SlideBar/>
+        
         
     </div>
   );
