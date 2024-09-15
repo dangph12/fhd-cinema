@@ -23,12 +23,12 @@ public class MovieService {
         movie.setMovie_cast(movie.getMovie_cast());
         movie.setMovie_status(movie.getMovie_status());
         movie.setMovie_format(movie.getMovie_format());
-        movie.setMovie_duration_min(movie.getMovie_duration_min());
+        movie.setMovie_duration_minute(movie.getMovie_duration_minute());
         movie.setMovie_release_date(movie.getMovie_release_date());
         movie.setMovie_trailer_url(movie.getMovie_trailer_url());
         movie.setMovie_description(movie.getMovie_description());
         movie.setMovie_language(movie.getMovie_language());
-        movie.setMovie_poster_image(movie.getMovie_poster_image());
+        movie.setMovie_poster_url(movie.getMovie_poster_url());
 
         return movieRepository.save(movie);
     }
