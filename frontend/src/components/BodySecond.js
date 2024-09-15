@@ -21,6 +21,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Tuyệt Đỉnh</h2>
                                         </div>
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -31,6 +36,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Mys City</h2>
                                         </div>
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -41,7 +51,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Chị Đây Đại Thần Fandom</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -52,7 +66,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Trường Này Chỉ Có Tôi Là Người</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -63,7 +81,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Sếp Tôi</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -74,7 +96,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Kiếp Văn Phòng</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -85,7 +111,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Zookiz - Truyện ngắn đặc sắc</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -96,7 +126,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Câu Lạc Bộ Anti Nhân Vật Chínhn</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -107,7 +141,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Tác Giả, Em Muốn Nghỉ Việc!</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -118,7 +156,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Hãy Mang Anh Trai Tôi Đi</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -129,7 +171,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Khi Khách Hàng Là Bồ Cũ</h2>
                                         </div>
-
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                                 <div class="col-2-6">
@@ -140,6 +186,11 @@ function BodySecond() {
                                         <div class="name">
                                             <h2>Nhật ký nữ phụ huấn luyện em trai</h2>
                                         </div>
+                                        <span>
+                                            <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                                                <i class="fas fa-star"></i>Thông Tin Phim
+                                            </button>
+                                        </span>
                                     </a>
                                 </div>
                             </div>
