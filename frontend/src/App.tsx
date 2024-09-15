@@ -4,6 +4,7 @@ import NavBar from './components/NavBar';
 import SlideBar from './components/SlideBar';
 import SlideShow from './components/SlideShow'
 import Banner from "./components/Banner";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
         <SlideShow/>
         <SlideBar/>
         <Banner/> 
-        
+
+
+        <Footer/>
     </div>
   );
 }
