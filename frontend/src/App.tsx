@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import BodyFirst from "./components/BodyFirst";
 import BodySecond from "./components/BodySecond";
 import StarMember from "./components/StarMember";
+import BannerSecond from "./components/BannerSecond";
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <SlideBar/>
         <Banner/> 
         <BodyFirst/>
+        <BannerSecond/>
         <BodySecond/>
         <StarMember/> 
         <Footer/>
