@@ -7,6 +7,7 @@ import Banner from './components/Banner';
 import Footer from './components/Footer';
 import BodyFirst from "./components/BodyFirst";
 import BodySecond from "./components/BodySecond";
+import StarMember from "./components/StarMember";
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         <Banner/> 
         <BodyFirst/>
         <BodySecond/>
-
+        <StarMember/> 
         <Footer/>
     </div>
   );
