@@ -25,7 +25,7 @@ public class MovieController {
     }
 
     @GetMapping("/{movie_id}")
-    Movie getMovie(@PathVariable String movie_id, @RequestBody MovieCreationRequest request){
+    Movie getMovie(@PathVariable String movie_id){
         return movieService.getMovieById(movie_id);
     }
 }
