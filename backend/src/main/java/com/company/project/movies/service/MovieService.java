@@ -16,19 +16,19 @@ public class MovieService {
     public Movie createMovie(MovieCreationRequest request){
         Movie movie = new Movie();
 
-        movie.setRating_id(movie.getRating_id());
-        movie.setMovie_title(movie.getMovie_title());
-        movie.setMovie_genre(movie.getMovie_genre());
-        movie.setMovie_director(movie.getMovie_director());
-        movie.setMovie_cast(movie.getMovie_cast());
-        movie.setMovie_status(movie.getMovie_status());
-        movie.setMovie_format(movie.getMovie_format());
-        movie.setMovie_duration_minute(movie.getMovie_duration_minute());
-        movie.setMovie_release_date(movie.getMovie_release_date());
-        movie.setMovie_trailer_url(movie.getMovie_trailer_url());
-        movie.setMovie_description(movie.getMovie_description());
-        movie.setMovie_language(movie.getMovie_language());
-        movie.setMovie_poster_url(movie.getMovie_poster_url());
+        movie.setRating_id(request.getRating_id());
+        movie.setMovie_title(request.getMovie_title());
+        movie.setMovie_genre(request.getMovie_genre());
+        movie.setMovie_director(request.getMovie_director());
+        movie.setMovie_cast(request.getMovie_cast());
+        movie.setMovie_status(request.getMovie_status());
+        movie.setMovie_format(request.getMovie_format());
+        movie.setMovie_duration_minute(request.getMovie_duration_minute());
+        movie.setMovie_release_date(request.getMovie_release_date());
+        movie.setMovie_trailer_url(request.getMovie_trailer_url());
+        movie.setMovie_description(request.getMovie_description());
+        movie.setMovie_language(request.getMovie_language());
+        movie.setMovie_poster_url(request.getMovie_poster_url());
 
         return movieRepository.save(movie);
     }
