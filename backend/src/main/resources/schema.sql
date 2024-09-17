@@ -386,6 +386,49 @@ DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
 
+-- -----------------------------------------------------
+-- Table `fhd_cinema`.`bills`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`bills` (
+  `bill_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
+  `bill_amount` INT NULL,
+  `is_paid` TINYINT(1) NULL,
+  `bill_created_at` DATETIME NULL,
+  `booking_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`bill_id`),
+  INDEX `fk_bill_bookings1_idx` (`booking_id` ASC) VISIBLE,
+  CONSTRAINT `fk_bill_bookings1`
+    FOREIGN KEY (`booking_id`)
+    REFERENCES `fhd_cinema`.`bookings` (`booking_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `fhd_cinema`.`vouchers_has_bills`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`vouchers_has_bills` (
+  `vouchers_voucher_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `bills_bill_id` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`vouchers_voucher_id`, `bills_bill_id`),
+  INDEX `fk_vouchers_has_bills_bills1_idx` (`bills_bill_id` ASC) VISIBLE,
+  INDEX `fk_vouchers_has_bills_vouchers1_idx` (`vouchers_voucher_id` ASC) VISIBLE,
+  CONSTRAINT `fk_vouchers_has_bills_vouchers1`
+    FOREIGN KEY (`vouchers_voucher_id`)
+    REFERENCES `fhd_cinema`.`vouchers` (`voucher_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vouchers_has_bills_bills1`
+    FOREIGN KEY (`bills_bill_id`)
+    REFERENCES `fhd_cinema`.`bills` (`bill_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
