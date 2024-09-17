@@ -1,41 +1,28 @@
 import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import NavBar from './components/NavBar';
+import SlideBar from './components/SlideBar';
+import SlideShow from './components/SlideShow'
+import Banner from './components/Banner';
+import Footer from './components/Footer';
+import BodyFirst from "./components/BodyFirst";
+import BodySecond from "./components/BodySecond";
+import StarMember from "./components/StarMember";
+import BannerSecond from "./components/BannerSecond";
 
-type Greeting = {
-  id: number;
-  name: string;
-};
 
 function App() {
-  const [greeting, setGreeting] = useState<Greeting>();
-  useEffect(() => {
-    fetch("/api")
-      .then(res => res.json())
-      .then(setGreeting)
-      .catch(console.error);
-  }, [setGreeting]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {greeting ? (
-          <p>Hello from {greeting.name}</p>
-        ) : (
-          <p>Loading...</p>
-        )}
-        <p>
-          Edit <code>src/App.tsx</code> and docker edit by sublime text save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React from docker
-        </a>
-      </header>
+        <NavBar/>
+        <SlideShow/>
+        <SlideBar/>
+        <Banner/> 
+        <BodyFirst/>
+        <BannerSecond/>
+        <BodySecond/>
+        <StarMember/> 
+        <Footer/>
     </div>
   );
 }
