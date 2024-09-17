@@ -9,20 +9,24 @@ import BodyFirst from "./components/BodyFirst";
 import BodySecond from "./components/BodySecond";
 import StarMember from "./components/StarMember";
 import BannerSecond from "./components/BannerSecond";
+import LoginPage from "./components/LoginPage";
+
+
 
 
 function App() {
   return (
     <div className="App">
-        <NavBar/>
+        {/* <NavBar/>
         <SlideShow/>
         <SlideBar/>
         <Banner/> 
         <BodyFirst/>
         <BannerSecond/>
         <BodySecond/>
-        <StarMember/> 
-        <Footer/>
+        <StarMember/>  */}
+        <LoginPage/>
+        {/* <Footer/> */}
     </div>
   );
 }
