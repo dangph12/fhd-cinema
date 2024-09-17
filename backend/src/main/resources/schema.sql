@@ -154,7 +154,6 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`customers` (
   `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_email` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `is_member` TINYINT(1) NOT NULL,
   PRIMARY KEY (`customer_id`),
   INDEX `fk_customers_accounts_idx` (`account_id` ASC) VISIBLE,
   CONSTRAINT `fk_customers_accounts`
@@ -391,9 +390,9 @@ COLLATE = utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`bills` (
   `bill_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
-  `bill_amount` INT NULL,
-  `is_paid` TINYINT(1) NULL,
-  `bill_created_at` DATETIME NULL,
+  `bill_amount` INT NOT NULL,
+  `is_paid` TINYINT(1) NOT NULL,
+  `bill_created_at` DATETIME NOT NULL,
   `booking_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   PRIMARY KEY (`bill_id`),
   INDEX `fk_bill_bookings1_idx` (`booking_id` ASC) VISIBLE,
