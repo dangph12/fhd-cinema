@@ -520,3 +520,12 @@ VALUES
 ('96734bad-7413-11ef-a157-0242ac110002', 'Mua 1 vé tặng 1 vé', 'Chương trình mua 1 vé tặng 1 vé áp dụng từ ngày 1/7/2024 đến ngày 31/7/2024 cho tất cả suất chiếu', '2024-07-01 00:00:00'),
 ('96734cbb-7413-11ef-a157-0242ac110002', 'Tuần lễ phim châu Âu 2024', 'Rạp chiếu phim tổ chức tuần lễ phim châu Âu với nhiều bộ phim đặc sắc từ các quốc gia châu Âu', '2024-05-10 00:00:00');
 
+INSERT INTO `fhd_cinema`.`accounts`
+(`account_id`, `account_name`, `account_password`, `account_type`)
+VALUES
+('77ad8674-74e0-11ef-bc52-0242ac110002', 'john_doe', 'password123', 1),
+('77ad8fc8-74e0-11ef-bc52-0242ac110002', 'jane_smith', 'password456', 1),
+('77ad9225-74e0-11ef-bc52-0242ac110002', 'alice_walker', 'password789', 1),
+('77ad935a-74e0-11ef-bc52-0242ac110002', 'bob_jones', 'password321', 1),
+('77ad9471-74e0-11ef-bc52-0242ac110002', 'chris_evans', 'password654', 1);
+
