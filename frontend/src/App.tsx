@@ -12,6 +12,8 @@ import SlideBar from "./components/SlideBar";
 import { Routes, Route, Link } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import Home from "./components/Home";
+import MovieCard from "./components/Seats/MovieCard";
+import SeatSelection from "./components/Seats/SeatSelection";
 
 
 function App() {
@@ -35,10 +37,16 @@ function App() {
         <Route path="/" element={<Home />} />
         {/* <Route path="/about" element={<About />} /> */}
         <Route path="/login" element={<LoginPage />} />
+
+        <Route path="/cart" element={<MovieCard />} />
+        
+
+
       </Routes>
 
       <Footer />
     </div>
+
   );
 }
 

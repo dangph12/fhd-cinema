@@ -19,15 +19,15 @@ const seatLayout = [
 
 ];
 
-const seatType = [
-    { id: 'A1', type: 'regular' },
-    { id: 'A2', type: 'vip' },
-    { id: 'A3', type: 'regular' },
-    { id: 'L1', type: 'couple' },
-    { id: 'L2', type: 'couple' },
-    { id: 'L3', type: 'sold' },
-    // Các ghế khác...
-];
+// const seatType = [
+//     { id: 'A1', type: 'regular' },
+//     { id: 'A2', type: 'vip' },
+//     { id: 'A3', type: 'regular' },
+//     { id: 'L1', type: 'couple' },
+//     { id: 'L2', type: 'couple' },
+//     { id: 'L3', type: 'sold' },
+//     // Các ghế khác...
+// ];
 
 
 
