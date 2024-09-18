@@ -5,8 +5,8 @@ const Footer = (props) => {
         <div>
             <footer className="footer-section" >
                 <div className="container relative">
-                    <div className="row">
-                        <div className="col-lg-8">
+                    {/* <div className="row">
+                        <div className="col-lg-">
                             <div className="subscription-form">
                                 <h3 className="d-flex align-items-center"><span className="me-1"><img src="img/logo-100x100.png"
                                     alt="Image" className="img-fluid" /></span><span></span></h3>
@@ -26,14 +26,13 @@ const Footer = (props) => {
 
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div className="row mb-5">
+                    <div className="row g-5 mb-5">
                         <div className="col-lg-4">
                             <div className="mb-4 footer-logo-wrap"><a href="#" className="footer-logo">FHD CINENMA <span>.</span></a></div>
-                            <p className="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl
-                                dapibus malesuada. Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor tempor
-                                tristique. Pellentesque habitant</p>
+                            <p className="mb-4"><img src="img/logo-100x100.png"
+                                alt="Image" className="img-fluid" /></p>
 
                             <ul className="list-unstyled custom-social">
                                 <li><a href="#"><span className="fa fa-brands fa-facebook-f"></span></a></li>
