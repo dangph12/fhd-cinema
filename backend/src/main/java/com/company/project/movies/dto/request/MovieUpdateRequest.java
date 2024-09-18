@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class MovieCreationRequest {
+public class MovieUpdateRequest {
     private String ratingId;
     private String movieTitle;
     private String movieGenre;

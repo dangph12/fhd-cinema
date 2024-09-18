@@ -13,18 +13,18 @@ import java.util.Date;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String movie_id;
-    private String rating_id;
-    private String movie_title;
-    private String movie_genre;
-    private String movie_director;
-    private String movie_cast;
-    private String movie_status;
-    private String movie_format;
-    private int movie_duration_minute;
-    private Date movie_release_date;
-    private String movie_trailer_url;
-    private String movie_description;
-    private String movie_language;
-    private String movie_poster_url;
+    private String movieId;
+    private String ratingId;
+    private String movieTitle;
+    private String movieGenre;
+    private String movieDirector;
+    private String movieCast;
+    private String movieStatus;
+    private String movieFormat;
+    private int movieDurationMinute;
+    private Date movieReleaseDate;
+    private String movieTrailerUrl;
+    private String movieDescription;
+    private String movieLanguage;
+    private String moviePosterUrl;
 }
