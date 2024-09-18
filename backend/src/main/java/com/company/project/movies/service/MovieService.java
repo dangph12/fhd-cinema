@@ -19,7 +19,7 @@ public class MovieService {
     public Movie createMovie(MovieCreationRequest request){
         Movie movie = new Movie();
 
-        if(movieRepository.existsByTitle(request.getMovieTitle())) {
+        if(movieRepository.existsByMovieTitle(request.getMovieTitle())) {
             throw new MovieException(ErrorCode.MOVIE_EXISTED);
         }
 
