@@ -1,5 +1,10 @@
 package com.company.project.tickets.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class TicketException extends RuntimeException {
 
   private TicketErrorCode ticketErrorCode;
@@ -7,14 +12,6 @@ public class TicketException extends RuntimeException {
   public TicketException(TicketErrorCode ticketErrorCode) {
     super(ticketErrorCode.getMessage());
     this.ticketErrorCode = ticketErrorCode;
-  }
-
-  public TicketErrorCode getTicketErrorCode() {
-      return ticketErrorCode;
-  }
-
-  public void setTicketErrorCode(TicketErrorCode ticketErrorCode) {
-      this.ticketErrorCode = ticketErrorCode;
   }
 
 }
