@@ -30,14 +30,14 @@ public class MovieController {
         return movieService.getMovieById(movie_id);
     }
 
-    @PutMapping("/{userId}")
-    Movie updateMovie(@PathVariable String userId, @RequestBody MovieUpdateRequest request){
-        return movieService.updateMovie(userId, request);
+    @PutMapping("/{movieId}")
+    Movie updateMovie(@PathVariable String movieId, @RequestBody MovieUpdateRequest request){
+        return movieService.updateMovie(movieId, request);
     }
 
-    @DeleteMapping("/{userId}")
-    String deleteMovie(@PathVariable String userId){
-        movieService.deleteMovie(userId);
+    @DeleteMapping("/{movieId}")
+    String deleteMovie(@PathVariable String movieId){
+        movieService.deleteMovie(movieId);
         return "Movie has been deleted";
     }
 }
