@@ -3,6 +3,8 @@ package com.company.project.movies.service;
 import com.company.project.movies.dto.request.MovieCreationRequest;
 import com.company.project.movies.dto.request.MovieUpdateRequest;
 import com.company.project.movies.entity.Movie;
+import com.company.project.movies.exception.ErrorCode;
+import com.company.project.movies.exception.MovieException;
 import com.company.project.movies.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,10 @@ public class MovieService {
 
     public Movie createMovie(MovieCreationRequest request){
         Movie movie = new Movie();
+
+        if(movieRepository.existsByTitle(request.getMovieTitle())) {
+            throw new MovieException(ErrorCode.MOVIE_EXISTED);
+        }
 
         movie.setRatingId(request.getRatingId());
         movie.setMovieTitle(request.getMovieTitle());

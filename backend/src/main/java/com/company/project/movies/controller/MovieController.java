@@ -1,9 +1,11 @@
 package com.company.project.movies.controller;
 
+import com.company.project.movies.dto.request.ApiResponse;
 import com.company.project.movies.dto.request.MovieCreationRequest;
 import com.company.project.movies.dto.request.MovieUpdateRequest;
 import com.company.project.movies.entity.Movie;
 import com.company.project.movies.service.MovieService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +18,10 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping
-    Movie addMovie(@RequestBody MovieCreationRequest request){
-        return movieService.createMovie(request);
+    ApiResponse<Movie> addMovie(@RequestBody @Valid MovieCreationRequest request){
+        ApiResponse<Movie>apiResponse = new ApiResponse<>();
+        apiResponse.setResult(movieService.createMovie(request));
+        return apiResponse;
     }
 
     @GetMapping
@@ -25,9 +29,9 @@ public class MovieController {
         return movieService.getAllMovies();
     }
 
-    @GetMapping("/{movie_id}")
-    Movie getMovie(@PathVariable String movie_id){
-        return movieService.getMovieById(movie_id);
+    @GetMapping("/{movieId}")
+    Movie getMovie(@PathVariable String movieId){
+        return movieService.getMovieById(movieId);
     }
 
     @PutMapping("/{movieId}")
