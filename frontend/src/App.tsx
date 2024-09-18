@@ -9,6 +9,9 @@ import BodySecond from "./components/BodySecond";
 import StarMember from "./components/StarMember";
 import BannerSecond from "./components/BannerSecond";
 import SlideBar from "./components/SlideBar";
+import { Routes, Route, Link } from "react-router-dom";
+import LoginPage from "./components/LoginPage";
+import Home from "./components/Home";
 
 
 function App() {
@@ -17,14 +20,23 @@ function App() {
       <NavBar />
       {/* <MovieCard/> */}
       {/* <SeatSelection/> */}
-      <SlideShow />
-      <SlideBar />
-      <Banner />
-      <BodyFirst />
-      <BannerSecond />
-      <BodySecond />
-      <StarMember />
-      {/* <LoginPage/> */}
+
+      {/* <SlideShow /> */}
+      {/* <SlideBar /> */}
+      {/* <Banner /> */}
+      {/* <BodyFirst /> */}
+      {/* <BannerSecond /> */}
+      {/* <BodySecond /> */}
+      {/* <StarMember /> */}
+
+      
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/about" element={<About />} /> */}
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+
       <Footer />
     </div>
   );
