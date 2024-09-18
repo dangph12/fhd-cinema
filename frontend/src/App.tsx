@@ -16,6 +16,7 @@ import MovieCard from "./components/Seats/MovieCard";
 import SeatSelection from "./components/Seats/SeatSelection";
 
 
+
 function App() {
   return (
     <div className="App">

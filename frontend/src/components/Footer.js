@@ -3,13 +3,13 @@ import React from 'react'
 const Footer = (props) => {
     return (
         <div>
-            <footer className="footer-section">
+            <footer className="footer-section" >
                 <div className="container relative">
                     <div className="row">
                         <div className="col-lg-8">
                             <div className="subscription-form">
                                 <h3 className="d-flex align-items-center"><span className="me-1"><img src="img/logo-100x100.png"
-                                    alt="Image" className="img-fluid" /></span><span>Subscribe to Newsletter</span></h3>
+                                    alt="Image" className="img-fluid" /></span><span></span></h3>
                                 <form action="#" className="row g-3">
                                     <div className="col-auto">
                                         <input type="text" className="form-control" placeholder="Enter your name" />
@@ -28,7 +28,7 @@ const Footer = (props) => {
                         </div>
                     </div>
 
-                    <div className="row g-5 mb-5">
+                    <div className="row mb-5">
                         <div className="col-lg-4">
                             <div className="mb-4 footer-logo-wrap"><a href="#" className="footer-logo">FHD CINENMA <span>.</span></a></div>
                             <p className="mb-4">Donec facilisis quam ut purus rutrum lobortis. Donec vitae odio quis nisl
