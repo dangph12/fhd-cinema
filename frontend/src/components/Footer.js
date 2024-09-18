@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Footer() {
+const Footer = (props) => {
     return (
         <div>
             <footer className="footer-section">

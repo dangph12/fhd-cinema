@@ -1,6 +1,6 @@
 import React from 'react'
 
-function StarMember() {
+const StarMember = (props) => {
     return (
         <div>
             <div class="container">
@@ -61,4 +61,5 @@ function StarMember() {
         </div>
     );
 }
+
 export default StarMember

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function BodyFirst() {
+const BodyFirst = (props) => {
     return (
         <div>
             <div class="container">
@@ -235,7 +235,7 @@ function BodyFirst() {
                 </div>
             </div>
         </div>
-    )
+    )   
 }
 
 export default BodyFirst

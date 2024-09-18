@@ -1,6 +1,6 @@
 import React from 'react'
 
-function BodySecond() {
+const BodySecond = (props) => {
     return (
         <div>
             <div class="container">
@@ -201,5 +201,6 @@ function BodySecond() {
         </div>
     )
 }
+
 
 export default BodySecond

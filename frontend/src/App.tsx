@@ -8,22 +8,24 @@ import BodyFirst from "./components/BodyFirst";
 import BodySecond from "./components/BodySecond";
 import StarMember from "./components/StarMember";
 import BannerSecond from "./components/BannerSecond";
+import SlideBar from "./components/SlideBar";
 
 
 function App() {
   return (
     <div className="App">
-        <NavBar/>
-        {/* <MovieCard/> */}
-        {/* <SeatSelection/> */}
-        <SlideShow/>
-        {/* <SlideBar/> */}
-        <Banner/> 
-        <BannerSecond/>
-        <BodySecond/>
-        <StarMember/>
-        {/* <LoginPage/> */}
-        <Footer/>
+      <NavBar />
+      {/* <MovieCard/> */}
+      {/* <SeatSelection/> */}
+      <SlideShow />
+      <SlideBar />
+      <Banner />
+      <BodyFirst />
+      <BannerSecond />
+      <BodySecond />
+      <StarMember />
+      {/* <LoginPage/> */}
+      <Footer />
     </div>
   );
 }

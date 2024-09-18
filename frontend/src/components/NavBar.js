@@ -1,6 +1,6 @@
 import React from 'react'
 
-function NavBar() {
+const NavBar = (props) => {
     return (
         <div>
             <nav className="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
@@ -8,7 +8,7 @@ function NavBar() {
                 <div className="container">
                     <a className="navbar-brand" href="index.html">
                         {/* <img src="img/logo-100x100.png" /> */}
-                        <img src="https://www.bhdstar.vn/wp-content/uploads/2024/09/logo2024.png" alt="logo"/>
+                        <img src="https://www.bhdstar.vn/wp-content/uploads/2024/09/logo2024.png" alt="logo" />
                         <span></span></a>
 
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">

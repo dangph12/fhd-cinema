@@ -1,6 +1,6 @@
 import React from 'react'
 
-function BannerSecond() {
+const BannerSecond = (props) => {
     return (
         <div>
             <a href="#" className="banner">
