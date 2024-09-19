@@ -8,7 +8,7 @@ function LoginPage() {
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <img src="images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid"/>
+                            <img src="images/undraw_remotely_2j6y.svg" alt="Image" class="img-fluid" />
                         </div>
                         <div class="col-md-6 contents">
                             <div class="row justify-content-center">
@@ -20,12 +20,12 @@ function LoginPage() {
                                     <form action="#" method="post">
                                         <div class="form-group first">
                                             <label for="username">Username</label>
-                                            <input type="text" class="form-control" id="username"/>
+                                            <input type="text" class="form-control" id="username" />
 
                                         </div>
                                         <div class="form-group last mb-4">
                                             <label for="password">Password</label>
-                                            <input type="password" class="form-control" id="password"/>
+                                            <input type="password" class="form-control" id="password" />
 
                                         </div>
 
@@ -37,21 +37,21 @@ function LoginPage() {
                                             <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password</a></span>
                                         </div>
 
-                                        <input type="submit" value="Log In" class="btn btn-block btn-primary"/>
+                                        <input type="submit" value="Log In" class="btn btn-block btn-primary" />
 
-                                            <span class="d-block text-left my-4 text-muted">&mdash; or login with &mdash;</span>
+                                        <span class="d-block text-left my-4 text-muted">&mdash; or login with &mdash;</span>
 
-                                            <div class="social-login">
-                                                <a href="#" class="facebook">
-                                                    <span class="icon-facebook mr-3"></span>
-                                                </a>
-                                                <a href="#" class="twitter">
-                                                    <span class="icon-twitter mr-3"></span>
-                                                </a>
-                                                <a href="#" class="google">
-                                                    <span class="icon-google mr-3"></span>
-                                                </a>
-                                            </div>
+                                        <div class="social-login">
+                                            <a href="#" class="facebook">
+                                                <span class="icon-facebook mr-3"></span>
+                                            </a>
+                                            <a href="#" class="twitter">
+                                                <span class="icon-twitter mr-3"></span>
+                                            </a>
+                                            <a href="#" class="google">
+                                                <span class="icon-google mr-3"></span>
+                                            </a>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
