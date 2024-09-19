@@ -1,3 +1,4 @@
+
 .movie-card-container {
     width: 80%;
     padding: 20px;
@@ -62,4 +63,8 @@
 
 .choose-other-movie:hover {
     background-color: #68a12f;
+}
+
+.text-location{
+    text-align: left;
 }

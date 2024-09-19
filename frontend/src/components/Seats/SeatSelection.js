@@ -19,15 +19,15 @@ const seatLayout = [
 
 ];
 
-const seatType = [
-    { id: 'A1', type: 'regular' },
-    { id: 'A2', type: 'vip' },
-    { id: 'A3', type: 'regular' },
-    { id: 'L1', type: 'couple' },
-    { id: 'L2', type: 'couple' },
-    { id: 'L3', type: 'sold' },
-    // Các ghế khác...
-];
+// const seatType = [
+//     { id: 'A1', type: 'regular' },
+//     { id: 'A2', type: 'vip' },
+//     { id: 'A3', type: 'regular' },
+//     { id: 'L1', type: 'couple' },
+//     { id: 'L2', type: 'couple' },
+//     { id: 'L3', type: 'sold' },
+//     // Các ghế khác...
+// ];
 
 
 
@@ -36,27 +36,32 @@ const SeatSelection = () => {
 
     const handleSeatClick = (seat) => {
         setSelectedSeats((prevSelected) =>
-            prevSelected.includes(seat)
-                ? prevSelected.filter((s) => s !== seat)
-                : [...prevSelected, seat]
+            prevSelected.includes(seat.id)
+                ? prevSelected.filter((s) => s !== seat.id)
+                : [...prevSelected, seat.id]
         );
     };
 
     return (
         <div className="seat-selection-container">
             <div>
-                    <img src={seatMapHeader} alt="Màn hình"/> 
+                <img src={seatMapHeader} alt="Màn hình" />
             </div>
-            
+
             <div className="seat-map">
                 {seatLayout.map((row, rowIndex) => (
                     <div key={rowIndex} className="seat-row">
-                        {row.map((seat, seatIndex) => (
+                        {row.map((seat) => (
                             <img
-                                key={seatIndex}
-                                src={seat.type === 'vip' ? seatVIP : seatNormal}
+                                key={seat.id}
+                                src={selectedSeats.includes(seat.id)
+                                    ? seatSelected
+                                    : seat.type === 'vip'
+                                        ? seatVIP
+                                        : seatNormal
+                                }
                                 alt={seat.type}
-                                className="seat"
+                                className={`seat ${seat.type}`}
                                 onClick={() => handleSeatClick(seat)}
                             />
                         ))}
@@ -81,7 +86,7 @@ const SeatSelection = () => {
                 </div>
             </div>
             <div className="selected-seats-info">
-                Ghế đã chọn: {selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Chưa chọn ghế nào'}
+                Ghế đã chọn: {selectedSeats.length > 0 ? selectedSeats.map((id) => id).join(', ') : 'Chưa chọn ghế nào'}
             </div>
         </div>
     );
