@@ -4,6 +4,8 @@ public enum ErrorCode {
     UNCATEGORIZED_EXCEPTION(9999, "Uncategorized Exception"),
     INVALID_KEY(1001, "Invalid message key"),
     MOVIE_EXISTED(1002, "Movie already existed"),
+    MOVIE_NOT_FOUND(1003, "Movie not found"),
+    CANNOT_DELETE_MOVIE(1004, "Can't delete movie"),
     ;
 
     ErrorCode(int code, String message) {
