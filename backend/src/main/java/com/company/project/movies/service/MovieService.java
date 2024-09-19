@@ -45,7 +45,7 @@ public class MovieService {
     }
 
     public Movie getMovieById(String movieId){
-        return movieRepository.findById(movieId).orElseThrow(() -> new RuntimeException("Movie not found"));
+        return movieRepository.findById(movieId).orElseThrow(() -> new MovieException(ErrorCode.MOVIE_NOT_FOUND));
     }
 
     public Movie updateMovie(String userId, MovieUpdateRequest request) {
@@ -69,7 +69,11 @@ public class MovieService {
     }
 
     public void deleteMovie(String movieId){
-        movieRepository.deleteById(movieId);
+        if(!movieRepository.existsById(movieId)) {
+            throw new MovieException(ErrorCode.CANNOT_DELETE_MOVIE);
+        } else {
+            movieRepository.deleteById(movieId);
+        }
     }
 
 }
