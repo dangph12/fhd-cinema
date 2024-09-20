@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -144,7 +145,7 @@
  */
 
 
- .film-intro {
+.film-intro {
   margin: 20px;
 }
 
@@ -155,19 +156,26 @@
 }
 
 .row {
-  align-items: flex-start; /* Để các phần bắt đầu từ đầu dòng */
+  align-items: flex-start;
+  /* Để các phần bắt đầu từ đầu dòng */
 }
 
 .film-title {
   font-size: 2rem;
   margin-bottom: 1rem;
   color: #333;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: left;
 }
 
 .film-synopsis {
   font-size: 1rem;
   line-height: 1.6;
   color: #555;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: left;
 }
 
 .additional-info {
@@ -180,7 +188,8 @@
 .info-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: #007bff; /* Màu sắc nổi bật cho tiêu đề */
+  color: #007bff;
+  /* Màu sắc nổi bật cho tiêu đề */
 }
 
 .info-list {
@@ -190,8 +199,6 @@
 
 .info-list li {
   margin: 0.5rem 0;
-  font-size: 1rem; /* Kích thước chữ đồng nhất */
+  font-size: 1rem;
+  /* Kích thước chữ đồng nhất */
 }
-
-
-
