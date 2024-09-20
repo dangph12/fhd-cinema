@@ -59,21 +59,17 @@ const Home = (props) => {
                 </div>
             </Slide>
             {/* slide bar  */}
-            <SlideBar/>
+            <SlideBar />
             {/* banner  */}
-            <Banner/>
-
+            <Banner />
             {/* body BodyFirst */}
-            <BodyFirst/>
-
+            <BodyFirst />
             {/* banner second   */}
-            <BannerSecond/>
+            <BannerSecond />
             {/* bodysecond  */}
-            <BodySecond/>
-
+            <BodySecond />
             {/* star member  */}
-
-            <StarMember/>
+            <StarMember />
         </div>
 
     )
