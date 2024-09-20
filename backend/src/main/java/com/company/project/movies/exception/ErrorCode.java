@@ -1,26 +1,20 @@
 package com.company.project.movies.exception;
 
+import lombok.Getter;
+
+@Getter
 public enum ErrorCode {
-    UNCATEGORIZED_EXCEPTION(9999, "Uncategorized Exception"),
-    INVALID_KEY(1001, "Invalid message key"),
-    MOVIE_EXISTED(1002, "Movie already existed"),
-    MOVIE_NOT_FOUND(1003, "Movie not found"),
-    CANNOT_DELETE_MOVIE(1004, "Can't delete movie"),
-    ;
+
+    NOT_NULL(401, "Movie cannot be null"),
+    MOVIE_NOT_FOUND(402, "Movie not found"),
+    MOVIE_EXISTED(403, "Movie already existed"),
+    DELETE_SUCCESS(201, "Movie successfully deleted");
+
+    private final int code;
+    private final String message;
 
     ErrorCode(int code, String message) {
         this.code = code;
         this.message = message;
-    }
-
-    private int code;
-    private String message;
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }
