@@ -32,6 +32,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -51,4 +52,215 @@
 .footer-section {
   padding: 80px 0;
   background: #151720
+}
+
+
+/* film detail  */
+
+.film-intro {
+  margin: 20px;
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.row {
+  align-items: flex-start;
+  /* Để các phần bắt đầu từ đầu dòng */
+}
+
+.film-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #64a70b;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: left;
+}
+
+.film-synopsis {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: left;
+}
+
+.additional-info {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.info-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #007bff;
+  /* Màu sắc nổi bật cho tiêu đề */
+}
+
+.info-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.info-list li {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  /* Kích thước chữ đồng nhất */
+}
+
+/* order ticket  */
+
+/* .container {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+} */
+
+.cinema {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+}
+
+.cinema-info {
+  flex: 1;
+}
+
+.cinema-info h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.cinema-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.showtimes {
+  display: flex;
+  gap: 10px;
+}
+
+.time-button {
+  background-color: #64a70b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+}
+
+.time-button:hover {
+  background-color: #357ab9;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.small-logo {
+  width: 30px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+/* order ticket 1 */
+.movie-card {
+  display: flex;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  align-items: center;
+}
+
+.movie-poster {
+  /* width: 150px; */
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.movie-details {
+  flex: 1;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.movie-title {
+  color: #64a70b;
+  /* Màu xanh giống với tiêu đề */
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.movie-description {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.movie-details p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.movie-details a {
+  color: #64a70b;
+  /* Màu xanh giống với link */
+  text-decoration: none;
+}
+
+.movie-details a:hover {
+  text-decoration: underline;
+}
+
+.movie-button {
+  background-color: white;
+  color: #64a70b;
+  border: 2px solid #64a70b;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.movie-button:hover {
+  background-color: #64a70b;
+  color: white;
+}
+
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

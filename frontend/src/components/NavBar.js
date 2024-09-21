@@ -12,7 +12,11 @@ const NavBar = (props) => {
                 <div className="container">
                     <a className="navbar-brand" href="index.html">
                         {/* <img src="img/logo-100x100.png" /> */}
-                        <img src="https://www.bhdstar.vn/wp-content/uploads/2024/09/logo2024.png" alt="logo" />
+                        <Nav.Link className="nav-item active">
+                            <NavLink className="nav-link" to="/">
+                                <img src="https://www.bhdstar.vn/wp-content/uploads/2024/09/logo2024.png" alt="logo" />
+                            </NavLink>
+                        </Nav.Link>
                         <span></span></a>
 
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +61,6 @@ const NavBar = (props) => {
 
                             {/* <li><a className="nav-link" href="/users"><img src="img/user.svg" /></a></li> */}
 
-                            
                         </ul>
                     </div>
                 </div>

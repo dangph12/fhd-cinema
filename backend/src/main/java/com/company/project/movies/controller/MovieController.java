@@ -1,6 +1,7 @@
 package com.company.project.movies.controller;
 
 import com.company.project.movies.dto.request.MovieCreationRequest;
+import com.company.project.movies.dto.request.MovieUpdateRequest;
 import com.company.project.movies.entity.Movie;
 import com.company.project.movies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,16 @@ public class MovieController {
     @GetMapping("/{movie_id}")
     Movie getMovie(@PathVariable String movie_id){
         return movieService.getMovieById(movie_id);
+    }
+
+    @PutMapping("/{movieId}")
+    Movie updateMovie(@PathVariable String movieId, @RequestBody MovieUpdateRequest request){
+        return movieService.updateMovie(movieId, request);
+    }
+
+    @DeleteMapping("/{movieId}")
+    String deleteMovie(@PathVariable String movieId){
+        movieService.deleteMovie(movieId);
+        return "Movie has been deleted";
     }
 }
