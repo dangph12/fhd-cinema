@@ -8,7 +8,12 @@ const BodyFirst = (props) => {
 
     useEffect(() => {
         // call api
-        getMovies();
+        // getMovies();
+
+        axios.get("http://localhost:8080/movies").then(data => {
+            console.log(">>>check", data);
+            
+        })
 
 
     }, []);
@@ -49,7 +54,7 @@ const BodyFirst = (props) => {
                                         <div className="vietsub">
                                             <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>
                                                 <Nav.Link className="nav-item active">
-                                                    <NavLink className="nav-link" to="/description">Đặt Vé</NavLink>
+                                                    <NavLink className="nav-link" to="/orderTicket">Đặt Vé</NavLink>
                                                 </Nav.Link>
                                             </button>
                                             <span>

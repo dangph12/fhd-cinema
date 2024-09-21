@@ -15,6 +15,7 @@ import Home from "./components/Home";
 import MovieCard from "./components/Seats/MovieCard";
 import SeatSelection from "./components/Seats/SeatSelection";
 import FilmDeatils from "./components/FilmDetails";
+import OrderTicket from "./components/OrderTicket";
 
 
 
@@ -37,15 +38,13 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-
         <Route path="/login" element={<LoginPage />} />
-
         <Route path="/cart" element={<MovieCard />} />
         <Route path="/description" element={<FilmDeatils/>} />
-        
-
+        <Route path="/orderTicket" element={<OrderTicket/>} />
 
       </Routes>
+
 
       <Footer />
     </div>

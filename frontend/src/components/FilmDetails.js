@@ -1,22 +1,24 @@
 import React from 'react';
+import { SocialIcon } from 'react-social-icons'
+
 
 
 function FilmDeatils() {
     return (
         <div className="film-intro">
-            <img 
-                src="https://www.bhdstar.vn/wp-content/uploads/2024/09/bannerTop.jpg" 
-                alt="Film Banner" 
-                className="banner-img" 
+            <img
+                src="https://www.bhdstar.vn/wp-content/uploads/2024/09/bannerTop.jpg"
+                alt="Film Banner"
+                className="banner-img"
             />
             <div className="container">
                 <div className="row shadow-lg p-4 mb-5 bg-white rounded">
                     {/* Phần hình ảnh phim */}
                     <div className="col-md-4">
-                        <img 
-                            src="img/1.jpg" 
-                            alt="Film Thumbnail" 
-                            className="img-thumbnail film-thumbnail" 
+                        <img
+                            src="img/1.jpg"
+                            alt="Film Thumbnail"
+                            className="img-thumbnail film-thumbnail"
                         />
                     </div>
 
@@ -24,8 +26,8 @@ function FilmDeatils() {
                     <div className="col-md-5 film-description">
                         <h1 className="film-title">Hai Muoi</h1>
                         <p className="film-synopsis">
-                            Câu chuyện đầy cảm động về một người cha gà trống nuôi con bằng nghề làm muối để con gái mình có thể đi học trên thành phố. 
-                            Cô gái lên thành phố hoa lệ và va phải nhiều cạm bẫy khiến người cha phải giải cứu. 
+                            Câu chuyện đầy cảm động về một người cha gà trống nuôi con bằng nghề làm muối để con gái mình có thể đi học trên thành phố.
+                            Cô gái lên thành phố hoa lệ và va phải nhiều cạm bẫy khiến người cha phải giải cứu.
                             Hành trình khiến hai cha con thêm hiểu nhau.
                         </p>
                         <br></br>
@@ -38,19 +40,26 @@ function FilmDeatils() {
                         <p className="film-synopsis">Thể loại: Comedy</p>
                         <br></br>
                         <p className="film-synopsis">Ngôn ngữ: Phụ đề</p>
-                        <br/>
+                        <br />
+                        <p className="film-synopsis">
+                        <SocialIcon href="www.github.com" />
+                        <SocialIcon url="https://twitter.com" />
+                        <SocialIcon url="https://facebook.com" />
+                        <SocialIcon url="https://pinterest.com" />
+                        </p>
                     </div>
 
                     {/* Phần thông tin thêm */}
                     <div className="col-md-3 additional-info">
-                    <img 
-                            src="https://www.bhdstar.vn/wp-content/uploads/2024/09/singlebanner2.jpg" 
-                            alt="Additional Banner" 
-                            className="additional-banner" 
+                        <img
+                            src="https://www.bhdstar.vn/wp-content/uploads/2024/09/singlebanner2.jpg"
+                            alt="Additional Banner"
+                            className="additional-banner"
                         />
-                    </div>
+                    </div>                    
                 </div>
             </div>
+            <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"/>
         </div>
     );
 }
