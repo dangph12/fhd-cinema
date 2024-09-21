@@ -49,7 +49,7 @@ const OrderTicket = (props) => {
                     {/* youtube link */}
                     <div className="cinema video-container">
                         <div style={{ position: 'center', paddingBottom: '30%', height: 0, overflow: 'hidden' }}>
-                            <ReactPlayer url='https://www.youtube.com/watch?v=IpYJjVw6wjU&ab_channel=fotios' />
+                            <ReactPlayer url='https://www.youtube.com/watch?v=wI2Wd2yA8YE' />
                         </div>
                     </div>
                 </div>
