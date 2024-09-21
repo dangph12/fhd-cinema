@@ -55,8 +55,6 @@ public class MovieController {
 
         ApiResponse<ErrorCode> apiResponse = new ApiResponse<>();
         ErrorCode errorCode = ErrorCode.DELETE_SUCCESS;
-        apiResponse.setCode(apiResponse.getCode());
-        apiResponse.setMessage(apiResponse.getMessage());
 
         return apiResponse;
     }
