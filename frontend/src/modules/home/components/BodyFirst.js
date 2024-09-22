@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react'
-import { fetchAllUser } from '../components/services/UserService'
+import { fetchAllUser } from '../services/UserService'
 import { Nav } from 'react-bootstrap';
 import { useLocation, NavLink } from "react-router-dom";
 

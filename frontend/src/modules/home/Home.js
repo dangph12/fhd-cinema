@@ -3,12 +3,12 @@ import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import SlideBar from './SlideBar';
-import Banner from './Banner';
-import BodyFirst from './BodyFirst';
-import BannerSecond from './BannerSecond';
-import BodySecond from './BodySecond';
-import StarMember from './StarMember';
+import SlideBar from './components/SlideBar';
+import Banner from './components/Banner';
+import BodyFirst from './components/BodyFirst';
+import BannerSecond from './components/BannerSecond';
+import BodySecond from './components/BodySecond';
+import StarMember from './components/StarMember';
 
 const Home = (props) => {
     const images = [
