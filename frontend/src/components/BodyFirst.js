@@ -1,6 +1,28 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect } from 'react'
+import { fetchAllUser } from '../components/services/UserService'
+import { Nav } from 'react-bootstrap';
+import { useLocation, NavLink } from "react-router-dom";
 
-function BodyFirst() {
+const BodyFirst = (props) => {
+
+    useEffect(() => {
+        // call api
+        // getMovies();
+        axios.get("http://localhost:8080/movies").then(data => {
+            console.log(">>>check", data);
+            
+        })
+
+
+    }, []);
+
+    const getMovies = async () => {
+        let respone = await fetchAllUser();
+        console.log(">>>>> chec", respone);
+
+    }
+
     return (
         <div>
             <div class="container">
@@ -14,15 +36,26 @@ function BodyFirst() {
                         <div className="film-product">
                             <div className="grid__row">
                                 <div className="col-2-6">
+
                                     <a href="#" className="itemfilm">
                                         <div className="img-item">
-                                            <img src="img/1.jpg" alt="" />
+                                            <Nav.Link className="nav-item active">
+                                                <NavLink className="nav-link" to="/description">
+                                                    <img src="img/1.jpg" alt="" />
+                                                </NavLink>
+                                            </Nav.Link>
                                         </div>
                                         <div className="name">
-                                            <h2>Boruto: Naruto Next Generations</h2>
+                                            <Nav.Link className="nav-item active">
+                                                <NavLink className="nav-link" to="/description">Boruto: Naruto Next Generations</NavLink>
+                                            </Nav.Link>
                                         </div>
                                         <div className="vietsub">
-                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
+                                            <button type="button" class="btn btn-success btn-rounded" data-mdb-ripple-init>
+                                                <Nav.Link className="nav-item active">
+                                                    <NavLink className="nav-link" to="/description">Đặt Vé</NavLink>
+                                                </Nav.Link>
+                                            </button>
                                             <span>
                                                 <button type="button" class="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
                                                     <i class="fas fa-star"></i>
