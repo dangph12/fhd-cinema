@@ -1,7 +1,10 @@
 package com.company.project.movies.service;
 
 import com.company.project.movies.dto.request.MovieCreationRequest;
+import com.company.project.movies.dto.request.MovieUpdateRequest;
 import com.company.project.movies.entity.Movie;
+import com.company.project.movies.exception.ErrorCode;
+import com.company.project.movies.exception.MovieException;
 import com.company.project.movies.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,32 +16,70 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public Movie createMovie(MovieCreationRequest request){
-        Movie movie = new Movie();
-
-        movie.setRating_id(request.getRating_id());
-        movie.setMovie_title(request.getMovie_title());
-        movie.setMovie_genre(request.getMovie_genre());
-        movie.setMovie_director(request.getMovie_director());
-        movie.setMovie_cast(request.getMovie_cast());
-        movie.setMovie_status(request.getMovie_status());
-        movie.setMovie_format(request.getMovie_format());
-        movie.setMovie_duration_minute(request.getMovie_duration_minute());
-        movie.setMovie_release_date(request.getMovie_release_date());
-        movie.setMovie_trailer_url(request.getMovie_trailer_url());
-        movie.setMovie_description(request.getMovie_description());
-        movie.setMovie_language(request.getMovie_language());
-        movie.setMovie_poster_url(request.getMovie_poster_url());
-
-        return movieRepository.save(movie);
-    }
-
     public List<Movie> getAllMovies(){
         return movieRepository.findAll();
     }
 
-    public Movie getMovieById(String movie_id){
-        return movieRepository.findById(movie_id).orElseThrow(() -> new RuntimeException("Movie not found"));
+    public Movie getMovieById(String movieId){
+        return movieRepository.findById(movieId).orElseThrow(() -> new MovieException(ErrorCode.MOVIE_NOT_FOUND));
+    }
+
+    public Movie createMovie(MovieCreationRequest request){
+        Movie movie = new Movie();
+
+        if(movieRepository.existsByMovieTitle(request.getMovieTitle())) {
+            throw new MovieException(ErrorCode.MOVIE_EXISTED);
+        }
+
+        movie.setRatingId(request.getRatingId());
+        movie.setMovieTitle(request.getMovieTitle());
+        movie.setMovieGenre(request.getMovieGenre());
+        movie.setMovieDirector(request.getMovieDirector());
+        movie.setMovieCast(request.getMovieCast());
+        movie.setMovieStatus(request.getMovieStatus());
+        movie.setMovieFormat(request.getMovieFormat());
+        movie.setMovieDurationMinute(request.getMovieDurationMinute());
+        movie.setMovieReleaseDate(request.getMovieReleaseDate());
+        movie.setMovieTrailerUrl(request.getMovieTrailerUrl());
+        movie.setMovieDescription(request.getMovieDescription());
+        movie.setMovieLanguage(request.getMovieLanguage());
+        movie.setMoviePosterUrl(request.getMoviePosterUrl());
+
+        return movieRepository.save(movie);
+    }
+
+    public Movie updateMovie(String movieId, MovieUpdateRequest request) {
+        if(!movieRepository.existsById(movieId)) {
+            throw new MovieException(ErrorCode.MOVIE_NOT_FOUND);
+        }
+
+        Movie existedMovie = getMovieById(movieId);
+
+        existedMovie.setRatingId(request.getRatingId());
+        existedMovie.setMovieTitle(request.getMovieTitle());
+        existedMovie.setMovieGenre(request.getMovieGenre());
+        existedMovie.setMovieDirector(request.getMovieDirector());
+        existedMovie.setMovieCast(request.getMovieCast());
+        existedMovie.setMovieStatus(request.getMovieStatus());
+        existedMovie.setMovieFormat(request.getMovieFormat());
+        existedMovie.setMovieDurationMinute(request.getMovieDurationMinute());
+        existedMovie.setMovieReleaseDate(request.getMovieReleaseDate());
+        existedMovie.setMovieTrailerUrl(request.getMovieTrailerUrl());
+        existedMovie.setMovieDescription(request.getMovieDescription());
+        existedMovie.setMovieLanguage(request.getMovieLanguage());
+        existedMovie.setMoviePosterUrl(request.getMoviePosterUrl());
+
+        return movieRepository.save(existedMovie);
+    }
+
+    public ErrorCode deleteMovieByMovieId(String movieId){
+        if(!movieRepository.existsById(movieId)) {
+            throw new MovieException(ErrorCode.MOVIE_NOT_FOUND);
+        }
+
+        movieRepository.deleteById(movieId);
+
+        return ErrorCode.DELETE_SUCCESS;
     }
 
 }

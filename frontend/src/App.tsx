@@ -8,23 +8,48 @@ import BodyFirst from "./components/BodyFirst";
 import BodySecond from "./components/BodySecond";
 import StarMember from "./components/StarMember";
 import BannerSecond from "./components/BannerSecond";
+import SlideBar from "./components/SlideBar";
+import { Routes, Route, Link } from "react-router-dom";
+import LoginPage from "./components/LoginPage";
+import Home from "./components/Home";
+import MovieCard from "./components/Seats/MovieCard";
+import SeatSelection from "./components/Seats/SeatSelection";
+import FilmDeatils from "./components/FilmDetails";
+import OrderTicket from "./components/OrderTicket";
+
 
 
 function App() {
   return (
     <div className="App">
-        <NavBar/>
-        {/* <MovieCard/> */}
-        {/* <SeatSelection/> */}
-        <SlideShow/>
-        {/* <SlideBar/> */}
-        <Banner/> 
-        <BannerSecond/>
-        <BodySecond/>
-        <StarMember/>
-        {/* <LoginPage/> */}
-        <Footer/>
+      <NavBar />
+      {/* <MovieCard/> */}
+      {/* <SeatSelection/> */}
+
+      {/* <SlideShow /> */}
+      {/* <SlideBar /> */}
+      {/* <Banner /> */}
+      {/* <BodyFirst /> */}
+      {/* <BannerSecond /> */}
+      {/* <BodySecond /> */}
+      {/* <StarMember /> */}
+
+      
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/cart" element={<MovieCard />} />
+        <Route path="/description" element={<FilmDeatils/>} />
+        <Route path="/orderTicket" element={<OrderTicket/>} />
+
+      </Routes>
+
+
+      <Footer />
     </div>
+
+
   );
 }
 

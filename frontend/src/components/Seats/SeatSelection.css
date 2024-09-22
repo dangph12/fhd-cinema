@@ -1,58 +1,73 @@
+/*movie card*/
+.movie-card-container {
+    border: 1px solid #e5e5e5;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    
+  }
+  
+  .movie-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #5DBB63;
+    text-align: left;
+    
+  }
+  
+  button {
+    border-radius: 5px;
+  }
+  
+  .highlight {
+    font-weight: bold;
+  }
+  
+
+
+/*seats selection*/
 .seat-selection-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 20px;
-    background-color: white;
+ 
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
+  }
+  
+  .seat-selection-column {
 
-.seat-map {
+    padding: 15px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    margin: 20px 0;
-}
-
-.seat-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 10px;
-}
-
-.seat {
-    width: 36px;
-    height: auto;
-    margin: 0 5px;
+  }
+  
+  .pricing-column {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    height: max-content;
+  }
+  
+  .seat-row {
+    margin: 5px 0;
+  }
+  
+  .seat {
+    width: 45px;
+    height: 35px;
+    margin: 10px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.seat:hover {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .seat:hover {
     transform: scale(1.1);
-}
-
-.seat-legend {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
-    text-align: center;
-}
-
-.seat-legend div {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-}
-
-.seat-legend img {
-    margin-right: 8px;
-    width: 36px;
-    height: auto;
-}
-
-.selected-seats-info {
-    margin-top: 20px;
-    font-size: 16px;
-}
+  }
+  
+  .seat-legend {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
