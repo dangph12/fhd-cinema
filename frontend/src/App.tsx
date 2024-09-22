@@ -1,42 +1,45 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import React, {  } from "react";
 import "./App.css";
+import NavBar from './modules/cores/NavBar';
+import Footer from './modules/cores/Footer';
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./modules/auth/LoginPage";
+import Home from "./modules/home/Home";
+import FilmDetails from "./modules/film-details/FilmDetails";
+import OrderTicket from "./modules/orders/OrderTicket";
 
-type Greeting = {
-  id: number;
-  name: string;
-};
+
 
 function App() {
-  const [greeting, setGreeting] = useState<Greeting>();
-  useEffect(() => {
-    fetch("/api")
-      .then(res => res.json())
-      .then(setGreeting)
-      .catch(console.error);
-  }, [setGreeting]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {greeting ? (
-          <p>Hello from {greeting.name}</p>
-        ) : (
-          <p>Loading...</p>
-        )}
-        <p>
-          Edit <code>src/App.tsx</code> and docker edit by sublime text save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React from docker
-        </a>
-      </header>
+      <NavBar />
+      {/* <MovieCard/> */}
+      {/* <SeatSelection/> */}
+
+      {/* <SlideShow /> */}
+      {/* <SlideBar /> */}
+      {/* <Banner /> */}
+      {/* <BodyFirst /> */}
+      {/* <BannerSecond /> */}
+      {/* <BodySecond /> */}
+      {/* <StarMember /> */}
+
+      
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/description" element={<FilmDetails/>} />
+        <Route path="/orderTicket" element={<OrderTicket/>} />
+
+      </Routes>
+
+
+      <Footer />
     </div>
+
+
   );
 }
 
