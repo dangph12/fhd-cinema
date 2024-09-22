@@ -8,7 +8,7 @@ import BodyFirst from "./components/BodyFirst";
 import BodySecond from "./components/BodySecond";
 import StarMember from "./components/StarMember";
 import BannerSecond from "./components/BannerSecond";
-
+import Ticket from "./components/payment-inform/Ticket";
 import SeatSelection from "./components/Seats/SeatSelection";
 
 
@@ -17,7 +17,8 @@ function App() {
     <div className="App">
         <NavBar/>
         {/* <MovieCard/> */}
-        <SeatSelection/>
+        {/* <SeatSelection/>  */}
+        <Ticket/>
         {/* <SlideShow/> */}
         {/* <SlideBar/> */}
         {/* <Banner/> 
