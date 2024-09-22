@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ReactPlayer from 'react-player/youtube'
-import FilmTime from './FilmTime';
+import FilmTime from './components/FilmTime';
 
 // import YouTube from 'react-youtube';
 

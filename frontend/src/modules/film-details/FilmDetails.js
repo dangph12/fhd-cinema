@@ -3,7 +3,7 @@ import { SocialIcon } from 'react-social-icons'
 
 
 
-function FilmDeatils() {
+function FilmDetails() {
     return (
         <div className="film-intro">
             <img
@@ -64,5 +64,5 @@ function FilmDeatils() {
     );
 }
 
-export default FilmDeatils;
+export default FilmDetails;
 
