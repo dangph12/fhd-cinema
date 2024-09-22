@@ -12,7 +12,7 @@ const BodyFirst = (props) => {
 
         axios.get("http://localhost:8080/movies").then(data => {
             console.log(">>>check", data);
-            
+
         })
 
 
@@ -37,7 +37,6 @@ const BodyFirst = (props) => {
                         <div className="film-product">
                             <div className="grid__row">
                                 <div className="col-2-6">
-
                                     <a href="#" className="itemfilm">
                                         <div className="img-item">
                                             <Nav.Link className="nav-item active">
