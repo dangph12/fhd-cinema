@@ -22,11 +22,8 @@ public class AccountController {
     @PostMapping
     AccountApiResponse<Account> addAccount(@RequestBody @Valid AccountCreationRequest request) {
         AccountApiResponse<Account> accountApiResponse = new AccountApiResponse<>();
-
         Account account = accountService.createAccount(request);
-
         accountApiResponse.setResult(account);
-
         return accountApiResponse;
     }
 
