@@ -11,7 +11,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ApiResponse <T> {
+public class MovieApiResponse<T> {
 
     @Builder.Default
     int code = 200;    //Code OK

@@ -49,7 +49,7 @@ public class MovieService {
     }
 
     public Movie updateMovie(String movieId, MovieUpdateRequest request) {
-        if(!movieRepository.existsById(movieId)) {
+        if(!movieRepository.existsByMovieId(movieId)) {
             throw new MovieException(ErrorCode.MOVIE_NOT_FOUND);
         }
 
@@ -72,14 +72,13 @@ public class MovieService {
         return movieRepository.save(existedMovie);
     }
 
-    public ErrorCode deleteMovieByMovieId(String movieId){
-        if(!movieRepository.existsById(movieId)) {
+    public void deleteMovieByMovieId(String movieId){
+        if(!movieRepository.existsByMovieId(movieId)) {
             throw new MovieException(ErrorCode.MOVIE_NOT_FOUND);
         }
 
         movieRepository.deleteById(movieId);
 
-        return ErrorCode.DELETE_SUCCESS;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.company.project.movies.exception;
 
 
-import com.company.project.movies.dto.request.ApiResponse;
+import com.company.project.movies.dto.request.MovieApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,27 +11,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class MovieExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    ResponseEntity<ApiResponse> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception) {
+    ResponseEntity<MovieApiResponse<Void>> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception) {
 
-        ApiResponse apiResponse = new ApiResponse();
+        MovieApiResponse<Void> movieApiResponse = new MovieApiResponse<>();
 
-        apiResponse.setMessage(exception.getFieldError().getDefaultMessage());
+        movieApiResponse.setMessage(exception.getFieldError().getDefaultMessage());
 
-        return ResponseEntity.badRequest().body(apiResponse);
+        return ResponseEntity.badRequest().body(movieApiResponse);
 
     }
 
     @ExceptionHandler(value = MovieException.class)
-    ResponseEntity<ApiResponse> movieExceptionHandler(MovieException exception) {
+    ResponseEntity<MovieApiResponse<Void>> movieExceptionHandler(MovieException exception) {
 
-        ApiResponse apiResponse = new ApiResponse();
+        MovieApiResponse<Void> movieApiResponse = new MovieApiResponse<>();
 
         ErrorCode errorCode = exception.getErrorCode();
 
-        apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(errorCode.getMessage());
+        movieApiResponse.setCode(errorCode.getCode());
+        movieApiResponse.setMessage(errorCode.getMessage());
 
-        return ResponseEntity.badRequest().body(apiResponse);
+        return ResponseEntity.badRequest().body(movieApiResponse);
 
     }
 

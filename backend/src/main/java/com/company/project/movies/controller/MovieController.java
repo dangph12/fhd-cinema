@@ -1,6 +1,6 @@
 package com.company.project.movies.controller;
 
-import com.company.project.movies.dto.request.ApiResponse;
+import com.company.project.movies.dto.request.MovieApiResponse;
 import com.company.project.movies.dto.request.MovieCreationRequest;
 import com.company.project.movies.dto.request.MovieUpdateRequest;
 import com.company.project.movies.entity.Movie;
@@ -20,13 +20,13 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping
-    ApiResponse<Movie> addMovie(@RequestBody @Valid MovieCreationRequest request){
-        ApiResponse<Movie> apiResponse = new ApiResponse<>();
+    MovieApiResponse<Movie> addMovie(@RequestBody @Valid MovieCreationRequest request){
+        MovieApiResponse<Movie> movieApiResponse = new MovieApiResponse<>();
 
         Movie movie = movieService.createMovie(request);
-        apiResponse.setResult(movie);
+        movieApiResponse.setResult(movie);
 
-        return apiResponse;
+        return movieApiResponse;
     }
 
     @GetMapping
@@ -40,22 +40,24 @@ public class MovieController {
     }
 
     @PutMapping("/{movieId}")
-    ApiResponse<Movie> updateMovie(@PathVariable String movieId, @RequestBody @Valid MovieUpdateRequest request){
-        ApiResponse<Movie> apiResponse = new ApiResponse<>();
+    MovieApiResponse<Movie> updateMovie(@PathVariable(name = "movieId") String movieId, @RequestBody @Valid MovieUpdateRequest request){
+        MovieApiResponse<Movie> movieApiResponse = new MovieApiResponse<>();
 
         Movie movie = movieService.updateMovie(movieId, request);
-        apiResponse.setResult(movie);
+        movieApiResponse.setResult(movie);
 
-        return apiResponse;
+        return movieApiResponse;
     }
 
     @DeleteMapping("/{movieId}")
-    ApiResponse<ErrorCode> deleteMovie(@PathVariable String movieId){
+    MovieApiResponse<Void> deleteMovie(@PathVariable String movieId){
         movieService.deleteMovieByMovieId(movieId);
 
-        ApiResponse<ErrorCode> apiResponse = new ApiResponse<>();
+        MovieApiResponse<Void> movieApiResponse = new MovieApiResponse<>();
         ErrorCode errorCode = ErrorCode.DELETE_SUCCESS;
+        movieApiResponse.setCode(errorCode.getCode());
+        movieApiResponse.setMessage(errorCode.getMessage());
 
-        return apiResponse;
+        return movieApiResponse;
     }
 }

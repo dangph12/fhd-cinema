@@ -1,6 +1,7 @@
 package com.company.project.movies.dto.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,43 +14,44 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MovieUpdateRequest {
 
-    @NotNull(message = "Rating id cannot be null")
+    @NotEmpty(message = "Rating id cannot be empty")
     String ratingId;
 
-    @NotNull(message = "Movie title cannot be null")
+    @NotEmpty(message = "Movie title cannot be empty")
     String movieTitle;
 
-    @NotNull(message = "Movie genre cannot be null")
+    @NotEmpty(message = "Movie genre cannot be empty")
     String movieGenre;
 
-    @NotNull(message = "Movie director cannot be null")
+    @NotEmpty(message = "Movie director cannot be empty")
     String movieDirector;
 
-    @NotNull(message = "Movie cast cannot be null")
+    @NotEmpty(message = "Movie cast cannot be empty")
     String movieCast;
 
-    @NotNull(message = "Movie status cannot be null")
+    @NotEmpty(message = "Movie status cannot be empty")
     String movieStatus;
 
-    @NotNull(message = "Movie format cannot be null")
+    @NotEmpty(message = "Movie format cannot be empty")
     String movieFormat;
 
-    @NotNull(message = "Movie duration minute cannot be null")
+    @Positive
+    @NotEmpty(message = "Movie duration minute cannot be empty")
     int movieDurationMinute;
 
-    @NotNull(message = "Movie release date cannot be null")
+    @NotEmpty(message = "Movie release date cannot be empty")
     Date movieReleaseDate;
 
-    @NotNull(message = "Movie trailer url cannot be null")
+    @NotEmpty(message = "Movie trailer url cannot be empty")
     String movieTrailerUrl;
 
-    @NotNull(message = "Movie description cannot be null")
+    @NotEmpty(message = "Movie description cannot be empty")
     String movieDescription;
 
-    @NotNull(message = "Movie language cannot be null")
+    @NotEmpty(message = "Movie language cannot be empty")
     String movieLanguage;
 
-    @NotNull(message = "Movie poster url cannot be null")
+    @NotEmpty(message = "Movie poster url cannot be empty")
     String moviePosterUrl;
 
 }
