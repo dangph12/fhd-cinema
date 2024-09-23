@@ -1,10 +1,7 @@
 package com.company.project.accounts.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -13,6 +10,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Table(name = "accounts")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Account {
 
     @Id
