@@ -1,11 +1,11 @@
 package com.company.project.accounts.controller;
 
+import com.company.project.accounts.dto.request.AccountApiResponse;
+import com.company.project.accounts.dto.request.AccountCreationRequest;
 import com.company.project.accounts.entity.Account;
 import com.company.project.accounts.service.AccountService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +19,16 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    @PostMapping
+    AccountApiResponse<Account> addAccount(@RequestBody @Valid AccountCreationRequest request) {
+        AccountApiResponse<Account> accountApiResponse = new AccountApiResponse<>();
+
+        Account account = accountService.createAccount(request);
+
+        accountApiResponse.setResult(account);
+
+        return accountApiResponse;
+    }
 
     @GetMapping
     List<Account> getAllAccount() {
