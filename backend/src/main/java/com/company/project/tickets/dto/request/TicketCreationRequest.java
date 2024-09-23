@@ -1,6 +1,7 @@
 package com.company.project.tickets.dto.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,13 +17,13 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TicketCreationRequest {
 
-    @NotNull(message = "Seat ID cannot be null")
+    @NotEmpty(message = "EMPTY_TICKET")
     String seatId;
 
-    @NotNull(message = "Booking ID cannot be null")
+    @NotEmpty(message = "EMPTY_BOOKING")
     String bookingId;
 
-    @NotNull(message = "Ticket price cannot be null")
+    @Min(value = 0, message = "NEGATIVE_VALUE")
     int ticketPrice;  
 
 }

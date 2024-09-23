@@ -2,9 +2,9 @@ package com.company.project.tickets.service;
 
 import java.util.List;
 
+import com.company.project.tickets.common.TicketStatusCode;
 import com.company.project.tickets.dto.request.TicketCreationRequest;
 import com.company.project.tickets.entity.Ticket;
-import com.company.project.tickets.exception.TicketErrorCode;
 import com.company.project.tickets.exception.TicketException;
 import com.company.project.tickets.repository.TicketRepository;
 
@@ -33,11 +33,11 @@ public class TicketService{
 
   public Ticket updateTicket(String ticketId, TicketCreationRequest request) {
     if (!ticketRepository.existsByTicketId(ticketId)) {
-        throw new TicketException(TicketErrorCode.NOT_EXIST);
+        throw new TicketException(TicketStatusCode.NOT_EXIST);
     }
 
     Ticket existingTicket = ticketRepository.findById(ticketId)
-            .orElseThrow(() -> new TicketException(TicketErrorCode.NOT_EXIST));
+            .orElseThrow(() -> new TicketException(TicketStatusCode.NOT_EXIST));
    
     existingTicket.setSeatId(request.getSeatId());
     existingTicket.setBookingId(request.getBookingId());
@@ -46,14 +46,12 @@ public class TicketService{
     return ticketRepository.save(existingTicket);
   }
 
-  public TicketErrorCode deleteTicketById(String ticketId) {
+  public void deleteTicketById(String ticketId) {
     if (!ticketRepository.existsByTicketId(ticketId)) {
-      throw new TicketException(TicketErrorCode.NOT_EXIST);
+      throw new TicketException(TicketStatusCode.NOT_EXIST);
     }
 
     ticketRepository.deleteById(ticketId);
-
-    return TicketErrorCode.DELETE_SUCCESS;
   }
 
 }
