@@ -1,10 +1,13 @@
 package com.company.project.accounts.controller;
 
-import com.company.project.accounts.dto.request.AccountApiResponse;
-import com.company.project.accounts.dto.request.AccountCreationRequest;
+import com.company.project.accounts.common.AccountStatusMessage;
+import com.company.project.accounts.dto.AccountApiResponse;
+import com.company.project.accounts.dto.AccountCreationRequest;
 import com.company.project.accounts.entity.Account;
 import com.company.project.accounts.service.AccountService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,16 +22,50 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping
-    AccountApiResponse<Account> addAccount(@RequestBody @Valid AccountCreationRequest request) {
-        AccountApiResponse<Account> accountApiResponse = new AccountApiResponse<>();
-        Account account = accountService.createAccount(request);
-        accountApiResponse.setResult(account);
-        return accountApiResponse;
+    @GetMapping
+    ResponseEntity<AccountApiResponse<List<Account>>> getAllAccount() {
+        return ResponseEntity.status(HttpStatus.OK.value()).body(AccountApiResponse.<List<Account>>builder()
+                .message(AccountStatusMessage.GET_SUCCESS.getMessage())
+                .result(accountService.getAllAccounts())
+                .build());
     }
 
-    @GetMapping
-    List<Account> getAllAccount() {
-        return accountService.getAllAccounts();
+
+    @PostMapping
+    ResponseEntity<AccountApiResponse<Account>> addAccount(@RequestBody @Valid AccountCreationRequest request) {
+        Account account = accountService.createAccount(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED.value())
+                .body(AccountApiResponse.<Account>builder()
+                        .code(HttpStatus.CREATED.value())
+                        .message(AccountStatusMessage.CREATE_SUCCESS.getMessage())
+                        .result(account)
+                        .build());
     }
+
+    @PutMapping("/{accountId}")
+    ResponseEntity<AccountApiResponse<Account>> updateAccount(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody @Valid AccountCreationRequest request) {
+        Account account = accountService.updateAccount(accountId, request);
+
+        return ResponseEntity.status(HttpStatus.OK.value())
+                .body(AccountApiResponse.<Account>builder()
+                        .code(HttpStatus.OK.value())
+                        .message(AccountStatusMessage.UPDATE_SUCCESS.getMessage())
+                        .result(account)
+                        .build());
+    }
+
+    @DeleteMapping("/{accountId}")
+    ResponseEntity<AccountApiResponse<Void>> deleteAccount(
+            @PathVariable(name = "accountId") String accountId) {
+        accountService.deleteAccountById(accountId);
+        return ResponseEntity.status(HttpStatus.OK.value())
+                .body(AccountApiResponse.<Void>builder()
+                        .code(HttpStatus.OK.value())
+                        .message(AccountStatusMessage.DELETE_SUCCESS.getMessage())
+                        .build());
+    }
+
 }

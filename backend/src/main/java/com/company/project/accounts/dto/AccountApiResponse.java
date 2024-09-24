@@ -1,4 +1,4 @@
-package com.company.project.accounts.dto.request;
+package com.company.project.accounts.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

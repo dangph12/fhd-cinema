@@ -1,7 +1,5 @@
 package com.company.project.tickets.exception;
 
-import com.company.project.tickets.common.TicketStatusCode;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +7,7 @@ import lombok.Setter;
 @Getter
 public class TicketException extends RuntimeException {
 
-  private int code;
+  private final int code;
   private final String message;
 
   public TicketException(int code, String message) {

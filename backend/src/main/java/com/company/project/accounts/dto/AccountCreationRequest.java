@@ -1,5 +1,6 @@
-package com.company.project.accounts.dto.request;
+package com.company.project.accounts.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,10 +11,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountCreationRequest {
-    @NotNull(message = "Account name cannot be null")
+    @NotNull(message = "EMPTY_NAME")
     String accountName;
-    @NotNull(message = "Account password cannot be null")
+    @NotNull(message = "EMPTY_PASSWORD")
     String accountPassword;
-    @NotNull(message = "Account type cannot be null")
+    @Min(value = 0, message = "NEGATIVE_VALUE")
     int accountType;
 }
