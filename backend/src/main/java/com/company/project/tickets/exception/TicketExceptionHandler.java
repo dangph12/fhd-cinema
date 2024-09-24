@@ -2,7 +2,6 @@ package com.company.project.tickets.exception;
 
 import com.company.project.tickets.common.TicketStatusMessage;
 import com.company.project.tickets.dto.request.TicketApiResponse;
-import com.company.project.tickets.entity.Ticket;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.springframework.http.HttpStatus;
