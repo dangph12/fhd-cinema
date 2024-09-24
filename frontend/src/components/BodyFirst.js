@@ -122,44 +122,6 @@ const BodyFirst = (props) => {
 
 
                         {/* Repeat 3 more movie items below */}
-                        {/* <div className="col-3-4">
-                            <div className="movie-item">
-                                <div className="img-wrapper">
-                                    <img src="https://bhdstar.vn/wp-content/uploads/2024/08/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-18.jpg" alt="Movie 2" className="movie-image" />
-                                </div>
-                                <div className="movie-name">
-                                    <h2>Movie Title 2</h2>
-                                </div>
-                                <div className="vietsub">
-                                    <button type="button" className="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
-                                    <span>
-                                        <button type="button" className="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
-                                            <i className="fas fa-star"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-3-4">
-                            <div className="movie-item">
-                                <div className="img-wrapper">
-                                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-13.jpg" alt="Movie 3" className="movie-image" />
-                                </div>
-                                <div className="movie-name">
-                                    <h2>Movie Title 3</h2>
-                                </div>
-                                <div className="vietsub">
-                                    <button type="button" className="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
-                                    <span>
-                                        <button type="button" className="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
-                                            <i className="fas fa-star"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
                         <div className="col-3-4">
                             <div className="movie-item">
                                 <div className="img-wrapper">
@@ -178,84 +140,6 @@ const BodyFirst = (props) => {
                                 </div>
                             </div>
                         </div>
-
-
-                        <div className="col-3-4">
-                            <div className="movie-item">
-                                <div className="img-wrapper">
-                                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-13.jpg" alt="Movie 3" className="movie-image" />
-                                </div>
-                                <div className="movie-name">
-                                    <h2>Movie Title 3</h2>
-                                </div>
-                                <div className="vietsub">
-                                    <button type="button" className="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
-                                    <span>
-                                        <button type="button" className="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
-                                            <i className="fas fa-star"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div className="col-3-4">
-                            <div className="movie-item">
-                                <div className="img-wrapper">
-                                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-13.jpg" alt="Movie 3" className="movie-image" />
-                                </div>
-                                <div className="movie-name">
-                                    <h2>Movie Title 3</h2>
-                                </div>
-                                <div className="vietsub">
-                                    <button type="button" className="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
-                                    <span>
-                                        <button type="button" className="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
-                                            <i className="fas fa-star"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-3-4">
-                            <div className="movie-item">
-                                <div className="img-wrapper">
-                                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-13.jpg" alt="Movie 3" className="movie-image" />
-                                </div>
-                                <div className="movie-name">
-                                    <h2>Movie Title 3</h2>
-                                </div>
-                                <div className="vietsub">
-                                    <button type="button" className="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
-                                    <span>
-                                        <button type="button" className="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
-                                            <i className="fas fa-star"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-3-4">
-                            <div className="movie-item">
-                                <div className="img-wrapper">
-                                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-13.jpg" alt="Movie 3" className="movie-image" />
-                                </div>
-                                <div className="movie-name">
-                                    <h2>Movie Title 3</h2>
-                                </div>
-                                <div className="vietsub">
-                                    <button type="button" className="btn btn-success btn-rounded" data-mdb-ripple-init>Đặt Vé</button>
-                                    <span>
-                                        <button type="button" className="btn btn-outline-success btn-floating" data-mdb-ripple-init data-mdb-ripple-color="dark">
-                                            <i className="fas fa-star"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </div>
