@@ -1,0 +1,145 @@
+import React, { useState } from 'react';
+import { Container, Row, Col, Button, Card, Image } from 'react-bootstrap';
+import OrderFood from './OrderFood.css';
+const Booking = () => {
+  // Pricing for each combo
+  const comboPrices = {
+    aquaCombo: 80000,  // 80,000 VND
+    singleCombo: 60000, // 60,000 VND
+    coupleCombo: 120000, // 120,000 VND
+  };
+
+  const [quantity, setQuantity] = useState({ aquaCombo: 0, singleCombo: 0, coupleCombo: 0 });
+
+  const handleQuantityChange = (combo, change) => {
+    setQuantity((prev) => ({
+      ...prev,
+      [combo]: prev[combo] + change > 0 ? prev[combo] + change : 0,
+    }));
+  };
+
+  // Total calculation
+  const totalAquaCombo = quantity.aquaCombo * comboPrices.aquaCombo;
+  const totalSingleCombo = quantity.singleCombo * comboPrices.singleCombo;
+  const totalCoupleCombo = quantity.coupleCombo * comboPrices.coupleCombo;
+  const totalPrice = 100000 + totalAquaCombo + totalSingleCombo + totalCoupleCombo; // 100,000 VND for ticket
+
+  return (
+    <Container>
+      <Row>
+        <Col md={8}>
+          <Card className="p-3 seat-legend">
+            <Card.Title>Concession</Card.Title>
+            {/* Aqua Combo */}
+            <Row className="mb-3">
+              <Col xs={2}>
+                <Image src="https://booking.bhdstar.vn/CDN/media/entity/get/ItemGraphic/661838?width=160&height=160&referenceScheme=HeadOffice&allowPlaceHolder=true" rounded />
+              </Col>
+              <Col xs={6}>
+                <h6>OL Aqua Combo</h6>
+              </Col>
+              <Col xs={4} className="text-right">
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  onClick={() => handleQuantityChange('aquaCombo', -1)}
+                >
+                  -
+                </Button>
+                <span className="mx-2">{quantity.aquaCombo}</span>
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  onClick={() => handleQuantityChange('aquaCombo', 1)}
+                >
+                  +
+                </Button>
+              </Col>
+            </Row>
+
+            {/* Single Combo */}
+            <Row className="mb-3">
+              <Col xs={2}>
+                <Image src="https://booking.bhdstar.vn/CDN/media/entity/get/ItemGraphic/661838?width=160&height=160&referenceScheme=HeadOffice&allowPlaceHolder=true" rounded />
+              </Col>
+              <Col xs={6}>
+                <h6>OL Single Combo 22Oz</h6>
+              </Col>
+              <Col xs={4} className="text-right">
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  onClick={() => handleQuantityChange('singleCombo', -1)}
+                >
+                  -
+                </Button>
+                <span className="mx-2">{quantity.singleCombo}</span>
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  onClick={() => handleQuantityChange('singleCombo', 1)}
+                >
+                  +
+                </Button>
+              </Col>
+            </Row>
+
+            {/* Couple Combo */}
+            <Row className="mb-3">
+              <Col xs={2}>
+                <Image src="https://booking.bhdstar.vn/CDN/media/entity/get/ItemGraphic/661838?width=160&height=160&referenceScheme=HeadOffice&allowPlaceHolder=true" rounded />
+              </Col>
+              <Col xs={6}>
+                <h6>OL Couple Combo 22Oz</h6>
+              </Col>
+              <Col xs={4} className="text-right">
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  onClick={() => handleQuantityChange('coupleCombo', -1)}
+                >
+                  -
+                </Button>
+                <span className="mx-2">{quantity.coupleCombo}</span>
+                <Button
+                  variant="outline-secondary"
+                  size="sm"
+                  onClick={() => handleQuantityChange('coupleCombo', 1)}
+                >
+                  +
+                </Button>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+        <Col md={4}>
+          <Card className="p-3 pricing-column d-flex flex-column justify-content-between">
+            <h6 style={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }}>FHD Cinema</h6>
+            <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}><strong style={{ color: '#5DBB63', fontSize: '1.3rem', textAlign: 'left' }}>Screen 6</strong> - 23/9/2024 - Suất chiếu: 16h55</p>
+            <h6 style={{ color: '#5DBB63', fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }} >CRAYON SHIN CHAN: NHẬT KÝ KHỦNG LONG CỦA CHÚNG MÌNH</h6>
+            <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>1 x Adult-Stand-2D</p>
+
+            {/* Conditionally rendering combos */}
+            <div style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>
+            {quantity.aquaCombo > 0 && (
+              <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>{quantity.aquaCombo} x OL Aqua Combo: {totalAquaCombo} VND</p>
+            )}
+            {quantity.singleCombo > 0 && (
+              <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>{quantity.singleCombo} x OL Single Combo 22Oz: {totalSingleCombo} VND</p>
+            )}
+            {quantity.coupleCombo > 0 && (
+              <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>{quantity.coupleCombo} x OL Couple Combo 22Oz: {totalCoupleCombo} VND</p>
+            )}
+            </div>
+
+            <hr />
+            <h5>Tổng tiền: {totalPrice} VND</h5>
+            <Button variant="success" block>Thanh Toán (3/4)</Button>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default Booking;
