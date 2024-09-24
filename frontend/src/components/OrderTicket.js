@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ReactPlayer from 'react-player/youtube'
-import FilmTime from './components/FilmTime';
+import FilmTime from './FilmTime';
 
 // import YouTube from 'react-youtube';
 
@@ -26,7 +26,7 @@ const OrderTicket = (props) => {
 
                 <div className="movie-card">
                     <img
-                        src="https://bhdstar.vn/wp-content/uploads/2024/04/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-14.jpg"
+                        src="img/1.jpg"
                         alt="Movie Poster"
                         className="movie-poster"
                     />

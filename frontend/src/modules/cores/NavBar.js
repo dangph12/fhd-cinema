@@ -1,6 +1,10 @@
 import React from 'react'
 import { Nav } from 'react-bootstrap';
 import { useLocation, NavLink } from "react-router-dom";
+import cart from '../cores/icons/cart.svg'
+import user from '../cores/icons/user.svg'
+
+
 
 const NavBar = (props) => {
     const location = useLocation();
@@ -54,10 +58,10 @@ const NavBar = (props) => {
                         <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
                             <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/users">
-                                    <img src="img/user.svg" />
+                                    <img src={user} />
                                 </NavLink>
                             </Nav.Link>
-                            <li><a className="nav-link" href="cart.html"><img src="img/cart.svg" /></a></li>
+                            <li><a className="nav-link" href="cart.html"><img src={cart} /></a></li>
 
                             {/* <li><a className="nav-link" href="/users"><img src="img/user.svg" /></a></li> */}
 

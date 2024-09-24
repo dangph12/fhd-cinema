@@ -16,7 +16,7 @@ function FilmDetails() {
                     {/* Phần hình ảnh phim */}
                     <div className="col-md-4">
                         <img
-                            src="img/1.jpg"
+                            src="https://bhdstar.vn/wp-content/uploads/2024/04/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-14.jpg"
                             alt="Film Thumbnail"
                             className="img-thumbnail film-thumbnail"
                         />
