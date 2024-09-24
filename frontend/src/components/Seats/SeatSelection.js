@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import './SeatSelection.css'; // Assuming you have this CSS file for custom styles
-import seatNormal from '../assets/ghe-thuong.png';
-import seatVIP from '../assets/ghe-vip.png';
-import seatSelected from '../assets/ghe-da-chon.png';
-import seatSold from '../assets/ghe-da-ban.png';
-import seatCouple from '../assets/ghe-doi.png';
-import seatMapHeader from '../assets/seatMapHeader.png';
+import './SeatSelection.css'; 
+import seatNormal from '../../assets/seats/ghe-thuong.png';
+import seatVIP from '../../assets/seats/ghe-vip.png';
+import seatSelected from '../../assets/seats/ghe-da-chon.png';
+import seatSold from '../../assets/seats/ghe-da-ban.png';
+import seatCouple from '../../assets/seats/ghe-doi.png';
+import seatMapHeader from '../../assets/seats/seatMapHeader.png';
 
 const seatLayout = [
     [{ id: "A1", type: "regular" }, { id: "A2", type: "regular" }, { id: "A3", type: "regular" }, { id: "A4", type: "regular" }, { id: "A5", type: "regular" }, { id: "A6", type: "regular" }],
@@ -126,14 +126,15 @@ const SeatSelection = () => {
                     </div>
                 </Col>
 
-                {/* Pricing Details */}
+
                 <Col xs={12} lg={4} className="pricing-column d-flex flex-column justify-content-between">
                     <div className="pricing-details p-3 rounded shadow-sm bg-white">
-                        <h6 className="text-muted" style={{ color: '#5DBB63', fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }}>FHD Star Cinema</h6>
+                        <h6 className="text-muted" style={{  fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }}>FHD Cinema</h6>
                         <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}><strong style={{ color: '#5DBB63', fontSize: '1.3rem', textAlign: 'left' }}>Screen 6</strong> - 23/9/2024 - Suất chiếu: 16h55</p>
                         <h6 style={{ color: '#5DBB63', fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }} >CRAYON SHIN CHAN: NHẬT KÝ KHỦNG LONG CỦA CHÚNG MÌNH</h6>
                         <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>{selectedSeats.length} x Adult-Stand-2D</p>
                         <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>{selectedSeats.join(', ')}</p>
+                        <hr />
                         <p className="font-weight-bold" style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left', fontWeight: 'bold' }}>Tổng tiền: {selectedSeats.length * 60000} VND</p>
                         <Button variant="success" block>CHỌN ĐỒ ĂN (2/4)</Button>
                     </div>

@@ -1,33 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, {  } from "react";
 import "./App.css";
-import NavBar from './components/NavBar';
-import SlideShow from './components/SlideShow'
-import Banner from './components/Banner';
-import Footer from './components/Footer';
-import BodyFirst from "./components/BodyFirst";
-import BodySecond from "./components/BodySecond";
-import StarMember from "./components/StarMember";
-import BannerSecond from "./components/BannerSecond";
-import Ticket from "./components/payment-inform/Ticket";
+import NavBar from './modules/cores/NavBar';
+import Footer from './modules/cores/Footer';
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "./modules/auth/LoginPage";
+import Home from "./modules/home/Home";
+import FilmDetails from "./modules/film-details/FilmDetails";
+import OrderTicket from "./modules/orders/OrderTicket";
 import SeatSelection from "./components/Seats/SeatSelection";
+import Ticket from "./components/payment-inform/Ticket";
+import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
+
 
 
 function App() {
   return (
     <div className="App">
-        <NavBar/>
-        {/* <MovieCard/> */}
-        {/* <SeatSelection/>  */}
-        <Ticket/>
-        {/* <SlideShow/> */}
-        {/* <SlideBar/> */}
-        {/* <Banner/> 
-        <BannerSecond/>
-        <BodySecond/>
-        <StarMember/> */}
-        {/* <LoginPage/> */}
-        <Footer/>
+      <NavBar />
+      <SeatSelection/>
+      {/* <Ticket/> */}
+      <OrderFood/>
+      {/* <SlideShow /> */}
+      {/* <SlideBar /> */}
+      {/* <Banner /> */}
+      {/* <BodyFirst /> */}
+      {/* <BannerSecond /> */}
+      {/* <BodySecond /> */}
+      {/* <StarMember /> */}
+
+      
+
+      {/* <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/description" element={<FilmDetails/>} />
+        <Route path="/orderTicket" element={<OrderTicket/>} />
+
+      </Routes> */}
+
+
+      <Footer />
     </div>
+
+
   );
 }
 
