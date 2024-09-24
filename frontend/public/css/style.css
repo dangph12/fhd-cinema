@@ -2659,7 +2659,7 @@ a.more {
 .we-help-section .imgs-grid {
     display: -ms-grid;
     display: grid;
-    -ms-grid-columns: (1fr)[27];
+    /* -ms-grid-columns: (1fr)[27]; */
     grid-template-columns: repeat(27, 1fr);
     position: relative;
 }
