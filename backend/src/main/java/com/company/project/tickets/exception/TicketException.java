@@ -9,11 +9,13 @@ import lombok.Setter;
 @Getter
 public class TicketException extends RuntimeException {
 
-  private TicketStatusCode ticketStatusCode;
+  private int code;
+  private final String message;
 
-  public TicketException(TicketStatusCode ticketStatusCode) {
-    super(ticketStatusCode.getMessage());
-    this.ticketStatusCode = ticketStatusCode;
+  public TicketException(int code, String message) {
+    super(message);
+    this.code = code;
+    this.message = message;
   }
 
 }

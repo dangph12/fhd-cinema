@@ -1,7 +1,8 @@
 package com.company.project.tickets.exception;
 
-import com.company.project.tickets.common.TicketStatusCode;
+import com.company.project.tickets.common.TicketStatusMessage;
 import com.company.project.tickets.dto.request.TicketApiResponse;
+import com.company.project.tickets.entity.Ticket;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.springframework.http.HttpStatus;
@@ -11,32 +12,32 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Objects;
+
 @ControllerAdvice
 public class TicketExceptionHandler {
   
   @ExceptionHandler(value = MethodArgumentNotValidException.class)
   ResponseEntity<TicketApiResponse<Void>> handlingMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-    String enumKey = exception.getFieldError().getDefaultMessage();
-    TicketStatusCode statusCode = TicketStatusCode.valueOf(enumKey);
+    String enumKey = Objects.requireNonNull(exception.getFieldError()).getDefaultMessage();
+    TicketStatusMessage ticketStatusMessage = TicketStatusMessage.valueOf(enumKey);
 
-    TicketApiResponse<Void> ticketApiResponse = new TicketApiResponse<>();
-
-    ticketApiResponse.setCode(statusCode.getCode());
-    ticketApiResponse.setMessage(statusCode.getMessage());
+    TicketApiResponse<Void> ticketApiResponse = TicketApiResponse.<Void>builder()
+            .code(HttpStatus.BAD_REQUEST.value())
+            .message(ticketStatusMessage.getMessage())
+            .build();
     
     return ResponseEntity.badRequest().body(ticketApiResponse);
   }
 
   @ExceptionHandler(value = TicketException.class)
   ResponseEntity<TicketApiResponse<Void>> handlingTicketException(TicketException exception) {
-    TicketApiResponse<Void> ticketApiResponse = new TicketApiResponse<>();
-
-    TicketStatusCode code = exception.getTicketStatusCode();
-
-    ticketApiResponse.setCode(code.getCode());
-    ticketApiResponse.setMessage(code.getMessage());
     
-    return ResponseEntity.badRequest().body(ticketApiResponse);
+    return ResponseEntity.status(exception.getCode())
+            .body(TicketApiResponse.<Void>builder()
+                    .code(exception.getCode())
+                    .message(exception.getMessage())
+                    .build());
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -44,8 +45,7 @@ public class TicketExceptionHandler {
         String errorMessage = "Invalid input: Value is out of range for the field.";
         
         Throwable cause = exception.getCause();
-        if (cause instanceof JsonMappingException) {
-            JsonMappingException jsonMappingException = (JsonMappingException) cause;
+        if (cause instanceof JsonMappingException jsonMappingException) {
             errorMessage = "Invalid input: " + jsonMappingException.getOriginalMessage();
         }
         

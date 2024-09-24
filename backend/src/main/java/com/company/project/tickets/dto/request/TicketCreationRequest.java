@@ -17,7 +17,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TicketCreationRequest {
 
-    @NotEmpty(message = "EMPTY_TICKET")
+    @NotEmpty(message = "EMPTY_SEAT")
     String seatId;
 
     @NotEmpty(message = "EMPTY_BOOKING")
