@@ -2,20 +2,23 @@ package com.company.project.tickets.service;
 
 import java.util.List;
 
+import com.company.project.tickets.common.TicketStatusMessage;
 import com.company.project.tickets.dto.request.TicketCreationRequest;
 import com.company.project.tickets.entity.Ticket;
-import com.company.project.tickets.exception.TicketErrorCode;
 import com.company.project.tickets.exception.TicketException;
 import com.company.project.tickets.repository.TicketRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TicketService{
 
-  @Autowired
-  private TicketRepository ticketRepository;
+  private final TicketRepository ticketRepository;
+
+  public TicketService(TicketRepository ticketRepository) {
+    this.ticketRepository = ticketRepository;
+  }
 
   public List<Ticket> getAllTickets() {
     return ticketRepository.findAll();
@@ -33,11 +36,11 @@ public class TicketService{
 
   public Ticket updateTicket(String ticketId, TicketCreationRequest request) {
     if (!ticketRepository.existsByTicketId(ticketId)) {
-        throw new TicketException(TicketErrorCode.NOT_EXIST);
+        throw new TicketException(HttpStatus.NOT_FOUND.value(), TicketStatusMessage.NOT_EXIST.getMessage());
     }
 
     Ticket existingTicket = ticketRepository.findById(ticketId)
-            .orElseThrow(() -> new TicketException(TicketErrorCode.NOT_EXIST));
+            .orElseThrow(() -> new TicketException(HttpStatus.NOT_FOUND.value(), TicketStatusMessage.NOT_EXIST.getMessage()));
    
     existingTicket.setSeatId(request.getSeatId());
     existingTicket.setBookingId(request.getBookingId());
@@ -46,14 +49,12 @@ public class TicketService{
     return ticketRepository.save(existingTicket);
   }
 
-  public TicketErrorCode deleteTicketById(String ticketId) {
+  public void deleteTicketById(String ticketId) {
     if (!ticketRepository.existsByTicketId(ticketId)) {
-      throw new TicketException(TicketErrorCode.NOT_EXIST);
+      throw new TicketException(HttpStatus.NOT_FOUND.value(), TicketStatusMessage.NOT_EXIST.getMessage());
     }
 
     ticketRepository.deleteById(ticketId);
-
-    return TicketErrorCode.DELETE_SUCCESS;
   }
 
 }
