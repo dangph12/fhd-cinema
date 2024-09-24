@@ -85,13 +85,13 @@
   margin-right: 0;
   text-align: left;
 }
-
+/* 
 .additional-info {
   background-color: #f8f9fa;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+} */
 
 .info-title {
   font-size: 1.5rem;
@@ -328,12 +328,10 @@
 
 /* film description  */
 
-.additional-info {
+/* .additional-info {
   width: 100%;
-  /* Để ảnh tự động co giãn theo kích thước container */
   height: auto;
-  /* Giữ tỷ lệ của ảnh */
-}
+} */
 
 .white-image {
   width: 100%;
