@@ -1,8 +1,8 @@
 import React from 'react'
 import { Nav } from 'react-bootstrap';
 import { useLocation, NavLink } from "react-router-dom";
-import cart from '../cores/icons/cart.svg'
-import user from '../cores/icons/user.svg'
+import cart from '../cores/icon/cart.svg'
+import user from '../cores/icon/user.svg'
 
 
 

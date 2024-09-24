@@ -7,5 +7,6 @@ var app = express()
 //     method:["GET", "POST","PUT", "DELETE"]
 // }))
 
-
+// app.use(cors());
 app.use(cors({origin:true}))
+

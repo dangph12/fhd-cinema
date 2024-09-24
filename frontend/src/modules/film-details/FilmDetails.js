@@ -42,10 +42,10 @@ function FilmDetails() {
                         <p className="film-synopsis">Ngôn ngữ: Phụ đề</p>
                         <br />
                         <p className="film-synopsis">
-                        <SocialIcon href="www.github.com" />
-                        <SocialIcon url="https://twitter.com" />
-                        <SocialIcon url="https://facebook.com" />
-                        <SocialIcon url="https://pinterest.com" />
+                            <SocialIcon href="www.github.com" />
+                            <SocialIcon url="https://twitter.com" />
+                            <SocialIcon url="https://facebook.com" />
+                            <SocialIcon url="https://pinterest.com" />
                         </p>
                     </div>
 
@@ -56,10 +56,12 @@ function FilmDetails() {
                             alt="Additional Banner"
                             className="additional-banner"
                         />
-                    </div>                    
+                    </div>
                 </div>
             </div>
-            <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"/>
+            <div className="white-image">
+                <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png" />
+            </div>
         </div>
     );
 }

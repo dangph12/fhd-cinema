@@ -7,11 +7,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
   background-color: #282c34;
@@ -28,6 +23,7 @@
   color: #61dafb;
 }
 
+/* 
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -36,7 +32,7 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
 /* footer  */
 
@@ -265,4 +261,340 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+.custom-navbar {
+  padding: 10px 20px;
+}
+
+.custom-navbar-nav .nav-link {
+  margin: 0 10px;
+}
+
+.custom-navbar-cta .nav-link {
+  margin: 0 5px;
+}
+
+
+.banner-container {
+  width: 100%;
+  /* Đảm bảo container chiếm toàn bộ chiều rộng của khung chứa */
+  display: flex;
+  justify-content: center;
+  /* Căn giữa theo chiều ngang */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  padding-left: 00px;
+  /* Khoảng cách bên trong */
+}
+
+.banner {
+  width: 100%;
+  /* Đảm bảo anchor (a) cũng responsive */
+}
+
+.banner-image {
+  max-width: 100%;
+  /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+  height: auto;
+  /* Giữ tỷ lệ của hình ảnh khi thay đổi kích thước */
+  display: block;
+  /* Loại bỏ khoảng trắng không cần thiết xung quanh ảnh */
+}
+
+.banner-second-container {
+  width: 100%;
+  /* Đảm bảo container chiếm toàn bộ chiều rộng của khung chứa */
+  display: flex;
+  justify-content: center;
+  /* Căn giữa theo chiều ngang */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  padding: px;
+  /* Khoảng cách bên trong */
+}
+
+.banner-second-image {
+  max-width: 100%;
+  /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+  height: auto;
+  /* Giữ tỷ lệ của hình ảnh khi thay đổi kích thước */
+  /* display: block; */
+  /* Loại bỏ khoảng trắng không cần thiết xung quanh ảnh */
+  margin-left: 0px;
+  /* Đảm bảo không có khoảng cách margin trái */
+}
+
+/* film description  */
+
+.additional-info {
+  width: 100%;
+  /* Để ảnh tự động co giãn theo kích thước container */
+  height: auto;
+  /* Giữ tỷ lệ của ảnh */
+}
+
+.white-image {
+  width: 100%;
+  /* Container takes full width */
+  max-width: 100%;
+  /* Prevents container from exceeding 100% of parent */
+  overflow: hidden;
+  /* Ensures no overflow */
+  text-align: center;
+  /* Centers the image */
+}
+
+.white-image img {
+  width: 100%;
+  /* Image scales to 100% width of the container */
+  height: auto;
+  /* Maintains the aspect ratio */
+  display: block;
+  /* Removes inline-block spacing below image */
+}
+
+/* link youtube  */
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 aspect ratio */
+  padding-left: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  /* Ensures the video doesn't exceed container width */
+}
+
+.video-wrapper iframe,
+.video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Responsive width */
+  height: 100%;
+  /* Responsive height */
+}
+
+
+@media (max-width: 600px) {
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .video-container {
+    width: 100%;
+  }
+
+  .video-container div {
+    padding-bottom: 75%;
+    /* Adjusts aspect ratio for mobile */
+  }
+}
+
+
+
+@media (max-width: 768x) {
+
+  /* nav bar  */
+
+  .custom-navbar {
+    text-align: center;
+    /* Center align items on mobile */
+  }
+
+  .navbar-toggler {
+    margin-left: auto;
+    /* Align the toggle button to the right */
+  }
+
+  /* banner  */
+
+  .banner-container {
+    padding: 5px;
+    /* Giảm padding trên thiết bị nhỏ hơn */
+  }
+
+  .banner-image {
+    max-width: 90%;
+    /* Thu nhỏ hình ảnh một chút cho mobile */
+  }
+
+  /* second banner  */
+
+  .banner-second-container {
+    padding: 5px;
+    /* Giảm padding cho thiết bị nhỏ */
+  }
+
+  .banner-second-image {
+    max-width: 90%;
+    /* Thu nhỏ một chút trên thiết bị mobile */
+  }
+
+  /* film description  */
+
+  .col-md-3.additional-info {
+    width: 100%;
+    /* Chiếm toàn bộ chiều rộng trên mobile */
+    padding: 0 15px;
+    /* Thêm padding để ảnh không sát mép màn hình */
+  }
+
+  /* white picture in film description  */
+
+  .white-image img {
+    width: 100%;
+    height: auto;
+
+  }
+
+  .white-image {
+    padding: 10px;
+  }
+
+  /* link youtube  */
+
+  .video-wrapper .cinema {
+    padding-bottom: 75%;
+  }
+}
+
+/* BodyFirst CSS */
+
+.grid__row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* Hiển thị 4 ảnh */
+  gap: 20px;
+}
+
+.col-3-4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movie-item {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.movie-item:hover {
+  transform: scale(1.05);
+  /* Phóng to ảnh khi hover */
+}
+
+.movie-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.movie-name {
+  margin: 10px 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.vietsub {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.vietsub button {
+  flex: 1;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.vietsub .btn-floating {
+  padding: 8px;
+  font-size: 1.2rem;
+}
+
+/* Responsive giảm xuống 3 ảnh */
+@media (max-width: 1200px) {
+  .grid__row {
+    grid-template-columns: repeat(3, 1fr);
+    /* Hiển thị 3 ảnh khi màn hình nhỏ hơn */
+  }
+}
+
+@media (max-width: 992px) {
+  .grid__row {
+    grid-template-columns: repeat(2, 1fr);
+    /* Hiển thị 2 ảnh khi màn hình nhỏ hơn */
+  }
+}
+
+@media (max-width: 576px) {
+  .grid__row {
+    grid-template-columns: repeat(1, 1fr);
+    /* Hiển thị 1 ảnh khi màn hình nhỏ hơn */
+  }
+}
+
+/* star member  */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 28px;
+  color: #3b8d00;
+}
+
+.value-combo {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.combo-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.combo-item {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 30%;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.combo-item img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.combo-item h3 {
+  font-size: 20px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.combo-item p {
+  font-size: 16px;
+  color: #777;
 }
