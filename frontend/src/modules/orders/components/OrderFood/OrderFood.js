@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card, Image } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 import OrderFood from './OrderFood.css';
 const Booking = () => {
+  const navigate = useNavigate();
+
+    function handleButtonClick() {
+        navigate("/");
+    }
+
+    function goToTicketInform(){
+      navigate("/ticketinform")
+    }
   // Pricing for each combo
   const comboPrices = {
     aquaCombo: 80000,  // 80,000 VND
@@ -52,7 +62,7 @@ const Booking = () => {
                 <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Diễn viên:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Yumiko Kobayashi, Miki Narahashi</span></p>
                 <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Thể loại:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Animation</span></p>
                 <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Khởi chiếu:</strong> 23/08/2024 | <strong>Thời lượng:</strong> 105 phút</p>
-                <Button variant="outline-success" className="mt-3" style={{ fontWeight: 'bold' }}>
+                <Button variant="outline-success" className="mt-3" style={{ fontWeight: 'bold' }} onClick={handleButtonClick}>
                     ← CHỌN PHIM KHÁC
                 </Button>
             </Card.Body>
@@ -190,7 +200,7 @@ const Booking = () => {
 
             <hr />
             <h5>Tổng tiền: {totalPrice} VND</h5>
-            <Button variant="success" block>Thanh Toán (3/4)</Button>
+            <Button variant="success" block onClick={goToTicketInform}>Thanh Toán (3/4)</Button>
           </Card>
         </Col>
       </Row>
