@@ -5,11 +5,7 @@ import com.company.project.module.movies.entity.Movie;
 import com.company.project.module.screens.entity.Screen;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PositiveOrZero;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
@@ -18,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "showtimes")
@@ -27,7 +24,6 @@ public class Showtime {
     @GeneratedValue(strategy = GenerationType.UUID)
     String showtimeId;
 
-    @PositiveOrZero
     int showtimePrice;
     LocalDateTime showtimeAt;
 

@@ -7,10 +7,13 @@ import lombok.Setter;
 @Setter
 public class ShowtimeException extends RuntimeException {
 
-    private ErrorCode errorCode;
+    private final String status;
+    private final String message;
 
-    public ShowtimeException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
+    public ShowtimeException(String status, String message) {
+        super(message);
+        this.status = status;
+        this.message = message;
     }
+
 }

@@ -1,7 +1,7 @@
 package com.company.project.module.showtimes.dto.request;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -14,17 +14,17 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ShowtimeUpdateRequest {
 
-    @NotNull(message = "Movie id cannot be null")
+    @NotEmpty(message = "EMPTY_SHOWTIME")
     String movieId;
 
-    @NotNull(message = "Screen id cannot be null")
+    @NotEmpty(message = "EMPTY_SHOWTIME")
     String screenId;
 
-    @PositiveOrZero
-    @NotNull(message = "Showtime price cannot be null")
+    @Min(value = 0, message = "NEGATIVE_VALUE")
+    @NotEmpty(message = "EMPTY_SHOWTIME")
     int showtimePrice;
 
-    @NotNull(message = "Showtime at cannot be null")
+    @NotEmpty(message = "EMPTY_SHOWTIME")
     LocalDateTime showtimeAt;
 
 }

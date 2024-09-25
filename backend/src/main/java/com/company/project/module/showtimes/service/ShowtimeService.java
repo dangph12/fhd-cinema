@@ -1,42 +1,45 @@
 package com.company.project.module.showtimes.service;
 
+import com.company.project.common.Status;
+import com.company.project.module.showtimes.common.ShowtimeStatusMessage;
 import com.company.project.module.showtimes.dto.request.ShowtimeCreationRequest;
 import com.company.project.module.showtimes.dto.request.ShowtimeUpdateRequest;
 import com.company.project.module.showtimes.entity.Showtime;
-import com.company.project.module.showtimes.exception.ErrorCode;
 import com.company.project.module.showtimes.exception.ShowtimeException;
 import com.company.project.module.showtimes.repository.ShowtimeRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ShowtimeService {
-    @Autowired
-    private ShowtimeRepository showtimeRepository;
+
+    private final ShowtimeRepository showtimeRepository;
+
+    public ShowtimeService(ShowtimeRepository showtimeRepository) {
+        this.showtimeRepository = showtimeRepository;
+    }
 
     public List<Showtime> getAllShowtimes() {
         return showtimeRepository.findAll();
     }
 
     public Showtime getShowtimeById(String showtimeId) {
-        return showtimeRepository.findById(showtimeId).orElseThrow(() -> new RuntimeException("Showtime not found"));
+        return showtimeRepository.findById(showtimeId).orElseThrow(() -> new ShowtimeException(Status.FAIL.getValue(), ShowtimeStatusMessage.NOT_EXIST.getMessage()));
     }
 
     public Showtime createShowtime(ShowtimeCreationRequest request) {
-        Showtime showtime = new Showtime();
-
-        showtime.setShowtimePrice(request.getShowtimePrice());
-        showtime.setShowtimeAt(request.getShowtimeAt());
+        Showtime showtime = Showtime.builder()
+                .showtimePrice(request.getShowtimePrice())
+                .showtimeAt(request.getShowtimeAt())
+                .build();
 
         return showtimeRepository.save(showtime);
     }
 
     public Showtime updateShowtime(String showtimeId, ShowtimeUpdateRequest request) {
         if(!showtimeRepository.existsByShowtimeId(showtimeId)) {
-            throw new ShowtimeException(ErrorCode.SHOWTIME_NOT_FOUND);
+            throw new ShowtimeException(Status.FAIL.getValue(), ShowtimeStatusMessage.NOT_EXIST.getMessage());
         }
 
         Showtime existedShowtime = getShowtimeById(showtimeId);
@@ -47,14 +50,13 @@ public class ShowtimeService {
         return showtimeRepository.save(existedShowtime);
     }
 
-    public ErrorCode deleteShowtime(String showtimeId) {
+    public void deleteShowtime(String showtimeId) {
         if(!showtimeRepository.existsByShowtimeId(showtimeId)) {
-            throw new ShowtimeException(ErrorCode.SHOWTIME_NOT_FOUND);
+            throw new ShowtimeException(Status.FAIL.getValue(), ShowtimeStatusMessage.NOT_EXIST.getMessage());
         }
 
         showtimeRepository.deleteById(showtimeId);
 
-        return ErrorCode.DELETE_SHOWTIME_SUCCESSFULLY;
     }
 
 }
