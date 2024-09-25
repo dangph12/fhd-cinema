@@ -54,13 +54,13 @@ const SeatSelection = () => {
                             <Card.Title className="movie-title text-uppercase" style={{ color: '#5DBB63', fontSize: '1.9rem', fontWeight: 'bold' }}>
                                 CRAYON SHIN CHAN: NHẬT KÝ KHỦNG LONG CỦA CHÚNG MÌNH
                             </Card.Title>
-                            <Card.Text style={{ color: '#6C757D', fontSize: '1.2rem', lineHeight: '1.5rem', textAlign: 'left' }}>
+                            <Card.Text style={{ color: 'Black', fontSize: '1.2rem', lineHeight: '1.5rem', textAlign: 'left' }}>
                                 Theo dõi tình bạn giữa chú chó cùng Shiro của gia đình Nobara và chú khủng long nhỏ. Mối liên hệ của họ giúp cho sự phát triển của Shinnosuke và Đội Phòng thủ Kusakabe.
                             </Card.Text>
-                            <p style={{ textAlign: 'left', fontSize: '1.2rem' }}><strong>Đạo diễn:</strong> <span className="highlight" style={{ color: '#5DBB63', textAlign: 'left' }}>Shinobu Sasaki</span></p>
-                            <p style={{ textAlign: 'left', fontSize: '1.2rem' }}><strong>Diễn viên:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Yumiko Kobayashi, Miki Narahashi</span></p>
-                            <p style={{ textAlign: 'left', fontSize: '1.2rem' }}><strong>Thể loại:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Animation</span></p>
-                            <p style={{ textAlign: 'left', fontSize: '1.2rem' }}><strong>Khởi chiếu:</strong> 23/08/2024 | <strong>Thời lượng:</strong> 105 phút</p>
+                            <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Đạo diễn:</strong> <span className="highlight" style={{ color: '#5DBB63', textAlign: 'left' }}>Shinobu Sasaki</span></p>
+                            <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Diễn viên:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Yumiko Kobayashi, Miki Narahashi</span></p>
+                            <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Thể loại:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Animation</span></p>
+                            <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Khởi chiếu:</strong> 23/08/2024 | <strong>Thời lượng:</strong> 105 phút</p>
                             <Button variant="outline-success" className="mt-3" style={{ fontWeight: 'bold' }}>
                                 ← CHỌN PHIM KHÁC
                             </Button>
@@ -86,9 +86,17 @@ const SeatSelection = () => {
             <Row className="justify-content-center align-items-stretch">
                 {/* Seat Selection Map */}
                 <Col xs={12} lg={8} className="seat-selection-column d-flex flex-column">
-                    <div className="text-center mb-3">
-                        <img src={seatMapHeader} alt="Màn hình" className="screen-image" />
-                    </div>
+                    
+                    {/* <div className="mb-3">
+                        <Col xs={12} lg={8}><img src={seatMapHeader} alt="Màn hình" className="screen-image" /></Col>
+                    </div> */}
+                    <Col md={12} xs={12} lg={12} className="mb-3">
+                        <Card.Img
+                            src={seatMapHeader}
+                            alt="Movie Poster"
+                            style={{ width: '100%'}} />
+                    </Col>
+                    
 
                     <div className="seat-map flex-grow-1" style={{ overflowY: 'auto', padding: '10px' }}>
                         {seatLayout.map((row, rowIndex) => (
