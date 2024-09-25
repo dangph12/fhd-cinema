@@ -31,6 +31,12 @@ const SeatSelection = () => {
         );
     };
 
+    const seatPrices = {
+        seatNormal: 60000,  // 60,000 VND
+        seatVIP: 70000, // 70,000 VND
+        seatCouple: 120000, // 120,000 VND
+      };
+
     return (
 
 
