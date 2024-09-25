@@ -45,12 +45,11 @@ public class ShowtimeService {
     }
 
     public Showtime createShowtime(ShowtimeCreationRequest request) {
-
         Movie movie = movieRepository.findById(request.getMovieId())
-                .orElseThrow(() -> new MovieException(Status.FAIL.getValue(), "Invalid Movie ID"));
+                .orElseThrow(() -> new ShowtimeException(Status.FAIL.getValue(), "Invalid Movie ID"));
 
         Screen screen = screenRepository.findById(request.getScreenId())
-                .orElseThrow(() -> new ScreenException(Status.FAIL.getValue(), "Invalid Screen ID"));
+                .orElseThrow(() -> new ShowtimeException(Status.FAIL.getValue(), "Invalid Screen ID"));
 
         Showtime showtime = Showtime.builder()
                 .movie(movie)
@@ -67,8 +66,16 @@ public class ShowtimeService {
             throw new ShowtimeException(Status.FAIL.getValue(), ShowtimeStatusMessage.NOT_EXIST.getMessage());
         }
 
+        Movie movie = movieRepository.findById(request.getMovieId())
+                .orElseThrow(() -> new ShowtimeException(Status.FAIL.getValue(), "Invalid Movie ID"));
+
+        Screen screen = screenRepository.findById(request.getScreenId())
+                .orElseThrow(() -> new ShowtimeException(Status.FAIL.getValue(), "Invalid Screen ID"));
+
         Showtime existedShowtime = getShowtimeById(showtimeId);
 
+        existedShowtime.setMovie(movie);
+        existedShowtime.setScreen(screen);
         existedShowtime.setShowtimePrice(request.getShowtimePrice());
         existedShowtime.setShowtimeAt(request.getShowtimeAt());
 
