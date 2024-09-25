@@ -46,7 +46,7 @@ public class MovieService {
                 .orElseThrow(() -> new MovieException(Status.FAIL.getValue(), "Invalid Rating ID"));
 
         Movie movie = Movie.builder()
-                .rating(rating.getMovie().getRating())
+                .rating(rating)
                 .movieTitle(request.getMovieTitle())
                 .movieGenre(request.getMovieGenre())
                 .movieDirector(request.getMovieDirector())
@@ -69,8 +69,12 @@ public class MovieService {
             throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.NOT_EXIST.getMessage());
         }
 
+        Rating rating = ratingRepository.findById(request.getRatingId())
+                .orElseThrow(() -> new MovieException(Status.FAIL.getValue(), "Invalid Rating ID"));
+
         Movie existedMovie = getMovieById(movieId);
 
+        existedMovie.setRating(rating);
         existedMovie.setMovieTitle(request.getMovieTitle());
         existedMovie.setMovieGenre(request.getMovieGenre());
         existedMovie.setMovieDirector(request.getMovieDirector());

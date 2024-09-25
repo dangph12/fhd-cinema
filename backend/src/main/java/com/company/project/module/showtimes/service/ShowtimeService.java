@@ -2,11 +2,8 @@ package com.company.project.module.showtimes.service;
 
 import com.company.project.common.Status;
 import com.company.project.module.movies.entity.Movie;
-import com.company.project.module.movies.exception.MovieException;
 import com.company.project.module.movies.repository.MovieRepository;
-import com.company.project.module.ratings.entity.Rating;
 import com.company.project.module.screens.entity.Screen;
-import com.company.project.module.screens.exception.ScreenException;
 import com.company.project.module.screens.repository.ScreenRepository;
 import com.company.project.module.showtimes.common.ShowtimeStatusMessage;
 import com.company.project.module.showtimes.dto.request.ShowtimeCreationRequest;
@@ -24,10 +21,6 @@ public class ShowtimeService {
     private final ShowtimeRepository showtimeRepository;
     private final MovieRepository movieRepository;
     private final ScreenRepository screenRepository;
-
-//    public ShowtimeService(ShowtimeRepository showtimeRepository) {
-//        this.showtimeRepository = showtimeRepository;
-//    }
 
     public ShowtimeService(ShowtimeRepository showtimeRepository, MovieRepository movieRepository, ScreenRepository screenRepository) {
         this.showtimeRepository = showtimeRepository;
