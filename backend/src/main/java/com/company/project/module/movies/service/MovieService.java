@@ -7,6 +7,8 @@ import com.company.project.module.movies.dto.request.MovieUpdateRequest;
 import com.company.project.module.movies.entity.Movie;
 import com.company.project.module.movies.exception.MovieException;
 import com.company.project.module.movies.repository.MovieRepository;
+import com.company.project.module.ratings.entity.Rating;
+import com.company.project.module.ratings.repository.RatingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +17,15 @@ import java.util.List;
 public class MovieService {
 
     private final MovieRepository movieRepository;
+    private final RatingRepository ratingRepository;
 
-    public MovieService(MovieRepository movieRepository) {
+//    public MovieService(MovieRepository movieRepository) {
+//        this.movieRepository = movieRepository;
+//    }
+
+    public MovieService(MovieRepository movieRepository, RatingRepository ratingRepository) {
         this.movieRepository = movieRepository;
+        this.ratingRepository = ratingRepository;
     }
 
     public List<Movie> getAllMovies(){
@@ -34,7 +42,11 @@ public class MovieService {
             throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.MOVIE_EXIST.getMessage());
         }
 
+        Rating rating = ratingRepository.findById(request.getRatingId())
+                .orElseThrow(() -> new MovieException(Status.FAIL.getValue(), "Invalid Rating ID"));
+
         Movie movie = Movie.builder()
+                .rating(rating.getMovie().getRating())
                 .movieTitle(request.getMovieTitle())
                 .movieGenre(request.getMovieGenre())
                 .movieDirector(request.getMovieDirector())
