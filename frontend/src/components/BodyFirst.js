@@ -28,7 +28,6 @@ const BodyFirst = (props) => {
         if (res && res.data) {
             setListMovies(res.data)
         }
-
     }
     // check data
     console.log(listMovies);
@@ -51,7 +50,7 @@ const BodyFirst = (props) => {
                                             <div className="img-wrapper">
                                                 <Nav.Link className="nav-item active">
                                                     <NavLink className="nav-link" to="/description">
-                                                        <img src={items.moviePosterUrl} alt="Movie 1" className="movie-image" />
+                                                        <img id={items.movieId} src={items.moviePosterUrl} alt="Movie 1" className="movie-image" />
                                                     </NavLink>
                                                 </Nav.Link>
                                             </div>
@@ -63,7 +62,7 @@ const BodyFirst = (props) => {
                                             <div className="vietsub">
                                                 <button type="button" className="btn btn-success btn-rounded" data-mdb-ripple-init>
                                                     <Nav.Link className="nav-item active">
-                                                        <NavLink className="nav-link" to="/orderTicket">Đặt Vé</NavLink>
+                                                        <NavLink id={items.movieId} className="nav-link" to="/orderTicket">Đặt Vé</NavLink>
                                                     </Nav.Link>
                                                 </button>
                                                 <span>

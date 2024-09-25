@@ -84,7 +84,7 @@ const BodySecond = (props) => {
                         {listMovies && listMovies.length > 0 &&
                             listMovies.map((items, index) => {
                                 return (
-                                    <div className="col-3-4">
+                                    <div className="col-3-4" key={`movies-${index}`}>
                                         <div className="movie-item">
                                             <Nav.Link className="nav-item active">
                                                 <NavLink className="nav-link" to="/description">

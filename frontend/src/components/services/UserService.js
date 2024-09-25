@@ -4,4 +4,9 @@ const fetchAllUser = () => {
     return axios.get("http://localhost:8080/movies")
 }
 
-export { fetchAllUser }
+const fetchUserById = (movieId) => {
+    return axios.get(`http://localhost:8080/movies/${movieId}`);
+}
+
+export { fetchAllUser, fetchUserById }
+
