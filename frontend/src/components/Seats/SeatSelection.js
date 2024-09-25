@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 import './SeatSelection.css'; 
 import seatNormal from '../../assets/seats/ghe-thuong.png';
 import seatVIP from '../../assets/seats/ghe-vip.png';
@@ -31,11 +32,24 @@ const SeatSelection = () => {
         );
     };
 
-    const seatPrices = {
-        seatNormal: 60000,  // 60,000 VND
-        seatVIP: 70000, // 70,000 VND
-        seatCouple: 120000, // 120,000 VND
-      };
+
+    const navigate = useNavigate(); // Khởi tạo hook để điều hướng
+
+    // Hàm điều hướng đến trang chọn ghế
+    const goToOrderFood = () => {
+        navigate('/orderfood');
+    };
+
+
+    function handleButtonClick() {
+        navigate("/");
+    }
+
+    // const seatPrices = {
+    //     seatNormal: 60000,  // 60,000 VND
+    //     seatVIP: 70000, // 70,000 VND
+    //     seatCouple: 120000, // 120,000 VND
+    //   };
 
     return (
 
@@ -67,7 +81,7 @@ const SeatSelection = () => {
                             <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Diễn viên:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Yumiko Kobayashi, Miki Narahashi</span></p>
                             <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Thể loại:</strong> <span className="highlight" style={{ color: '#5DBB63' }}>Animation</span></p>
                             <p style={{ textAlign: 'left', fontSize: '1.2rem',color: 'Black' }}><strong>Khởi chiếu:</strong> 23/08/2024 | <strong>Thời lượng:</strong> 105 phút</p>
-                            <Button variant="outline-success" className="mt-3" style={{ fontWeight: 'bold' }}>
+                            <Button variant="outline-success" className="mt-3" style={{ fontWeight: 'bold' }} onClick={handleButtonClick}>
                                 ← CHỌN PHIM KHÁC
                             </Button>
                         </Card.Body>
@@ -150,7 +164,7 @@ const SeatSelection = () => {
                         <p style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left' }}>{selectedSeats.join(', ')}</p>
                         <hr />
                         <p className="font-weight-bold" style={{ color: 'Black', fontSize: '1.2rem', textAlign: 'left', fontWeight: 'bold' }}>Tổng tiền: {selectedSeats.length * 60000} VND</p>
-                        <Button variant="success" block>CHỌN ĐỒ ĂN (2/4)</Button>
+                        <Button variant="success" block onClick={goToOrderFood}>CHỌN ĐỒ ĂN (2/4)</Button>
                     </div>
                 </Col>
             </Row>
