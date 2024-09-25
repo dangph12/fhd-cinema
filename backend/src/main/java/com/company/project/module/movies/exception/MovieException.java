@@ -7,11 +7,12 @@ import lombok.Setter;
 @Setter
 public class MovieException extends RuntimeException {
 
-    private ErrorCode errorCode;
+    private final String status;
+    private final String message;
 
-    public MovieException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
+    public MovieException(String status, String message) {
+        super(message);
+        this.status = status;
+        this.message = message;
     }
-
 }

@@ -1,55 +1,60 @@
 package com.company.project.module.movies.service;
 
+import com.company.project.common.Status;
+import com.company.project.module.movies.common.MovieStatusMessage;
 import com.company.project.module.movies.dto.request.MovieCreationRequest;
 import com.company.project.module.movies.dto.request.MovieUpdateRequest;
 import com.company.project.module.movies.entity.Movie;
-import com.company.project.module.movies.exception.ErrorCode;
 import com.company.project.module.movies.exception.MovieException;
 import com.company.project.module.movies.repository.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class MovieService {
-    @Autowired
-    private MovieRepository movieRepository;
+
+    private final MovieRepository movieRepository;
+
+    public MovieService(MovieRepository movieRepository) {
+        this.movieRepository = movieRepository;
+    }
 
     public List<Movie> getAllMovies(){
         return movieRepository.findAll();
     }
 
     public Movie getMovieById(String movieId){
-        return movieRepository.findById(movieId).orElseThrow(() -> new MovieException(ErrorCode.MOVIE_NOT_FOUND));
+        return movieRepository.findById(movieId).orElseThrow(() -> new MovieException(Status.FAIL.getValue(), MovieStatusMessage.NOT_EXIST.getMessage()));
     }
 
     public Movie createMovie(MovieCreationRequest request){
-        Movie movie = new Movie();
 
         if(movieRepository.existsByMovieTitle(request.getMovieTitle())) {
-            throw new MovieException(ErrorCode.MOVIE_EXISTED);
+            throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.MOVIE_EXIST.getMessage());
         }
 
-        movie.setMovieTitle(request.getMovieTitle());
-        movie.setMovieGenre(request.getMovieGenre());
-        movie.setMovieDirector(request.getMovieDirector());
-        movie.setMovieCast(request.getMovieCast());
-        movie.setMovieStatus(request.getMovieStatus());
-        movie.setMovieFormat(request.getMovieFormat());
-        movie.setMovieDurationMinute(request.getMovieDurationMinute());
-        movie.setMovieReleaseDate(request.getMovieReleaseDate());
-        movie.setMovieTrailerUrl(request.getMovieTrailerUrl());
-        movie.setMovieDescription(request.getMovieDescription());
-        movie.setMovieLanguage(request.getMovieLanguage());
-        movie.setMoviePosterUrl(request.getMoviePosterUrl());
+        Movie movie = Movie.builder()
+                .movieTitle(request.getMovieTitle())
+                .movieGenre(request.getMovieGenre())
+                .movieDirector(request.getMovieDirector())
+                .movieCast(request.getMovieCast())
+                .movieStatus(request.getMovieStatus())
+                .movieFormat(request.getMovieFormat())
+                .movieDurationMinute(request.getMovieDurationMinute())
+                .movieReleaseDate(request.getMovieReleaseDate())
+                .movieTrailerUrl(request.getMovieTrailerUrl())
+                .movieDescription(request.getMovieDescription())
+                .movieLanguage(request.getMovieLanguage())
+                .moviePosterUrl(request.getMoviePosterUrl())
+                .build();
 
         return movieRepository.save(movie);
     }
 
     public Movie updateMovie(String movieId, MovieUpdateRequest request) {
         if(!movieRepository.existsByMovieId(movieId)) {
-            throw new MovieException(ErrorCode.MOVIE_NOT_FOUND);
+            throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.NOT_EXIST.getMessage());
         }
 
         Movie existedMovie = getMovieById(movieId);
@@ -72,7 +77,7 @@ public class MovieService {
 
     public void deleteMovieByMovieId(String movieId){
         if(!movieRepository.existsByMovieId(movieId)) {
-            throw new MovieException(ErrorCode.MOVIE_NOT_FOUND);
+            throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.NOT_EXIST.getMessage());
         }
 
         movieRepository.deleteById(movieId);

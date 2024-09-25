@@ -1,13 +1,15 @@
-package com.company.project.movies.controller;
+package com.company.project.module.movies.controller;
 
-import com.company.project.movies.dto.request.MovieApiResponse;
-import com.company.project.movies.dto.request.MovieCreationRequest;
-import com.company.project.movies.dto.request.MovieUpdateRequest;
-import com.company.project.movies.entity.Movie;
-import com.company.project.movies.exception.ErrorCode;
-import com.company.project.movies.service.MovieService;
+import com.company.project.common.ApiResponse;
+import com.company.project.common.Status;
+import com.company.project.module.movies.common.MovieStatusMessage;
+import com.company.project.module.movies.dto.request.MovieCreationRequest;
+import com.company.project.module.movies.dto.request.MovieUpdateRequest;
+import com.company.project.module.movies.entity.Movie;
+import com.company.project.module.movies.service.MovieService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,48 +18,66 @@ import java.util.List;
 @RequestMapping("/movies")
 public class MovieController {
 
-    @Autowired
-    private MovieService movieService;
+    private final MovieService movieService;
+
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     @PostMapping
-    MovieApiResponse<Movie> addMovie(@RequestBody @Valid MovieCreationRequest request){
-        MovieApiResponse<Movie> movieApiResponse = new MovieApiResponse<>();
-
+    ResponseEntity<ApiResponse<Movie>> addMovie(@RequestBody @Valid MovieCreationRequest request) {
         Movie movie = movieService.createMovie(request);
-        movieApiResponse.setResult(movie);
 
-        return movieApiResponse;
+        return ResponseEntity.status(HttpStatus.CREATED.value())
+                .body(ApiResponse.<Movie>builder()
+                        .status(Status.SUCCESS.getValue())
+                        .message(MovieStatusMessage.CREATE_SUCCESS.getMessage())
+                        .data(movie)
+                        .build());
     }
 
     @GetMapping
-    List<Movie> getAllMovies(){
-        return movieService.getAllMovies();
+    ResponseEntity<ApiResponse<List<Movie>>> getAllMovies(){
+        return ResponseEntity.status(HttpStatus.OK.value())
+                .body(ApiResponse.<List<Movie>>builder()
+                        .status(Status.SUCCESS.getValue())
+                        .message(MovieStatusMessage.GET_SUCCESS.getMessage())
+                        .data(movieService.getAllMovies())
+                        .build());
     }
 
     @GetMapping("/{movieId}")
-    Movie getMovie(@PathVariable String movieId){
-        return movieService.getMovieById(movieId);
+    ResponseEntity<ApiResponse<Movie>> getMovie(@PathVariable(name = "movieId") String movieId){
+        Movie movie = movieService.getMovieById(movieId);
+
+        return ResponseEntity.status(HttpStatus.OK.value())
+                .body(ApiResponse.<Movie>builder()
+                        .status(Status.SUCCESS.getValue())
+                        .message(MovieStatusMessage.GET_SUCCESS.getMessage())
+                        .data(movie)
+                        .build());
     }
 
     @PutMapping("/{movieId}")
-    MovieApiResponse<Movie> updateMovie(@PathVariable(name = "movieId") String movieId, @RequestBody @Valid MovieUpdateRequest request){
-        MovieApiResponse<Movie> movieApiResponse = new MovieApiResponse<>();
-
+    ResponseEntity<ApiResponse<Movie>> updateMovie(@PathVariable(name = "movieId") String movieId, @RequestBody @Valid MovieUpdateRequest request){
         Movie movie = movieService.updateMovie(movieId, request);
-        movieApiResponse.setResult(movie);
 
-        return movieApiResponse;
+        return ResponseEntity.status(HttpStatus.OK.value())
+                .body(ApiResponse.<Movie>builder()
+                        .status(Status.SUCCESS.getValue())
+                        .message(MovieStatusMessage.UPDATE_SUCCESS.getMessage())
+                        .data(movie)
+                        .build());
     }
 
     @DeleteMapping("/{movieId}")
-    MovieApiResponse<Void> deleteMovie(@PathVariable String movieId){
+    ResponseEntity<ApiResponse<Void>> deleteMovie(@PathVariable(name = "movieId") String movieId){
         movieService.deleteMovieByMovieId(movieId);
 
-        MovieApiResponse<Void> movieApiResponse = new MovieApiResponse<>();
-        ErrorCode errorCode = ErrorCode.DELETE_SUCCESS;
-        movieApiResponse.setCode(errorCode.getCode());
-        movieApiResponse.setMessage(errorCode.getMessage());
-
-        return movieApiResponse;
+        return ResponseEntity.status(HttpStatus.OK.value())
+                .body(ApiResponse.<Void>builder()
+                        .status(Status.SUCCESS.getValue())
+                        .message(MovieStatusMessage.DELETE_SUCCESS.getMessage())
+                        .build());
     }
 }
