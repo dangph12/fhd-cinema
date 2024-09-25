@@ -8,8 +8,9 @@ import LoginPage from "./modules/auth/LoginPage";
 import FilmDetails from "./modules/film-details/FilmDetails";
 import OrderTicket from "./modules/orders/OrderTicket";
 import SeatSelection from "./components/Seats/SeatSelection";
-import Ticket from "./components/payment-inform/Ticket";
+import TicketInform from "./components/payment-inform/TicketInform";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
+import FilmTime from "./components/FilmTime";
 
 import Home from "./components/Home";
 
@@ -21,6 +22,7 @@ function App() {
       <NavBar />
       docker compose up -d --build
       {/* <Ticket/> */}
+      {/* <FilmTime/> */}
       {/* <OrderFood/> */}
       {/* <SlideShow /> */}
       {/* <SlideBar /> */}
@@ -37,6 +39,13 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/description" element={<FilmDetails/>} />
         <Route path="/orderTicket" element={<OrderTicket/>} />
+        <Route path="/seatselection" element={<SeatSelection/>} />
+        <Route path="/cart.html" element={<FilmTime/>} />
+        <Route path="/orderfood" element={<OrderFood/>} />
+        <Route path="/ticketinform" element={<TicketInform/>} />
+    
+
+        
 
       </Routes>
 
