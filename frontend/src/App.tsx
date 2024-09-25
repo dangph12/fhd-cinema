@@ -1,4 +1,4 @@
-import React, {  } from "react";
+import React, { } from "react";
 import "./App.css";
 import NavBar from './modules/cores/NavBar';
 import Footer from './modules/cores/Footer';
@@ -26,13 +26,14 @@ function App() {
       {/* <BodySecond /> */}
       {/* <StarMember /> */}
 
-      
+
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/description" element={<FilmDetails/>} />
-        <Route path="/orderTicket" element={<OrderTicket/>} />
+        {/* <Route path="/description" element={<FilmDetails/>} /> */}
+        <Route path="/orderTicket" element={<OrderTicket />} />
+        <Route path="/description/:movieId" element={<FilmDetails />} />
       </Routes>
 
 
