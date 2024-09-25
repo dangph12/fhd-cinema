@@ -22,6 +22,7 @@ public class ShowtimeCreationRequest {
     String screenId;
 
     @Min(value = 0, message = "NEGATIVE_VALUE")
+    @NotNull(message = "EMPTY_SHOWTIME")
     int showtimePrice;
 
     @NotNull(message = "EMPTY_SHOWTIME")

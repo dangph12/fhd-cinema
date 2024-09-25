@@ -2,6 +2,7 @@ package com.company.project.module.movies.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -36,10 +37,10 @@ public class MovieUpdateRequest {
     String movieFormat;
 
     @Min(value = 0, message = "NEGATIVE_VALUE")
-    @NotEmpty(message = "EMPTY_MOVIE")
+    @NotNull(message = "EMPTY_MOVIE")
     int movieDurationMinute;
 
-    @NotEmpty(message = "EMPTY_MOVIE")
+    @NotNull(message = "EMPTY_MOVIE")
     Date movieReleaseDate;
 
     @NotEmpty(message = "EMPTY_MOVIE")
