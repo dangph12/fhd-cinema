@@ -17,9 +17,9 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <SeatSelection/>
+      {/* <SeatSelection/> */}
       {/* <Ticket/> */}
-      <OrderFood/>
+      {/* <OrderFood/> */}
       {/* <SlideShow /> */}
       {/* <SlideBar /> */}
       {/* <Banner /> */}
@@ -30,13 +30,13 @@ function App() {
 
       
 
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/description" element={<FilmDetails/>} />
         <Route path="/orderTicket" element={<OrderTicket/>} />
 
-      </Routes> */}
+      </Routes>
 
 
       <Footer />
