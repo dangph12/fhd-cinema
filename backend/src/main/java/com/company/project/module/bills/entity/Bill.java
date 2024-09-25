@@ -2,6 +2,7 @@ package com.company.project.module.bills.entity;
 
 import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.vouchers.entity.Voucher;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,7 +18,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class Bill {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String billId;
@@ -26,10 +26,12 @@ public class Bill {
     boolean isPaid;
     LocalDateTime billCreatedAt;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
     Booking booking;
 
+    @JsonIgnore
     @JoinTable(
             name = "bills_vouchers",
             joinColumns = @JoinColumn(name = "bill_id"),

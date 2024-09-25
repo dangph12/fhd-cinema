@@ -17,12 +17,10 @@ import java.util.List;
 @Table(name = "movies")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Movie {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "movie_id")
     String movieId;
-
 
     String movieTitle;
     String movieGenre;
@@ -42,7 +40,7 @@ public class Movie {
     @JoinColumn(name = "rating_id", referencedColumnName = "rating_id")
     Rating rating;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "movie")
     List<Showtime> showtimes;
-
 }

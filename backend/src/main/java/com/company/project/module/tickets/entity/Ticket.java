@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.seats.entity.Seat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,20 +22,22 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "tickets")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Ticket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    String ticketId;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  String ticketId;
+    int ticketPrice;
 
-  int ticketPrice;
+    @CreationTimestamp
+    LocalDateTime ticketCreateAt;
 
-  @CreationTimestamp
-  LocalDateTime ticketCreateAt;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "booking_id", nullable = false)
+    Booking booking;
 
-  @ManyToOne
-  @JoinColumn(name="booking_id", nullable=false)
-  Booking booking;
-  @OneToOne(optional = false)
-  Seat seat;
-
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "seat_id", referencedColumnName = "seat_id")
+    Seat seat;
 }

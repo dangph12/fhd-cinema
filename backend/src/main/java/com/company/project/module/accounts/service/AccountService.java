@@ -21,7 +21,7 @@ public class AccountService {
     }
 
     public List<Account> getAllAccounts() {
-        return accountRepository.findAllActiveAccounts();
+        return accountRepository.findAll();
     }
 
     public Account createAccount(AccountCreationRequest request) {

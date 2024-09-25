@@ -14,8 +14,8 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "accounts")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class Account {
 
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "account_id")
@@ -26,11 +26,10 @@ public class Account {
     int accountType;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "account", optional = false)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account", optional = false)
     Customer customer;
 
-
-    @OneToOne(mappedBy = "account", optional = false)
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account", optional = false)
     Staff staff;
-
 }

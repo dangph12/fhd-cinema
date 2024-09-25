@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, String> {
     boolean existsByAccountId(String accountId);
-    @Query("SELECT a FROM Account a")
-    List<Account> findAllActiveAccounts();
 
+//    @Query("select a from Account a join fetch a.customer ac")
+//    List<Account> findAll();
 }

@@ -2,6 +2,7 @@ package com.company.project.module.vouchers.entity;
 
 import com.company.project.module.bills.entity.Bill;
 import com.company.project.module.customers.entity.Customer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -28,9 +29,11 @@ public class Voucher {
     Date voucherStartedAt;
     Date voucherEndedAt;
 
+    @JsonIgnore
     @ManyToMany
     List<Customer> customers;
 
+    @JsonIgnore
     @ManyToMany
     List<Bill> bills;
 }

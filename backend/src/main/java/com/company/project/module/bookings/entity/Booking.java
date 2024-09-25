@@ -5,6 +5,8 @@ import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.snacks.entity.Snack;
 import com.company.project.module.tickets.entity.Ticket;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -30,6 +32,7 @@ public class Booking {
     @CreationTimestamp
     LocalDateTime bookingCreateAt;
 
+    @JsonIgnore
     @JoinTable(
             name = "bookings_snacks",
             joinColumns = @JoinColumn(name = "booking_id"),
@@ -37,16 +40,20 @@ public class Booking {
     @ManyToMany
     List<Snack> snacks;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="customer_id", nullable=false)
+    @JoinColumn(name="customer_id", referencedColumnName = "customer_id", nullable=false)
     Customer customer;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "booking", optional = false)
     Bill bill;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "booking")
     List<Ticket> tickets;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="showtime_id", nullable=false)
     Showtime showtime;

@@ -1,6 +1,7 @@
 package com.company.project.module.seatstypes.entity;
 
 import com.company.project.module.seats.entity.Seat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,7 +23,7 @@ public class SeatType {
     String seatTypeName;
     int seatTypePrice;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "seatType")
     List<Seat> seats;
 

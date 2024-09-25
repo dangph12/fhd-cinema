@@ -2,6 +2,7 @@ package com.company.project.module.cinemas.entity;
 
 import com.company.project.module.locations.entity.Location;
 import com.company.project.module.screens.entity.Screen;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -23,10 +24,11 @@ public class Cinema {
 
     String cinemaName;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "cinema")
     List<Screen> screens;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="location_id", nullable=false)
     Location location;

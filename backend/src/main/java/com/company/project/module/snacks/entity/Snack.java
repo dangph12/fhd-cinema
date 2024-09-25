@@ -1,6 +1,7 @@
 package com.company.project.module.snacks.entity;
 
 import com.company.project.module.bookings.entity.Booking;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,6 +22,8 @@ public class Snack {
 
     String snackName;
     int snackPrice;
+
+    @JsonIgnore
     @ManyToMany
     List<Booking> bookings;
 
