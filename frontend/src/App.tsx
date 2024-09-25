@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      {/* <SeatSelection/> */}
+      docker compose up -d --build
       {/* <Ticket/> */}
       {/* <OrderFood/> */}
       {/* <SlideShow /> */}
@@ -37,6 +37,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/description" element={<FilmDetails/>} />
         <Route path="/orderTicket" element={<OrderTicket/>} />
+
       </Routes>
 
 
