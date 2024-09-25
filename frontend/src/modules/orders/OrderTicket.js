@@ -26,7 +26,7 @@ const OrderTicket = (props) => {
 
                 <div className="movie-card">
                     <img
-                        src="img/1.jpg"
+                        src="https://bhdstar.vn/wp-content/uploads/2024/04/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-14.jpg"
                         alt="Movie Poster"
                         className="movie-poster"
                     />
@@ -48,14 +48,18 @@ const OrderTicket = (props) => {
                 <div className="container">
                     {/* youtube link */}
                     <div className="cinema video-container">
-                        <div style={{ position: 'center', paddingBottom: '30%', height: 0, overflow: 'hidden' }}>
-                            <ReactPlayer url='https://www.youtube.com/watch?v=wI2Wd2yA8YE' />
+                        <div className="video-wrapper">
+                            <div style={{ position: 'center', paddingBottom: '30%', height: 0, overflow: 'hidden' }}>
+                                <ReactPlayer url='https://www.youtube.com/watch?v=wI2Wd2yA8YE' />
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <FilmTime/>
-                <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"/>
+                <FilmTime />
+                <div className="white-image">
+                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png" />
+                </div>
             </div>
         </div>
     )
