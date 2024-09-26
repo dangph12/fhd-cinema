@@ -52,6 +52,19 @@ services:
     expose:
       - 3306
       - 33060
+  admin-frontend:
+    build:
+      context: admin-frontend
+      target: development
+    restart: always
+    ports:
+      - 5173:5173
+    expose:
+      - 5173
+    networks:
+      - react-spring
+    depends_on:
+      - backend
 volumes:
   db-data: {}
 secrets:

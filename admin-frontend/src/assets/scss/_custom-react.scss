@@ -1,0 +1,43 @@
+.content-none {
+  &:after {
+    display: none !important;
+  }
+  &:before {
+    display: none !important;
+  }
+}
+
+.icons-center {
+  display: inline-flex;
+  align-items: center;
+}
+
+.flex-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.la-spin {
+  -webkit-animation: la-spin 2s infinite linear;
+          animation: la-spin 2s infinite linear; }
+
+.la-pulse {
+  -webkit-animation: la-spin 1s infinite steps(8);
+          animation: la-spin 1s infinite steps(8); }
+
+@-webkit-keyframes la-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
+
+@keyframes la-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg); }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg); } }
