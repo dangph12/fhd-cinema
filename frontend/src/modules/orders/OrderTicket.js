@@ -1,8 +1,9 @@
-import React from 'react'
-import { Navigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { Navigate, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ReactPlayer from 'react-player/youtube'
 import FilmTime from './components/FilmTime';
+import { fetchMovieById } from '../../components/services/UserService';
 
 // import YouTube from 'react-youtube';
 
@@ -15,9 +16,26 @@ const OrderTicket = (props) => {
         navigate("/");
     }
 
+    const { movieId } = useParams(); // Lấy movieId từ URL
+    const [movieDetails, setMovieDetails] = useState(null); // mảng movies description rỗng 
+
+    useEffect(() => {
+        getMovieDetails(movieId);
+    }, [movieId]);
+
+    const getMovieDetails = async (movieId) => {
+        let res = await fetchMovieById(movieId);
+        if (res && res.data) {
+            setMovieDetails(res.data.data);
+        }
+    }
+
+    console.log(movieDetails);
+
     return (
         <div>
             <div className="film-intro">
+
                 <img
                     src="https://www.bhdstar.vn/wp-content/uploads/2024/09/bannerTop.jpg"
                     alt="Film Banner"
@@ -26,23 +44,27 @@ const OrderTicket = (props) => {
 
                 <div className="movie-card">
                     <img
-                        src="https://bhdstar.vn/wp-content/uploads/2024/04/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-14.jpg"
+                        src={movieDetails?.moviePosterUrl}
                         alt="Movie Poster"
                         className="movie-poster"
                     />
-                    <div className="movie-details">
-                        <h3 className="movie-title">
-                            IT ENDS WITH US: NƠI TÌNH YÊU KẾT THÚC
-                        </h3>
-                        <p className="movie-description">
-                            Lily vượt qua tuổi thơ đau thương để bắt đầu một cuộc sống mới. Một cuộc gặp gỡ tình cờ với một bác sĩ phẫu thuật thần kinh đã tạo nên một mối liên hệ nhưng Lily bắt đầu nhìn thấy những khía cạnh của anh ta khiến cô nhớ đến mối quan hệ của cha mẹ mình.
-                        </p>
-                        <p><strong>Đạo diễn:</strong> <a href="#">Justin Baldoni</a></p>
-                        <p><strong>Diễn viên:</strong> <a href="#">Blake Lively</a>, <a href="#">Justin Baldoni</a></p>
-                        <p><strong>Thể loại:</strong> <a href="#">Romance</a></p>
-                        <p><strong>Khởi chiếu:</strong> 27/09/2024 | <strong>Thời lượng:</strong> 130 phút</p>
-                        <button className="movie-button" onClick={handleButtonClick}>← CHỌN PHIM KHÁC</button>
-                    </div>
+
+                    {movieDetails && (
+                        <div className="movie-details">
+                            <h3 className="movie-title">
+                                {movieDetails.movieTitle}
+                            </h3>
+                            <p className="movie-description">
+                                {movieDetails.movieDescription}
+                            </p>
+                            <p><strong>Đạo diễn:</strong> <a href="#">{movieDetails.movieDirector}</a></p>
+                            <p><strong>Diễn viên:</strong> <a href="#">Blake Lively</a>, <a href="#">Justin Baldoni</a></p>
+                            <p><strong>Thể loại:</strong> <a href="#">{movieDetails.movieGenre}</a></p>
+                            <p><strong>Khởi chiếu:</strong> {movieDetails.movieReleaseDate} | <strong>Thời lượng:</strong> 130 phút</p>
+                            <button className="movie-button" onClick={handleButtonClick}>← CHỌN PHIM KHÁC</button>
+                        </div>
+                    )}
+
                 </div>
 
                 <div className="container">
@@ -50,7 +72,13 @@ const OrderTicket = (props) => {
                     <div className="cinema video-container">
                         <div className="video-wrapper">
                             <div style={{ position: 'center', paddingBottom: '30%', height: 0, overflow: 'hidden' }}>
-                                <ReactPlayer url='https://www.youtube.com/watch?v=wI2Wd2yA8YE' />
+                                {/* <ReactPlayer url='https://www.youtube.com/watch?v=wI2Wd2yA8YE' /> */}
+                                {/* <iframe src={movieDetails.movieTrailerUrl}></iframe> */}
+                                {movieDetails?.movieTrailerUrl ? (
+                                    <ReactPlayer url={movieDetails.movieTrailerUrl} />
+                                ) : (
+                                    <p>Trailer not available</p>
+                                )}
                             </div>
                         </div>
                     </div>
