@@ -613,3 +613,61 @@ h2 {
   text-align: center;
   border-radius: 5px;
 }
+
+/* Form.css */
+/* Form container styling */
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* Form block styling */
+.login-form, .register-form {
+  flex: 1;
+  margin: 10px;
+}
+
+/* Styling for input, select, and button elements */
+input, select, button {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0;
+  border-radius: 8px; /* Bo tròn */
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Styling for button */
+button {
+  background-color: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Align radio buttons on the same line */
+.register-form div {
+  display: flex;
+  align-items: center;
+}
+
+.register-form input[type="radio"] {
+  margin-right: 5px;
+  margin-left: 15px;
+}
+
+label[for="male"], label[for="female"], label[for="other"] {
+  margin-right: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .form-container {
+    flex-direction: column;
+  }
+}
+
+.navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+  flex-wrap: unset;
+}
