@@ -20,7 +20,6 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      docker compose up -d --build
       {/* <Ticket/> */}
       {/* <FilmTime/> */}
       {/* <OrderFood/> */}
