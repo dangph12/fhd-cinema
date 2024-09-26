@@ -520,6 +520,7 @@
   font-size: 1.2rem;
 }
 
+
 /* Responsive giảm xuống 3 ảnh */
 @media (max-width: 1200px) {
   .grid__row {
@@ -607,7 +608,7 @@ h2 {
 .time-button {
   width: 30%; /* Adjust the width of each button to fit 3 in a row */
   padding: 10px;
-  background-color:  #3b8d00;
+  background-color:  #64a70b;
   border: none;
   cursor: pointer;
   text-align: center;
@@ -639,7 +640,7 @@ input, select, button {
 
 /* Styling for button */
 button {
-  background-color: green;
+  background-color:  #64a70b;
   color: white;
   border: none;
   cursor: pointer;
