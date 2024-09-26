@@ -20,3 +20,8 @@ public class ApiResponse<T> {
     String message;
     T data;
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/feature/receive-tickets-via-email

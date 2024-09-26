@@ -12,3 +12,7 @@ public enum Status {
         this.value = value;
     }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/feature/receive-tickets-via-email
