@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận đặt vé - FHD Cinema</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            width: 100%;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .email-content {
+            background-color: #ffffff;
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #28a745; /* Màu xanh lá cây chủ đạo */
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            color: #333;
+            margin: 10px 0;
+        }
+        .highlight {
+            color: #28a745; /* Màu xanh lá cây chủ đạo */
+            font-weight: bold;
+        }
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            border: 2px solid #ddd;
+        }
+        .ticket-info, .customer-info {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        .ticket-info table, .customer-info table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .ticket-info table th, .ticket-info table td, 
+        .customer-info table th, .customer-info table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .ticket-info table th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        .footer a {
+            color: #28a745;
+            text-decoration: none;
+        }
+        .button {
+            display: inline-block;
+            background-color: #28a745; /* Màu xanh lá cây chủ đạo */
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #218838; /* Xanh lá đậm hơn khi hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-content">
+            <h1>Xác nhận đặt vé thành công</h1>
+            <p>Xin chào <strong class="highlight" th:text="${customerName}">[Customer Name]</strong>,</p>
+            <p>Cảm ơn bạn đã sử dụng dịch vụ của FHD Cinema!</p>
+            <p>FHD Cinema xác nhận bạn đã đặt vé xem phim <strong th:text="${movieTitle}">[Movie Title]</strong> tại rạp <strong th:text="${cinemaName}">[Cinema Name]</strong> thành công.</p>
+
+            <div class="qr-container">
+                <p>Mã đặt vé</p>
+                <p class="highlight" th:text="${bookingCode}">[Booking Code]</p>
+            </div>
+
+            <div class="ticket-info">
+                <h3>Chi tiết vé của bạn</h3>
+                <table>
+                    <tr>
+                        <th>Thời gian chiếu</th>
+                        <td th:text="${showTime}">[Showtime]</td>
+                    </tr>
+                    <tr>
+                        <th>Phim</th>
+                        <td th:text="${movieTitle}">[Movie Title]</td>
+                    </tr>
+                    <tr>
+                        <th>Phòng chiếu</th>
+                        <td th:text="${cinemaName}">[Screen Name]</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="customer-info">
+                <h3>Thông tin người nhận vé</h3>
+                <table>
+                    <tr>
+                        <th>Họ và tên</th>
+                        <td th:text="${customerName}">[Customer Name]</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td th:text="${email}">[Email]</td>
+                    </tr>
+                </table>
+            </div>
+
+            <a href="#" class="button">Quản lý vé</a>
+
+            <p>Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua <a href="#">support@fhdcinema.com</a>.</p>
+
+            <div class="footer">
+                <p>&copy; 2024 FHD Cinema. All rights reserved. | <a href="#">Visit our website</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
