@@ -1,4 +1,4 @@
-package com.company.project.email.dto.request;
+package com.company.project.module.emails.dto.request;
 
 import java.time.LocalDateTime;
 

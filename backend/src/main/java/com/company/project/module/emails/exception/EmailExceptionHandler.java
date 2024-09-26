@@ -1,10 +1,10 @@
-package com.company.project.email.exception;
+package com.company.project.module.emails.exception;
 
 import java.util.Objects;
 
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
-import com.company.project.email.common.EmailStatusMessage;
+import com.company.project.module.emails.common.EmailStatusMessage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

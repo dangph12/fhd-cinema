@@ -1,10 +1,10 @@
-package com.company.project.email.service;
+package com.company.project.module.emails.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
-import com.company.project.email.dto.request.EmailBillRequest;
-import com.company.project.email.dto.request.EmailCreationRequest;
+import com.company.project.module.emails.dto.request.EmailBillRequest;
+import com.company.project.module.emails.dto.request.EmailCreationRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

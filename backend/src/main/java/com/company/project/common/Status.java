@@ -12,11 +12,3 @@ public enum Status {
         this.value = value;
     }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/feature/receive-tickets-via-email
-=======
-
->>>>>>> origin/feature/receive-tickets-via-email

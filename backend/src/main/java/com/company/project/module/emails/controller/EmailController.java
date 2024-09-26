@@ -5,10 +5,10 @@ import jakarta.validation.Valid;
 
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
-import com.company.project.email.common.EmailStatusMessage;
-import com.company.project.email.dto.request.EmailBillRequest;
-import com.company.project.email.dto.request.EmailCreationRequest;
-import com.company.project.email.service.EmailService;
+import com.company.project.module.emails.common.EmailStatusMessage;
+import com.company.project.module.emails.dto.request.EmailBillRequest;
+import com.company.project.module.emails.dto.request.EmailCreationRequest;
+import com.company.project.module.emails.service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

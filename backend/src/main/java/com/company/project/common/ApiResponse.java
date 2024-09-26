@@ -20,13 +20,3 @@ public class ApiResponse<T> {
     String message;
     T data;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-
->>>>>>> origin/feature/receive-tickets-via-email
-=======
-
-
->>>>>>> origin/feature/receive-tickets-via-email

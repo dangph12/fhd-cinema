@@ -1,4 +1,4 @@
-package com.company.project.email.common;
+package com.company.project.module.emails.common;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.company.project.email.dto.request;
+package com.company.project.module.emails.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
