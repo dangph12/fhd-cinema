@@ -6,15 +6,15 @@ function SlideBar() {
         superLargeDesktop: {
             // the naming can be any, depends on you.
             breakpoint: { max: 4000, min: 1024 },
-            items: 4,
+            items: 3,
             slideToSlide: 3
         },
         desktop: {
-            breakpoint: { max: 1024, min: 800 },
+            breakpoint: { max: 1024, min: 500 },
             items: 3
         },
         tablet: {
-            breakpoint: { max: 800, min: 464 },
+            breakpoint: { max: 500, min: 464 },
             items: 2
         },
         mobile: {
@@ -33,37 +33,37 @@ function SlideBar() {
                     </div>
                     <Carousel responsive={responsive}>
                         <div className="card">
-                            <img className="product--image" src="img/10.jpg" />
+                            <img className="product--image" src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-9.jpg" />
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>
                         <div className="card">
-                            <img className="product--image" src="img/9.jpg" />
+                            <img className="product--image" src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-2.jpg" />
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>
                         <div className="card">
-                            <img className="product--image" src="img/8.jpg" />
+                            <img className="product--image" src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-10.jpg" />
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>
                         <div className="card">
-                            <img className="product--image" src="img/11.jpg" />
+                            <img className="product--image" src="https://bhdstar.vn/wp-content/uploads/2024/08/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-3.png" />
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>
                         <div className="card">
-                            <img className="product--image" src="img/12.jpg" />
+                            <img className="product--image" src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-13.jpg" />
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>
                         <div className="card">
-                            <img className="product--image" src="img/2.jpg" />
+                            <img className="product--image" src="https://bhdstar.vn/wp-content/uploads/2024/09/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp.png" />
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>
                         <div className="card">
-                            <img className="product--image" src="img/15.jpg" />
+                            <img className="product--image" src="https://bhdstar.vn/wp-content/uploads/2024/08/referenceSchemeHeadOfficeallowPlaceHoldertrueheight700ldapp-21.jpg" />
                             {/* <h2>Ma Da</h2>
                             <p className="price">$14</p> */}
                         </div>

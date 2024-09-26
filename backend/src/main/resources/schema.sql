@@ -3,6 +3,10 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
 -- -----------------------------------------------------
 -- Schema fhd_cinema
 -- -----------------------------------------------------
@@ -31,7 +35,6 @@ COLLATE = utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`movies` (
   `movie_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
-  `rating_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_title` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_genre` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_director` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
@@ -44,9 +47,10 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`movies` (
   `movie_description` VARCHAR(2000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_language` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_poster_url` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`movie_id`),
-  INDEX `fk_movie_ratings1_idx` (`rating_id` ASC) VISIBLE,
-  CONSTRAINT `fk_movie_ratings`
+  `rating_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`movie_id`, `rating_id`),
+  INDEX `fk_movies_ratings1_idx` (`rating_id` ASC) VISIBLE,
+  CONSTRAINT `fk_movies_ratings1`
     FOREIGN KEY (`rating_id`)
     REFERENCES `fhd_cinema`.`ratings` (`rating_id`)
     ON DELETE NO ACTION
@@ -133,34 +137,14 @@ COLLATE = utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `fhd_cinema`.`accounts`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fhd_cinema`.`accounts` (
-  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
-  `account_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `account_password` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `account_type` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`account_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------
 -- Table `fhd_cinema`.`customers`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`customers` (
   `customer_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
-  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT '',
   `customer_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_email` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`customer_id`),
-  INDEX `fk_customers_accounts_idx` (`account_id` ASC) VISIBLE,
-  CONSTRAINT `fk_customers_accounts`
-    FOREIGN KEY (`account_id`)
-    REFERENCES `fhd_cinema`.`accounts` (`account_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`customer_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
@@ -204,7 +188,6 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`seats_types` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
-
 
 -- -----------------------------------------------------
 -- Table `fhd_cinema`.`seats`
@@ -268,6 +251,20 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`snacks` (
   `snack_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `snack_price` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`snack_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `fhd_cinema`.`accounts`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`accounts` (
+  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
+  `account_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `account_password` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `account_type` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`account_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
@@ -405,21 +402,21 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `fhd_cinema`.`vouchers_has_bills`
+-- Table `fhd_cinema`.`bills_vouchers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fhd_cinema`.`vouchers_has_bills` (
-  `vouchers_voucher_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `bills_bill_id` VARCHAR(36) NOT NULL,
-  PRIMARY KEY (`vouchers_voucher_id`, `bills_bill_id`),
-  INDEX `fk_vouchers_has_bills_bills1_idx` (`bills_bill_id` ASC) VISIBLE,
-  INDEX `fk_vouchers_has_bills_vouchers1_idx` (`vouchers_voucher_id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`bills_vouchers` (
+  `bill_id` VARCHAR(36) NOT NULL,
+  `voucher_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`bill_id`, `voucher_id`),
+  INDEX `fk_vouchers_has_bills_bills1_idx` (`bill_id` ASC) VISIBLE,
+  INDEX `fk_vouchers_has_bills_vouchers1_idx` (`voucher_id` ASC) VISIBLE,
   CONSTRAINT `fk_vouchers_has_bills_vouchers1`
-    FOREIGN KEY (`vouchers_voucher_id`)
+    FOREIGN KEY (`voucher_id`)
     REFERENCES `fhd_cinema`.`vouchers` (`voucher_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_vouchers_has_bills_bills1`
-    FOREIGN KEY (`bills_bill_id`)
+    FOREIGN KEY (`bill_id`)
     REFERENCES `fhd_cinema`.`bills` (`bill_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

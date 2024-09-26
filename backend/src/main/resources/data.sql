@@ -4,22 +4,22 @@ USE fhd_cinema;
 INSERT INTO `fhd_cinema`.`ratings` 
 (`rating_id`, `rating_name`, `rating_description`)
 VALUES
-('3cdbbb96-73e0-11ef-ab6e-0242ac110002', 'P', 'Phim phổ biến với mọi độ tuổi'),
+('3cdbbb96-73e0-11ef-ab6e-0242ac110001', 'P', 'Phim phổ biến với mọi độ tuổi'),
 ('3cdbc1a0-73e0-11ef-ab6e-0242ac110002', 'K', 'Phim được phổ biến đến người xem dưới 13 tuổi với điều kiện xem cùng cha, mẹ hoặc người giám hộ'),
-('3cdbc2e2-73e0-11ef-ab6e-0242ac110002', 'T13', 'Phim phổ biến đến người xem từ 13 tuổi trở lên'),
-('3cdbc369-73e0-11ef-ab6e-0242ac110002', 'T16', 'Phim phổ biến đến người xem từ 16 tuổi trở lên'),
-('3cdbc3ee-73e0-11ef-ab6e-0242ac110002', 'T18', 'Phim phổ biến đến người xem từ 18 tuổi trở lên');
+('3cdbc2e2-73e0-11ef-ab6e-0242ac110003', 'T13', 'Phim phổ biến đến người xem từ 13 tuổi trở lên'),
+('3cdbc369-73e0-11ef-ab6e-0242ac110004', 'T16', 'Phim phổ biến đến người xem từ 16 tuổi trở lên'),
+('3cdbc3ee-73e0-11ef-ab6e-0242ac110005', 'T18', 'Phim phổ biến đến người xem từ 18 tuổi trở lên');
 
 -- Insert sample data into the 'movies' table
 INSERT INTO `fhd_cinema`.`movies`
 (`movie_id`, `rating_id`, `movie_title`, `movie_genre`, `movie_director`, `movie_cast`, `movie_status`, `movie_format`, `movie_duration_minute`, `movie_release_date`, `movie_trailer_url`, `movie_description`, `movie_language`, `movie_poster_url`)
 VALUES
-('9b7e51c0-7406-11ef-a157-0242ac110002', '3cdbc369-73e0-11ef-ab6e-0242ac110002', 'Kẻ Đánh Cắp Giấc Mơ', 'Khoa học viễn tưởng, Ly kỳ', 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page', 'Đã phát hành', 'IMAX', '148', '2010-07-16', 'https://www.youtube.com/watch?v=YoHD9XEInc0', 'Một tên trộm bước vào giấc mơ để đánh cắp bí mật và phải gieo ý tưởng vào tiềm thức của một người.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
+('9b7e51c0-7406-11ef-a157-0242ac110001', '3cdbc369-73e0-11ef-ab6e-0242ac110001', 'Kẻ Đánh Cắp Giấc Mơ', 'Khoa học viễn tưởng, Ly kỳ', 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt, Ellen Page', 'Đã phát hành', 'IMAX', '148', '2010-07-16', 'https://www.youtube.com/watch?v=YoHD9XEInc0', 'Một tên trộm bước vào giấc mơ để đánh cắp bí mật và phải gieo ý tưởng vào tiềm thức của một người.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
 ('9b7ef395-7406-11ef-a157-0242ac110002', '3cdbc369-73e0-11ef-ab6e-0242ac110002', 'Hiệp Sĩ Bóng Đêm', 'Hành động, Kịch tính', 'Christopher Nolan', 'Christian Bale, Heath Ledger, Aaron Eckhart', 'Đã phát hành', 'IMAX', '152', '2008-07-18', 'https://www.youtube.com/watch?v=EXeTwQWrcwY', 'Người Dơi đối đầu với Joker, một tên tội phạm thiên tài tạo ra hỗn loạn ở Gotham.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/the-dark-knight.jpg'),
-('9b7ef707-7406-11ef-a157-0242ac110002', '3cdbc2e2-73e0-11ef-ab6e-0242ac110002', 'Titanic', 'Kịch tính, Lãng mạn', 'James Cameron', 'Leonardo DiCaprio, Kate Winslet', 'Đã phát hành', '2D', '195', '1997-12-19', 'https://www.youtube.com/watch?v=kVrqfYjkTdQ', 'Một câu chuyện tình yêu trên tàu RMS Titanic xấu số giữa một họa sĩ nghèo và một cô gái trẻ giàu có.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/titanic.jpg'),
-('9b7ef868-7406-11ef-a157-0242ac110002', '3cdbc369-73e0-11ef-ab6e-0242ac110002', 'Ma Trận', 'Khoa học viễn tưởng, Hành động', 'The Wachowskis', 'Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss', 'Đã phát hành', 'IMAX', '136', '1999-03-31', 'https://www.youtube.com/watch?v=vKQi3bBA1y8', 'Một hacker phát hiện ra thế giới mà anh ta sống chỉ là một thực tại ảo do máy móc điều khiển.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/matrix.jpg'),
-('9b7ef999-7406-11ef-a157-0242ac110002', '3cdbc369-73e0-11ef-ab6e-0242ac110002', 'Biệt Đội Siêu Anh Hùng: Hồi Kết', 'Hành động, Phiêu lưu, Khoa học viễn tưởng', 'Anthony và Joe Russo', 'Robert Downey Jr., Chris Evans, Mark Ruffalo', 'Đã phát hành', 'IMAX', '181', '2019-04-26', 'https://www.youtube.com/watch?v=TcMBFSGVi1c', 'Biệt Đội Siêu Anh Hùng tập hợp lại để khôi phục những gì đã mất sau cú búng tay của Thanos và cứu vũ trụ.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/avergers-endgame.jpg'),
-('9b7efe4a-7406-11ef-a157-0242ac110002', '3cdbbb96-73e0-11ef-ab6e-0242ac110002', 'Nữ Hoàng Băng Giá 2', 'Hoạt hình, Phiêu lưu, Hài hước', 'Chris Buck, Jennifer Lee', 'Kristen Bell, Idina Menzel, Josh Gad', 'Đã phát hành', '3D', '103', '2019-11-22', 'https://www.youtube.com/watch?v=bwzLiQZDw2I', 'Elsa, Anna, Kristoff, Olaf và Sven bắt đầu hành trình khám phá nguồn gốc sức mạnh của Elsa.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/frozen-ii.jpg');
+('9b7ef707-7406-11ef-a157-0242ac110003', '3cdbc2e2-73e0-11ef-ab6e-0242ac110003', 'Titanic', 'Kịch tính, Lãng mạn', 'James Cameron', 'Leonardo DiCaprio, Kate Winslet', 'Đã phát hành', '2D', '195', '1997-12-19', 'https://www.youtube.com/watch?v=kVrqfYjkTdQ', 'Một câu chuyện tình yêu trên tàu RMS Titanic xấu số giữa một họa sĩ nghèo và một cô gái trẻ giàu có.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/titanic.jpg'),
+('9b7ef868-7406-11ef-a157-0242ac110004', '3cdbc369-73e0-11ef-ab6e-0242ac110004', 'Ma Trận', 'Khoa học viễn tưởng, Hành động', 'The Wachowskis', 'Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss', 'Đã phát hành', 'IMAX', '136', '1999-03-31', 'https://www.youtube.com/watch?v=vKQi3bBA1y8', 'Một hacker phát hiện ra thế giới mà anh ta sống chỉ là một thực tại ảo do máy móc điều khiển.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/matrix.jpg'),
+('9b7ef999-7406-11ef-a157-0242ac110005', '3cdbc369-73e0-11ef-ab6e-0242ac110005', 'Biệt Đội Siêu Anh Hùng: Hồi Kết', 'Hành động, Phiêu lưu, Khoa học viễn tưởng', 'Anthony và Joe Russo', 'Robert Downey Jr., Chris Evans, Mark Ruffalo', 'Đã phát hành', 'IMAX', '181', '2019-04-26', 'https://www.youtube.com/watch?v=TcMBFSGVi1c', 'Biệt Đội Siêu Anh Hùng tập hợp lại để khôi phục những gì đã mất sau cú búng tay của Thanos và cứu vũ trụ.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/avergers-endgame.jpg'),
+('9b7efe4a-7406-11ef-a157-0242ac110006', '3cdbbb96-73e0-11ef-ab6e-0242ac110001', 'Nữ Hoàng Băng Giá 2', 'Hoạt hình, Phiêu lưu, Hài hước', 'Chris Buck, Jennifer Lee', 'Kristen Bell, Idina Menzel, Josh Gad', 'Đã phát hành', '3D', '103', '2019-11-22', 'https://www.youtube.com/watch?v=bwzLiQZDw2I', 'Elsa, Anna, Kristoff, Olaf và Sven bắt đầu hành trình khám phá nguồn gốc sức mạnh của Elsa.', 'Phụ đề', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/frozen-ii.jpg');
 
 
 INSERT INTO `fhd_cinema`.`locations`
@@ -71,19 +71,19 @@ VALUES
 INSERT INTO `fhd_cinema`.`showtimes`
 (`showtime_id`, `movie_id`, `screen_id`, `showtime_price`, `showtime_at`)
 VALUES
-('c85a675a-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110002', 'fc969400-7409-11ef-a157-0242ac110002', '100000', '2024-09-17 14:00:00'),
-('c85a9cf6-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110002', 'fc96c25f-7409-11ef-a157-0242ac110002', '100000', '2024-09-17 18:00:00'),
-('c85aa26c-740a-11ef-a157-0242ac110002', '9b7ef395-7406-11ef-a157-0242ac110002', 'fc96c904-7409-11ef-a157-0242ac110002', '120000', '2024-09-17 16:00:00'),
-('c85aa525-740a-11ef-a157-0242ac110002', '9b7ef395-7406-11ef-a157-0242ac110002', 'fc96cc42-7409-11ef-a157-0242ac110002', '120000', '2024-09-18 20:00:00'),
-('c85aa8fe-740a-11ef-a157-0242ac110002', '9b7ef707-7406-11ef-a157-0242ac110002', 'fc96d320-7409-11ef-a157-0242ac110002', '90000', '2024-09-17 13:00:00'),
-('c85aab47-740a-11ef-a157-0242ac110002', '9b7ef707-7406-11ef-a157-0242ac110002', 'fc96d5b7-7409-11ef-a157-0242ac110002', '90000', '2024-09-18 15:00:00'),
-('c85aad95-740a-11ef-a157-0242ac110002', '9b7ef868-7406-11ef-a157-0242ac110002', 'fc96d7f3-7409-11ef-a157-0242ac110002', '110000', '2024-09-17 19:00:00'),
-('c85aafd8-740a-11ef-a157-0242ac110002', '9b7ef868-7406-11ef-a157-0242ac110002', 'fc96da55-7409-11ef-a157-0242ac110002', '110000', '2024-09-18 21:00:00'),
-('c85ab25a-740a-11ef-a157-0242ac110002', '9b7ef999-7406-11ef-a157-0242ac110002', 'fc96dc8b-7409-11ef-a157-0242ac110002', '150000', '2024-09-17 20:00:00'),
-('c85ab4bf-740a-11ef-a157-0242ac110002', '9b7efe4a-7406-11ef-a157-0242ac110002', 'fc96deaf-7409-11ef-a157-0242ac110002', '95000', '2024-09-17 12:00:00'),
-('c85ab730-740a-11ef-a157-0242ac110002', '9b7efe4a-7406-11ef-a157-0242ac110002', 'fc96e0eb-7409-11ef-a157-0242ac110002', '95000', '2024-09-18 14:00:00'),
-('c85ab985-740a-11ef-a157-0242ac110002', '9b7efe4a-7406-11ef-a157-0242ac110002', 'fc96e308-7409-11ef-a157-0242ac110002', '95000', '2024-09-18 16:00:00'),
-('c85abbf8-740a-11ef-a157-0242ac110002', '9b7efe4a-7406-11ef-a157-0242ac110002', 'fc96e541-7409-11ef-a157-0242ac110002', '95000', '2024-09-18 18:00:00');
+('c85a675a-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc969400-7409-11ef-a157-0242ac110002', '100000', '2024-09-17 14:00:00'),
+('c85a9cf6-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96c25f-7409-11ef-a157-0242ac110002', '100000', '2024-09-17 18:00:00'),
+('c85aa26c-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96c904-7409-11ef-a157-0242ac110002', '120000', '2024-09-17 16:00:00'),
+('c85aa525-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96cc42-7409-11ef-a157-0242ac110002', '120000', '2024-09-18 20:00:00'),
+('c85aa8fe-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96d320-7409-11ef-a157-0242ac110002', '90000', '2024-09-17 13:00:00'),
+('c85aab47-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96d5b7-7409-11ef-a157-0242ac110002', '90000', '2024-09-18 15:00:00'),
+('c85aad95-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96d7f3-7409-11ef-a157-0242ac110002', '110000', '2024-09-17 19:00:00'),
+('c85aafd8-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96da55-7409-11ef-a157-0242ac110002', '110000', '2024-09-18 21:00:00'),
+('c85ab25a-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96dc8b-7409-11ef-a157-0242ac110002', '150000', '2024-09-17 20:00:00'),
+('c85ab4bf-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96deaf-7409-11ef-a157-0242ac110002', '95000', '2024-09-17 12:00:00'),
+('c85ab730-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96e0eb-7409-11ef-a157-0242ac110002', '95000', '2024-09-18 14:00:00'),
+('c85ab985-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96e308-7409-11ef-a157-0242ac110002', '95000', '2024-09-18 16:00:00'),
+('c85abbf8-740a-11ef-a157-0242ac110002', '9b7e51c0-7406-11ef-a157-0242ac110001', 'fc96e541-7409-11ef-a157-0242ac110002', '95000', '2024-09-18 18:00:00');
 
 INSERT INTO `fhd_cinema`.`seats_types`
 (`seat_type_id`, `seat_type_name`, `seat_type_price`)
@@ -546,3 +546,5 @@ VALUES
 ('77afcc45-74e0-11ef-bc52-0242ac110002', 'c85aad95-740a-11ef-a157-0242ac110002', '77aee4c4-74e0-11ef-bc52-0242ac110002', '180000', '2024-09-17 18:00:00'),
 ('77afced6-74e0-11ef-bc52-0242ac110002', 'c85aafd8-740a-11ef-a157-0242ac110002', '77aee6c1-74e0-11ef-bc52-0242ac110002', '120000', '2024-09-17 20:00:00'),
 ('77afd161-74e0-11ef-bc52-0242ac110002', 'c85ab25a-740a-11ef-a157-0242ac110002', '77aee9ce-74e0-11ef-bc52-0242ac110002', '200000', '2024-09-17 22:00:00');
+
+

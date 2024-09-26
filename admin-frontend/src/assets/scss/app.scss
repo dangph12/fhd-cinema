@@ -1,0 +1,63 @@
+/*
+Template Name: Rizz - Admin & Dashboard Template
+Author: Mannatthemes
+Version: 3.1.0
+File: App Css
+*/
+
+//Core files
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+
+@import "config/variables";
+@import "config/variables-dark";
+
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap/scss/mixins";
+@import "nouislider/distribute/nouislider.css";
+
+// @import "../../../node_modules/bootstrap/scss/bootstrap";
+
+@import "flatpickr/dist/flatpickr.css";
+
+@import "componets/alerts";
+@import "componets/breadcrumb";
+@import "componets/buttons";
+@import "componets/cards";
+@import "componets/dropdowns";
+@import "componets/forms";
+@import "componets/modals";
+@import "componets/pages";
+@import "componets/progress";
+@import "componets/root";
+@import "componets/spinner";
+@import "componets/tables";
+@import "componets/tab-tooltip";
+@import "componets/utilities";
+@import "componets/preloader";
+
+@import "structure/startbar";
+@import "structure/topbar";
+@import "structure/footer";
+
+@import "pages/chat";
+@import "pages/kanban";
+@import "pages/pricing";
+@import "pages/print";
+@import "pages/rating";
+@import "pages/ribbons";
+@import "pages/timeline";
+
+
+@import "plugins/calendar";
+@import "plugins/custom-scrollbar";
+@import "plugins/charts";
+@import "plugins/maps";
+@import "plugins/prismjs";
+@import "plugins/sweet-alert";
+@import "plugins/ui-slider";
+@import "plugins/tree";
+@import "custom-react";
+@import "plugins/flatpicker";
+@import "plugins/dropzone";
+@import "plugins/react-select";
