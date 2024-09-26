@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`movies` (
   `movie_language` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_poster_url` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `rating_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`movie_id`, `rating_id`),
+  PRIMARY KEY (`movie_id`),
   INDEX `fk_movies_ratings1_idx` (`rating_id` ASC) VISIBLE,
   CONSTRAINT `fk_movies_ratings1`
     FOREIGN KEY (`rating_id`)
