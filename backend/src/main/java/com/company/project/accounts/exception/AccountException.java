@@ -6,10 +6,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AccountException extends RuntimeException {
-    private AccountErrorCode accountErrorCode;
+    private final int code;
+    private final String message;
 
-    public AccountException(AccountErrorCode accountErrorCode) {
-        super(accountErrorCode.getMessage());
-        this.accountErrorCode = accountErrorCode;
+    public AccountException(int code, String message) {
+        super(message);
+        this.code = code;
+        this.message = message;
     }
 }

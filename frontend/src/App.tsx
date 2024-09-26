@@ -7,6 +7,11 @@ import LoginPage from "./modules/auth/LoginPage";
 
 import FilmDetails from "./modules/film-details/FilmDetails";
 import OrderTicket from "./modules/orders/OrderTicket";
+import SeatSelection from "./components/Seats/SeatSelection";
+import TicketInform from "./components/payment-inform/TicketInform";
+import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
+import FilmTime from "./components/FilmTime";
+
 import Home from "./components/Home";
 
 
@@ -15,9 +20,10 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      {/* <MovieCard/> */}
-      {/* <SeatSelection/> */}
-
+      docker compose up -d --build
+      {/* <Ticket/> */}
+      {/* <FilmTime/> */}
+      {/* <OrderFood/> */}
       {/* <SlideShow /> */}
       {/* <SlideBar /> */}
       {/* <Banner /> */}
@@ -31,9 +37,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/description" element={<FilmDetails/>} /> */}
-        <Route path="/orderTicket" element={<OrderTicket />} />
-        <Route path="/description/:movieId" element={<FilmDetails />} />
+        <Route path="/description" element={<FilmDetails/>} />
+        <Route path="/orderTicket" element={<OrderTicket/>} />
+        <Route path="/seatselection" element={<SeatSelection/>} />
+        <Route path="/cart.html" element={<FilmTime/>} />
+        <Route path="/orderfood" element={<OrderFood/>} />
+        <Route path="/ticketinform" element={<TicketInform/>} />
+    
+
+        
+
       </Routes>
 
 

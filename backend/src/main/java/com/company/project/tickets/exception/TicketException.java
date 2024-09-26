@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 public class TicketException extends RuntimeException {
 
-  private int code;
+  private final int code;
   private final String message;
 
   public TicketException(int code, String message) {

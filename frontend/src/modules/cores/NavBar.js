@@ -65,7 +65,6 @@ const NavBar = (props) => {
 
                             {/* <li><a className="nav-link" href="/users"><img src="img/user.svg" /></a></li> */}
 
-
                         </ul>
                     </div>
                 </div>
