@@ -1,6 +1,5 @@
 USE fhd_cinema;
 
--- Insert sample data into the 'ratings' table adjusted for Vietnam standards
 INSERT INTO `fhd_cinema`.`ratings` 
 (`rating_id`, `rating_name`, `rating_description`)
 VALUES
@@ -10,7 +9,6 @@ VALUES
 ('3cdbc369-73e0-11ef-ab6e-0242ac110004', 'T16', 'Phim phổ biến đến người xem từ 16 tuổi trở lên'),
 ('3cdbc3ee-73e0-11ef-ab6e-0242ac110005', 'T18', 'Phim phổ biến đến người xem từ 18 tuổi trở lên');
 
--- Insert sample data into the 'movies' table
 INSERT INTO `fhd_cinema`.`movies`
 (`movie_id`, `rating_id`, `movie_title`, `movie_genre`, `movie_director`, `movie_cast`, `movie_status`, `movie_format`, `movie_duration_minute`, `movie_release_date`, `movie_trailer_url`, `movie_description`, `movie_language`, `movie_poster_url`)
 VALUES
@@ -574,4 +572,62 @@ VALUES
 ('77afced6-74e0-11ef-bc52-0242ac110002', 'c85aafd8-740a-11ef-a157-0242ac110002', '77aee6c1-74e0-11ef-bc52-0242ac110002', '120000', '2024-09-17 20:00:00'),
 ('77afd161-74e0-11ef-bc52-0242ac110002', 'c85ab25a-740a-11ef-a157-0242ac110002', '77aee9ce-74e0-11ef-bc52-0242ac110002', '200000', '2024-09-17 22:00:00');
 
+INSERT INTO `fhd_cinema`.`tickets` (`ticket_id`, `seat_id`, `booking_id`, `ticket_price`, `ticket_create_at`)
+VALUES
+('3e442a76-7c1e-11ef-98e7-0242ac110002', '0b5e809d-740d-11ef-a157-0242ac110002', '77afbbd1-74e0-11ef-bc52-0242ac110002', '150000', '2024-09-26 15:44:40'),
+('3e44301a-7c1e-11ef-98e7-0242ac110002', '0b5eb23b-740d-11ef-a157-0242ac110002', '77afc763-74e0-11ef-bc52-0242ac110002', '200000', '2024-09-26 15:44:40'),
+('3e443225-7c1e-11ef-98e7-0242ac110002', '0b5eb7e5-740d-11ef-a157-0242ac110002', '77afcc45-74e0-11ef-bc52-0242ac110002', '180000', '2024-09-26 15:44:40'),
+('3e44331f-7c1e-11ef-98e7-0242ac110002', '0b5eba7d-740d-11ef-a157-0242ac110002', '77afced6-74e0-11ef-bc52-0242ac110002', '120000', '2024-09-26 15:44:40'),
+('3e443414-7c1e-11ef-98e7-0242ac110002', '0b5ebcd8-740d-11ef-a157-0242ac110002', '77afd161-74e0-11ef-bc52-0242ac110002', '200000', '2024-09-26 15:44:40');
 
+INSERT INTO `fhd_cinema`.`bills` (`bill_id`, `bill_amount`, `is_paid`, `bill_created_at`, `booking_id`)
+VALUES
+('f0bd5db8-7c1e-11ef-98e7-0242ac110002', '150000', '0', '2024-09-17 14:05:00', '77afbbd1-74e0-11ef-bc52-0242ac110002'),
+('f0bd63f3-7c1e-11ef-98e7-0242ac110002', '200000', '0', '2024-09-17 16:05:00', '77afc763-74e0-11ef-bc52-0242ac110002'),
+('f0bd65fa-7c1e-11ef-98e7-0242ac110002', '180000', '0', '2024-09-17 18:05:00', '77afcc45-74e0-11ef-bc52-0242ac110002'),
+('f0bd6771-7c1e-11ef-98e7-0242ac110002', '120000', '0', '2024-09-17 20:05:00', '77afced6-74e0-11ef-bc52-0242ac110002'),
+('f0bd68d8-7c1e-11ef-98e7-0242ac110002', '200000', '0', '2024-09-17 22:05:00', '77afd161-74e0-11ef-bc52-0242ac110002');
+
+INSERT INTO `fhd_cinema`.`staff_roles` (`staff_role_id`, `staff_role_name`, `staff_role_type`)
+VALUES
+('13064a54-7c20-11ef-98e7-0242ac110002', 'Manager', '1'),
+('13064f83-7c20-11ef-98e7-0242ac110002', 'Cashier', '3'),
+('1306511e-7c20-11ef-98e7-0242ac110002', 'Technician', '1'),
+('13065205-7c20-11ef-98e7-0242ac110002', 'Cleaner', '3'),
+('130652dc-7c20-11ef-98e7-0242ac110002', 'Security', '2');
+
+INSERT INTO `fhd_cinema`.`staffs`
+(`staff_id`, `account_id`, `staff_role_id`, `staff_name`)
+VALUES
+('02297517-7c21-11ef-98e7-0242ac110002', '77ad8674-74e0-11ef-bc52-0242ac110002', '13064a54-7c20-11ef-98e7-0242ac110002', 'John Doe'),
+('02297b14-7c21-11ef-98e7-0242ac110002', '77ad8fc8-74e0-11ef-bc52-0242ac110002', '13064f83-7c20-11ef-98e7-0242ac110002', 'Jane Smith'),
+('02297dab-7c21-11ef-98e7-0242ac110002', '77ad9225-74e0-11ef-bc52-0242ac110002', '1306511e-7c20-11ef-98e7-0242ac110002', 'Alice Walker'),
+('02297f97-7c21-11ef-98e7-0242ac110002', '77ad935a-74e0-11ef-bc52-0242ac110002', '13065205-7c20-11ef-98e7-0242ac110002', 'Bob Jones'),
+('02298189-7c21-11ef-98e7-0242ac110002', '77ad9471-74e0-11ef-bc52-0242ac110002', '130652dc-7c20-11ef-98e7-0242ac110002', 'Chris Evans');
+
+INSERT INTO `fhd_cinema`.`customers_vouchers`
+(`customer_id`, `voucher_id`)
+VALUES
+('77aed232-74e0-11ef-bc52-0242ac110002', 'c6a2e034-7411-11ef-a157-0242ac110002'), 
+('77aee0db-74e0-11ef-bc52-0242ac110002', 'c6a3013f-7411-11ef-a157-0242ac110002'), 
+('77aee4c4-74e0-11ef-bc52-0242ac110002', 'c6a302be-7411-11ef-a157-0242ac110002'), 
+('77aee6c1-74e0-11ef-bc52-0242ac110002', 'c6a30360-7411-11ef-a157-0242ac110002'), 
+('77aee9ce-74e0-11ef-bc52-0242ac110002', 'c6a30404-7411-11ef-a157-0242ac110002'); 
+
+INSERT INTO `fhd_cinema`.`bills_vouchers`
+(`bill_id`, `voucher_id`)
+VALUES
+('f0bd5db8-7c1e-11ef-98e7-0242ac110002', 'c6a2e034-7411-11ef-a157-0242ac110002'),
+('f0bd63f3-7c1e-11ef-98e7-0242ac110002', 'c6a3013f-7411-11ef-a157-0242ac110002'),
+('f0bd65fa-7c1e-11ef-98e7-0242ac110002', 'c6a302be-7411-11ef-a157-0242ac110002'),
+('f0bd6771-7c1e-11ef-98e7-0242ac110002', 'c6a30360-7411-11ef-a157-0242ac110002'),
+('f0bd68d8-7c1e-11ef-98e7-0242ac110002', 'c6a30404-7411-11ef-a157-0242ac110002');
+
+INSERT INTO `fhd_cinema`.`bookings_snacks`
+(`booking_id`, `snack_id`)
+VALUES
+('77afbbd1-74e0-11ef-bc52-0242ac110002', '68fdaa74-7411-11ef-a157-0242ac110002'),
+('77afc763-74e0-11ef-bc52-0242ac110002', '68fde09d-7411-11ef-a157-0242ac110002'), 
+('77afcc45-74e0-11ef-bc52-0242ac110002', '68fde312-7411-11ef-a157-0242ac110002'), 
+('77afced6-74e0-11ef-bc52-0242ac110002', '68fde5b8-7411-11ef-a157-0242ac110002'),
+('77afd161-74e0-11ef-bc52-0242ac110002', '68fdf253-7411-11ef-a157-0242ac110002'); 
