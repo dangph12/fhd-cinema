@@ -596,3 +596,20 @@ h2 {
   font-size: 16px;
   color: #777;
 }
+
+/* film time  */
+.showtime-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px; /* Spacing between rows */
+}
+
+.time-button {
+  width: 30%; /* Adjust the width of each button to fit 3 in a row */
+  padding: 10px;
+  background-color:  #3b8d00;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 5px;
+}

@@ -189,86 +189,348 @@
 // export default FilmTime;
 
 
+// import React, { useEffect, useState } from 'react';
+// import { useNavigate, useParams } from "react-router-dom";
+// import { fetchShowTime } from '../../../components/services/UserService';
+
+// const FilmTime = () => {
+//     const navigate = useNavigate(); // Hook để điều hướng
+
+//     // Hàm điều hướng đến trang chọn ghế
+//     const goToSeatSelection = () => {
+//         navigate('/seatselection');
+//     };
+
+//     const { showtimeId } = useParams(); // Lấy showtimeId từ URL
+//     const [showTime, setShowTime] = useState([]); // Khởi tạo mảng showtimes trống 
+
+//     // Gọi API lấy showtimes khi component được render
+//     useEffect(() => {
+//         getShowTimes();
+//     }, []);
+
+//     // Hàm lấy showtimes dựa trên showtimeId
+//     const getShowTimes = async () => {
+//         let res = await fetchShowTime();
+//         if (res && res.data) {
+//             setShowTime(res.data.data); // Giả sử res.data.data là mảng showtimes
+//         }
+//     };
+
+//     console.log(showTime); // Kiểm tra dữ liệu showtimes trong console
+
+//     // Chia danh sách showtimes thành hai phần
+//     const half = Math.ceil(showTime.length / 2);
+//     const firstHalf = showTime.slice(0, half);
+//     const secondHalf = showTime.slice(half);
+
+//     return (
+//         <div>
+//             <div className="container">
+//                 {/* Phần hiển thị rạp chiếu và thời gian chiếu */}
+//                 <div className="cinema">
+//                     <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+//                     <div className="cinema-info">
+//                         <h3>BHD Cinema</h3>
+//                         <p>Tầng 4 & 5, TTTM The Garden, khu đô thị The Manor, đường Mễ Trì, phường Mỹ Đình 1, quận Nam Từ Liêm, Hà Nội</p>
+//                     </div>
+
+//                     {/* Hiển thị danh sách showtimes của rạp đầu tiên */}
+//                     <div className="showtimes">
+//                         {firstHalf.length > 0 ? (
+//                             firstHalf.map((items, index) => (
+//                                 <button key={index} className="time-button" onClick={goToSeatSelection}>
+//                                     {items.showtimeAt} {/* Hiển thị thời gian chiếu */}
+//                                 </button>
+//                             ))
+//                         ) : (
+//                             <p>Không có suất chiếu nào cho phim này.</p>
+//                         )}
+//                     </div>
+//                 </div>
+
+//                 {/* Phần hiển thị cho rạp thứ hai */}
+//                 <div className="cinema">
+//                     <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+//                     <div className="cinema-info">
+//                         <h3>BHD Cinema</h3>
+//                         <p>Tầng 8, TTTM Discovery - 302 Cầu Giấy, Hà Nội</p>
+//                     </div>
+
+//                     {/* Hiển thị danh sách showtimes của rạp thứ hai */}
+//                     <div className="showtimes">
+//                         {secondHalf.length > 0 ? (
+//                             secondHalf.map((items, index) => (
+//                                 <button key={index} className="time-button" onClick={goToSeatSelection}>
+//                                     {items.showtimeAt} {/* Hiển thị thời gian chiếu */}
+//                                 </button>
+//                             ))
+//                         ) : (
+//                             <p>Không có suất chiếu nào cho phim này.</p>
+//                         )}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default FilmTime;
+
+
+// import React, { useEffect, useState } from 'react';
+// import { useNavigate, useParams } from "react-router-dom";
+// import { fetchShowTime } from '../../../components/services/UserService';
+
+// const FilmTime = () => {
+//     const navigate = useNavigate(); // Hook để điều hướng
+
+//     // Hàm điều hướng đến trang chọn ghế
+//     const goToSeatSelection = () => {
+//         navigate('/seatselection');
+//     };
+
+//     const { showtimeId } = useParams(); // Lấy showtimeId từ URL
+//     const [showTime, setShowTime] = useState([]); // Khởi tạo mảng showtimes trống 
+
+//     // Gọi API lấy showtimes khi component được render
+//     useEffect(() => {
+//         getShowTimes();
+//     }, []);
+
+//     // Hàm lấy showtimes dựa trên showtimeId
+//     const getShowTimes = async () => {
+//         let res = await fetchShowTime();
+//         if (res && res.data) {
+//             setShowTime(res.data.data); // Giả sử res.data.data là mảng showtimes
+//         }
+//     };
+
+//     console.log(showTime); // Kiểm tra dữ liệu showtimes trong console
+
+//     // Chia danh sách showtimes thành hai phần
+//     const half = Math.ceil(showTime.length / 2);
+//     const firstHalf = showTime.slice(0, half);
+//     const secondHalf = showTime.slice(half);
+
+//     // Helper function to group showtimes in chunks of 3
+//     const groupShowtimes = (showtimes) => {
+//         const result = [];
+//         for (let i = 0; i < showtimes.length; i += 3) {
+//             result.push(showtimes.slice(i, i + 3));
+//         }
+//         return result;
+//     };
+
+//     return (
+//         <div>
+//             <div className="container">
+//                 {/* Phần hiển thị rạp chiếu và thời gian chiếu */}
+//                 <div className="cinema">
+//                     <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+//                     <div className="cinema-info">
+//                         <h3>BHD Cinema</h3>
+//                         <p>Tầng 8, TTTM Discovery - 302 Cầu Giấy, Hà Nội</p>
+//                         {/* <p>Tầng 4 & 5, TTTM The Garden, khu đô thị The Manor, đường Mễ Trì, phường Mỹ Đình 1, quận Nam Từ Liêm, Hà Nội</p> */}
+//                     </div>
+
+//                     {/* Hiển thị danh sách showtimes của rạp đầu tiên */}
+//                     <div className="showtimes">
+//                         {firstHalf.length > 0 ? (
+//                             groupShowtimes(firstHalf).map((row, rowIndex) => (
+//                                 <div key={rowIndex} className="showtime-row">
+//                                     {row.map((items, index) => (
+//                                         <button key={index} className="time-button" onClick={goToSeatSelection}>
+//                                             {items.showtimeAt} {/* Hiển thị thời gian chiếu */}
+//                                         </button>
+//                                     ))}
+//                                 </div>
+//                             ))
+//                         ) : (
+//                             <p>Không có suất chiếu nào cho phim này.</p>
+//                         )}
+//                     </div>
+//                 </div>
+
+//                 {/* Phần hiển thị cho rạp thứ hai */}
+//                 <div className="cinema">
+//                     <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+//                     <div className="cinema-info">
+//                         <h3>BHD Cinema</h3>
+//                         <p>Tầng 8, TTTM Discovery - 302 Cầu Giấy, Hà Nội</p>
+//                     </div>
+
+//                     {/* Hiển thị danh sách showtimes của rạp thứ hai */}
+//                     <div className="showtimes">
+//                         {secondHalf.length > 0 ? (
+//                             groupShowtimes(secondHalf).map((row, rowIndex) => (
+//                                 <div key={rowIndex} className="showtime-row">
+//                                     {row.map((items, index) => (
+//                                         <button key={index} className="time-button" onClick={goToSeatSelection}>
+//                                             {items.showtimeAt} {/* Hiển thị thời gian chiếu */}
+//                                         </button>
+//                                     ))}
+//                                 </div>
+//                             ))
+//                         ) : (
+//                             <p>Không có suất chiếu nào cho phim này.</p>
+//                         )}
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default FilmTime;
+
+
+//  in ra hết 
+// import React, { useEffect, useState } from 'react';
+// import { useNavigate, useParams } from "react-router-dom";
+// import { fetchShowTime } from '../../../components/services/UserService';
+
+// const FilmTime = () => {
+//     const navigate = useNavigate();
+
+//     const goToSeatSelection = () => {
+//         navigate('/seatselection');
+//     };
+
+//     const { showtimeId } = useParams();
+//     const [showTime, setShowTime] = useState([]);
+
+//     useEffect(() => {
+//         getShowTimes();
+//     }, []);
+
+//     const getShowTimes = async () => {
+//         let res = await fetchShowTime();
+//         if (res && res.data) {
+//             setShowTime(res.data.data);
+//         }
+//     };
+
+//     console.log(showTime);
+
+//     const half = Math.ceil(showTime.length / 2);
+//     const firstHalf = showTime.slice(0, half);
+//     const secondHalf = showTime.slice(half);
+
+//     return (
+//         <div className="film-time-container">
+//             <div className="cinema">
+//                 <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+//                 <div className="cinema-info">
+//                     <h3>BHD Cinema</h3>
+//                     <p>Tầng 4 & 5, TTTM The Garden, khu đô thị The Manor, đường Mễ Trì, phường Mỹ Đình 1, quận Nam Từ Liêm, Hà Nội</p>
+//                 </div>
+//                 <div className="showtimes">
+//                     {firstHalf.length > 0 ? (
+//                         firstHalf.map((items, index) => (
+//                             <button key={index} className="time-button" onClick={goToSeatSelection}>
+//                                 {items.showtimeAt}
+//                             </button>
+//                         ))
+//                     ) : (
+//                         <p>Không có suất chiếu nào cho phim này.</p>
+//                     )}
+//                 </div>
+//             </div>
+
+//             <div className="cinema">
+//                 <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+//                 <div className="cinema-info">
+//                     <h3>BHD Cinema</h3>
+//                     <p>Tầng 8, TTTM Discovery - 302 Cầu Giấy, Hà Nội</p>
+//                 </div>
+//                 <div className="showtimes">
+//                     {secondHalf.length > 0 ? (
+//                         secondHalf.map((items, index) => (
+//                             <button key={index} className="time-button" onClick={goToSeatSelection}>
+//                                 {items.showtimeAt}
+//                             </button>
+//                         ))
+//                     ) : (
+//                         <p>Không có suất chiếu nào cho phim này.</p>
+//                     )}
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default FilmTime;
+
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchShowTime } from '../../../components/services/UserService';
 
 const FilmTime = () => {
-    const navigate = useNavigate(); // Hook để điều hướng
+    const navigate = useNavigate();
+    const { movieId } = useParams();  // Lấy movieId từ URL
 
-    // Hàm điều hướng đến trang chọn ghế
     const goToSeatSelection = () => {
         navigate('/seatselection');
     };
 
-    const { showtimeId } = useParams(); // Lấy showtimeId từ URL
-    const [showTime, setShowTime] = useState([]); // Khởi tạo mảng showtimes trống 
+    const [showTime, setShowTime] = useState([]);
 
-    // Gọi API lấy showtimes khi component được render
     useEffect(() => {
-        getShowTimes();
-    }, []);
+        getShowTimes(movieId);  // Truyền movieId khi gọi API
+    }, [movieId]);
 
-    // Hàm lấy showtimes dựa trên showtimeId
-    const getShowTimes = async () => {
-        let res = await fetchShowTime();
+    const getShowTimes = async (movieId) => {
+        let res = await fetchShowTime(movieId);  // Truyền movieId vào API
         if (res && res.data) {
-            setShowTime(res.data.data); // Giả sử res.data.data là mảng showtimes
+            setShowTime(res.data.data);  // Cập nhật danh sách suất chiếu từ API
         }
     };
 
-    console.log(showTime); // Kiểm tra dữ liệu showtimes trong console
+    console.log(showTime);
 
-    // Chia danh sách showtimes thành hai phần
     const half = Math.ceil(showTime.length / 2);
     const firstHalf = showTime.slice(0, half);
     const secondHalf = showTime.slice(half);
 
     return (
-        <div>
-            <div className="container">
-                {/* Phần hiển thị rạp chiếu và thời gian chiếu */}
-                <div className="cinema">
-                    <img src="img/logo-100x100.png" alt="BHD Logo" className="logo" />
-                    <div className="cinema-info">
-                        <h3>BHD Cinema</h3>
-                        <p>Tầng 4 & 5, TTTM The Garden, khu đô thị The Manor, đường Mễ Trì, phường Mỹ Đình 1, quận Nam Từ Liêm, Hà Nội</p>
-                    </div>
-
-                    {/* Hiển thị danh sách showtimes của rạp đầu tiên */}
-                    <div className="showtimes">
-                        {firstHalf.length > 0 ? (
-                            firstHalf.map((items, index) => (
-                                <button key={index} className="time-button" onClick={goToSeatSelection}>
-                                    {items.showtimeAt} {/* Hiển thị thời gian chiếu */}
-                                </button>
-                            ))
-                        ) : (
-                            <p>Không có suất chiếu nào cho phim này.</p>
-                        )}
-                    </div>
+        <div className="film-time-container">
+            <div className="cinema">
+                <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+                <div className="cinema-info">
+                    <h3>BHD Cinema</h3>
+                    <p>Tầng 4 & 5, TTTM The Garden, khu đô thị The Manor, đường Mễ Trì, phường Mỹ Đình 1, quận Nam Từ Liêm, Hà Nội</p>
                 </div>
+                <div className="showtimes">
+                    {firstHalf.length > 0 ? (
+                        firstHalf.map((items, index) => (
+                            <button key={index} className="time-button" onClick={goToSeatSelection}>
+                                {items.showtimeAt}
+                            </button>
+                        ))
+                    ) : (
+                        <p>Không có suất chiếu nào cho phim này.</p>
+                    )}
+                </div>
+            </div>
 
-                {/* Phần hiển thị cho rạp thứ hai */}
-                <div className="cinema">
-                    <img src="img/logo-100x100.png" alt="BHD Logo" className="logo" />
-                    <div className="cinema-info">
-                        <h3>BHD Cinema</h3>
-                        <p>Tầng 8, TTTM Discovery - 302 Cầu Giấy, Hà Nội</p>
-                    </div>
-
-                    {/* Hiển thị danh sách showtimes của rạp thứ hai */}
-                    <div className="showtimes">
-                        {secondHalf.length > 0 ? (
-                            secondHalf.map((items, index) => (
-                                <button key={index} className="time-button" onClick={goToSeatSelection}>
-                                    {items.showtimeAt} {/* Hiển thị thời gian chiếu */}
-                                </button>
-                            ))
-                        ) : (
-                            <p>Không có suất chiếu nào cho phim này.</p>
-                        )}
-                    </div>
+            <div className="cinema">
+                <img src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="BHD Logo" className="logo" />
+                <div className="cinema-info">
+                    <h3>BHD Cinema</h3>
+                    <p>Tầng 8, TTTM Discovery - 302 Cầu Giấy, Hà Nội</p>
+                </div>
+                <div className="showtimes">
+                    {secondHalf.length > 0 ? (
+                        secondHalf.map((items, index) => (
+                            <button key={index} className="time-button" onClick={goToSeatSelection}>
+                                {items.showtimeAt}
+                            </button>
+                        ))
+                    ) : (
+                        <p>Không có suất chiếu nào cho phim này.</p>
+                    )}
                 </div>
             </div>
         </div>
