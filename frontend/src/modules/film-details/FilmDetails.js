@@ -114,9 +114,11 @@ function FilmDetails() {
     const getMovieDetails = async (movieId) => {
         let res = await fetchMovieById(movieId);
         if (res && res.data) {
-            setMovieDetails(res.data);
+            setMovieDetails(res.data.data);
         }
     }
+
+    console.log(movieDetails);
 
     return (
         <div className="film-intro">

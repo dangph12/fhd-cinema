@@ -120,7 +120,7 @@ const BodyFirst = () => {
     const getMovies = async () => {
         let res = await fetchAllUser();
         if (res && res.data) {
-            setListMovies(res.data);
+            setListMovies(res.data.data);
         }
     }
 

@@ -7,7 +7,9 @@ import com.company.project.module.seatstypes.entity.SeatType;
 import com.company.project.module.seatstypes.repository.SeatTypeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SeatTypeService {
   
   @Autowired
