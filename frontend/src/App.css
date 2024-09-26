@@ -250,6 +250,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
+  /* width: 162.672px; */
 }
 
 .movie-button:hover {
@@ -606,7 +607,7 @@ h2 {
 }
 
 .time-button {
-  width: 30%; /* Adjust the width of each button to fit 3 in a row */
+  width: 30%; 
   padding: 10px;
   background-color:  #64a70b;
   border: none;
@@ -616,57 +617,71 @@ h2 {
 }
 
 /* login part  */
-.form-container {
+/* Form container styling */
+.login-page-form-container {
   display: flex;
   justify-content: space-between;
   padding: 20px;
 }
 
 /* Form block styling */
-.login-form, .register-form {
+.login-page-login-form, .login-page-register-form {
   flex: 1;
   margin: 10px;
 }
 
 /* Styling for input, select, and button elements */
-input, select, button {
+.login-page-form-container input, 
+.login-page-form-container select, 
+.login-page-form-container button {
   width: 100%;
   padding: 8px;
   margin: 6px 0;
-  border-radius: 8px; /* Bo tròn */
+  border-radius: 8px; 
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
 
-/* Styling for button */
-button {
-  background-color:  #64a70b;
+.login-page-form-container button {
+  background-color: #64a70b;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 /* Align radio buttons on the same line */
-.register-form div {
+.login-page-gender-options {
   display: flex;
   align-items: center;
 }
 
-.register-form input[type="radio"] {
+.login-page-gender-options input[type="radio"] {
   margin-right: 5px;
   margin-left: 15px;
 }
 
-label[for="male"], label[for="female"], label[for="other"] {
+.login-page-gender-options label {
   margin-right: 10px;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .form-container {
+  .login-page-form-container {
     flex-direction: column;
   }
 }
+
+/* Styling for white image container */
+.login-page-container {
+  margin-top: 20px;
+}
+
+.login-page-white-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
 
 .navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
   flex-wrap: unset;
