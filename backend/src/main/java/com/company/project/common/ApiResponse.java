@@ -21,6 +21,11 @@ public class ApiResponse<T> {
     T data;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/feature/receive-tickets-via-email
 =======
 
 

@@ -13,6 +13,10 @@ public enum Status {
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/feature/receive-tickets-via-email
 =======
 
 >>>>>>> origin/feature/receive-tickets-via-email
