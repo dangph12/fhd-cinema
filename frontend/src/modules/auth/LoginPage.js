@@ -180,60 +180,67 @@ import React from 'react';
 
 const LoginPage = () => {
     return (
-        <div className="form-container">
-            <div className="login-form">
-                <h2>Đăng nhập tài khoản</h2>
-                <form>
-                    <div>Email *</div>
-                    <input type="email" placeholder="Tài khoản hoặc địa chỉ email" required />
-                    <div>Mật khẩu *</div>
-                    <input type="password" placeholder="Mật khẩu" required />
-                    <button type="submit">ĐĂNG NHẬP</button>
-                    <a href="#">Quên mật khẩu?</a>
-                </form>
+        <div>
+            <div className="form-container">
+                <div className="login-form">
+                    <h2>Đăng nhập tài khoản</h2>
+                    <form>
+                        <div>Email *</div>
+                        <input type="email" placeholder="Tài khoản hoặc địa chỉ email" required />
+                        <div>Mật khẩu *</div>
+                        <input type="password" placeholder="Mật khẩu" required />
+                        <button type="submit">ĐĂNG NHẬP</button>
+                        <a href="#">Quên mật khẩu?</a>
+                    </form>
+                </div>
+                <div className="register-form">
+                    <h2>Đăng ký tài khoản</h2>
+                    <form>
+                        <div>Họ *</div>
+                        <input type="text" required />
+                        <div>Tên đệm và tên *</div>
+                        <input type="text" required />
+                        <div className="register-form">
+                            <form>
+                                {/* Other form elements */}
+                                <div>Giới tính *</div>
+                                <div>
+                                    <input type="radio" id="male" name="gender" value="Nam" />
+                                    <label htmlFor="male">Nam</label>
+                                    <input type="radio" id="female" name="gender" value="Nữ" />
+                                    <label htmlFor="female">Nữ</label>
+                                    <input type="radio" id="other" name="gender" value="Khác" />
+                                    <label htmlFor="other">Khác</label>
+                                </div>
+                                {/* Other form elements */}
+                            </form>
+                        </div>
+                        <div>Email *</div>
+                        <input type="email" required />
+                        <div>Mật khẩu *</div>
+                        <input type="password" required />
+                        <div>Nhập lại mật khẩu *</div>
+                        <input type="password" required />
+                        <div>Số điện thoại *</div>
+                        <input type="tel" required />
+                        <div>Ngày sinh *</div>
+                        <input type="date" required />
+                        <div>Tỉnh/Thành phố *</div>
+                        <select required>
+                            <option value="">Chọn Tỉnh/Thành phố</option>
+                            {/* Add options here */}
+                        </select>
+                        <label>
+                            <input type="checkbox" required /> Tôi đã đọc, hiểu và đồng ý với các điều khoản
+                        </label>
+                        <button type="submit">ĐĂNG KÝ</button>
+                    </form>
+                </div>
             </div>
-            <div className="register-form">
-                <h2>Đăng ký tài khoản</h2>
-                <form>
-                    <div>Họ *</div>
-                    <input type="text" required />
-                    <div>Tên đệm và tên *</div>
-                    <input type="text" required />
-                    <div className="register-form">
-                        <form>
-                            {/* Other form elements */}
-                            <div>Giới tính *</div>
-                            <div>
-                                <input type="radio" id="male" name="gender" value="Nam" />
-                                <label htmlFor="male">Nam</label>
-                                <input type="radio" id="female" name="gender" value="Nữ" />
-                                <label htmlFor="female">Nữ</label>
-                                <input type="radio" id="other" name="gender" value="Khác" />
-                                <label htmlFor="other">Khác</label>
-                            </div>
-                            {/* Other form elements */}
-                        </form>
-                    </div>
-                    <div>Email *</div>
-                    <input type="email" required />
-                    <div>Mật khẩu *</div>
-                    <input type="password" required />
-                    <div>Nhập lại mật khẩu *</div>
-                    <input type="password" required />
-                    <div>Số điện thoại *</div>
-                    <input type="tel" required />
-                    <div>Ngày sinh *</div>
-                    <input type="date" required />
-                    <div>Tỉnh/Thành phố *</div>
-                    <select required>
-                        <option value="">Chọn Tỉnh/Thành phố</option>
-                        {/* Add options here */}
-                    </select>
-                    <label>
-                        <input type="checkbox" required /> Tôi đã đọc, hiểu và đồng ý với các điều khoản
-                    </label>
-                    <button type="submit">ĐĂNG KÝ</button>
-                </form>
+            <div className="container">
+                <div className="white-image">
+                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png" />
+                </div>
             </div>
         </div>
     );
