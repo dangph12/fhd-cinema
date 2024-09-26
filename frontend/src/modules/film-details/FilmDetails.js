@@ -104,21 +104,21 @@ import { SocialIcon } from 'react-social-icons'
 
 
 function FilmDetails() {
-    const { movieId } = useParams(); // Lấy movieId từ URL
-    const [movieDetails, setMovieDetails] = useState(null); // mảng movies description rỗng 
+        const { movieId } = useParams(); // Lấy movieId từ URL
+        const [movieDetails, setMovieDetails] = useState(null); // mảng movies description rỗng 
 
-    useEffect(() => {
-        getMovieDetails(movieId);
-    }, [movieId]);
+        useEffect(() => {
+            getMovieDetails(movieId);
+        }, [movieId]);
 
-    const getMovieDetails = async (movieId) => {
-        let res = await fetchMovieById(movieId);
-        if (res && res.data) {
-            setMovieDetails(res.data.data);
+        const getMovieDetails = async (movieId) => {
+            let res = await fetchMovieById(movieId);
+            if (res && res.data) {
+                setMovieDetails(res.data.data);
+            }
         }
-    }
 
-    console.log(movieDetails);
+        console.log(movieDetails);
 
     return (
         <div className="film-intro">

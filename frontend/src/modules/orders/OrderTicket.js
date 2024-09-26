@@ -3,7 +3,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import ReactPlayer from 'react-player/youtube'
 import FilmTime from './components/FilmTime';
-import { fetchMovieById } from '../../components/services/UserService';
+import { fetchMovieById, fetchShowTime } from '../../components/services/UserService';
 
 // import YouTube from 'react-youtube';
 
@@ -16,6 +16,7 @@ const OrderTicket = (props) => {
         navigate("/");
     }
 
+    // movie id part
     const { movieId } = useParams(); // Lấy movieId từ URL
     const [movieDetails, setMovieDetails] = useState(null); // mảng movies description rỗng 
 
@@ -31,6 +32,7 @@ const OrderTicket = (props) => {
     }
 
     console.log(movieDetails);
+
 
     return (
         <div>
