@@ -18,14 +18,14 @@ const VerticalNavigationBar = () => {
               <AppMenu menuItems={menuItems} />
             </Suspense>
 
-            <div className="update-msg text-center">
+            {/* <div className="update-msg text-center">
               <div className="d-flex justify-content-center align-items-center thumb-lg update-icon-box  rounded-circle mx-auto">
                 <IconifyIcon icon="iconoir:peace-hand" className="h3 align-self-center mb-0 text-primary" />
               </div>
               <h5 className="mt-3">Mannat Themes</h5>
               <p className="mb-3 text-muted">Rizz is a high quality web applications.</p>
               <button className="btn text-primary shadow-sm rounded-pill">Upgrade your plan</button>
-            </div>
+            </div> */}
           </div>
         </SimplebarReactClient>
       </div>

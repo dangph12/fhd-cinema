@@ -27,10 +27,6 @@ const columns = [
     accessorKey: 'accountName',
   },
   {
-    header: 'accountPassword',
-    accessorKey: 'accountPassword',
-  },
-  {
     header: 'accountType',
     accessorKey: 'customer.customerName',
   },

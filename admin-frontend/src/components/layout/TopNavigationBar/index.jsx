@@ -18,22 +18,22 @@ const TopNavigationBar = () => {
           <ul className="topbar-item list-unstyled d-inline-flex align-items-center mb-0">
             <LeftSideBarToggle />
 
-            <li className="mx-3 welcome-text">
+            {/* <li className="mx-3 welcome-text">
               <h3 className="mb-0 fw-bold text-truncate">Good Morning, James!</h3>
-            </li>
+            </li> */}
           </ul>
           <ul className="topbar-item list-unstyled d-inline-flex align-items-center mb-0">
-            <li className="hide-phone app-search">
+            {/* <li className="hide-phone app-search">
               <form role="search" action="#" method="get">
                 <input type="search" name="search" className="form-control top-search mb-0" placeholder="Search here..." />
                 <button type="button">
                   <IconifyIcon icon="iconoir:search" className="mb-1" />
                 </button>
               </form>
-            </li>
-            <LanguageDropdown />
+            </li> */}
+            {/* <LanguageDropdown />
             <ThemeModeToggle />
-            <Notifications />
+            <Notifications /> */}
             <ProfileDropdown />
           </ul>
         </nav>
