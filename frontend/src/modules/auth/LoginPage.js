@@ -109,7 +109,7 @@ const LoginPage = () => {
                 {/* Header */}
                 <img
                     className="img-thumbnail mx-auto d-block mb-2"
-                    src="img/logo-100x100.png"
+                    src="https://www.bhdstar.vn/wp-content/uploads/2024/09/logo2024.png"
                     alt="logo"
                 />
                 <div className="h4 mb-2 text-center">Sign In</div>
