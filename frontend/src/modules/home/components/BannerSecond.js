@@ -1,13 +1,17 @@
-import React from 'react'
+import React from 'react';
 
 const BannerSecond = (props) => {
     return (
-        <div>
+        <div className="banner-second-container">
             <a href="#" className="banner">
-                <img style={{ marginLeft: '0px' }} src="https://www.bhdstar.vn/wp-content/uploads/2024/09/bannerTop.jpg" alt="" />
+                <img 
+                    className="banner-second-image" 
+                    src="https://www.bhdstar.vn/wp-content/uploads/2024/09/bannerTop.jpg" 
+                    alt="Banner Second" 
+                />
             </a>
         </div>
-    )
-}
+    );
+};
 
-export default BannerSecond
+export default BannerSecond;

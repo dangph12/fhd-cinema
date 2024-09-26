@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const Footer = (props) => {
     return (
         <div>
@@ -30,8 +31,7 @@ const Footer = (props) => {
 
                     <div className="row g-5 mb-5">
                         <div className="col-lg-4">
-                            <div className="mb-4 footer-logo-wrap"><a href="#" className="footer-logo">FHD CINENMA <span>.</span></a></div>
-                            <p className="mb-4"><img src="img/logo-100x100.png"
+                            <p className="mb-4"><img src="https://www.bhdstar.vn/wp-content/uploads/2024/09/logo2024.png"
                                 alt="Image" className="img-fluid" /></p>
 
                             <ul className="list-unstyled custom-social">
