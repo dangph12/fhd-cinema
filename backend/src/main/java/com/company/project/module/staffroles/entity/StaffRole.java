@@ -21,7 +21,6 @@ public class StaffRole {
     String staffRoleId;
 
     String staffRoleName;
-    int staffRoleType;
 
     @JsonIgnore
     @OneToMany(mappedBy = "staffRole")
