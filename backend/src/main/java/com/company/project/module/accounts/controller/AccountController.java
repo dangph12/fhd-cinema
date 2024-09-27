@@ -2,6 +2,7 @@ package com.company.project.module.accounts.controller;
 
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.AccountCreationRequest;
+import com.company.project.module.accounts.dto.AccountDto;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.service.AccountService;
 import com.company.project.common.ApiResponse;
@@ -25,8 +26,8 @@ public class AccountController {
     }
 
     @GetMapping
-    ResponseEntity<ApiResponse<List<Account>>> getAllAccount() {
-        return ResponseEntity.ok().body(ApiResponse.<List<Account>>builder()
+    ResponseEntity<ApiResponse<List<AccountDto>>> getAllAccount() {
+        return ResponseEntity.ok().body(ApiResponse.<List<AccountDto>>builder()
                     .status(Status.SUCCESS.getValue())
                     .message(AccountStatusMessage.GET_SUCCESS.getMessage())
                     .data(accountService.getAllAccounts())

@@ -69,16 +69,12 @@ const AccountsTables = () => {
 
   const columns = [
     {
-      header: 'accountId',
-      accessorKey: 'accountId',
-    },
-    {
       header: 'accountName',
       accessorKey: 'accountName',
     },
     {
       header: 'accountType',
-      accessorKey: 'customer.customerName',
+      accessorKey: 'accountType',
     },
     {
       id: 'update',
