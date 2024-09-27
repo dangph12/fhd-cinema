@@ -1,5 +1,7 @@
 package com.company.project.module.tickets.exception;
 
+import java.util.Objects;
+
 import com.company.project.module.tickets.common.TicketStatusMessage;
 import com.company.project.module.tickets.dto.request.TicketApiResponse;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -11,9 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.Objects;
-
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.company.project.module.tickets")
 public class TicketExceptionHandler {
   
   @ExceptionHandler(value = MethodArgumentNotValidException.class)
