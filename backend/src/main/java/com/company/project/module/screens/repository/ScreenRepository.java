@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ScreenRepository extends JpaRepository<Screen, String> {
     boolean existsByScreenId(String screenId);
+    boolean existsByScreenName(String screenName);
 }
