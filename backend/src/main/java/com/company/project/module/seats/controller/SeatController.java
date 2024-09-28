@@ -3,17 +3,24 @@ package com.company.project.module.seats.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.seats.common.SeatStatusMessage;
+import com.company.project.module.seats.dto.request.SeatCreationRequest;
 import com.company.project.module.seats.entity.Seat;
 import com.company.project.module.seats.service.SeatService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +52,7 @@ public class SeatController {
       .data(seat)
       .build());
   }
-/**
+  
   @PostMapping
   ResponseEntity<ApiResponse<Seat>> addSeat(
     @RequestBody @Valid SeatCreationRequest request) {
@@ -84,5 +91,5 @@ public class SeatController {
         .message(SeatStatusMessage.DELETE_SUCCESS.getMessage())
         .build());
   }
-**/
+
 }

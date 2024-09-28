@@ -1,7 +1,7 @@
 package com.company.project.module.seats.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import com.company.project.module.screens.entity.Screen;
+import com.company.project.module.seatstypes.entity.SeatType;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,19 +15,12 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SeatCreationRequest {
+public class SeatDTO {
   
-  @NotEmpty(message = "EMPTY_TYPE")
-  String seatTypeId;
-
-  @NotEmpty(message = "EMPTY_SCREEN")
-  String screenId;
-
-  @NotEmpty(message = "EMPTY_NAME")
+  String seatId;
+  SeatType seatType;
+  Screen screen;
   String seatName;
-
-  @NotNull(message = "NULL_BOOKED")
   boolean isBooked;
 
 }
-
