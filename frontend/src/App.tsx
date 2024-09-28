@@ -11,7 +11,6 @@ import SeatSelection from "./components/Seats/SeatSelection";
 import TicketInform from "./components/payment-inform/TicketInform";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
-
 import Home from "./components/Home";
 
 
@@ -42,10 +41,6 @@ function App() {
         <Route path="/cart.html" element={<FilmTime/>} />
         <Route path="/orderfood" element={<OrderFood/>} />
         <Route path="/ticketinform" element={<TicketInform/>} />
-    
-
-        
-
       </Routes>
 
 
