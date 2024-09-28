@@ -14,7 +14,7 @@ import jakarta.persistence.Transient;
 import com.company.project.module.screens.entity.Screen;
 import com.company.project.module.seatstypes.entity.SeatType;
 import com.company.project.module.tickets.entity.Ticket;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -30,6 +30,7 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "seats")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -37,6 +38,7 @@ public class Seat {
     String seatId;
 
     String seatName;
+
     @Transient
     int price;
 
@@ -44,19 +46,18 @@ public class Seat {
         return seatType.getSeatTypePrice();
     }
 
-    @JsonIgnore
+    @Transient
     @OneToOne(mappedBy = "seat")
     Ticket ticket;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="type_id", nullable=false)
     SeatType seatType;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="screen_id", nullable=false)
     Screen screen;
 
+    @Column(name = "is_booked")
     boolean isBooked;
 }
