@@ -1,11 +1,26 @@
 package com.company.project.module.seats.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
 import com.company.project.module.screens.entity.Screen;
 import com.company.project.module.seatstypes.entity.SeatType;
 import com.company.project.module.tickets.entity.Ticket;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -22,7 +37,12 @@ public class Seat {
     String seatId;
 
     String seatName;
-    int seatPrice;
+    @Transient
+    int price;
+
+    public int getPrice() {
+        return seatType.getSeatTypePrice();
+    }
 
     @JsonIgnore
     @OneToOne(mappedBy = "seat")
@@ -37,4 +57,6 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name="screen_id", nullable=false)
     Screen screen;
+
+    boolean isBooked;
 }
