@@ -23,8 +23,4 @@ public class Snack {
     String snackName;
     int snackPrice;
 
-    @JsonIgnore
-    @ManyToMany
-    List<Booking> bookings;
-
 }

@@ -26,12 +26,10 @@ public class Customer {
     String customerName;
     String customerEmail;
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     Account account;
 
-    @JsonIgnore
     @JoinTable(
             name = "customers_vouchers",
             joinColumns = @JoinColumn(name = "customer_id"),
@@ -39,7 +37,6 @@ public class Customer {
     @ManyToMany
     List<Voucher> vouchers;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     List<Booking> bookings;
 

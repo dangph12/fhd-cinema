@@ -36,8 +36,4 @@ public class SeatType {
     String seatTypeName;
     int seatTypePrice;
 
-    @Transient
-    @OneToMany(mappedBy = "seatType")
-    List<Seat> seats;
-
 }

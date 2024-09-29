@@ -34,7 +34,6 @@ public class StaffRoleService {
 
         StaffRole staffRole = StaffRole.builder()
                 .staffRoleName(request.getStaffRoleName())
-                .staffRoleType(request.getStaffRoleType())
                 .build();
 
         return staffRoleRepository.save(staffRole);
@@ -48,7 +47,6 @@ public class StaffRoleService {
         StaffRole existStaffRole = getStaffRoleByStaffRoleId(staffRoleId);
 
         existStaffRole.setStaffRoleName(request.getStaffRoleName());
-        existStaffRole.setStaffRoleType(request.getStaffRoleType());
 
         return staffRoleRepository.save(existStaffRole);
     }

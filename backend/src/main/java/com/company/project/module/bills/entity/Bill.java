@@ -26,12 +26,10 @@ public class Bill {
     boolean isPaid;
     LocalDateTime billCreatedAt;
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
     Booking booking;
 
-    @JsonIgnore
     @JoinTable(
             name = "bills_vouchers",
             joinColumns = @JoinColumn(name = "bill_id"),

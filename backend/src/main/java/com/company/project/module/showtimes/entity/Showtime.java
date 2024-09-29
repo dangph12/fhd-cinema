@@ -38,7 +38,6 @@ public class Showtime {
         return this.movie.getMovieId();
     }
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="screen_id", nullable=false)
     Screen screen;

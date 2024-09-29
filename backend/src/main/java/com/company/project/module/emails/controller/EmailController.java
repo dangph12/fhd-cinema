@@ -1,10 +1,18 @@
 package com.company.project.module.emails.controller;
 
 
-import com.company.project.module.emails.service.SendEmailService;
+import com.company.project.common.ApiResponse;
+import com.company.project.common.Status;
+import com.company.project.module.emails.common.EmailStatusMessage;
+import com.company.project.module.emails.dto.request.EmailBillRequest;
+import com.company.project.module.emails.dto.request.EmailCreationRequest;
+import com.company.project.module.emails.service.EmailService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

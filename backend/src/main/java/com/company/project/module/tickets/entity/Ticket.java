@@ -36,7 +36,6 @@ public class Ticket {
     @JoinColumn(name = "booking_id", nullable = false)
     Booking booking;
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seat_id", referencedColumnName = "seat_id")
     Seat seat;

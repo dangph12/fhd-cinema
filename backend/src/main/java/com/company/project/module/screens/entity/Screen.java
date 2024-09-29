@@ -43,7 +43,6 @@ public class Screen {
     @OneToMany(mappedBy = "screen")
     List<Showtime> showtimes;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="cinema_id",nullable=false)
     Cinema cinema;
