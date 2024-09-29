@@ -8,6 +8,7 @@ public enum ScreenStatusMessage {
     DELETE_SUCCESS("The screen was deleted successfully"),
     UPDATE_SUCCESS("The screen was updated successfully"),
     NOT_EXIST("The screen is not exist"),
+    SCREEN_EXIST("The screen already exists"),
     CREATE_SUCCESS("The screen was created successfully"),
     GET_SUCCESS("Get all screens successfully"),
     EMPTY_NAME("The screen name must not be empty"),

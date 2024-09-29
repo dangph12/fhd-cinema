@@ -5,6 +5,7 @@ import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.snacks.entity.Snack;
 import com.company.project.module.tickets.entity.Ticket;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

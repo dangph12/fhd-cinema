@@ -4,6 +4,7 @@ import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.movies.entity.Movie;
 import com.company.project.module.screens.entity.Screen;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -31,6 +32,11 @@ public class Showtime {
     @ManyToOne
     @JoinColumn(name="movie_id", nullable=false)
     Movie movie;
+
+    @JsonProperty("movieId")
+    public String getMovieId() {
+        return this.movie.getMovieId();
+    }
 
     @JsonIgnore
     @ManyToOne
