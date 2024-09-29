@@ -25,11 +25,4 @@ public class Account {
     String accountPassword;
     int accountType;
 
-//  @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account", optional = false)
-    Customer customer;
-
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "account", optional = false)
-    Staff staff;
 }

@@ -5,6 +5,7 @@ import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.snacks.entity.Snack;
 import com.company.project.module.tickets.entity.Ticket;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,7 +32,6 @@ public class Booking {
     @CreationTimestamp
     LocalDateTime bookingCreateAt;
 
-    @JsonIgnore
     @JoinTable(
             name = "bookings_snacks",
             joinColumns = @JoinColumn(name = "booking_id"),
@@ -48,11 +48,9 @@ public class Booking {
     @OneToOne(mappedBy = "booking", optional = false)
     Bill bill;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "booking")
     List<Ticket> tickets;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="showtime_id", nullable=false)
     Showtime showtime;

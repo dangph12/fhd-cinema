@@ -3,10 +3,6 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
-
--- -----------------------------------------------------
--- Schema mydb
--- -----------------------------------------------------
 -- -----------------------------------------------------
 -- Schema fhd_cinema
 -- -----------------------------------------------------
@@ -142,8 +138,10 @@ COLLATE = utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`customers` (
   `customer_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
   `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT '',
+  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT '',
   `customer_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_email` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`customer_id`))
   PRIMARY KEY (`customer_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -251,6 +249,20 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`snacks` (
   `snack_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `snack_price` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`snack_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `fhd_cinema`.`accounts`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`accounts` (
+  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
+  `account_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `account_password` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `account_type` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`account_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
@@ -404,7 +416,14 @@ ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `fhd_cinema`.`bills_vouchers`
+-- Table `fhd_cinema`.`bills_vouchers`
 -- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`bills_vouchers` (
+  `bill_id` VARCHAR(36) NOT NULL,
+  `voucher_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`bill_id`, `voucher_id`),
+  INDEX `fk_vouchers_has_bills_bills1_idx` (`bill_id` ASC) VISIBLE,
+  INDEX `fk_vouchers_has_bills_vouchers1_idx` (`voucher_id` ASC) VISIBLE,
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`bills_vouchers` (
   `bill_id` VARCHAR(36) NOT NULL,
   `voucher_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
@@ -413,10 +432,12 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`bills_vouchers` (
   INDEX `fk_vouchers_has_bills_vouchers1_idx` (`voucher_id` ASC) VISIBLE,
   CONSTRAINT `fk_vouchers_has_bills_vouchers1`
     FOREIGN KEY (`voucher_id`)
+    FOREIGN KEY (`voucher_id`)
     REFERENCES `fhd_cinema`.`vouchers` (`voucher_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_vouchers_has_bills_bills1`
+    FOREIGN KEY (`bill_id`)
     FOREIGN KEY (`bill_id`)
     REFERENCES `fhd_cinema`.`bills` (`bill_id`)
     ON DELETE NO ACTION

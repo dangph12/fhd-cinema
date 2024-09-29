@@ -36,12 +36,10 @@ public class Movie {
     String movieLanguage;
     String moviePosterUrl;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rating_id", referencedColumnName = "rating_id")
+    @ManyToOne
+    @JoinColumn(name = "rating_id")
     Rating rating;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "movie")
     List<Showtime> showtimes;
 }
