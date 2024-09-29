@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import './SeatSelection.css';
+import './SeatSelection.css'; 
 import seatNormal from '../../assets/seats/ghe-thuong.png';
 import seatVIP from '../../assets/seats/ghe-vip.png';
 import seatSelected from '../../assets/seats/ghe-da-chon.png';
