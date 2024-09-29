@@ -47,10 +47,6 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`movies` (
   PRIMARY KEY (`movie_id`),
   INDEX `fk_movies_ratings1_idx` (`rating_id` ASC) VISIBLE,
   CONSTRAINT `fk_movies_ratings1`
-  `rating_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`movie_id`, `rating_id`),
-  INDEX `fk_movies_ratings1_idx` (`rating_id` ASC) VISIBLE,
-  CONSTRAINT `fk_movies_ratings1`
     FOREIGN KEY (`rating_id`)
     REFERENCES `fhd_cinema`.`ratings` (`rating_id`)
     ON DELETE NO ACTION
