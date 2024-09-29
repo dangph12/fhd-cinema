@@ -3,6 +3,7 @@ package com.company.project.module.bookings.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,11 +50,11 @@ public class Booking {
     @CreationTimestamp
     LocalDateTime bookingCreateAt;
 
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "bookings_snacks",
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "snack_id"))
-    @ManyToMany
     List<Snack> snacks;
 
     @JsonIgnore
