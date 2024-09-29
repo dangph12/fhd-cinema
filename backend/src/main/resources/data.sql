@@ -4,7 +4,6 @@ INSERT INTO `fhd_cinema`.`ratings`
 (`rating_id`, `rating_name`, `rating_description`)
 VALUES
 ('3cdbbb96-73e0-11ef-ab6e-0242ac110001', 'P', 'Phim phổ biến với mọi độ tuổi'),
-('3cdbbb96-73e0-11ef-ab6e-0242ac110001', 'P', 'Phim phổ biến với mọi độ tuổi'),
 ('3cdbc1a0-73e0-11ef-ab6e-0242ac110002', 'K', 'Phim được phổ biến đến người xem dưới 13 tuổi với điều kiện xem cùng cha, mẹ hoặc người giám hộ'),
 ('3cdbc2e2-73e0-11ef-ab6e-0242ac110003', 'T13', 'Phim phổ biến đến người xem từ 13 tuổi trở lên'),
 ('3cdbc369-73e0-11ef-ab6e-0242ac110004', 'T16', 'Phim phổ biến đến người xem từ 16 tuổi trở lên'),
