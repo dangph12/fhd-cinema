@@ -3,7 +3,7 @@ import { Container, Row, Col, Button, Card, Image } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import './OrderFood.css'; // Assuming custom styles are here
 
-const Booking = () => {
+const OrderFood = () => {
   const navigate = useNavigate();
 
   function handleButtonClick() {
@@ -195,4 +195,4 @@ const Booking = () => {
   );
 };
 
-export default Booking;
+export default OrderFood;
