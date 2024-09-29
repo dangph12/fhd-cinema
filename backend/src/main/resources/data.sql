@@ -9,9 +9,6 @@ VALUES
 ('3cdbc2e2-73e0-11ef-ab6e-0242ac110003', 'T13', 'Phim phổ biến đến người xem từ 13 tuổi trở lên'),
 ('3cdbc369-73e0-11ef-ab6e-0242ac110004', 'T16', 'Phim phổ biến đến người xem từ 16 tuổi trở lên'),
 ('3cdbc3ee-73e0-11ef-ab6e-0242ac110005', 'T18', 'Phim phổ biến đến người xem từ 18 tuổi trở lên');
-('3cdbc2e2-73e0-11ef-ab6e-0242ac110003', 'T13', 'Phim phổ biến đến người xem từ 13 tuổi trở lên'),
-('3cdbc369-73e0-11ef-ab6e-0242ac110004', 'T16', 'Phim phổ biến đến người xem từ 16 tuổi trở lên'),
-('3cdbc3ee-73e0-11ef-ab6e-0242ac110005', 'T18', 'Phim phổ biến đến người xem từ 18 tuổi trở lên');
 
 INSERT INTO `fhd_cinema`.`movies`
 (`movie_id`, `rating_id`, `movie_title`, `movie_genre`, `movie_director`, `movie_cast`, `movie_status`, `movie_format`, `movie_duration_minute`, `movie_release_date`, `movie_trailer_url`, `movie_description`, `movie_language`, `movie_poster_url`)
