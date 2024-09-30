@@ -3,6 +3,8 @@ package com.company.project.module.tickets.service;
 import java.util.List;
 
 import com.company.project.common.Status;
+import com.company.project.module.bookings.entity.Booking;
+import com.company.project.module.bookings.service.BookingService;
 import com.company.project.module.seats.entity.Seat;
 import com.company.project.module.seats.service.SeatService;
 import com.company.project.module.tickets.common.TicketStatusMessage;
@@ -22,6 +24,8 @@ public class TicketService{
   @Autowired
   private SeatService seatService;
 
+  @Autowired
+  private BookingService bookingService;
 
   public TicketService(TicketRepository ticketRepository) {
     this.ticketRepository = ticketRepository;
@@ -39,10 +43,16 @@ public class TicketService{
   }
 
   public Ticket createTicket(TicketCreationRequest request) {
+    if (ticketRepository.existsBySeat_SeatId(request.getSeatId())) {
+      throw new TicketException(Status.FAIL.getValue(), TicketStatusMessage.SEAT_ALREADY_BOOKED.getMessage());
+    }
+
+    Booking booking = bookingService.getBookingById(request.getBookingId());
     Seat seat = seatService.getSeatById(request.getSeatId());
 
     Ticket ticket = Ticket.builder()
       .seat(seat)
+      .booking(booking)
       .ticketPrice(request.getTicketPrice())
       .build();
 
@@ -56,10 +66,12 @@ public class TicketService{
 
     Ticket existingTicket = this.getTicketById(ticketId);
 
+    Booking booking = bookingService.getBookingById(request.getBookingId());
     Seat seat = seatService.getSeatById(request.getSeatId());
 
     existingTicket = Ticket.builder()
       .seat(seat)
+      .booking(booking)
       .ticketPrice(request.getTicketPrice())
       .build();
 
@@ -69,6 +81,14 @@ public class TicketService{
   public void deleteTicketById(String ticketId) {
     if (!ticketRepository.existsByTicketId(ticketId)) {
       throw new TicketException(Status.FAIL.getValue(), TicketStatusMessage.NOT_EXIST.getMessage());
+    }
+
+    Ticket ticket = this.getTicketById(ticketId);
+
+    Seat seat = seatService.getSeatById(ticket.getSeat().getSeatId());
+
+    if (seat != null) {
+      ticket.setSeat(null);
     }
 
     ticketRepository.deleteById(ticketId);
