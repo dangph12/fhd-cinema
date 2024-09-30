@@ -2,10 +2,18 @@ import PageMetaData from '@/components/PageMetaData'
 import ReactTable from '@/components/Table'
 import { Col, Row, Card, CardBody, CardHeader, CardTitle, Button, Form, Modal } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
-import { set } from 'react-hook-form'
 
 const AccountsTables = () => {
-  const [accounts, setAccounts] = useState()
+  const [accounts, setAccounts] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [deleteShow, setDeleteShow] = useState(false)
+  const [updateShow, setUpdateShow] = useState(false)
+  const [createShow, setCreateShow] = useState(false)
+  const [form, setForm] = useState({
+    accountName: '',
+    accountType: '',
+    accountPassword: '',
+  })
 
   useEffect(() => {
     fetch('http://localhost:8080/accounts')
@@ -13,13 +21,11 @@ const AccountsTables = () => {
       .then((json) => setAccounts(json.data))
   }, [])
 
-  const [searchTerm, setSearchTerm] = useState('')
-
   const handleSearch = (event) => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredAccounts = accounts?.filter((account) => account.accountName.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredAccounts = accounts.filter((account) => account.accountName.toLowerCase().includes(searchTerm.toLowerCase()))
 
   const CustomerDetailTable = ({ accounts }) => {
     const pageSizeList = [2, 5, 10, 20, 50]
@@ -89,10 +95,6 @@ const AccountsTables = () => {
     },
   ]
 
-  const [deleteShow, setDeleteShow] = useState(false)
-  const [updateShow, setUpdateShow] = useState(false)
-  const [createShow, setCreateShow] = useState(false)
-  const [form, setForm] = useState({})
   const setField = (field, value) => {
     setForm({
       ...form,
@@ -102,6 +104,15 @@ const AccountsTables = () => {
 
   const openCreateShow = () => {
     setCreateShow(true)
+  }
+
+  const closeCreateShow = () => {
+    setCreateShow(false)
+    setForm({
+      accountName: '',
+      accountType: '',
+      accountPassword: '',
+    })
   }
 
   const handleCreate = (e) => {
@@ -116,8 +127,8 @@ const AccountsTables = () => {
       .then((response) => {
         if (response.ok) {
           fetch('http://localhost:8080/accounts')
-          .then((response) => response.json())
-          .then((json) => setAccounts(json.data))
+            .then((response) => response.json())
+            .then((json) => setAccounts(json.data))
           setCreateShow(false)
         } else {
           console.error('Failed to create the account')
@@ -126,25 +137,75 @@ const AccountsTables = () => {
       .catch((error) => {
         console.error('Error:', error)
       })
-      setForm({})
+    setForm({
+      accountName: '',
+      accountType: '',
+      accountPassword: '',
+    })
   }
-
 
   const openUpdateShow = (accountId) => {
     setUpdateShow(true)
-    const account = accounts?.find((account) => account.accountId === accountId)
+    const account = accounts.find((account) => account.accountId === accountId)
+    setForm({
+      accountId: accountId,
+      accountName: account?.accountName || '',
+      accountType: account?.accountType || '',
+    })
+  }
+
+  const closeUpdateShow = () => {
+    setUpdateShow(false)
+    setForm({
+      accountName: '',
+      accountType: '',
+      accountPassword: '',
+    })
+  }
+
+  const handleUpdate = (e) => {
+    e.preventDefault()
+    fetch(`http://localhost:8080/accounts/${form.accountId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        accountName: form.accountName,
+        accountType: form.accountType,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          fetch('http://localhost:8080/accounts')
+            .then((response) => response.json())
+            .then((json) => setAccounts(json.data))
+          setUpdateShow(false)
+        }
+      })
+    setForm({
+      accountName: '',
+      accountType: '',
+      accountPassword: '',
+    })
   }
 
   const openDeleteShow = (accountId) => {
     setDeleteShow(true)
     setField('accountId', accountId)
-    console.log(accountId)
+  }
+
+  const closeDeleteShow = () => {
+    setDeleteShow(false)
+    setForm({
+      accountName: '',
+      accountType: '',
+      accountPassword: '',
+    })
   }
 
   const handleDelete = (e) => {
     e.preventDefault()
-    
-    console.log(form.accountId)
 
     fetch(`http://localhost:8080/accounts/${form.accountId}`, {
       method: 'DELETE',
@@ -160,7 +221,11 @@ const AccountsTables = () => {
       .catch((error) => {
         console.error('Error:', error)
       })
-      setForm({})
+    setForm({
+      accountName: '',
+      accountType: '',
+      accountPassword: '',
+    })
   }
 
   return (
@@ -182,13 +247,13 @@ const AccountsTables = () => {
         </Row>
       )}
 
-      <Modal show={deleteShow} onHide={() => setDeleteShow(false)}>
+      <Modal show={deleteShow} onHide={() => closeDeleteShow()}>
         <Modal.Header closeButton>
           <Modal.Title>Delete Modal</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body>Delete account</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setDeleteShow(false)}>
+          <Button variant="secondary" onClick={() => closeDeleteShow()}>
             Close
           </Button>
           <Button variant="primary" onClick={(e) => handleDelete(e)}>
@@ -197,25 +262,7 @@ const AccountsTables = () => {
         </Modal.Footer>
       </Modal>
 
-      <Modal show={updateShow} onHide={() => setUpdateShow(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Update Modal</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Woohoo, you are reading this text in a modal!
-          {/* <Form>
-            <Form.Control type="hidden" value={input} />
-          </Form> */}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setUpdateShow(false)}>
-            Close
-          </Button>
-          <Button variant="primary">Save Changes</Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal show={createShow} onHide={() => setCreateShow(false)}>
+      <Modal show={updateShow} onHide={() => closeUpdateShow()}>
         <Modal.Header closeButton>
           <Modal.Title>Update Modal</Modal.Title>
         </Modal.Header>
@@ -229,6 +276,49 @@ const AccountsTables = () => {
                 onChange={(e) => setField('accountName', e.target.value)}
                 placeholder="Account name"
                 name="accountName"
+                value={form.accountName}
+              />
+            </Form.Group>
+            <Form.Group className="m-2">
+              <Form.Label>Account type</Form.Label>
+              <Form.Select
+                required
+                name="accountType"
+                onChange={(e) => setField('accountType', Number(e.target.value))}
+                className="bg-body text-dark border-secondary"
+                value={form.accountType}>
+                <option value="">Select account type</option>
+                <option value={1}>Customer</option>
+                <option value={2}>Staff</option>
+              </Form.Select>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => closeUpdateShow()}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={(e) => handleUpdate(e)}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={createShow} onHide={() => closeCreateShow()}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Modal</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="m-2">
+              <Form.Label>Account name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                onChange={(e) => setField('accountName', e.target.value)}
+                placeholder="Account name"
+                name="accountName"
+                value={form.accountName}
               />
             </Form.Group>
             <Form.Group className="m-2">
@@ -239,6 +329,7 @@ const AccountsTables = () => {
                 onChange={(e) => setField('accountPassword', e.target.value)}
                 placeholder="Account password"
                 name="accountPassword"
+                value={form.accountPassword}
               />
             </Form.Group>
             <Form.Group className="m-2">
@@ -246,8 +337,9 @@ const AccountsTables = () => {
               <Form.Select
                 required
                 name="accountType"
-                onChange={(e) => setField('accountType', e.target.value)}
-                className="bg-body text-dark border-secondary">
+                onChange={(e) => setField('accountType', Number(e.target.value))}
+                className="bg-body text-dark border-secondary"
+                value={form.accountType}>
                 <option value="">Select account type</option>
                 <option value={1}>Customer</option>
                 <option value={2}>Staff</option>
@@ -256,7 +348,7 @@ const AccountsTables = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setCreateShow(false)}>
+          <Button variant="secondary" onClick={() => closeCreateShow()}>
             Close
           </Button>
           <Button type="submit" variant="primary" onClick={(e) => handleCreate(e)}>
@@ -267,4 +359,5 @@ const AccountsTables = () => {
     </>
   )
 }
+
 export default AccountsTables
