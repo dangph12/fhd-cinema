@@ -196,7 +196,7 @@ const AccountsTables = () => {
       setErrors(newErrors)
       e.stopPropagation()
     } else {
-      const { accountId, ...updateData } = form;
+      const { accountId, accountPassword, ...updateData } = form;
       fetch(`http://localhost:8080/accounts/${accountId}`, {
         method: 'PUT',
         headers: {
