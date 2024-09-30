@@ -14,6 +14,7 @@ import jakarta.persistence.Transient;
 import com.company.project.module.screens.entity.Screen;
 import com.company.project.module.seatstypes.entity.SeatType;
 import com.company.project.module.tickets.entity.Ticket;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
@@ -46,7 +47,7 @@ public class Seat {
         return seatType.getSeatTypePrice();
     }
 
-    @Transient
+    @JsonIgnore
     @OneToOne(mappedBy = "seat")
     Ticket ticket;
 
