@@ -14,6 +14,8 @@ const AccountsTables = () => {
     accountType: '',
     accountPassword: '',
   })
+  const [validated, setValidated] = useState(false)
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     fetch('http://localhost:8080/accounts')
@@ -25,7 +27,9 @@ const AccountsTables = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredAccounts = accounts.filter((account) => account.accountName.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredAccounts = accounts.filter((account) =>
+    account.accountName.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   const CustomerDetailTable = ({ accounts }) => {
     const pageSizeList = [2, 5, 10, 20, 50]
@@ -113,35 +117,54 @@ const AccountsTables = () => {
       accountType: '',
       accountPassword: '',
     })
+    setValidated(false)
+    setErrors({})
+  }
+
+  const validateForm = () => {
+    const newErrors = {}
+    if (!form.accountName) newErrors.accountName = 'Account name is required'
+    if (!form.accountType) newErrors.accountType = 'Account type is required'
+    if (!form.accountPassword) newErrors.accountPassword = 'Account password is required'
+    return newErrors
   }
 
   const handleCreate = (e) => {
     e.preventDefault()
-    fetch('http://localhost:8080/accounts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    })
-      .then((response) => {
-        if (response.ok) {
-          fetch('http://localhost:8080/accounts')
-            .then((response) => response.json())
-            .then((json) => setAccounts(json.data))
-          setCreateShow(false)
-        } else {
-          console.error('Failed to create the account')
-        }
+    const formElement = e.currentTarget
+    const newErrors = validateForm()
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      e.stopPropagation()
+    } else {
+      fetch('http://localhost:8080/accounts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
       })
-      .catch((error) => {
-        console.error('Error:', error)
+        .then((response) => {
+          if (response.ok) {
+            fetch('http://localhost:8080/accounts')
+              .then((response) => response.json())
+              .then((json) => setAccounts(json.data))
+            setCreateShow(false)
+          } else {
+            console.error('Failed to create the account')
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error)
+        })
+      setForm({
+        accountName: '',
+        accountType: '',
+        accountPassword: '',
       })
-    setForm({
-      accountName: '',
-      accountType: '',
-      accountPassword: '',
-    })
+      setErrors({})
+    }
+    setValidated(true)
   }
 
   const openUpdateShow = (accountId) => {
@@ -151,6 +174,7 @@ const AccountsTables = () => {
       accountId: accountId,
       accountName: account?.accountName || '',
       accountType: account?.accountType || '',
+      accountPassword: '',
     })
   }
 
@@ -161,33 +185,46 @@ const AccountsTables = () => {
       accountType: '',
       accountPassword: '',
     })
+    setValidated(false)
+    setErrors({})
   }
 
   const handleUpdate = (e) => {
     e.preventDefault()
-    fetch(`http://localhost:8080/accounts/${form.accountId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        accountName: form.accountName,
-        accountType: form.accountType,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          fetch('http://localhost:8080/accounts')
-            .then((response) => response.json())
-            .then((json) => setAccounts(json.data))
-          setUpdateShow(false)
-        }
+    const formElement = e.currentTarget
+    const newErrors = validateForm()
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      e.stopPropagation()
+    } else {
+      fetch(`http://localhost:8080/accounts/${form.accountId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
       })
-    setForm({
-      accountName: '',
-      accountType: '',
-      accountPassword: '',
-    })
+        .then((response) => {
+          if (response.ok) {
+            fetch('http://localhost:8080/accounts')
+              .then((response) => response.json())
+              .then((json) => setAccounts(json.data))
+            setUpdateShow(false)
+          } else {
+            console.error('Failed to update the account')
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error)
+        })
+      setForm({
+        accountName: '',
+        accountType: '',
+        accountPassword: '',
+      })
+      setErrors({})
+    }
+    setValidated(true)
   }
 
   const openDeleteShow = (accountId) => {
@@ -267,7 +304,7 @@ const AccountsTables = () => {
           <Modal.Title>Update Modal</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form noValidate validated={validated} onSubmit={handleUpdate} id="updateForm">
             <Form.Group className="m-2">
               <Form.Label>Account name</Form.Label>
               <Form.Control
@@ -277,7 +314,11 @@ const AccountsTables = () => {
                 placeholder="Account name"
                 name="accountName"
                 value={form.accountName}
+                isInvalid={!!errors.accountName}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.accountName}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="m-2">
               <Form.Label>Account type</Form.Label>
@@ -286,11 +327,16 @@ const AccountsTables = () => {
                 name="accountType"
                 onChange={(e) => setField('accountType', Number(e.target.value))}
                 className="bg-body text-dark border-secondary"
-                value={form.accountType}>
+                value={form.accountType}
+                isInvalid={!!errors.accountType}
+              >
                 <option value="">Select account type</option>
                 <option value={1}>Customer</option>
                 <option value={2}>Staff</option>
               </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errors.accountType}
+              </Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -298,7 +344,7 @@ const AccountsTables = () => {
           <Button variant="secondary" onClick={() => closeUpdateShow()}>
             Close
           </Button>
-          <Button variant="primary" onClick={(e) => handleUpdate(e)}>
+          <Button variant="primary" type="submit" form="updateForm">
             Save Changes
           </Button>
         </Modal.Footer>
@@ -309,7 +355,7 @@ const AccountsTables = () => {
           <Modal.Title>Create Modal</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
             <Form.Group className="m-2">
               <Form.Label>Account name</Form.Label>
               <Form.Control
@@ -319,7 +365,11 @@ const AccountsTables = () => {
                 placeholder="Account name"
                 name="accountName"
                 value={form.accountName}
+                isInvalid={!!errors.accountName}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.accountName}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="m-2">
               <Form.Label>Account password</Form.Label>
@@ -330,7 +380,11 @@ const AccountsTables = () => {
                 placeholder="Account password"
                 name="accountPassword"
                 value={form.accountPassword}
+                isInvalid={!!errors.accountPassword}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.accountPassword}
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="m-2">
               <Form.Label>Account type</Form.Label>
@@ -339,11 +393,16 @@ const AccountsTables = () => {
                 name="accountType"
                 onChange={(e) => setField('accountType', Number(e.target.value))}
                 className="bg-body text-dark border-secondary"
-                value={form.accountType}>
+                value={form.accountType}
+                isInvalid={!!errors.accountType}
+              >
                 <option value="">Select account type</option>
                 <option value={1}>Customer</option>
                 <option value={2}>Staff</option>
               </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errors.accountType}
+              </Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -351,7 +410,7 @@ const AccountsTables = () => {
           <Button variant="secondary" onClick={() => closeCreateShow()}>
             Close
           </Button>
-          <Button type="submit" variant="primary" onClick={(e) => handleCreate(e)}>
+          <Button type="submit" variant="primary" form="createForm">
             Save Changes
           </Button>
         </Modal.Footer>
