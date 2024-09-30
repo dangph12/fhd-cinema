@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum TicketStatusMessage {
   
+  SEAT_ALREADY_BOOKED("Seat already booked"),
   EMPTY_TICKET("The ticket must not be empty"),
   EMPTY_SEAT("The seat must not be empty"),
   EMPTY_BOOKING("The booking must not be empty"),
