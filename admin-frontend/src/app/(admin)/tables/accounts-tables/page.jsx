@@ -125,13 +125,13 @@ const AccountsTables = () => {
     const newErrors = {}
     if (!form.accountName) newErrors.accountName = 'Account name is required'
     if (!form.accountType) newErrors.accountType = 'Account type is required'
-    if (!form.accountPassword) newErrors.accountPassword = 'Account password is required'
+    if (!form.accountPassword && !form.accountId) newErrors.accountPassword = 'Account password is required'
     return newErrors
   }
 
   const handleCreate = (e) => {
     e.preventDefault()
-    const formElement = e.currentTarget
+    setCreateShow(false)
     const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -149,7 +149,6 @@ const AccountsTables = () => {
             fetch('http://localhost:8080/accounts')
               .then((response) => response.json())
               .then((json) => setAccounts(json.data))
-            setCreateShow(false)
           } else {
             console.error('Failed to create the account')
           }
@@ -191,25 +190,25 @@ const AccountsTables = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault()
-    const formElement = e.currentTarget
+    setUpdateShow(false)
     const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       e.stopPropagation()
     } else {
-      fetch(`http://localhost:8080/accounts/${form.accountId}`, {
+      const { accountId, ...updateData } = form;
+      fetch(`http://localhost:8080/accounts/${accountId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(updateData),
       })
         .then((response) => {
           if (response.ok) {
             fetch('http://localhost:8080/accounts')
               .then((response) => response.json())
               .then((json) => setAccounts(json.data))
-            setUpdateShow(false)
           } else {
             console.error('Failed to update the account')
           }
@@ -243,14 +242,13 @@ const AccountsTables = () => {
 
   const handleDelete = (e) => {
     e.preventDefault()
-
+    setDeleteShow(false)
     fetch(`http://localhost:8080/accounts/${form.accountId}`, {
       method: 'DELETE',
     })
       .then((response) => {
         if (response.ok) {
           setAccounts(accounts.filter((account) => account.accountId !== form.accountId))
-          setDeleteShow(false)
         } else {
           console.error('Failed to delete the account')
         }
