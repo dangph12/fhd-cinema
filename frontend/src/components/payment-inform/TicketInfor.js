@@ -14,11 +14,9 @@ function Ticket() {
       <Card style={{ padding: '0px', borderRadius: '10px', boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)', backgroundColor: '#fff', maxWidth: '1200px', width: '100%' }}>
         <Row className="g-2">
           {/* Left section - QR Code and Ticket Code */}
-          <Col lg={4} md={5} sm={12} className="text-center d-flex flex-column justify-content-center align-items-center" style={{ borderRight: '1px solid #ccc', padding: '10px' }}>
-            <p style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#7c7c7c', marginBottom: '10px' }}>Quét mã để vào rạp</p>
-            <div className="d-flex justify-content-center align-items-center" style={{ backgroundColor: '#000', height: '120px', width: '120px', borderRadius: '10px' }}>
-              <h1 style={{ color: '#fff' }}>X</h1> {/* This should be your QR code */}
-            </div>
+          <Col lg={4} md={5} sm={12} className="text-center d-flex flex-column justify-content-center align-items-center" style={{  paddingTop: '150px' }}>
+            {/* <p style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#7c7c7c', marginBottom: '10px' }}>Quét mã để vào rạp</p> */}
+
             <p className="mt-3" style={{ fontSize: '1.2rem', fontWeight: 'bold', marginBottom: '5px' }}>Mã lấy vé:</p>
             <p style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#5DBB63', marginBottom: '0' }}>WW8RKNR</p>
           </Col>
