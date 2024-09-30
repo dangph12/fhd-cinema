@@ -557,7 +557,7 @@ VALUES
 INSERT INTO `fhd_cinema`.`customers`
 (`customer_id`, `account_id`, `customer_name`, `customer_email`)
 VALUES
-('77aed232-74e0-11ef-bc52-0242ac110002', '', 'John Doe', 'john.doe@example.com'),
+('77aed232-74e0-11ef-bc52-0242ac110002', '', 'John Doe', 'dubo01689@gmail.com'),
 ('77aee0db-74e0-11ef-bc52-0242ac110002', '', 'Jane Smith', 'jane.smith@example.com'),
 ('77aee4c4-74e0-11ef-bc52-0242ac110002', '', 'Alice Walker', 'alice.walker@example.com'),
 ('77aee6c1-74e0-11ef-bc52-0242ac110002', '', 'Bob Jones', 'bob.jones@example.com'),

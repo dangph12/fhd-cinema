@@ -33,8 +33,8 @@ public class SeatService {
     return seatRepository.findAll();
   }
   
-  public Seat getSeatById(String seatTypeId) {
-    return seatRepository.findById(seatTypeId)
+  public Seat getSeatById(String seatId) {
+    return seatRepository.findById(seatId)
     .orElseThrow(() -> new SeatException(
       Status.FAIL.getValue(), 
       SeatStatusMessage.NOT_EXIST.getMessage()));
