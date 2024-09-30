@@ -607,7 +607,7 @@ h2 {
 }
 
 .time-button {
-  width: 30%; 
+  width: 100%; 
   padding: 10px;
   background-color:  #64a70b;
   border: none;
@@ -686,3 +686,4 @@ h2 {
 .navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
   flex-wrap: unset;
 }
+

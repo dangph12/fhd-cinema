@@ -35,12 +35,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/description/:movieId" element={<FilmDetails/>} />
-        <Route path="/orderTicket/:movieId" element={<OrderTicket/>} />
-        <Route path="/seatselection" element={<SeatSelection/>} />
+        <Route path="/description/:movieId" element={<FilmDetails />} />
+        <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
+        <Route path="/seatselection" element={<SeatSelection />} />
         <Route path="/cart.html" element={<FilmTime/>} />
-        <Route path="/orderfood" element={<OrderFood/>} />
-        <Route path="/ticketinform" element={<TicketInform/>} />
+        {/* <Route path="/film/:movieId/showtimes" element={<FilmTime />} /> */}
+        {/* <Route path="/seatselection/:showtimeId" element={<SeatSelection />} /> */}
+
+        <Route path="/orderfood" element={<OrderFood />} />
+        <Route path="/ticketinform" element={<TicketInform />} />
+
       </Routes>
 
 
