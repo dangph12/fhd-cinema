@@ -8,7 +8,7 @@ import LoginPage from "./modules/auth/LoginPage";
 import FilmDetails from "./modules/film-details/FilmDetails";
 import OrderTicket from "./modules/orders/OrderTicket";
 import SeatSelection from "./components/Seats/SeatSelection";
-import TicketInform from "./components/payment-inform/TicketInform";
+import TicketInfor from "./components/payment-inform/TicketInfor";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
 import Home from "./components/Home";
@@ -43,7 +43,7 @@ function App() {
         {/* <Route path="/seatselection/:showtimeId" element={<SeatSelection />} /> */}
 
         <Route path="/orderfood" element={<OrderFood />} />
-        <Route path="/ticketinform" element={<TicketInform />} />
+        <Route path="/ticketinform" element={<TicketInfor />} />
 
       </Routes>
 
