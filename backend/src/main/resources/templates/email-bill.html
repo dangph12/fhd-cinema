@@ -92,6 +92,37 @@
         .button:hover {
             background-color: #218838; /* Xanh lá đậm hơn khi hover */
         }
+        .ticket-info table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ticket-info th, .ticket-info td {
+            padding: 10px;
+            text-align: left;
+            vertical-align: middle;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .total-price {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-top: 2px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .total-price .price {
+            font-size: 1.2em;
+            white-space: nowrap;
+        }
+
+        .total-price span {
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
@@ -119,10 +150,27 @@
                         <td th:text="${movieTitle}">[Movie Title]</td>
                     </tr>
                     <tr>
-                        <th>Phòng chiếu</th>
-                        <td th:text="${cinemaName}">[Screen Name]</td>
+                        <th>Rạp Phim</th>
+                        <td th:text="${cinemaName}">[Cinema Name]</td>
+                    </tr>
+                    <tr>
+                        <th>Địa Điểm</th>
+                        <td th:text="${location}">[Location]</td>
+                    </tr>
+                    <tr>
+                        <th>Phòng Chiếu</th>
+                        <td th:text="${screenName}">[Screen Name]</td>
+                    </tr>
+                    <tr>
+                        <th>Số Ghế</th>
+                        <td th:text="${seatList}">[Seat List]</td>
                     </tr>
                 </table>
+
+                <div class="total-price">
+                    <span>Tổng tiền: </span>
+                    <span class="price" th:text="${totalPrice}">[Total Price]</span>
+                </div>
             </div>
 
             <div class="customer-info">
@@ -139,7 +187,7 @@
                 </table>
             </div>
 
-            <a href="#" class="button">Quản lý vé</a>
+            <a href="#" class="button" style="color: white">Quản lý vé</a>
 
             <p>Nếu bạn có bất kỳ thắc mắc nào, vui lòng liên hệ với chúng tôi qua <a href="#">support@fhdcinema.com</a>.</p>
 
