@@ -588,13 +588,13 @@ VALUES
 ('f0bd6771-7c1e-11ef-98e7-0242ac110002', 162000, 0, '2024-09-17 20:05:00', '77afced6-74e0-11ef-bc52-0242ac110002'),
 ('f0bd68d8-7c1e-11ef-98e7-0242ac110002', 150500, 0, '2024-09-17 22:05:00', '77afd161-74e0-11ef-bc52-0242ac110002');
 
-INSERT INTO `fhd_cinema`.`staff_roles` (`staff_role_id`, `staff_role_name`)
+INSERT INTO `fhd_cinema`.`staff_roles` (`staff_role_id`, `staff_role_name`, `staff_role_level`)
 VALUES
-('13064a54-7c20-11ef-98e7-0242ac110002', 'Manager'),
-('13064f83-7c20-11ef-98e7-0242ac110002', 'Ticket officer'),
-('1306511e-7c20-11ef-98e7-0242ac110002', 'Sales manager'),
-('13065205-7c20-11ef-98e7-0242ac110002', 'Movie manager'),
-('130652dc-7c20-11ef-98e7-0242ac110002', 'Marketer');
+('13064a54-7c20-11ef-98e7-0242ac110002', 'Manager', 1),
+('13064f83-7c20-11ef-98e7-0242ac110002', 'Ticket officer', 2),
+('1306511e-7c20-11ef-98e7-0242ac110002', 'Sales manager', 3),
+('13065205-7c20-11ef-98e7-0242ac110002', 'Movie manager', 4),
+('130652dc-7c20-11ef-98e7-0242ac110002', 'Marketer', 5);
 
 INSERT INTO `fhd_cinema`.`staffs`
 (`staff_id`, `account_id`, `staff_role_id`, `staff_name`)
