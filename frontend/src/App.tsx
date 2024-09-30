@@ -8,7 +8,7 @@ import LoginPage from "./modules/auth/LoginPage";
 import FilmDetails from "./modules/film-details/FilmDetails";
 import OrderTicket from "./modules/orders/OrderTicket";
 import SeatSelection from "./components/Seats/SeatSelection";
-import TicketInform from "./components/payment-inform/TicketInform";
+import TicketInfor from "./components/payment-inform/TicketInfor";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
 
@@ -41,7 +41,7 @@ function App() {
         <Route path="/seatselection" element={<SeatSelection/>} />
         <Route path="/cart.html" element={<FilmTime/>} />
         <Route path="/orderfood" element={<OrderFood/>} />
-        <Route path="/ticketinform" element={<TicketInform/>} />
+        <Route path="/ticketinfor" element={<TicketInfor/>} />
     
 
         
