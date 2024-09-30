@@ -1,10 +1,14 @@
 /*movie card*/
-.movie-card-container {
+ /* .movie-card-container {
     border: 1px solid #e5e5e5;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     
+<<<<<<< HEAD
+  } 
+=======
   }
+>>>>>>> b3b199d55191ec81de300bc5b50c659aa7563d58
   
   .movie-title {
     font-size: 1.4rem;
@@ -21,7 +25,7 @@
   .highlight {
     font-weight: bold;
   }
-  
+   */
 
 
 /*seats selection*/
@@ -70,4 +74,4 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
-  
+   
