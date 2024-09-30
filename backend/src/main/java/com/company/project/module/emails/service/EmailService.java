@@ -3,6 +3,8 @@ package com.company.project.module.emails.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
+import com.company.project.module.bills.entity.Bill;
+import com.company.project.module.bills.service.BillService;
 import com.company.project.module.emails.dto.request.EmailBillRequest;
 import com.company.project.module.emails.dto.request.EmailCreationRequest;
 
@@ -23,6 +25,9 @@ public class EmailService {
 
   @Autowired
   private TemplateEngine templateEngine;
+
+  @Autowired
+  private BillService billService;
 
   @Value("$(FHD Cinema)")
   private String fromEmailId;
@@ -61,6 +66,12 @@ public class EmailService {
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
+    Bill bill = billService.getBillById(request.getBillId());
+    String movieTitle = bill.getBooking().getShowtime().getMovieId(); // Bạn cần thêm logic để lấy tên phim từ movieId nếu cần
+    String cinemaName = bill.getBooking().getShowtime().getScreen().getCinema().getCinemaName();
+    String showTime = bill.getBooking().getShowtime().getShowtimeAt().toString(); // Định dạng thời gian nếu cần
+    String bookingCode = bill.getBooking().getBookingId();
+
     try {
       helper.setTo(request.getEmail());
       helper.setSubject(request.getSubject());
@@ -68,11 +79,10 @@ public class EmailService {
       Context context = new Context();
       context.setVariable("customerName", request.getCustomerName());
       context.setVariable("email", request.getEmail());
-      context.setVariable("bookingCode", request.getBookingCode());
-      context.setVariable("movieTitle", request.getMovieTitle());
-      context.setVariable("cinemaName", request.getCinemaName());
-      context.setVariable("showTime", request.getShowTime().toString());
-      context.setVariable("screenName", request.getScreenName());
+      context.setVariable("movieTitle", movieTitle);
+      context.setVariable("cinemaName", cinemaName);
+      context.setVariable("showTime", showTime);
+      context.setVariable("bookingCode", bookingCode);
 
       String htmlContent = templateEngine.process(request.getTemplate(), context);
       helper.setText(htmlContent, true);
