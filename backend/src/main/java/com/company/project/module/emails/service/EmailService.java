@@ -1,10 +1,15 @@
 package com.company.project.module.emails.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 import com.company.project.module.bills.entity.Bill;
 import com.company.project.module.bills.service.BillService;
+import com.company.project.module.customers.entity.Customer;
+import com.company.project.module.customers.service.CustomerService;
 import com.company.project.module.emails.dto.request.EmailBillRequest;
 import com.company.project.module.emails.dto.request.EmailCreationRequest;
 
@@ -28,6 +33,9 @@ public class EmailService {
 
   @Autowired
   private BillService billService;
+
+  @Autowired
+  private CustomerService customerService;
 
   @Value("$(FHD Cinema)")
   private String fromEmailId;
@@ -67,21 +75,34 @@ public class EmailService {
     MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
     Bill bill = billService.getBillById(request.getBillId());
-    String movieTitle = bill.getBooking().getShowtime().getMovieId(); // Bạn cần thêm logic để lấy tên phim từ movieId nếu cần
+    Customer customer = customerService.getCustomerById(request.getCustomerId());
+    
+    String customerName = customer.getCustomerName();
+    String email = customer.getCustomerEmail();
+    String movieTitle = bill.getBooking().getShowtime().getMovie().getMovieTitle();
     String cinemaName = bill.getBooking().getShowtime().getScreen().getCinema().getCinemaName();
-    String showTime = bill.getBooking().getShowtime().getShowtimeAt().toString(); // Định dạng thời gian nếu cần
+    String screenName = bill.getBooking().getShowtime().getScreen().getScreenName();
+    String location = bill.getBooking().getShowtime().getScreen().getCinema().getLocation().getLocationName();
     String bookingCode = bill.getBooking().getBookingId();
 
+    LocalDateTime showTimeAt = bill.getBooking().getShowtime().getShowtimeAt();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
+    String formattedShowTime = showTimeAt.format(formatter);
+
+    
+
     try {
-      helper.setTo(request.getEmail());
+      helper.setTo(email);
       helper.setSubject(request.getSubject());
 
       Context context = new Context();
-      context.setVariable("customerName", request.getCustomerName());
-      context.setVariable("email", request.getEmail());
+      context.setVariable("customerName", customerName);
+      context.setVariable("email", email);
       context.setVariable("movieTitle", movieTitle);
       context.setVariable("cinemaName", cinemaName);
-      context.setVariable("showTime", showTime);
+      context.setVariable("screeenName", screenName);
+      context.setVariable("location", location);
+      context.setVariable("showTime", formattedShowTime);
       context.setVariable("bookingCode", bookingCode);
 
       String htmlContent = templateEngine.process(request.getTemplate(), context);
