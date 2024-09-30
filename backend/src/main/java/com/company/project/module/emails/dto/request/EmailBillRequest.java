@@ -1,5 +1,7 @@
 package com.company.project.module.emails.dto.request;
 
+import jakarta.validation.constraints.NotEmpty;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,10 +14,16 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmailBillRequest {
 
-  String email;
+  @NotEmpty(message = "EMPTY_SUBJECT")
   String subject;
-  String customerName;
+
+  @NotEmpty(message = "EMPTY_CUSTOMER")
+  String customerId;
+
+  @NotEmpty(message = "EMPTY_BILL")
   String billId;
+
+  @NotEmpty(message = "EMPTY_TEMPLATE")
   String template;
 
 }
