@@ -41,8 +41,8 @@ function App() {
         <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
         <Route path="/seatselection" element={<SeatSelection />} />
         <Route path="/cart.html" element={<FilmTime/>} />
-        {/* <Route path="/film/:movieId/showtimes" element={<FilmTime />} /> */}
-        {/* <Route path="/seatselection/:showtimeId" element={<SeatSelection />} /> */}
+        <Route path="/film/:movieId/showtimes" element={<FilmTime />} />
+        <Route path="/seatselection/:showtimeId" element={<SeatSelection />} />
 
         <Route path="/orderfood" element={<OrderFood />} />
         <Route path="/ticketinform" element={<TicketInfor />} />
