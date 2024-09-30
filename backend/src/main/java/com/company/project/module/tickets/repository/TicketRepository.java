@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, String> {
   boolean existsByTicketId(String ticketId);
+  boolean existsBySeat_SeatId(String seatId);
 }

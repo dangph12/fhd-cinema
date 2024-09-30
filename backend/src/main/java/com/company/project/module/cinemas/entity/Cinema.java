@@ -28,7 +28,6 @@ public class Cinema {
     @OneToMany(mappedBy = "cinema")
     List<Screen> screens;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="location_id", nullable=false)
     Location location;

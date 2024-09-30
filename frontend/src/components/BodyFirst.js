@@ -151,8 +151,8 @@ const BodyFirst = () => {
                                         </div>
                                         <div className="vietsub">
                                             <button type="button" className="btn btn-success btn-rounded">
-                                                {/* <NavLink id={items.movieId} className="nav-link" to={`/orderTicket/${items.movieId}`}>Đặt Vé</NavLink> */}
-                                                <NavLink id={items.movieId} className="nav-link" to={`/orderTicket`}>Đặt Vé</NavLink>
+                                                <NavLink id={items.movieId} className="nav-link" to={`/orderTicket/${items.movieId}`}>Đặt Vé</NavLink>
+                                                {/* <NavLink id={items.movieId} className="nav-link" to={`/orderTicket`}>Đặt Vé</NavLink> */}
                                             </button>
                                             <span>
                                                 <button type="button" className="btn btn-outline-success btn-floating">

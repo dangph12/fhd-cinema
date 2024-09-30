@@ -29,11 +29,4 @@ public class Voucher {
     Date voucherStartedAt;
     Date voucherEndedAt;
 
-    @JsonIgnore
-    @ManyToMany
-    List<Customer> customers;
-
-    @JsonIgnore
-    @ManyToMany
-    List<Bill> bills;
 }

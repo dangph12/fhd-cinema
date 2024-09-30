@@ -459,10 +459,16 @@ export const MENU_ITEMS = [
       //   url: '/tables/basic',
       //   parentKey: 'tables'
       // },
+      // {
+      //   key: 'tables-data-tables',
+      //   label: 'Datatables',
+      //   url: '/tables/data-tables',
+      //   parentKey: 'tables',
+      // },
       {
-        key: 'tables-data-tables',
-        label: 'Datatables',
-        url: '/tables/data-tables',
+        key: 'tables-accounts-tables',
+        label: 'Accounts Tables',
+        url: '/tables/accounts-tables',
         parentKey: 'tables',
       },
     ],

@@ -4,15 +4,23 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import com.company.project.common.ApiResponse;
+import com.company.project.common.Status;
 import com.company.project.module.tickets.common.TicketStatusMessage;
-import com.company.project.module.tickets.dto.request.TicketApiResponse;
 import com.company.project.module.tickets.dto.request.TicketCreationRequest;
 import com.company.project.module.tickets.entity.Ticket;
 import com.company.project.module.tickets.service.TicketService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/tickets")
@@ -25,52 +33,64 @@ public class TicketController {
   }
 
   @GetMapping
-  ResponseEntity<TicketApiResponse<List<Ticket>>> getAllTickets() {
+  ResponseEntity<ApiResponse<List<Ticket>>> getAllTickets() {
 
-    return ResponseEntity.status(HttpStatus.OK.value()).body(TicketApiResponse.<List<Ticket>>builder()
-            .code(HttpStatus.OK.value())
+    return ResponseEntity.status(HttpStatus.OK.value()).body(ApiResponse.<List<Ticket>>builder()
+            .status(Status.SUCCESS.getValue())
             .message(TicketStatusMessage.GET_SUCCESS.getMessage())
-            .result(ticketService.getAllTickets())
+            .data(ticketService.getAllTickets())
+            .build());
+  }
+
+  @GetMapping("/{ticketId}")
+  ResponseEntity<ApiResponse<Ticket>> getTicketById(@PathVariable(name = "ticketId") String ticketId) {
+    Ticket ticket = ticketService.getTicketById(ticketId);
+
+    return ResponseEntity.status(HttpStatus.OK.value())
+        .body(ApiResponse.<Ticket>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(TicketStatusMessage.GET_SUCCESS.getMessage())
+            .data(ticket)
             .build());
   }
 
   @PostMapping
-  ResponseEntity<TicketApiResponse<Ticket>> addTicket(@RequestBody @Valid TicketCreationRequest request) {
-    
+  ResponseEntity<ApiResponse<Ticket>> addTicket(
+    @RequestBody @Valid TicketCreationRequest request) {
     Ticket ticket = ticketService.createTicket(request);
 
     return ResponseEntity.status(HttpStatus.CREATED.value())
-            .body(TicketApiResponse.<Ticket>builder()
-                    .code(HttpStatus.CREATED.value())
+            .body(ApiResponse.<Ticket>builder()
+                    .status(Status.SUCCESS.getValue())
                     .message(TicketStatusMessage.CREATE_SUCCESS.getMessage())
-                    .result(ticket)
+                    .data(ticket)
                     .build());
   }
 
   @PutMapping("/{ticketId}")
-  ResponseEntity<TicketApiResponse<Ticket>> updateTicket(
+  ResponseEntity<ApiResponse<Ticket>> updateTicket(
     @PathVariable(name = "ticketId") String ticketId, 
     @RequestBody @Valid TicketCreationRequest request) {
-
     Ticket ticket = ticketService.updateTicket(ticketId, request);
 
       return ResponseEntity.status(HttpStatus.OK.value())
-              .body(TicketApiResponse.<Ticket>builder()
-                      .code(HttpStatus.OK.value())
+              .body(ApiResponse.<Ticket>builder()
+                      .status(Status.SUCCESS.getValue())
                       .message(TicketStatusMessage.UPDATE_SUCCESS.getMessage())
-                      .result(ticket)
+                      .data(ticket)
                       .build());
   }
 
   @DeleteMapping("/{ticketId}")
-  ResponseEntity<TicketApiResponse<Void>> deleteTicket(@PathVariable(name = "ticketId") String ticketId) {
+  ResponseEntity<ApiResponse<Void>> deleteTicket(
+    @PathVariable(name = "ticketId") String ticketId) {
     ticketService.deleteTicketById(ticketId);
 
     return ResponseEntity.status(HttpStatus.OK.value())
-            .body(TicketApiResponse.<Void>builder()
-            .code(HttpStatus.OK.value())
-            .message(TicketStatusMessage.DELETE_SUCCESS.getMessage())
-            .build());
+            .body(ApiResponse.<Void>builder()
+                      .status(Status.SUCCESS.getValue())
+                      .message(TicketStatusMessage.DELETE_SUCCESS.getMessage())
+                      .build());
   }
 
 }

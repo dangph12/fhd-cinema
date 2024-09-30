@@ -1,14 +1,30 @@
 package com.company.project.module.bills.entity;
 
-import com.company.project.module.bookings.entity.Booking;
-import com.company.project.module.vouchers.entity.Voucher;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+import com.company.project.module.bookings.entity.Booking;
+import com.company.project.module.vouchers.entity.Voucher;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Data
@@ -24,14 +40,14 @@ public class Bill {
 
     int billAmount;
     boolean isPaid;
+    
+    @CreationTimestamp
     LocalDateTime billCreatedAt;
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "booking_id", referencedColumnName = "booking_id")
     Booking booking;
 
-    @JsonIgnore
     @JoinTable(
             name = "bills_vouchers",
             joinColumns = @JoinColumn(name = "bill_id"),

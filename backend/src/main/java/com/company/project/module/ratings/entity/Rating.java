@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -22,7 +24,4 @@ public class Rating {
     String ratingName;
     String ratingDescription;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "rating")
-    Movie movie;
 }

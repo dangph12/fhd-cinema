@@ -78,9 +78,10 @@ const FormEditors = lazy(() => import('@/app/(admin)/forms/editors/page'))
 const FormFileUpload = lazy(() => import('@/app/(admin)/forms/file-uploads/page'))
 const FormImageCrop = lazy(() => import('@/app/(admin)/forms/image-crop/page'))
 
-// Form Routes
+// Tables Routes
 const BasicTable = lazy(() => import('@/app/(admin)/tables/basic/page'))
 const DataTables = lazy(() => import('@/app/(admin)/tables/data-tables/page'))
+const AccountsTables = lazy(() => import('@/app/(admin)/tables/accounts-tables/page'))
 
 // Icon Routes
 const FontAwesomeIcons = lazy(() => import('@/app/(admin)/icons/fa/page'))
@@ -515,6 +516,11 @@ const tableRoutes = [
     name: 'Data Table',
     path: '/tables/data-tables',
     element: <DataTables />,
+  },
+  {
+    name: 'Account Table',
+    path: '/tables/accounts-tables',
+    element: <AccountsTables />,
   },
 ]
 const iconRoutes = [
