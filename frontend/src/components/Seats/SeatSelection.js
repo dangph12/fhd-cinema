@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import './SeatSelection.css'; 
+import './SeatSelection.css';
 import seatNormal from '../../assets/seats/ghe-thuong.png';
 import seatVIP from '../../assets/seats/ghe-vip.png';
 import seatSelected from '../../assets/seats/ghe-da-chon.png';
@@ -26,7 +26,7 @@ const SeatSelection = () => {
                 const seatResponse = await fetch(`http://localhost:8080/seats?showtimeId=${showtimeId}`);
                 const seatData = await seatResponse.json();
                 if (seatData && seatData.data) {
-                    setSeatLayout(seatData.data.slice(0,60)); // Seat data fetched successfully
+                    setSeatLayout(seatData.data.slice(0, 60)); // Seat data fetched successfully
                 } else {
                     setSeatLayout([]);
                     console.error("No seat data found");
@@ -71,7 +71,7 @@ const SeatSelection = () => {
 
     // Navigate to the next step: order food
     const goToOrderFood = () => {
-        navigate('/orderfood', { state: { selectedSeats, showtimeId } }); // Pass selected seats and showtimeId to the next page
+        navigate('/orderfood', { state: { selectedSeats, showtimeDetails } }); // Pass selected seats and showtimeDetails to the next page
     };
 
     // Calculate total price based on ticket price and selected seats' seatTypePrice
@@ -173,31 +173,31 @@ const SeatSelection = () => {
                 {/* Pricing Details */}
                 <Col xs={12} lg={4} className="pricing-column d-flex flex-column justify-content-between">
 
-                
+
                     <div className="pricing-details p-3 rounded shadow-sm bg-white">
 
-                    {showtimeDetails && (
+                        {showtimeDetails && (
 
-                        <div className="pricing-details">
-                            <Card.Title>{showtimeDetails.movieTitle}</Card.Title>
-                            <h6 className="text-muted" style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'left' }}>
-                                {showtimeDetails.screen.cinema.cinemaName}
-                            </h6>
-                            <p style={{ fontSize: '1rem', textAlign: 'left' }}>
-                                <strong style={{ color: '#5DBB63', fontSize: '1.1rem' }}>{showtimeDetails.screen.screenName}</strong>
-                                {' - '}
-                                {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric'
-                                })}
-                            </p>
-                            {/* <strong style={{ textAlign: 'left' }}>Ticket Price</strong> {showtimeDetails.showtimePrice} VND */}
-                        </div>
+                            <div className="pricing-details">
+                                <Card.Title>{showtimeDetails.movieTitle}</Card.Title>
+                                <h6 className="text-muted" style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'left' }}>
+                                    {showtimeDetails.screen.cinema.cinemaName}
+                                </h6>
+                                <p style={{ fontSize: '1rem', textAlign: 'left' }}>
+                                    <strong style={{ color: '#5DBB63', fontSize: '1.1rem' }}>{showtimeDetails.screen.screenName}</strong>
+                                    {' - '}
+                                    {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        day: '2-digit',
+                                        month: '2-digit',
+                                        year: 'numeric'
+                                    })}
+                                </p>
+                                {/* <strong style={{ textAlign: 'left' }}>Ticket Price</strong> {showtimeDetails.showtimePrice} VND */}
+                            </div>
 
-                )}
+                        )}
 
                         {/* <h6 className="text-muted">FHD Cinema</h6> */}
                         <p style={{ textAlign: 'left' }}>{selectedSeats.length} x Seat(s)</p>
