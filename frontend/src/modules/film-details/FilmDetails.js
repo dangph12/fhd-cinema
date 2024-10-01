@@ -48,20 +48,28 @@ function FilmDetails() {
                 <h1 className="film-title">{movieDetails.movieTitle}</h1>
                 <p className="film-synopsis">{movieDetails.movieDescription}</p>
                 <br />
-                <p className="film-synopsis">
-                  Phân loại: {movieDetails.movieGenre}
+                <p className="film-synopsiss">
+                  <strong>Phân loại: </strong>{movieDetails.movieGenre}
                 </p>
                 <br />
                 <p className="film-synopsis">
-                  Định dạng: {movieDetails.movieFormat}
+                  <strong>Định dạng: </strong>{movieDetails.movieFormat}
                 </p>
                 <br />
                 <p className="film-synopsis">
-                  Đạo diễn: {movieDetails.movieDirector}
+                  <strong>Đạo diễn: </strong>{movieDetails.movieDirector}
                 </p>
                 <br />
                 <p className="film-synopsis">
-                  Ngôn ngữ: {movieDetails.movieLanguage}
+                  <strong>Diễn Viên: </strong>{movieDetails.movieCast}
+                </p>
+                <br />
+                <p className="film-synopsis">
+                  <strong>Ngôn ngữ: </strong>{movieDetails.movieLanguage}
+                </p>
+                <br />
+                <p className="film-synopsis">
+                  <strong>Thời Gian: </strong>{movieDetails.movieDurationMinute}
                 </p>
                 <br />
                 {/* Social Links */}
