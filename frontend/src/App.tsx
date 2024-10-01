@@ -29,11 +29,6 @@ function App() {
       {/* <BannerSecond /> */}
       {/* <BodySecond /> */}
       {/* <StarMember /> */}
-
-
-
-
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
