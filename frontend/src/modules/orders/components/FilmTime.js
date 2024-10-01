@@ -193,9 +193,8 @@ const FilmTime = () => {
     const [error, setError] = useState(null);
 
     // Hàm điều hướng đến trang chọn ghế với showtimeId và showTimeAt
-    const goToSeatSelection = () => {
-        // navigate(`/seatselection/${showtimeId}`, { state: { showTimeAt } });
-        navigate("/seatselection");
+    const goToSeatSelection = (showtimeId) => {
+        navigate(`/seatselection/${showtimeId}`); // Navigate to SeatSelection with showtimeId
     };
 
     useEffect(() => {
@@ -244,8 +243,8 @@ const FilmTime = () => {
                         <div className="showtimes">
                             <button 
                                 className="time-button" 
-                                onClick={() => goToSeatSelection()}
-                                // onClick={() => goToSeatSelection(item.showtimeId, item.showtimeAt)}
+                                // onClick={() => goToSeatSelection()}
+                                onClick={() => goToSeatSelection(item.showtimeId, item.showtimeAt)}
                             >
                                 {new Date(item.showtimeAt).toLocaleString('en-GB', { 
                                     hour: '2-digit', 
