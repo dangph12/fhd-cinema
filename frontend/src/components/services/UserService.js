@@ -16,7 +16,7 @@ const fetchMovieById = (movieId) => {
 //     return axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
 // }
 
-const fetchShowTime = (movieId) => {
+const  fetchShowTime = (movieId) => {
     // Sử dụng movieId để lọc các showtimes cho phim cụ thể
     return axios.get(`http://localhost:8080/showtimes?movieId=${movieId}`);
 }
