@@ -250,9 +250,13 @@
 // export default LoginPage;
 
 
-import React from 'react';
+import React, { useState } from 'react';
 
 const LoginPage = () => {
+
+    const [email, setEmail] = useState("");
+    const [password, setpassword] = useState("");
+
     return (
         <div>
             <div className="login-page-form-container">
@@ -260,10 +264,26 @@ const LoginPage = () => {
                     <h2>Đăng nhập tài khoản</h2>
                     <form>
                         <div>Email *</div>
-                        <input type="email" placeholder="Tài khoản hoặc địa chỉ email" required />
+                        <input
+                            value={email}
+                            type="email"
+                            placeholder="Tài khoản hoặc địa chỉ email"
+                            required
+                            onChange={(event) => setEmail(event.target.value)}
+                        />
                         <div>Mật khẩu *</div>
-                        <input type="password" placeholder="Mật khẩu" required />
-                        <button type="submit">ĐĂNG NHẬP</button>
+                        <input value={password}
+                            type="password"
+                            placeholder="Mật khẩu"
+                            required
+                            onChange={(event) => setpassword(event.target.value)}
+                        />
+                        <button
+                            type="submit"
+                            className={email && password ? "active" : ""}
+                            disabled={email && password ? false : true}
+                        >
+                            ĐĂNG NHẬP</button>
                         <a href="#">Quên mật khẩu?</a>
                     </form>
                 </div>
