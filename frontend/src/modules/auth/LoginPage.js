@@ -251,11 +251,25 @@
 
 
 import React, { useState } from 'react';
+import { loginApi } from '../../components/services/UserService';
+import { Toast } from 'react-bootstrap';
 
 const LoginPage = () => {
 
     const [email, setEmail] = useState("");
     const [password, setpassword] = useState("");
+
+    // const handleInput = async() => {
+    //     if(!email || !password) {
+    //         Toast.error("Missing Email Or Password");
+    //         return;
+    //     }
+       
+        
+    // }
+
+    let res = loginApi(email, password);
+    console.log(res);
 
     return (
         <div>
@@ -282,7 +296,8 @@ const LoginPage = () => {
                             type="submit"
                             className={email && password ? "active" : ""}
                             disabled={email && password ? false : true}
-                        >
+                            // onClick={handleInput}
+                        >   
                             ĐĂNG NHẬP</button>
                         <a href="#">Quên mật khẩu?</a>
                     </form>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosFormat from './Customize-axios'
 
 const fetchAllUser = () => {
     return axios.get("http://localhost:8080/movies")
@@ -25,6 +26,9 @@ const fetchShowTimeById = (showtimeId) => {
     return axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
 }
 
+const loginApi = (email, password) => {
+    return axios.post(`http://localhost:8080/accounts/${email}/${password}`)
+}
 
-export { fetchAllUser, fetchMovieById, fetchShowTime }
+export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi }
 
