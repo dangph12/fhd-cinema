@@ -23,4 +23,10 @@ public class NewsCreationRequest {
     @NotNull(message = "EMPTY_CREATE_DATE")
     LocalDateTime newsCreateAt;
 
+    @NotEmpty(message = "EMPTY_URL")
+    String newsUrl;
+
+    @NotEmpty(message = "EMPTY_IMAGE_URL")
+    String newsImageUrl;
+
 }
