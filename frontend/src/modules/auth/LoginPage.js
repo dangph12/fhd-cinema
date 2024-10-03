@@ -250,13 +250,13 @@
 // export default LoginPage;
 
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loginApi } from '../../components/services/UserService';
 import { Toast } from 'react-bootstrap';
 
 const LoginPage = () => {
 
-    const [email, setEmail] = useState("");
+    const [accoutName, setAccountName] = useState("");
     const [password, setpassword] = useState("");
 
     // const handleInput = async() => {
@@ -268,8 +268,21 @@ const LoginPage = () => {
         
     // }
 
-    let res = loginApi(email, password);
-    console.log(res);
+    // let res = loginApi(accoutName, password);
+    // console.log(res);
+
+
+    useEffect(() => {
+        getMovies();
+    }, []);
+
+    const getMovies = async () => {
+        let res = await loginApi();
+        if (res && res.data) {
+            setAccountName(res.data.data);
+        }
+    }
+
 
     return (
         <div>
@@ -277,13 +290,13 @@ const LoginPage = () => {
                 <div className="login-page-login-form">
                     <h2>Đăng nhập tài khoản</h2>
                     <form>
-                        <div>Email *</div>
+                        <div>Accout Name *</div>
                         <input
-                            value={email}
-                            type="email"
+                            value={accoutName}
+                            type="accoutName"
                             placeholder="Tài khoản hoặc địa chỉ email"
                             required
-                            onChange={(event) => setEmail(event.target.value)}
+                            onChange={(event) => setAccountName(event.target.value)}
                         />
                         <div>Mật khẩu *</div>
                         <input value={password}
@@ -294,8 +307,8 @@ const LoginPage = () => {
                         />
                         <button
                             type="submit"
-                            className={email && password ? "active" : ""}
-                            disabled={email && password ? false : true}
+                            className={accoutName && password ? "active" : ""}
+                            disabled={accoutName && password ? false : true}
                             // onClick={handleInput}
                         >   
                             ĐĂNG NHẬP</button>

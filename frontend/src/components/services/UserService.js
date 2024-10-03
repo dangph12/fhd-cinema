@@ -26,8 +26,8 @@ const fetchShowTimeById = (showtimeId) => {
     return axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
 }
 
-const loginApi = (email, password) => {
-    return axios.post(`http://localhost:8080/accounts/${email}/${password}`)
+const loginApi = (accountName) => {
+    return axios.get(`http://localhost:8080/accounts/${accountName}`)
 }
 
 export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi }
