@@ -8,10 +8,9 @@ import LoginPage from "./modules/auth/LoginPage";
 import FilmDetails from "./modules/film-details/FilmDetails";
 import OrderTicket from "./modules/orders/OrderTicket";
 import SeatSelection from "./components/Seats/SeatSelection";
-import TicketInform from "./components/payment-inform/TicketInform";
+import TicketInfor from "./components/payment-inform/TicketInfor";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
-
 import Home from "./components/Home";
 
 
@@ -33,18 +32,20 @@ function App() {
 
 
 
+
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/description/:movieId" element={<FilmDetails/>} />
-        <Route path="/orderTicket" element={<OrderTicket/>} />
-        <Route path="/seatselection" element={<SeatSelection/>} />
+        <Route path="/description/:movieId" element={<FilmDetails />} />
+        <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
+        <Route path="/seatselection" element={<SeatSelection />} />
         <Route path="/cart.html" element={<FilmTime/>} />
-        <Route path="/orderfood" element={<OrderFood/>} />
-        <Route path="/ticketinform" element={<TicketInform/>} />
-    
+        <Route path="/film/:movieId/showtimes" element={<FilmTime />} />
+        <Route path="/seatselection/:showtimeId" element={<SeatSelection />} />
 
-        
+        <Route path="/orderfood" element={<OrderFood />} />
+        <Route path="/ticketinfor" element={<TicketInfor />} />
 
       </Routes>
 

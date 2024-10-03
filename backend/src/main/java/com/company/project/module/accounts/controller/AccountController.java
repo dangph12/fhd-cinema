@@ -3,6 +3,7 @@ package com.company.project.module.accounts.controller;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.AccountCreationRequest;
 import com.company.project.module.accounts.dto.AccountDto;
+import com.company.project.module.accounts.dto.AccountUpdateRequest;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.service.AccountService;
 import com.company.project.common.ApiResponse;
@@ -36,28 +37,28 @@ public class AccountController {
 
 
     @PostMapping
-    ResponseEntity<ApiResponse<Account>> addAccount(@RequestBody @Valid AccountCreationRequest request) {
-        Account account = accountService.createAccount(request);
+    ResponseEntity<ApiResponse<AccountDto>> addAccount(@RequestBody @Valid AccountCreationRequest request) {
+        AccountDto accountDto = accountService.createAccount(request);
 
         return ResponseEntity.status(HttpStatus.CREATED.value())
-                .body(ApiResponse.<Account>builder()
+                .body(ApiResponse.<AccountDto>builder()
                         .status(Status.SUCCESS.getValue())
                         .message(AccountStatusMessage.CREATE_SUCCESS.getMessage())
-                        .data(account)
+                        .data(accountDto)
                         .build());
     }
 
     @PutMapping("/{accountId}")
-    ResponseEntity<ApiResponse<Account>> updateAccount(
+    ResponseEntity<ApiResponse<AccountDto>> updateAccount(
             @PathVariable(name = "accountId") String accountId,
-            @RequestBody @Valid AccountCreationRequest request) {
-        Account account = accountService.updateAccount(accountId, request);
+            @RequestBody @Valid AccountUpdateRequest request) {
+        AccountDto accountDto = accountService.updateAccount(accountId, request);
 
         return ResponseEntity.status(HttpStatus.OK.value())
-                .body(ApiResponse.<Account>builder()
+                .body(ApiResponse.<AccountDto>builder()
                         .status(Status.SUCCESS.getValue())
                         .message(AccountStatusMessage.UPDATE_SUCCESS.getMessage())
-                        .data(account)
+                        .data(accountDto)
                         .build());
     }
 
