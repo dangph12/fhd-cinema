@@ -280,9 +280,9 @@
 //             history("/seatselection")
 //         }
 
-       
+
 //         console.log("check>>", respone.data.data);
-        
+
 //     }
 
 //     // useEffect(() => {
@@ -399,12 +399,12 @@
 //             // Kiểm tra phản hồi từ API
 //             if (response && response.data && response.data.EC === 0) {
 //                 Toast.error("Thông tin đăng nhập không hợp lệ");
-                
+
 //                 history("/description"); // Chuyển hướng đến trang description
 //             } else {
 //                 Toast.error("Thông tin đăng nhập không hợp lệ");
 //             }
-            
+
 //         } catch (error) {
 //             console.error("Lỗi đăng nhập:", error);
 //             Toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
@@ -663,71 +663,6 @@
 // export default LoginPage;
 
 
-// import React, { useState } from 'react';
-// import { loginApi } from '../../components/services/UserService';
-// import { Toast } from 'react-bootstrap';
-// import { useNavigate } from 'react-router-dom';
-
-// const LoginPage = () => {
-//     const [accountName, setAccountName] = useState('');
-//     const [password, setPassword] = useState('');
-//     const navigate = useNavigate();
-
-//     const handleInput = async (event) => {
-//         event.preventDefault();
-
-//         try {
-//             // Gửi yêu cầu đăng nhập
-//             let response = await loginApi(accountName, password);
-
-//             // Kiểm tra phản hồi từ API
-//             if (response && response.data && response.data.EC === 0) {
-//                 console.log("Đăng nhập thành công!");
-//                 navigate("/"); // Chuyển hướng đến trang description
-//             } else {
-//                 Toast.error("Thông tin đăng nhập không hợp lệ");
-//             }
-//         } catch (error) {
-//             console.error("Lỗi đăng nhập:", error);
-//             Toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
-//         }
-//     };
-
-//     return (
-//         <div>
-//             <div className="login-page-form-container">
-//                 <div className="login-page-login-form">
-//                     <h2>Đăng nhập tài khoản</h2>
-//                     <form onSubmit={handleInput}>
-//                         <div>Tên tài khoản *</div>
-//                         <input
-//                             value={accountName}
-//                             type="text"
-//                             placeholder="Tài khoản hoặc địa chỉ email"
-//                             required
-//                             onChange={(event) => setAccountName(event.target.value)}
-//                         />
-//                         <div>Mật khẩu *</div>
-//                         <input
-//                             value={password}
-//                             type="password"
-//                             placeholder="Mật khẩu"
-//                             required
-//                             onChange={(event) => setPassword(event.target.value)}
-//                         />
-//                         <button type="submit" className={accountName && password ? "active" : ""}>
-//                             ĐĂNG NHẬP
-//                         </button>
-//                         <a href="#">Quên mật khẩu?</a>
-//                     </form>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default LoginPage;
-
 
 import React, { useState } from 'react';
 import { loginApi } from '../../components/services/UserService';
@@ -749,7 +684,7 @@ const LoginPage = () => {
             let response = await loginApi(accountName, accountPassword);
 
             // Kiểm tra phản hồi từ API
-            if (response && response.data ) {
+            if (response && response.data) {
                 console.log("Đăng nhập thành công!");
                 navigate("/"); // Chuyển hướng đến trang description
             } else {
@@ -766,11 +701,11 @@ const LoginPage = () => {
     return (
         <div>
             <ToastContainer position="top-end" className="p-3">
-                <Toast 
-                    bg="danger" 
-                    show={showToast} 
+                <Toast
+                    bg="danger"
+                    show={showToast}
                     onClose={() => setShowToast(false)}
-                    delay={3000} 
+                    delay={3000}
                     autohide
                 >
                     <Toast.Body>{toastMessage}</Toast.Body>
@@ -802,8 +737,51 @@ const LoginPage = () => {
                         <a href="#">Quên mật khẩu?</a>
                     </form>
                 </div>
+                <div className="login-page-register-form">
+                    <h2>Đăng ký tài khoản</h2>
+                    <form>
+                        <div>Họ *</div>
+                        <input type="text" required />
+                        <div>Tên đệm và tên *</div>
+                        <input type="text" required />
+                        <div>Giới tính *</div>
+                        <div className="login-page-gender-options">
+                            <input type="radio" id="male" name="gender" value="Nam" />
+                            <label htmlFor="male">Nam</label>
+                            <input type="radio" id="female" name="gender" value="Nữ" />
+                            <label htmlFor="female">Nữ</label>
+                            <input type="radio" id="other" name="gender" value="Khác" />
+                            <label htmlFor="other">Khác</label>
+                        </div>
+                        <div>Email *</div>
+                        <input type="email" required />
+                        <div>Mật khẩu *</div>
+                        <input type="password" required />
+                        <div>Nhập lại mật khẩu *</div>
+                        <input type="password" required />
+                        <div>Số điện thoại *</div>
+                        <input type="tel" required />
+                        <div>Ngày sinh *</div>
+                        <input type="date" required />
+                        <div>Tỉnh/Thành phố *</div>
+                        <select required>
+                            <option value="">Chọn Tỉnh/Thành phố</option>
+                            {/* Add options here */}
+                        </select>
+                        <label>
+                            <input type="checkbox" required /> Tôi đã đọc, hiểu và đồng ý với các điều khoản
+                        </label>
+                        <button type="submit">ĐĂNG KÝ</button>
+                    </form>
+                </div>
+            </div>
+            <div className="login-page-container">
+                <div className="login-page-white-image">
+                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png" alt="Login Illustration" />
+                </div>
             </div>
         </div>
+
     );
 };
 
