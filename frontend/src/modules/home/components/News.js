@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { fetchNews } from '../../../components/services/UserService';
+import BannerSecond from './BannerSecond';
 
 function News() {
 
@@ -42,6 +43,15 @@ function News() {
                     }
                 </div>
             </section>
+
+            <BannerSecond />
+
+            <div className="login-page-container">
+                <div className="login-page-white-image">
+                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png" alt="Login Illustration" />
+                </div>
+            </div>
+            
         </div>
     )
 }
