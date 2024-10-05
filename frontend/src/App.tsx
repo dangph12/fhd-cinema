@@ -116,7 +116,7 @@ function App() {
         <Route path="/news" element={<News />} />
         <Route path="/orderfood" element={<OrderFood />} />
         <Route path="/ticketinform" element={<TicketInfor />} />
-        {account && account.isAuthentiaction && <Route path="/users" element={<Users />} />}
+        { account && !_.isEmpty(account) && account.isAuthentiaction && <Route path="/users" element={<Users />} />}
       </Routes>
       <Footer />
     </div>
