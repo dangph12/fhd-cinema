@@ -12,6 +12,7 @@ import TicketInfor from "./components/payment-inform/TicketInfor";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
 import Home from "./components/Home";
+import News from "./modules/home/components/News";
 
 
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
         <Route path="/seatselection" element={<SeatSelection />} />
         <Route path="/cart.html" element={<FilmTime/>} />
+        <Route path="/news" element={<News/>} />
         {/* <Route path="/film/:movieId/showtimes" element={<FilmTime />} /> */}
         {/* <Route path="/seatselection/:showtimeId" element={<SeatSelection />} /> */}
 
