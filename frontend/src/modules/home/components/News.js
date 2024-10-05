@@ -28,6 +28,10 @@ function News() {
 
     return (
         <div>
+            <div class="fluid-container">
+                <BannerSecond />
+            </div>
+
             <section class="value-combo">
                 <h2>FHD NEWS COMBO</h2>
                 <div class="combo-container">
@@ -44,14 +48,11 @@ function News() {
                 </div>
             </section>
 
-            <BannerSecond />
-
             <div className="login-page-container">
                 <div className="login-page-white-image">
                     <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png" alt="Login Illustration" />
                 </div>
             </div>
-            
         </div>
     )
 }
