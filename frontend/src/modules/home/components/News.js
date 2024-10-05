@@ -37,7 +37,7 @@ function News() {
                 <div class="combo-container">
                     {news.map((items, index) => {
                         return (
-                            <div class="combo-item shadow" key={items.newsId}>
+                            <div class="combo-item shadow" key={index}>
                                 <img src={items.newsImageUrl} alt="Combo Trung Thu Sum Vầy" />
                                 <h3>{items.newsTitle}</h3>
                                 <p>{items.newsDescription}</p>
