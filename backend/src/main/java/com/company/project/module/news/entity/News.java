@@ -23,4 +23,6 @@ public class News {
 
     @Column(name = "news_created_at")
     LocalDateTime newsCreateAt;
+
+    String newsImageUrl;
 }
