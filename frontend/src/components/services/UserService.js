@@ -34,14 +34,10 @@ const loginApi = (accountName, accountPassword) => {
     return axiosFormat.post("/accounts", {accountName, accountPassword})
 }
 
-// const loginApi = (accountId, password) => {
-//     return axiosFormat.post("/accounts", {accountId, password})
-// }
-
 
 // const loginApi = (accountName) => {
 //     return axiosFormat.post("/accounts", { accountName })
 // }
 
-export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi }
+export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi, fetchShowTimeById }
 

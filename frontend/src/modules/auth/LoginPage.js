@@ -686,7 +686,7 @@ const LoginPage = () => {
             // Kiểm tra phản hồi từ API
             if (response && response.data) {
                 console.log("Đăng nhập thành công!");
-                navigate("/"); // Chuyển hướng đến trang description
+                navigate("/"); // Chuyển hướng đến trang home
             } else {
                 setToastMessage("Thông tin đăng nhập không hợp lệ");
                 setShowToast(true);
