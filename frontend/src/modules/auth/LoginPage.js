@@ -726,7 +726,7 @@ const LoginPage = () => {
                         <div>Mật khẩu *</div>
                         <input
                             value={accountPassword}
-                            type="accountPassword"
+                            type="password"
                             placeholder="Mật khẩu"
                             required
                             onChange={(event) => setaccountPassword(event.target.value)}
