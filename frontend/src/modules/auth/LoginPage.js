@@ -686,6 +686,14 @@ const LoginPage = () => {
             // Kiểm tra phản hồi từ API
             if (response && response.data) {
                 console.log("Đăng nhập thành công!");
+
+                let data = {
+                    isAuthentiaction: true,
+                    token: "fake token"
+                }
+                // covert object to string
+                sessionStorage.setItem('account', JSON.stringify(data))
+
                 navigate("/"); // Chuyển hướng đến trang home
             } else {
                 setToastMessage("Thông tin đăng nhập không hợp lệ");
