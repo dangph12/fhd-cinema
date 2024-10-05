@@ -2,7 +2,7 @@ import React, { } from "react";
 import "./App.css";
 import NavBar from './modules/cores/NavBar';
 import Footer from './modules/cores/Footer';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from 'react-router-dom';
 import LoginPage from "./modules/auth/LoginPage";
 
 import FilmDetails from "./modules/film-details/FilmDetails";

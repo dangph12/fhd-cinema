@@ -26,9 +26,22 @@ const fetchShowTimeById = (showtimeId) => {
     return axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
 }
 
-const loginApi = (accountName) => {
-    return axios.get(`http://localhost:8080/accounts/${accountName}`)
+// const loginApi = (accountName, password) => {
+//     return axiosFormat.post("/accounts", {accountName, password})
+// }
+
+const loginApi = (accountName, accountPassword) => {
+    return axiosFormat.post("/accounts", {accountName, accountPassword})
 }
+
+// const loginApi = (accountId, password) => {
+//     return axiosFormat.post("/accounts", {accountId, password})
+// }
+
+
+// const loginApi = (accountName) => {
+//     return axiosFormat.post("/accounts", { accountName })
+// }
 
 export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi }
 
