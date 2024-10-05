@@ -695,7 +695,7 @@ const LoginPage = () => {
                 // covert object to string
                 sessionStorage.setItem('account', JSON.stringify(data))
 
-                navigate("/"); // Chuyển hướng đến trang home
+                navigate("/users"); // Chuyển hướng đến trang home
             } else {
                 setToastMessage("Thông tin đăng nhập không hợp lệ");
                 setShowToast(true);
