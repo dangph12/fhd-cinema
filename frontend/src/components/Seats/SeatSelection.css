@@ -4,11 +4,7 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     
-<<<<<<< HEAD
   } 
-=======
-  }
->>>>>>> b3b199d55191ec81de300bc5b50c659aa7563d58
   
   .movie-title {
     font-size: 1.4rem;
@@ -40,8 +36,15 @@
     padding: 15px;
     border-radius: 10px;
     display: flex;
-    flex-direction: column;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    /* flex-direction: column; */
+    justify-content: center;
   }
+
+  
+
+
   
   .pricing-column {
     background-color: #fff;
@@ -56,17 +59,21 @@
   }
   
   .seat {
-    width: 45px;
-    height: 35px;
+    width: auto;
+    height: auto;
     margin: 10px;
+
     border-radius: 5px;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
+
+
   }
   
   .seat:hover {
     transform: scale(1.1);
   }
+
   
   .seat-legend {
     background-color: #fff;
@@ -74,4 +81,9 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
-   
+
+
+
+  
+ 
+  
