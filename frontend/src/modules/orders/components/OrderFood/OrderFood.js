@@ -61,6 +61,9 @@ const OrderFood = () => {
   //   });
   // };
 
+
+  
+
   function goToTicketInfor() {
     navigate("/ticketinfor");
   }
@@ -162,13 +165,13 @@ const OrderFood = () => {
                 const snack = snacks.find(s => s.snackId === snackId);
                 const qty = quantity[snackId];
                 return qty > 0 ? (
-                  <p key={snackId}>{qty} x {snack.snackName}: {qty * snack.snackPrice} VND</p>
+                  <p key={snackId}>{qty} x {snack.snackName}: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(qty * snack.snackPrice)}</p>
                 ) : null;
               })}
             </div>
 
             <hr />
-            <h5>Tổng tiền: {totalPrice} VND</h5>
+            <h5>Tổng tiền: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)}</h5>
             <Button variant="success" block onClick={goToTicketInfor}>
               Thanh Toán (3/4)
             </Button>
