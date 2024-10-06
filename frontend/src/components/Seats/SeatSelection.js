@@ -8,6 +8,7 @@ import seatSelected from '../../assets/seats/ghe-da-chon.png';
 import seatCouple from '../../assets/seats/ghe-doi.png';
 import seatSold from '../../assets/seats/ghe-da-ban.png';
 import seatMapHeader from '../../assets/seats/seatMapHeader.png';
+import seatCoupleSelected from '../../assets/seats/ghe-doi-da-chon.png';
 
 const SeatSelection = () => {
     const { showtimeId } = useParams();
@@ -26,7 +27,29 @@ const SeatSelection = () => {
                 const seatResponse = await fetch(`http://localhost:8080/seats?showtimeId=${showtimeId}`);
                 const seatData = await seatResponse.json();
                 if (seatData && seatData.data) {
-                    setSeatLayout(seatData.data.slice(0, 60)); // Seat data fetched successfully
+
+                    const allSeats = (seatData.data.slice(0, 60));
+
+
+
+                    const seatNormal = allSeats.filter(seats => seats.seatType.seatTypeName === 'Ghế thường');
+                    const seatVIP = allSeats.filter(seats => seats.seatType.seatTypeName === 'VIP');
+                    const seatCouple = allSeats.filter(seats => seats.seatType.seatTypeName === 'Couple');
+
+                    const arrangedSeats = [
+                        ...seatNormal,
+                        ...seatVIP.slice(Math.floor(seatVIP.length / 2)),
+                        // ...seatNormal.slice(Math.floor(seatNormal.length / 2)),
+                        ...seatCouple
+                    ];
+
+
+
+
+                    setSeatLayout(arrangedSeats);
+
+
+
                 } else {
                     setSeatLayout([]);
                     console.error("No seat data found");
@@ -57,7 +80,29 @@ const SeatSelection = () => {
         if (seat.booked) {
             alert('This seat has already been sold!');
             return; // Prevent selecting a booked seat
-        }
+        }    // If it's a couple seat, select/deselect both seats together
+        // if (seat.seatType.seatTypeName === 'Couple') {
+        //     const seatIndex = seatLayout.findIndex(s => s.seatId === seat.seatId);
+
+        //     // Ensure the seat has a valid next seat for a couple pair
+        //     const nextSeat = seatLayout[seatIndex + 1];
+        //     if (nextSeat && nextSeat.seatType.seatTypeName === 'Couple') {
+        //         setSelectedSeats((prevSelected) => {
+        //             const isSelected = prevSelected.some(selected => selected.seatId === seat.seatId);
+        //             if (isSelected) {
+        //                 // Deselect both seats
+        //                 return prevSelected.filter(selected => selected.seatId !== seat.seatId && selected.seatId !== nextSeat.seatId);
+        //             } else {
+        //                 // Select both seats
+        //                 return [...prevSelected, seat, nextSeat];
+        //             }
+        //         });
+        //         return; // Skip further processing as both seats are handled
+        //     }
+        // }
+
+
+
         setSelectedSeats((prevSelected) => {
             if (prevSelected.some(selected => selected.seatId === seat.seatId)) {
                 // If the seat is already selected, deselect it
@@ -85,6 +130,21 @@ const SeatSelection = () => {
             return total + (ticketPrice + seatPrice); // Add the ticketPrice and seatPrice for each seat
         }, 0);
     };
+
+    const getGroupedSeatsByType = () => {
+        // Create an object where the key is the seat type and the value is an array of seats of that type
+        return selectedSeats.reduce((acc, seat) => {
+            const type = seat.seatType.seatTypeName; // e.g., 'Ghế thường', 'VIP', 'Couple'
+            if (!acc[type]) {
+                acc[type] = []; // Initialize an empty array for this seat type if not already present
+            }
+            acc[type].push(seat); // Add the seat to the appropriate type group
+            return acc;
+        }, {});
+    };
+
+
+
 
     // Display loading or error messages
     if (loading) {
@@ -137,26 +197,31 @@ const SeatSelection = () => {
                                 seatLayout.map((seat, index) => (
                                     <img
                                         key={index}
+                                        // Kiểm tra trạng thái của ghế và hiển thị hình ảnh phù hợp
                                         src={selectedSeats.some(selected => selected.seatId === seat.seatId)
-                                            ? seatSelected
+                                            ? seat.seatType.seatTypeName === 'Couple'
+                                                ? seatCoupleSelected // Hình ảnh cho ghế đôi đã chọn
+                                                : seatSelected // Hình ảnh cho ghế thường hoặc VIP đã chọn
                                             : seat.booked
-                                                ? seatSold
+                                                ? seatSold // Hình ảnh cho ghế đã bán
                                                 : seat.seatType.seatTypeName === 'Ghế thường'
-                                                    ? seatNormal
+                                                    ? seatNormal // Hình ảnh cho ghế thường
                                                     : seat.seatType.seatTypeName === 'VIP'
-                                                        ? seatVIP
-                                                        : seatCouple
+                                                        ? seatVIP // Hình ảnh cho ghế VIP
+                                                        : seatCouple // Hình ảnh cho ghế đôi
+          
                                         }
                                         alt={seat.seatType.seatTypeName}
                                         className={`seat ${seat.seatType.seatTypeName}`}
-                                        onClick={() => handleSeatClick(seat)}
+                                        onClick={() => handleSeatClick(seat)} // Xử lý chọn ghế
                                     />
                                 ))
                             ) : (
-                                <div>No seats available.</div>
+                                <div>Không có ghế nào có sẵn.</div>
                             )}
                         </div>
                     </Col>
+
 
                     {/* Seat legend */}
                     <div className="seat-legend text-center mt-3">
@@ -200,10 +265,17 @@ const SeatSelection = () => {
                         )}
 
                         {/* <h6 className="text-muted">FHD Cinema</h6> */}
-                        <p style={{ textAlign: 'left' }}>{selectedSeats.length} x Seat(s)</p>
-                        <p style={{ textAlign: 'left' }}>{selectedSeats.map(seat => seat.seatName).join(', ')}</p>
+                        <div style={{ textAlign: 'left' }}>
+                            {Object.entries(getGroupedSeatsByType()).map(([seatType, seats]) => (
+                                <div key={seatType}>
+                                    <p><strong>{seats.length} x {seatType}</strong></p>
+                                    <p>{seats.map(seat => seat.seatName).join(', ')}</p>
+                                </div>
+                            ))}
+                        </div>
+
                         <hr />
-                        <p style={{ textAlign: 'left' }}>Total Price: {getTotalPrice()} VND</p>
+                        <p style={{ textAlign: 'left' }}>Total Price: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(getTotalPrice())}</p>
                         <Button variant="success" block onClick={goToOrderFood}>
                             CHỌN ĐỒ ĂN (2/4)
                         </Button>
@@ -213,5 +285,7 @@ const SeatSelection = () => {
         </Container>
     );
 };
+
+
 
 export default SeatSelection;
