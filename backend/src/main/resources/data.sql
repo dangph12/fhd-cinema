@@ -660,7 +660,8 @@ Combo 1 và 2 áp dụng tại tất cả cụm rạp BHD Star (Trừ BHD Star L
 Combo 3, 4 và 5 áp dụng chỉ áp dụng tại các cụm rạp BHD Star Lê Văn Việt, BHD Star Quang Trung và BHD Star Thảo Điền
 Vui lòng liên hệ nhân viên tại Rạp hoặc inbox BHD Star Cineplex để được tư vấn và đặt vé
 Còn chần chờ gì mà không đến rạp BHD Star gần nhất và triển ngay!!!!!
-', '2024-07-01 00:00:00', 'https://www.bhdstar.vn/wp-content/uploads/2024/09/Conan.jpg');
+', '2024-07-01 00:00:00', 'https://www.bhdstar.vn/wp-content/uploads/2024/09/Conan.jpg'),
+('96734bae-7413-11ef-a157-0242ac110002', 'COMBO “ÁO THUN BHDS x SAIGONINK” SIÊU CHẤT', 'Description: Công nghệ in hiện đại mang lại những sản phẩm áo thun BST Halloween của BHDS & SaigonInk có hình in sắc nét, màu sắc sinh động', '2024-07-01 00:00:00', 'https://bhdstar.vn/wp-content/uploads/2024/10/Ao-thun-Sai-gon-ink-vuong-2.jpg');
 
 INSERT INTO `fhd_cinema`.`accounts`
 (`account_id`, `account_name`, `account_password`, `account_type`)
