@@ -14,7 +14,16 @@ function News() {
     fontFamily: "Arial, sans-serif",
     backgroundColor: "transparent", // no background
     display: "inline-block", // button behavior
-    marginBottom: '20px'
+    marginBottom: "20px",
+  };
+
+  const tittle = {
+    borderRadius: "15px", // rounded corners
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
   };
 
   const [news, setNews] = useState([]);
@@ -56,8 +65,9 @@ function News() {
                   marginTop: "30px",
                 }}
               >
-                {items.newsTitle}
+                <h4 style={tittle}>{items.newsTitle}</h4>
               </h3>
+              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
             </div>
           ))}
         </div>
