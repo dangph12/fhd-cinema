@@ -34,7 +34,17 @@ const StarMember = (props) => {
     fontFamily: "Arial, sans-serif",
     backgroundColor: "transparent", // no background
     display: "inline-block", // button behavior\
-    marginBottom: '20px'
+    marginBottom: "20px",
+  };
+
+  const tittle = {
+    borderRadius: "15px", // rounded corners
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
+    marginTop: '20px'
   };
 
   const [news, setNews] = useState([]);
@@ -52,7 +62,7 @@ const StarMember = (props) => {
 
   return (
     <div>
-      <BannerThird/>
+      <BannerThird />
       <section className="value-combo">
         <h2 className="">
           <button style={buttonStyle}>VALUE COMBO</button>
@@ -68,15 +78,7 @@ const StarMember = (props) => {
                       alt="Combo Trung Thu Sum Vầy"
                     />
                   </NavLink>
-                  <h3
-                    style={{
-                      textAlign: "center",
-                      fontSize: "20px",
-                      color: "#3b8d00",
-                    }}
-                  >
-                    {items.newsTitle}
-                  </h3>
+                  <h4 style={tittle}> {items.newsTitle}</h4>
                   <p>
                     Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star
                   </p>
