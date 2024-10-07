@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { fetchNews } from "../../components/services/UserService";
 import BannerSecond from "../home/components/BannerSecond";
+import { NavLink } from "react-router-dom";
 
 function News() {
   const [news, setNews] = useState([]);
@@ -37,7 +38,7 @@ function News() {
             textAlign: "center",
             fontSize: "40px",
             color: "#3b8d00",
-            margin: '20px 20px 20px 20px'
+            margin: "20px 20px 20px 20px",
           }}
         >
           FHD NEWS COMBO
@@ -46,9 +47,13 @@ function News() {
           {news.map((items, index) => {
             return (
               <div class="combo-item shadow" key={index}>
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="#"></a>
+                <NavLink
+                  className="nav-link"
+                  to={`/news/${items.newsId}`}
+                >
                   <img src={items.newsImageUrl} alt="Combo Trung Thu Sum Vầy" />
-                </a>
+                </NavLink>
                 <h3
                   style={{
                     textAlign: "center",
