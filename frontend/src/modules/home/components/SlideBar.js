@@ -34,7 +34,6 @@ function SlideBar() {
     backgroundColor: 'transparent', // no background
     display: 'inline-block', // button behavior
     marginBottom: '30px',
-    marginTop: '20px'
   };
 
 
