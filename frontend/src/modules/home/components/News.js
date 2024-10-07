@@ -32,7 +32,16 @@ function News() {
       </div>
 
       <section class="value-combo">
-        <h2>FHD NEWS COMBO</h2>
+        <h1
+          style={{
+            textAlign: "center",
+            fontSize: "40px",
+            color: "#3b8d00",
+            margin: '20px 20px 20px 20px'
+          }}
+        >
+          FHD NEWS COMBO
+        </h1>
         <div class="combo-container">
           {news.map((items, index) => {
             return (
@@ -40,7 +49,15 @@ function News() {
                 <a className="nav-link" href="#">
                   <img src={items.newsImageUrl} alt="Combo Trung Thu Sum Vầy" />
                 </a>
-                <h3>{items.newsTitle}</h3>
+                <h3
+                  style={{
+                    textAlign: "center",
+                    fontSize: "20px",
+                    color: "#3b8d00",
+                  }}
+                >
+                  {items.newsTitle}
+                </h3>
                 {/* <p>{items.newsDescription}</p> */}
               </div>
             );

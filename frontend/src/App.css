@@ -560,6 +560,14 @@ h2 {
   color: #3b8d00;
 }
 
+
+h3 {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 20px;
+  color: #3b8d00;
+}
+
 .value-combo {
   width: 100%;
   max-width: 1200px;
