@@ -106,6 +106,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllUser } from "../components/services/UserService";
 import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 
 const buttonStyle = {
   border: "2px solid #8bc34a", // green border
@@ -119,15 +121,29 @@ const buttonStyle = {
 };
 
 const tittle = {
-    borderRadius: "15px", // rounded corners
-    padding: "10px 20px", // padding for the button
-    color: "#8bc34a", // green text
-    fontWeight: "bold",
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "inline-block", // button behavior
-  };
+  borderRadius: "15px", // rounded corners
+  padding: "10px 20px", // padding for the button
+  color: "#8bc34a", // green text
+  fontWeight: "bold",
+  fontFamily: "Arial, sans-serif",
+  backgroundColor: "transparent", // no background
+  display: "inline-block", // button behavior
+};
 
+const orderButton = {
+  border: "none", // No border
+  borderRadius: "30px", // Rounded corners
+  padding: "10px 30px", // Padding for the button
+  color: "white", // White text
+  fontWeight: "bold",
+  fontFamily: "Arial, sans-serif",
+  background: "linear-gradient(90deg, #00c853, #aeea00)", // Gradient background
+  display: "flex", // Flexbox to align text and icon
+  alignItems: "center", // Vertically center
+  justifyContent: "center", // Horizontally center
+  cursor: "pointer",
+  fontSize: '20px', 
+};
 const BodyFirst = () => {
   const [listMovies, setListMovies] = useState([]);
 
@@ -182,19 +198,19 @@ const BodyFirst = () => {
                       </NavLink>
                     </div>
                     <div className="vietsub">
-                      <button
-                        type="button"
-                        className="btn btn-success btn-rounded"
+                      <NavLink
+                        id={items.movieId}
+                        className="nav-link"
+                        to={`/orderTicket/${items.movieId}`}
                       >
-                        <NavLink
-                          id={items.movieId}
-                          className="nav-link"
-                          to={`/orderTicket/${items.movieId}`}
-                        >
-                          Đặt Vé
-                        </NavLink>
-                        {/* <NavLink id={items.movieId} className="nav-link" to={`/orderTicket`}>Đặt Vé</NavLink> */}
-                      </button>
+                        <Button style={orderButton}>
+                          MUA VÉ NGAY
+                          <ConfirmationNumberIcon
+                            style={{ marginLeft: "10px", color: "white"}}
+                          />
+                        </Button>
+                      </NavLink>
+                      {/* <NavLink id={items.movieId} className="nav-link" to={`/orderTicket`}>Đặt Vé</NavLink> */}
                       <span>
                         <button
                           type="button"
