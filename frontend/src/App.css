@@ -7,7 +7,6 @@
   pointer-events: none;
 }
 
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -39,17 +38,15 @@
 .footer-section a {
   text-decoration: none;
   color: #eee3e3;
-  -webkit-transition: .3s all ease;
-  -o-transition: .3s all ease;
-  transition: .3s all ease;
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
 }
-
 
 .footer-section {
   padding: 80px 0;
-  background: #151720
+  background: #151720;
 }
-
 
 /* film detail  */
 
@@ -264,7 +261,6 @@
   align-items: center;
 }
 
-
 .custom-navbar {
   padding: 10px 20px;
 }
@@ -276,7 +272,6 @@
 .custom-navbar-cta .nav-link {
   margin: 0 5px;
 }
-
 
 .banner-container {
   width: 100%;
@@ -378,7 +373,6 @@
   /* Responsive height */
 }
 
-
 @media (max-width: 600px) {
   .container {
     padding-left: 0;
@@ -395,10 +389,7 @@
   }
 }
 
-
-
 @media (max-width: 768x) {
-
   /* nav bar  */
 
   .custom-navbar {
@@ -449,7 +440,6 @@
   .white-image img {
     width: 100%;
     height: auto;
-
   }
 
   .white-image {
@@ -521,7 +511,6 @@
   font-size: 1.2rem;
 }
 
-
 /* Responsive giảm xuống 3 ảnh */
 @media (max-width: 1200px) {
   .grid__row {
@@ -560,7 +549,6 @@ h2 {
   color: #3b8d00;
 }
 
-
 .value-combo {
   width: 100%;
   max-width: 1200px;
@@ -579,10 +567,11 @@ h2 {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 30%;
+  width: 100%;
   margin-bottom: 20px;
   padding: 20px;
 }
+
 
 .combo-item img {
   width: 100%;
@@ -608,9 +597,9 @@ h2 {
 }
 
 .time-button {
-  width: 100%; 
+  width: 100%;
   padding: 10px;
-  background-color:  #64a70b;
+  background-color: #64a70b;
   border: none;
   cursor: pointer;
   text-align: center;
@@ -626,19 +615,20 @@ h2 {
 }
 
 /* Form block styling */
-.login-page-login-form, .login-page-register-form {
+.login-page-login-form,
+.login-page-register-form {
   flex: 1;
   margin: 10px;
 }
 
 /* Styling for input, select, and button elements */
-.login-page-form-container input, 
-.login-page-form-container select, 
+.login-page-form-container input,
+.login-page-form-container select,
 .login-page-form-container button {
   width: 100%;
   padding: 8px;
   margin: 6px 0;
-  border-radius: 8px; 
+  border-radius: 8px;
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
@@ -650,7 +640,7 @@ h2 {
   cursor: pointer;
 
   &.active {
-    background-color: #64a70b;  
+    background-color: #64a70b;
     color: white;
   }
 }
@@ -670,7 +660,8 @@ h2 {
   margin-right: 10px;
 }
 
-button[disabled=disabled], button:disabled {
+button[disabled="disabled"],
+button:disabled {
   background: #dddddd;
   cursor: not-allowed;
 }
@@ -692,8 +683,13 @@ button[disabled=disabled], button:disabled {
   border-radius: 8px;
 }
 
-
-.navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+.navbar > .container,
+.navbar > .container-fluid,
+.navbar > .container-lg,
+.navbar > .container-md,
+.navbar > .container-sm,
+.navbar > .container-xl,
+.navbar > .container-xxl {
   flex-wrap: unset;
 }
 

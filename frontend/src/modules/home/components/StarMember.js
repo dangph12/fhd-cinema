@@ -24,7 +24,7 @@ const StarMember = (props) => {
 
   return (
     <div>
-      <section class="value-combo">
+      <section className="value-combo">
         <h2
           style={{
             textAlign: "center",
@@ -36,40 +36,51 @@ const StarMember = (props) => {
           VALUE COMBO
         </h2>
         <Carousel responsive={responsive}>
-          <div className="card border combo-container">
-            <img
-              className="product--image"
-              src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
-            />
-            <div
-              style={{
-                textAlign: "center",
-                fontSize: "20px",
-                color: "#3b8d00",
-                borderRadius: "5000px",
-              }}
-            >
-              <h5>COMBO "CONAN - THÁM TỬ LỪNG DANH"</h5>
+          <div style={{ marginRight: "20px" }}>
+            <div className="combo-item shadow">
+              <img
+                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
+                alt="Combo Trung Thu Sum Vầy"
+              />
+              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
+              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
             </div>
           </div>
-          <div className="card">
-            <img
-              className="product--image"
-              src="https://bhdstar.vn/wp-content/uploads/2024/09/Black-Pink.jpg"
-            />
+
+          <div style={{ marginRight: "20px" }}>
+            <div className="combo-item shadow">
+              <img
+                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
+                alt="Combo Trung Thu Sum Vầy"
+              />
+              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
+              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
+            </div>
           </div>
-          <div className="card">
-            <img
-              className="product--image"
-              src="https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png"
-            />
+
+          <div style={{ marginRight: "20px" }}>
+            <div className="combo-item shadow">
+              <img
+                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
+                alt="Combo Trung Thu Sum Vầy"
+              />
+              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
+              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
+            </div>
           </div>
-          <div className="card">
-            <img
-              className="product--image"
-              src="https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png"
-            />
+
+          <div style={{ marginRight: "20px" }}>
+            <div className="combo-item shadow">
+              <img
+                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
+                alt="Combo Trung Thu Sum Vầy"
+              />
+              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
+              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
+            </div>
           </div>
+
+          {/* Add more items here if needed */}
         </Carousel>
       </section>
     </div>
@@ -77,37 +88,3 @@ const StarMember = (props) => {
 };
 
 export default StarMember;
-
-// import React from 'react'
-
-// const StarMember = (props) => {
-//     return (
-//         <div>
-//             <section class="value-combo">
-//                 <h2>VALUE COMBO</h2>
-//                 <div class="combo-container">
-
-//                     <div class="combo-item shadow">
-//                         <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg" alt="Combo Trung Thu Sum Vầy" />
-//                         <h3>COMBO "TRUNG THU SUM VẦY"</h3>
-//                         <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
-//                     </div>
-
-//                     <div class="combo-item shadow">
-//                         <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Black-Pink.jpg" alt="Combo Conan Thám Tử Lừng Danh" />
-//                         <h3>COMBO "CONAN - THÁM TỬ LỪNG DANH"</h3>
-//                         <p>Mua combo bắp nước kèm 1 sản phẩm Conan với giá cực hời</p>
-//                     </div>
-
-//                     <div class="combo-item shadow">
-//                         <img src="https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png" alt="Combo Ngon Dịu" />
-//                         <h3>COMBO "NGON DỊU"</h3>
-//                         <p>Mua combo "Ngon Dịu" tặng kèm vòng tay Blackpink siêu độc lạ</p>
-//                     </div>
-//                 </div>
-//             </section>
-//         </div>
-//     );
-// }
-
-// export default StarMember
