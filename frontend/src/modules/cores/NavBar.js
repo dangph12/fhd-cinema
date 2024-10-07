@@ -39,7 +39,7 @@ const NavBar = (props) => {
                                 <NavLink className="nav-link" to="/">Cửa Hàng</NavLink>
                             </Nav.Link>
                             <Nav.Link className="nav-item active">
-                                <NavLink className="nav-link" to="/">Khuyến Mãi</NavLink>
+                                <NavLink className="nav-link" to="/news">Khuyến Mãi</NavLink>
                             </Nav.Link>
                             <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/login">Login</NavLink>
@@ -61,10 +61,12 @@ const NavBar = (props) => {
                                     <img src={user} />
                                 </NavLink>
                             </Nav.Link>
-                            <li><a className="nav-link" href="cart.html"><img src={cart} /></a></li>
-
-                            {/* <li><a className="nav-link" href="/users"><img src="img/user.svg" /></a></li> */}
-
+        
+                            <Nav.Link className="nav-item active">
+                                <NavLink className="nav-link" to="/cart">
+                                    <img src={cart} />
+                                </NavLink>
+                            </Nav.Link>
                         </ul>
                     </div>
                 </div>
