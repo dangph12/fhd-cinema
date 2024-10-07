@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Nav } from "react-bootstrap";
 import { useLocation, NavLink } from "react-router-dom";
 import { fetchAllUser } from "../../../components/services/UserService";
+import SendIcon from '@mui/icons-material/Send';
+
 
 //     movieCast
 // :
@@ -170,18 +172,14 @@ const BodySecond = (props) => {
                           className="nav-link"
                           to={`/description/${items.movieId}`}
                         >
-                          <button
-                            type="button"
-                            className="btn btn-outline-success btn-floating"
-                            data-mdb-ripple-init
-                          >
-                            <Button style={detailsButton}>
+                          
+                            <Button style={detailsButton} >
                               THÔNG TIN CHI TIẾT
                               <SendIcon
                                 style={{ marginLeft: "10px", color: "#8bc34a" }}
                               />
                             </Button>
-                          </button>
+                       
                         </NavLink>
                       </Nav.Link>
                     </div>
