@@ -1,146 +1,82 @@
-// import React from "react";
-// import Carousel from "react-multi-carousel";
+import React from "react";
+import Carousel from "react-multi-carousel";
 
-// const StarMember = (props) => {
-//   const responsive = {
-//     superLargeDesktop: {
-//       breakpoint: { max: 4000, min: 1024 },
-//       items: 3,
-//       slideToSlide: 3,
-//     },
-//     desktop: {
-//       breakpoint: { max: 1024, min: 500 },
-//       items: 3,
-//     },
-//     tablet: {
-//       breakpoint: { max: 500, min: 464 },
-//       items: 2,
-//     },
-//     mobile: {
-//       breakpoint: { max: 464, min: 0 },
-//       items: 1,
-//     },
-//   };
+const StarMember = (props) => {
+  const responsive = {
+    superLargeDesktop: {
+      breakpoint: { max: 4000, min: 1024 },
+      items: 3,
+      slideToSlide: 3,
+    },
+    desktop: {
+      breakpoint: { max: 1024, min: 500 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 500, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
 
-//   return (
-//     // <div>
-//     //     <div class="container">
-//     //         <div class="grid">
-//     //             <div class="film-product">
-//     //                 <div class="grid__row">
-//     //                     <div class="col-4-6">
-//     //                         <a href="#" class="itemfilm">
-//     //                             <div class="img-item">
-//     //                                 <img src="img/bhdstarmember.png" alt="" />
-//     //                             </div>
-//     //                         </a>
-//     //                     </div>
-//     //                 </div>
-//     //             </div>
-//     //         </div>
-//     //     </div>
-//     //     <div class="container">
-//     //         <div class="grid">
-//     //             <div class="film-product">
-//     //                 <div class="grid__row">
-//     //                     <div className="col-md-4">
-//     //                         <a href="#" className="itemfilm">
-//     //                             <div className="img-item">
-//     //                                 <img src="https://www.bhdstar.vn/wp-content/uploads/2023/08/Rectangle-21.png" alt="" />
-//     //                             </div>
-//     //                             <div className="name">
-//     //                                 <h2>Quét Mã QR - Thẳng Tiến Vào Rạp</h2>
-//     //                             </div>
-//     //                         </a>
-//     //                     </div>
+  return (
+    <div>
+      <section class="value-combo">
+        <h2
+          style={{
+            textAlign: "center",
+            fontSize: "40px",
+            color: "#3b8d00",
+            margin: "20px",
+          }}
+        >
+          VALUE COMBO
+        </h2>
+        <Carousel responsive={responsive}>
+          <div className="card border combo-container">
+            <img
+              className="product--image"
+              src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
+            />
+            <div
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                color: "#3b8d00",
+                borderRadius: "5000px",
+              }}
+            >
+              <h5>COMBO "CONAN - THÁM TỬ LỪNG DANH"</h5>
+            </div>
+          </div>
+          <div className="card">
+            <img
+              className="product--image"
+              src="https://bhdstar.vn/wp-content/uploads/2024/09/Black-Pink.jpg"
+            />
+          </div>
+          <div className="card">
+            <img
+              className="product--image"
+              src="https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png"
+            />
+          </div>
+          <div className="card">
+            <img
+              className="product--image"
+              src="https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png"
+            />
+          </div>
+        </Carousel>
+      </section>
+    </div>
+  );
+};
 
-//     //                     <div className="col-md-4">
-//     //                         <a href="#" className="itemfilm">
-//     //                             <div className="img-item">
-//     //                                 <img src="https://www.bhdstar.vn/wp-content/uploads/2023/08/Rectangle-20.png" alt="" />
-//     //                             </div>
-//     //                             <div className="name">
-//     //                                 <h2>Happy day Thứ 2 Giá Rẻ - Chỉ Từ 60k/vé</h2>
-//     //                             </div>
-//     //                         </a>
-//     //                     </div>
-
-//     //                     <div className="col-md-4">
-//     //                         <a href="#" className="itemfilm">
-//     //                             <div className="img-item">
-//     //                                 <img src="https://www.bhdstar.vn/wp-content/uploads/2023/08/Rectangle-19.png" alt="" />
-//     //                             </div>
-//     //                             <div className="name">
-//     //                                 <h2>Giá Vé 55k - Dành Cho Fan Cứng U22</h2>
-//     //                             </div>
-//     //                         </a>
-//     //                     </div>
-//     //                 </div>
-//     //             </div>
-//     //         </div>
-//     //     </div>
-//     // </div>
-
-//     <div>
-//       <section class="value-combo">
-//         <h2
-//           style={{
-//             textAlign: "center",
-//             fontSize: "40px",
-//             color: "#3b8d00",
-//             margin: "20px",
-//           }}
-//         >
-//           VALUE COMBO
-//         </h2>
-//         <Carousel responsive={responsive}>
-//           <div className="card border">
-//             <img
-//               className="product--image"
-//               src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
-//             />
-//             <div
-            
-//               style={{
-//                 textAlign: "center",
-//                 fontSize: "20px",
-//                 color: "#3b8d00",
-//                 borderRadius: '5000px'
-//               }}
-              
-//             >
-//               <h5>COMBO "CONAN - THÁM TỬ LỪNG DANH"</h5>
-//             </div>
-
-//           </div>
-//           <div className="card">
-//             <img
-//               className="product--image"
-//               src="https://bhdstar.vn/wp-content/uploads/2024/09/Black-Pink.jpg"
-//             />
-//           </div>
-//           <div className="card">
-//             <img
-//               className="product--image"
-//               src="https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png"
-//             />
-//           </div>
-//           <div className="card">
-//             <img
-//               className="product--image"
-//               src="https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png"
-//             />
-//           </div>
-          
-
-//         </Carousel>
-//       </section>
-//     </div>
-//   );
-// };
-
-// export default StarMember;
-
+export default StarMember;
 
 // import React from 'react'
 
