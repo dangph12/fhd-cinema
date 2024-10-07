@@ -83,14 +83,6 @@ public class TicketService{
       throw new TicketException(Status.FAIL.getValue(), TicketStatusMessage.NOT_EXIST.getMessage());
     }
 
-    Ticket ticket = this.getTicketById(ticketId);
-
-    Seat seat = seatService.getSeatById(ticket.getSeat().getSeatId());
-
-    if (seat != null) {
-      ticket.setSeat(null);
-    }
-
     ticketRepository.deleteById(ticketId);
   }
 
