@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
+import { fetchNews } from "../../../components/services/UserService";
 
 const StarMember = (props) => {
   const responsive = {
@@ -22,6 +23,19 @@ const StarMember = (props) => {
     },
   };
 
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    getNews();
+  }, []);
+
+  const getNews = async () => {
+    let res = await fetchNews();
+    if (res && res.data) {
+      setNews(res.data.data);
+    }
+  };
+
   return (
     <div>
       <section className="value-combo">
@@ -36,51 +50,22 @@ const StarMember = (props) => {
           VALUE COMBO
         </h2>
         <Carousel responsive={responsive}>
-          <div style={{ marginRight: "20px" }}>
-            <div className="combo-item shadow">
-              <img
-                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
-                alt="Combo Trung Thu Sum Vầy"
-              />
-              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
-              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
+          {news.map((items) => (
+            <div className="combo-container">
+              <div style={{ marginRight: "20px" }}>
+                <div className="combo-item shadow">
+                  <img
+                    src={items.newsImageUrl}
+                    alt="Combo Trung Thu Sum Vầy"
+                  />
+                  <h3 style={{ textAlign: "center", fontSize: "20px", color: "#3b8d00" }}>{items.newsTitle}</h3>
+                  <p>
+                    Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
-
-          <div style={{ marginRight: "20px" }}>
-            <div className="combo-item shadow">
-              <img
-                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
-                alt="Combo Trung Thu Sum Vầy"
-              />
-              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
-              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
-            </div>
-          </div>
-
-          <div style={{ marginRight: "20px" }}>
-            <div className="combo-item shadow">
-              <img
-                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
-                alt="Combo Trung Thu Sum Vầy"
-              />
-              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
-              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
-            </div>
-          </div>
-
-          <div style={{ marginRight: "20px" }}>
-            <div className="combo-item shadow">
-              <img
-                src="https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg"
-                alt="Combo Trung Thu Sum Vầy"
-              />
-              <h3>COMBO "TRUNG THU SUM VẦY"</h3>
-              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
-            </div>
-          </div>
-
-          {/* Add more items here if needed */}
+          ))}
         </Carousel>
       </section>
     </div>
