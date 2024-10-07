@@ -18,6 +18,7 @@ const SeatSelection = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showtimeDetails, setShowtimeDetails] = useState(null);
+    const [movieTitle, setMovieTitle] = useState(""); // Declare movieTitle state
 
     // Fetch seat layout and showtime details based on showtimeId
     useEffect(() => {
@@ -27,10 +28,7 @@ const SeatSelection = () => {
                 const seatResponse = await fetch(`http://localhost:8080/seats?showtimeId=${showtimeId}`);
                 const seatData = await seatResponse.json();
                 if (seatData && seatData.data) {
-
-                    const allSeats = (seatData.data.slice(0, 60));
-
-
+                    const allSeats = seatData.data.slice(0, 60);
 
                     const seatNormal = allSeats.filter(seats => seats.seatType.seatTypeName === 'Ghế thường');
                     const seatVIP = allSeats.filter(seats => seats.seatType.seatTypeName === 'VIP');
@@ -39,17 +37,10 @@ const SeatSelection = () => {
                     const arrangedSeats = [
                         ...seatNormal,
                         ...seatVIP.slice(Math.floor(seatVIP.length / 2)),
-                        // ...seatNormal.slice(Math.floor(seatNormal.length / 2)),
                         ...seatCouple
                     ];
 
-
-
-
                     setSeatLayout(arrangedSeats);
-
-
-
                 } else {
                     setSeatLayout([]);
                     console.error("No seat data found");
@@ -60,11 +51,17 @@ const SeatSelection = () => {
                 const showtimeData = await showtimeResponse.json();
                 if (showtimeData && showtimeData.data) {
                     setShowtimeDetails(showtimeData.data); // Showtime details fetched successfully
+
+                    // Fetch movie details based on movieId
+                    const movieResponse = await fetch(`http://localhost:8080/movies/${showtimeData.movieId}`);
+                    const movieData = await movieResponse.json();
+                    if (movieData && movieData.data) {
+                        setMovieTitle(movieData.data.movieTitle); // Set movieTitle from fetched movie data
+                    }
                 } else {
                     setShowtimeDetails(null);
                     console.error("No showtime data found");
                 }
-
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setError("Unable to fetch seat or showtime data.");
@@ -79,29 +76,8 @@ const SeatSelection = () => {
     const handleSeatClick = (seat) => {
         if (seat.booked) {
             alert('This seat has already been sold!');
-            return; // Prevent selecting a booked seat
-        }    // If it's a couple seat, select/deselect both seats together
-        // if (seat.seatType.seatTypeName === 'Couple') {
-        //     const seatIndex = seatLayout.findIndex(s => s.seatId === seat.seatId);
-
-        //     // Ensure the seat has a valid next seat for a couple pair
-        //     const nextSeat = seatLayout[seatIndex + 1];
-        //     if (nextSeat && nextSeat.seatType.seatTypeName === 'Couple') {
-        //         setSelectedSeats((prevSelected) => {
-        //             const isSelected = prevSelected.some(selected => selected.seatId === seat.seatId);
-        //             if (isSelected) {
-        //                 // Deselect both seats
-        //                 return prevSelected.filter(selected => selected.seatId !== seat.seatId && selected.seatId !== nextSeat.seatId);
-        //             } else {
-        //                 // Select both seats
-        //                 return [...prevSelected, seat, nextSeat];
-        //             }
-        //         });
-        //         return; // Skip further processing as both seats are handled
-        //     }
-        // }
-
-
+            return;
+        }
 
         setSelectedSeats((prevSelected) => {
             if (prevSelected.some(selected => selected.seatId === seat.seatId)) {
@@ -114,9 +90,8 @@ const SeatSelection = () => {
         });
     };
 
-    // Navigate to the next step: order food
     const goToOrderFood = () => {
-        navigate('/orderfood', { state: { selectedSeats, showtimeDetails } }); // Pass selected seats and showtimeDetails to the next page
+        navigate('/orderFood', { state: { selectedSeats, showtimeDetails } }); // Pass selected seats and showtimeDetails to the next page
     };
 
     // Calculate total price based on ticket price and selected seats' seatTypePrice
@@ -132,21 +107,16 @@ const SeatSelection = () => {
     };
 
     const getGroupedSeatsByType = () => {
-        // Create an object where the key is the seat type and the value is an array of seats of that type
         return selectedSeats.reduce((acc, seat) => {
-            const type = seat.seatType.seatTypeName; // e.g., 'Ghế thường', 'VIP', 'Couple'
+            const type = seat.seatType.seatTypeName;
             if (!acc[type]) {
-                acc[type] = []; // Initialize an empty array for this seat type if not already present
+                acc[type] = [];
             }
-            acc[type].push(seat); // Add the seat to the appropriate type group
+            acc[type].push(seat);
             return acc;
         }, {});
     };
 
-
-
-
-    // Display loading or error messages
     if (loading) {
         return <div>Loading seat data...</div>;
     }
@@ -161,31 +131,6 @@ const SeatSelection = () => {
                 BƯỚC 2: CHỌN GHẾ
             </Card.Title>
             <Row className="justify-content-center align-items-stretch">
-                {/* Showtime Details Section */}
-                {/* {showtimeDetails && (
-                    <Col xs={12} lg={4} className="pricing-column d-flex flex-column justify-content-between">
-                        <div className="pricing-details p-3 rounded shadow-sm bg-white">
-                            <Card.Title>{showtimeDetails.movieTitle}</Card.Title>
-                            <h6 className="text-muted" style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'left' }}>
-                                {showtimeDetails.screen.cinema.cinemaName}
-                            </h6>
-                            <p style={{ fontSize: '1rem', textAlign: 'left' }}>
-                                <strong style={{ color: '#5DBB63', fontSize: '1.1rem' }}>{showtimeDetails.screen.screenName}</strong>
-                                {' - '}
-                                {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric'
-                                })}
-                            </p>
-                            <strong>Price per ticket:</strong> {showtimeDetails.showtimePrice} VND
-                        </div>
-                    </Col>
-                )} */}
-
-                {/* Seat Selection Map */}
                 <Col xs={12} lg={8} className="seat-selection-column d-flex flex-column">
                     <Col xs={12} lg={12} className="mb-3">
                         <Card.Img src={seatMapHeader} alt="Màn hình" style={{ width: '100%' }} />
@@ -197,23 +142,21 @@ const SeatSelection = () => {
                                 seatLayout.map((seat, index) => (
                                     <img
                                         key={index}
-                                        // Kiểm tra trạng thái của ghế và hiển thị hình ảnh phù hợp
                                         src={selectedSeats.some(selected => selected.seatId === seat.seatId)
                                             ? seat.seatType.seatTypeName === 'Couple'
-                                                ? seatCoupleSelected // Hình ảnh cho ghế đôi đã chọn
-                                                : seatSelected // Hình ảnh cho ghế thường hoặc VIP đã chọn
+                                                ? seatCoupleSelected
+                                                : seatSelected
                                             : seat.booked
-                                                ? seatSold // Hình ảnh cho ghế đã bán
+                                                ? seatSold
                                                 : seat.seatType.seatTypeName === 'Ghế thường'
-                                                    ? seatNormal // Hình ảnh cho ghế thường
+                                                    ? seatNormal
                                                     : seat.seatType.seatTypeName === 'VIP'
-                                                        ? seatVIP // Hình ảnh cho ghế VIP
-                                                        : seatCouple // Hình ảnh cho ghế đôi
-          
+                                                        ? seatVIP
+                                                        : seatCouple
                                         }
                                         alt={seat.seatType.seatTypeName}
                                         className={`seat ${seat.seatType.seatTypeName}`}
-                                        onClick={() => handleSeatClick(seat)} // Xử lý chọn ghế
+                                        onClick={() => handleSeatClick(seat)}
                                     />
                                 ))
                             ) : (
@@ -222,8 +165,6 @@ const SeatSelection = () => {
                         </div>
                     </Col>
 
-
-                    {/* Seat legend */}
                     <div className="seat-legend text-center mt-3">
                         <Row>
                             <Col xs={4}><img src={seatNormal} alt="Ghế thường" /> Ghế thường</Col>
@@ -237,14 +178,11 @@ const SeatSelection = () => {
 
                 {/* Pricing Details */}
                 <Col xs={12} lg={4} className="pricing-column d-flex flex-column justify-content-between">
-
-
                     <div className="pricing-details p-3 rounded shadow-sm bg-white">
-
                         {showtimeDetails && (
-
                             <div className="pricing-details">
-                                <Card.Title>{showtimeDetails.movieTitle}</Card.Title>
+                                <Card.Title>{movieTitle}</Card.Title>
+
                                 <h6 className="text-muted" style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'left' }}>
                                     {showtimeDetails.screen.cinema.cinemaName}
                                 </h6>
@@ -259,12 +197,9 @@ const SeatSelection = () => {
                                         year: 'numeric'
                                     })}
                                 </p>
-                                {/* <strong style={{ textAlign: 'left' }}>Ticket Price</strong> {showtimeDetails.showtimePrice} VND */}
                             </div>
-
                         )}
 
-                        {/* <h6 className="text-muted">FHD Cinema</h6> */}
                         <div style={{ textAlign: 'left' }}>
                             {Object.entries(getGroupedSeatsByType()).map(([seatType, seats]) => (
                                 <div key={seatType}>
@@ -285,7 +220,5 @@ const SeatSelection = () => {
         </Container>
     );
 };
-
-
 
 export default SeatSelection;
