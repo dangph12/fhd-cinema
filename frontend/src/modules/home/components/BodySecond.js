@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Nav } from "react-bootstrap";
 import { useLocation, NavLink } from "react-router-dom";
 import { fetchAllUser } from "../../../components/services/UserService";
-import SendIcon from '@mui/icons-material/Send';
-
+import SendIcon from "@mui/icons-material/Send";
 
 //     movieCast
 // :
@@ -104,15 +103,15 @@ const BodySecond = (props) => {
   };
 
   const detailsButton = {
-    border: '2px solid #8bc34a', // green border
-    borderRadius: '25px', // rounded corners
-    padding: '10px 20px', // padding for the button
-    color: '#8bc34a', // green text
-    fontWeight: 'bold',
-    fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'transparent', // no background
-    display: 'flex', // flexbox to align text and icon
-    alignItems: 'center',
+    border: "2px solid #8bc34a", // green border
+    borderRadius: "25px", // rounded corners
+    padding: "10px 20px", // padding for the button
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "flex", // flexbox to align text and icon
+    alignItems: "center",
   };
 
   const [listMovies, setListMovies] = useState([]);
@@ -172,14 +171,12 @@ const BodySecond = (props) => {
                           className="nav-link"
                           to={`/description/${items.movieId}`}
                         >
-                          
-                            <Button style={detailsButton} >
-                              THÔNG TIN CHI TIẾT
-                              <SendIcon
-                                style={{ marginLeft: "10px", color: "#8bc34a" }}
-                              />
-                            </Button>
-                       
+                          <Button style={buttonStyle}>
+                            THÔNG TIN CHI TIẾT
+                            <SendIcon
+                              style={{ marginLeft: "10px", color: "#8bc34a" }}
+                            />
+                          </Button>
                         </NavLink>
                       </Nav.Link>
                     </div>
