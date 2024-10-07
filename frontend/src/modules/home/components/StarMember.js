@@ -24,6 +24,17 @@ const StarMember = (props) => {
     },
   };
 
+  const buttonStyle = {
+    border: "2px solid #8bc34a", // green border
+    borderRadius: "15px", // rounded corners
+    padding: "10px 20px", // padding for the button
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
+  };
+
   const [news, setNews] = useState([]);
 
   useEffect(() => {
@@ -40,15 +51,8 @@ const StarMember = (props) => {
   return (
     <div>
       <section className="value-combo">
-        <h2
-          style={{
-            textAlign: "center",
-            fontSize: "40px",
-            color: "#3b8d00",
-            margin: "20px",
-          }}
-        >
-          VALUE COMBO
+        <h2 className="">
+          <button style={buttonStyle}>VALUE COMBO</button>
         </h2>
         <Carousel responsive={responsive}>
           {news.map((items) => (

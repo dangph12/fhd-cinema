@@ -138,7 +138,7 @@ const BodyFirst = () => {
         <div className="hot-label">
           <div className="hot-label">
             <h2 className="">
-              <button style={buttonStyle}>NOW SHOWING/SNEAK SHOW</button>
+              <button style={buttonStyle}>PHIM ĐANG CHIẾU</button>
             </h2>
           </div>
         </div>
