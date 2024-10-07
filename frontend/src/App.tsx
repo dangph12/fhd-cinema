@@ -15,12 +15,10 @@
 // import _ from 'lodash'
 // import Users from "./modules/auth/Users";
 
-
 // function App() {
 
 //   // const [account, setAccounts] = useState({})
 //   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(null);
-
 
 //   useEffect(() => {
 //     let session = sessionStorage.getItem('account')
@@ -33,9 +31,6 @@
 
 //   return (
 //     <div className="App">
-
-
-
 
 //       <NavBar />
 //       {/* <Ticket/> */}
@@ -75,12 +70,11 @@
 
 // export default App;
 
-
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import NavBar from './modules/cores/NavBar';
-import Footer from './modules/cores/Footer';
-import { Routes, Route } from 'react-router-dom';
+import NavBar from "./modules/cores/NavBar";
+import Footer from "./modules/cores/Footer";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "./modules/auth/LoginPage";
 import FilmDetails from "./modules/film-details/FilmDetails";
 import OrderTicket from "./modules/orders/OrderTicket";
@@ -90,14 +84,16 @@ import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
 import Home from "./components/Home";
 import News from "./modules/home/components/News";
-import _ from 'lodash';
+import _ from "lodash";
 import Users from "./modules/auth/Users";
 
 function App() {
-  const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(null);
+  const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
+    null
+  );
 
   useEffect(() => {
-    let session = sessionStorage.getItem('account');
+    let session = sessionStorage.getItem("account");
     if (session) {
       setAccounts(JSON.parse(session));
     }
