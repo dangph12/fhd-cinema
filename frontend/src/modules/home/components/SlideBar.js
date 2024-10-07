@@ -5,7 +5,7 @@ function SlideBar() {
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 1024 },
-            items: 3,
+            items: 4,
             slideToSlide: 3
         },
         desktop: {
