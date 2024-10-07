@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Nav } from "react-bootstrap";
+import { Button, Nav } from "react-bootstrap";
 import { useLocation, NavLink } from "react-router-dom";
 import { fetchAllUser } from "../../../components/services/UserService";
 
@@ -101,6 +101,18 @@ const BodySecond = (props) => {
     display: "inline-block", // button behavior
   };
 
+  const detailsButton = {
+    border: '2px solid #8bc34a', // green border
+    borderRadius: '25px', // rounded corners
+    padding: '10px 20px', // padding for the button
+    color: '#8bc34a', // green text
+    fontWeight: 'bold',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'transparent', // no background
+    display: 'flex', // flexbox to align text and icon
+    alignItems: 'center',
+  };
+
   const [listMovies, setListMovies] = useState([]);
 
   useEffect(() => {
@@ -163,7 +175,12 @@ const BodySecond = (props) => {
                             className="btn btn-outline-success btn-floating"
                             data-mdb-ripple-init
                           >
-                            <i className="fas fa-star"></i> Thông Tin Phim
+                            <Button style={detailsButton}>
+                              THÔNG TIN CHI TIẾT
+                              <SendIcon
+                                style={{ marginLeft: "10px", color: "#8bc34a" }}
+                              />
+                            </Button>
                           </button>
                         </NavLink>
                       </Nav.Link>
