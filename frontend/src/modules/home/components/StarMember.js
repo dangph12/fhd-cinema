@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import { fetchNews } from "../../../components/services/UserService";
 import { NavLink } from "react-router-dom";
+import BannerThird from "./BannerThird";
 
 const StarMember = (props) => {
   const responsive = {
@@ -50,6 +51,7 @@ const StarMember = (props) => {
 
   return (
     <div>
+      <BannerThird/>
       <section className="value-combo">
         <h2 className="">
           <button style={buttonStyle}>VALUE COMBO</button>
