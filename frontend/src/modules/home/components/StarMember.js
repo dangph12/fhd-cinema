@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import { fetchNews } from "../../../components/services/UserService";
+import { NavLink } from "react-router-dom";
 
 const StarMember = (props) => {
   const responsive = {
@@ -54,11 +55,21 @@ const StarMember = (props) => {
             <div className="combo-container">
               <div style={{ marginRight: "20px" }}>
                 <div className="combo-item shadow">
-                  <img
-                    src={items.newsImageUrl}
-                    alt="Combo Trung Thu Sum Vầy"
-                  />
-                  <h3 style={{ textAlign: "center", fontSize: "20px", color: "#3b8d00" }}>{items.newsTitle}</h3>
+                  <NavLink className="nav-link" to={`/news/${items.newsId}`}>
+                    <img
+                      src={items.newsImageUrl}
+                      alt="Combo Trung Thu Sum Vầy"
+                    />
+                  </NavLink>
+                  <h3
+                    style={{
+                      textAlign: "center",
+                      fontSize: "20px",
+                      color: "#3b8d00",
+                    }}
+                  >
+                    {items.newsTitle}
+                  </h3>
                   <p>
                     Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star
                   </p>
