@@ -45,7 +45,7 @@ function NewsDeatils() {
               </p>
               <br />
               <p className="film-synopsis">
-                <strong>Phân loại: </strong>
+                <strong>Ngày Đăng Tin Khuyến Mãi: </strong>
                 {newsDetails.newsCreateAt}
               </p>
               {/* Social Links */}
