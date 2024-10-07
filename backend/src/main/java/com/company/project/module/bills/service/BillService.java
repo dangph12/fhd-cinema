@@ -10,10 +10,11 @@ import com.company.project.module.bills.entity.Bill;
 import com.company.project.module.bills.exception.BillException;
 import com.company.project.module.bills.repository.BillRepository;
 import com.company.project.module.bookings.entity.Booking;
-import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.bookings.service.BookingService;
+import com.company.project.module.vouchers.entity.Voucher;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,10 +24,8 @@ public class BillService {
   private BillRepository billRepository;
 
   @Autowired
+  @Lazy
   private BookingService bookingService;
-
-  @Autowired
-  private BookingRepository bookingRepository;
 
   public List<Bill> getAllBill() {
     return billRepository.findAll();
@@ -96,5 +95,12 @@ public class BillService {
     billRepository.deleteById(billId);
   }
 
-}
+  public void removeVoucherInBill(Voucher voucher) {
+    List<Bill> billsWithVoucher = billRepository.findByVouchersContaining(voucher);
+    for (Bill bill : billsWithVoucher) {
+      bill.getVouchers().remove(voucher);
+      billRepository.save(bill);
+    }
+  }
 
+}
