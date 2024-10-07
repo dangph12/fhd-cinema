@@ -194,7 +194,7 @@ const FilmTime = () => {
 
     // Hàm điều hướng đến trang chọn ghế với showtimeId và showTimeAt
     const goToSeatSelection = (showtimeId) => {
-        navigate(`/seatselection/${showtimeId}`); // Navigate to SeatSelection with showtimeId
+        navigate(`/seatSelection/${showtimeId}`); // Navigate to SeatSelection with showtimeId
     };
 
     useEffect(() => {
