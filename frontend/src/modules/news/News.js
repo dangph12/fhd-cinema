@@ -5,6 +5,18 @@ import BannerSecond from "../home/components/BannerSecond";
 import { NavLink } from "react-router-dom";
 
 function News() {
+  const buttonStyle = {
+    border: "2px solid #8bc34a", // green border
+    borderRadius: "15px", // rounded corners
+    padding: "10px 20px", // padding for the button
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
+    marginBottom: '20px'
+  };
+
   const [news, setNews] = useState([]);
 
   useEffect(() => {
@@ -22,16 +34,9 @@ function News() {
     <div>
       <BannerSecond />
       <section className="value-combo">
-        <h1
-          style={{
-            textAlign: "center",
-            fontSize: "40px",
-            color: "#3b8d00",
-            margin: "20px",
-          }}
-        >
-          FHD NEWS COMBO
-        </h1>
+        <h2 className="">
+          <button style={buttonStyle}>FHD NEWS COMBO</button>
+        </h2>
 
         <div className="combo-container">
           {news.map((items) => (
