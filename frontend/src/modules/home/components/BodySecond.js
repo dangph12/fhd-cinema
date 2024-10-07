@@ -102,18 +102,6 @@ const BodySecond = (props) => {
     display: "inline-block", // button behavior
   };
 
-  const detailsButton = {
-    border: "2px solid #8bc34a", // green border
-    borderRadius: "25px", // rounded corners
-    padding: "10px 20px", // padding for the button
-    color: "#8bc34a", // green text
-    fontWeight: "bold",
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "flex", // flexbox to align text and icon
-    alignItems: "center",
-  };
-
   const tittle = {
     borderRadius: "15px", // rounded corners
     padding: "10px 20px", // padding for the button
