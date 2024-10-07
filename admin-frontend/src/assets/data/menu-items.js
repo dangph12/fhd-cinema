@@ -10,6 +10,12 @@ export const MENU_ITEMS = [
     label: 'Tables',
     children: [
       {
+        key: 'tables-data-tables',
+        label: 'Data Tables',
+        url: '/tables/data-tables',
+        parentKey: 'tables',
+      },
+      {
         key: 'tables-accounts-tables',
         label: 'Accounts Tables',
         url: '/tables/accounts-tables',
