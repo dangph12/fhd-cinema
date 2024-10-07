@@ -24,6 +24,18 @@ function SlideBar() {
     },
   };
 
+  const buttonStyle = {
+    border: '2px solid #8bc34a', // green border
+    borderRadius: '15px', // rounded corners
+    padding: '10px 20px', // padding for the button
+    color: '#8bc34a', // green text
+    fontWeight: 'bold',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'transparent', // no background
+    display: 'inline-block', // button behavior
+  };
+
+
   const [listMovies, setListMovies] = useState([]);
 
   useEffect(() => {
@@ -42,8 +54,8 @@ function SlideBar() {
       <div className="grid">
         <div className="hot-series">
           <div className="hot-label">
-            <h2 className="title-heading">
-              <h2 className="hot-series">Hot Series</h2>
+            <h2 className="">
+              <button style={buttonStyle}>NOW SHOWING/SNEAK SHOW</button>
             </h2>
           </div>
           <Carousel responsive={responsive}>
