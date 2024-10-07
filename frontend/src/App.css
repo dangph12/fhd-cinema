@@ -572,6 +572,16 @@ h2 {
   padding: 20px;
 }
 
+.combo-item1 {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 30%;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
 
 .combo-item img {
   width: 100%;

@@ -84,7 +84,6 @@ import { NavLink } from "react-router-dom";
 
 //     export default News;
 
-
 function News() {
   const [news, setNews] = useState([]);
 
@@ -103,16 +102,31 @@ function News() {
     <div>
       <BannerSecond />
       <section className="value-combo">
-        <h1 style={{ textAlign: "center", fontSize: "40px", color: "#3b8d00", margin: "20px" }}>
+        <h1
+          style={{
+            textAlign: "center",
+            fontSize: "40px",
+            color: "#3b8d00",
+            margin: "20px",
+          }}
+        >
           FHD NEWS COMBO
         </h1>
+
         <div className="combo-container">
           {news.map((items) => (
-            <div className="combo-item shadow" key={items.newsId}>
+            <div className="combo-item1 shadow" key={items.newsId}>
               <NavLink className="nav-link" to={`/news/${items.newsId}`}>
-                <img src={items.newsImageUrl} alt={items.newsTitle} />
+                <img style={{width: '100%'}} src={items.newsImageUrl} alt={items.newsTitle} />
               </NavLink>
-              <h3 style={{ textAlign: "center", fontSize: "20px", color: "#3b8d00" }}>
+              <h3
+                style={{
+                  textAlign: "center",
+                  fontSize: "20px",
+                  color: "#3b8d00",
+                  marginTop: '30px'
+                }}
+              >
                 {items.newsTitle}
               </h3>
             </div>
@@ -123,4 +137,4 @@ function News() {
   );
 }
 
-    export default News;
+export default News;
