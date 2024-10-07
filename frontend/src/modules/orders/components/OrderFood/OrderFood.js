@@ -64,9 +64,18 @@ const OrderFood = () => {
 
   
 
-  function goToTicketInfor() {
-    navigate("/ticketinfor");
-  }
+  // function goToTicketInfor() {
+  //   navigate("/ticketinFor");
+  // }
+
+//   const goToTicketInfor = () => {
+//     navigate('/ticketinFor', { state: { selectedSeats, showtimeDetails, snacks } }); // Pass selected seats and showtimeDetails to the next page
+// };
+
+const goToTicketInfor = () => {
+  console.log("Navigating to Ticket Info with:", { selectedSeats, showtimeDetails, snacks });
+  navigate('/ticketinFor', { state: { selectedSeats, showtimeDetails, snacks } });
+};
 
   return (
     <Container fluid>
@@ -113,6 +122,7 @@ const OrderFood = () => {
           <Card className="p-3 seat-legend">
             <Card.Title style={{ color: '#5DBB63', fontSize: '1.9rem', fontWeight: 'bold' }}>Combo</Card.Title>
             {snacks.map(snack => (
+
               <Row key={snack.snackId} className="mb-4 align-items-center">
                 <Col xs={4}>
                   <Image
@@ -121,10 +131,12 @@ const OrderFood = () => {
                     fluid
                   />
                 </Col>
+
                 <Col xs={4}>
                   <h6 style={{ color: '#5DBB63', fontSize: '1.5rem', fontWeight: 'bold' }}>{snack.snackName}</h6>
-                  <h5 style={{ fontWeight: 'bold' }}>{snack.snackPrice} VND</h5>
+                  <h5 style={{ fontWeight: 'bold' }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(snack.snackPrice)}</h5>
                 </Col>
+
                 <Col xs={4} className="text-right">
                   <Button variant="outline-secondary" size="sm" onClick={() => handleQuantityChange(snack.snackId, -1)}>
                     -
@@ -143,6 +155,7 @@ const OrderFood = () => {
         <Col md={4}>
           <Card className="p-3 pricing-column d-flex flex-column justify-content-between">
             <h6 style={{ fontSize: '1.5rem', fontWeight: 'bold', textAlign: 'left' }}>{showtimeDetails.screen.cinema.cinemaName}</h6>
+           
             <p style={{ fontSize: '1.2rem', textAlign: 'left' }}>
               <strong style={{ color: '#5DBB63', fontSize: '1.3rem' }}>{showtimeDetails.screen.screenName}</strong> -{' '}
               {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
