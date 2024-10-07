@@ -110,11 +110,11 @@ function App() {
         <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
         <Route path="/seatselection" element={<SeatSelection />} />
         <Route path="/cart.html" element={<FilmTime />} />
-        <Route path="/news" element={<News />} />
         <Route path="/orderfood" element={<OrderFood />} />
         <Route path="/ticketinform" element={<TicketInfor />} />
         <Route path="/users" element={<Users />} />
-        <Route path="/newsDetails" element={<NewsDeatils />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/news/:newsId" element={<NewsDeatils />} />
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
       </Routes>
