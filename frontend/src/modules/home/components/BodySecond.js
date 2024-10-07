@@ -114,6 +114,16 @@ const BodySecond = (props) => {
     alignItems: "center",
   };
 
+  const tittle = {
+    borderRadius: "15px", // rounded corners
+    padding: "10px 20px", // padding for the button
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
+  };
+
   const [listMovies, setListMovies] = useState([]);
 
   useEffect(() => {
@@ -164,7 +174,7 @@ const BodySecond = (props) => {
                         </NavLink>
                       </Nav.Link>
                       <div className="movie-name">
-                        <h2>{items.movieTitle}</h2>
+                        <h4 style={tittle}>{items.movieTitle}</h4>
                       </div>
                       <Nav.Link className="nav-item active">
                         <NavLink
