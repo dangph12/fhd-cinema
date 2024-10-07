@@ -86,6 +86,7 @@ import Home from "./components/Home";
 import News from "./modules/news/News";
 import _ from "lodash";
 import Users from "./modules/auth/Users";
+import NewsDeatils from "./modules/news/NewsDeatils";
 
 function App() {
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
@@ -113,6 +114,7 @@ function App() {
         <Route path="/orderfood" element={<OrderFood />} />
         <Route path="/ticketinform" element={<TicketInfor />} />
         <Route path="/users" element={<Users />} />
+        <Route path="/newsDetails" element={<NewsDeatils />} />
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
       </Routes>
