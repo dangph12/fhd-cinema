@@ -44,7 +44,7 @@ const StarMember = (props) => {
     fontFamily: "Arial, sans-serif",
     backgroundColor: "transparent", // no background
     display: "inline-block", // button behavior
-    marginTop: '20px'
+    marginTop: "20px",
   };
 
   const [news, setNews] = useState([]);
