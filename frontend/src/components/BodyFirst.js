@@ -108,14 +108,24 @@ import { fetchAllUser } from "../components/services/UserService";
 import { NavLink } from "react-router-dom";
 
 const buttonStyle = {
-    border: '2px solid #8bc34a', // green border
-    borderRadius: '15px', // rounded corners
-    padding: '10px 20px', // padding for the button
-    color: '#8bc34a', // green text
-    fontWeight: 'bold',
-    fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'transparent', // no background
-    display: 'inline-block', // button behavior
+  border: "2px solid #8bc34a", // green border
+  borderRadius: "15px", // rounded corners
+  padding: "10px 20px", // padding for the button
+  color: "#8bc34a", // green text
+  fontWeight: "bold",
+  fontFamily: "Arial, sans-serif",
+  backgroundColor: "transparent", // no background
+  display: "inline-block", // button behavior
+};
+
+const tittle = {
+    borderRadius: "15px", // rounded corners
+    padding: "10px 20px", // padding for the button
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
   };
 
 const BodyFirst = () => {
@@ -168,7 +178,7 @@ const BodyFirst = () => {
                         className="nav-link"
                         to={`/description/${items.movieId}`}
                       >
-                        {items.movieTitle}
+                        <h4 style={tittle}>{items.movieTitle}</h4>
                       </NavLink>
                     </div>
                     <div className="vietsub">
