@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { fetchNews } from "../../../components/services/UserService";
-import BannerSecond from "./BannerSecond";
+import { fetchNews } from "../../components/services/UserService";
+import BannerSecond from "../home/components/BannerSecond";
 
 function News() {
   const [news, setNews] = useState([]);

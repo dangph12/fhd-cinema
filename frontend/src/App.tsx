@@ -83,7 +83,7 @@ import TicketInfor from "./components/payment-inform/TicketInfor";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
 import Home from "./components/Home";
-import News from "./modules/home/components/News";
+import News from "./modules/news/News";
 import _ from "lodash";
 import Users from "./modules/auth/Users";
 
