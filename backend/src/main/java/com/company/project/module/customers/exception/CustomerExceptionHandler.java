@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.customers.common.CustomerStatusMessage;
-import com.company.project.module.seats.exception.SeatException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +27,8 @@ public class CustomerExceptionHandler {
             .build());
   }
 
-  @ExceptionHandler(value = SeatException.class)
-  ResponseEntity<ApiResponse<Void>> handleSeatTypeException(SeatException exception) {
+  @ExceptionHandler(value = CustomerException.class)
+  ResponseEntity<ApiResponse<Void>> handleSeatTypeException(CustomerException exception) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
     .body(ApiResponse.<Void>builder()
       .status(exception.getStatus())
