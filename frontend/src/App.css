@@ -561,13 +561,6 @@ h2 {
 }
 
 
-h3 {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 20px;
-  color: #3b8d00;
-}
-
 .value-combo {
   width: 100%;
   max-width: 1200px;
@@ -704,3 +697,12 @@ button[disabled=disabled], button:disabled {
   flex-wrap: unset;
 }
 
+/* tăng khoảng cách slide bar  */
+.card {
+  margin-right: 15px; /* Điều chỉnh khoảng cách giữa các thẻ */
+}
+
+.product--image {
+  width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng thẻ cha */
+  border-radius: 8px; /* Tùy chọn: thêm bo góc cho ảnh */
+}
