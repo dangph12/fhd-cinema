@@ -641,10 +641,11 @@ h2 {
   border-radius: 8px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  margin-top: 20px;
 }
 
 .login-page-form-container button {
-  background-color: #64a70b;
+  background-color: rgb(139, 195, 74);
   color: white;
   border: none;
   cursor: pointer;
