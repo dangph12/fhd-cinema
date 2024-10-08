@@ -80,6 +80,8 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
   const buttonStyle = {
@@ -103,7 +105,7 @@ function Register() {
   }, []);
 
   const handleRegister = () => {
-    alert("me");
+    toast("login confirm !!!");
     let useData = { accountName, accountPassword };
     console.log("sss", useData);
   };

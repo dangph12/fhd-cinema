@@ -87,9 +87,9 @@ import News from "./modules/news/News";
 import _ from "lodash";
 import Users from "./modules/auth/Users";
 import NewsDeatils from "./modules/news/NewsDeatils";
+import { ToastContainer, Bounce } from "react-toastify";
 
 function App() {
-
   // login
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
     null
@@ -120,6 +120,19 @@ function App() {
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce} // Sử dụng đúng cú pháp cho chuyển đổi
+      />
       <Footer />
     </div>
   );
