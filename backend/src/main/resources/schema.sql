@@ -33,6 +33,7 @@ COLLATE = utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`customers` (
   `customer_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
+  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT '',
   `customer_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_phone` VARCHAR(20) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_email` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
@@ -358,12 +359,14 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`staffs` (
   PRIMARY KEY (`staff_id`),
   INDEX `fk_staffs_roles_idx` (`staff_role_id` ASC) VISIBLE,
   INDEX `fk_staffs_accounts1_idx` (`account_id` ASC) VISIBLE,
-  CONSTRAINT `fk_staffs_accounts1`
-    FOREIGN KEY (`account_id`)
-    REFERENCES `fhd_cinema`.`accounts` (`account_id`),
   CONSTRAINT `fk_staffs_roles`
     FOREIGN KEY (`staff_role_id`)
-    REFERENCES `fhd_cinema`.`staff_roles` (`staff_role_id`))
+    REFERENCES `fhd_cinema`.`staff_roles` (`staff_role_id`),
+  CONSTRAINT `fk_staffs_accounts1`
+    FOREIGN KEY (`account_id`)
+    REFERENCES `fhd_cinema`.`accounts` (`account_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
