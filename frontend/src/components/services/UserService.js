@@ -31,6 +31,7 @@ const loginApi = (accountName, accountPassword) => {
     return axiosFormat.post("/accounts", {accountName, accountPassword})
 }
 
+
 const fetchNews = () => {
     return axios.get("http://localhost:8080/news")
 }
