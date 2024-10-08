@@ -30,7 +30,7 @@ public class SnackExceptionHandler {
   }
 
   @ExceptionHandler(value = SnackException.class)
-  ResponseEntity<ApiResponse<Void>> handleSnackTypeException(SnackException exception) {
+  ResponseEntity<ApiResponse<Void>> handleSnackException(SnackException exception) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
     .body(ApiResponse.<Void>builder()
       .status(exception.getStatus())
