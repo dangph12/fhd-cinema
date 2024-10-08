@@ -79,7 +79,7 @@
 
 
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -98,22 +98,32 @@ function Register() {
   const [accountPassword, setaccountPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  useEffect(() => {
-    // axios.get("http://localhost:8080/accounts").then((data) => {
-    //   console.log("check", data);
-    // });
-  }, []);
+  const handleRegister = async () => {
+    if (accountPassword !== confirmPassword) {
+      toast.error("Mật khẩu nhập lại không khớp!");
+      return;
+    }
 
-  const handleRegister = () => {
-    toast.error("login fail !!!");
-    let useData = { accountName, accountPassword };
-    console.log("sss", useData);
+    try {
+      const response = await axios.post("http://localhost:8080/accounts", {
+        accountName,
+        accountPassword,
+      });
+      
+      if (response.status === 201) {
+        toast.success("Đăng ký thành công!");
+      } else {
+        toast.error("Đăng ký thất bại!");
+      }
+    } catch (error) {
+      toast.error("Lỗi hệ thống. Vui lòng thử lại sau.");
+    }
   };
 
   return (
     <div>
       <h2 className="">
-        <button style={buttonStyle}>ĐĂNG Kí TÀI KHOẢN</button>
+        <button style={buttonStyle}>ĐĂNG KÍ TÀI KHOẢN</button>
       </h2>
       <div>Tên đệm và tên *</div>
       <input
@@ -136,11 +146,7 @@ function Register() {
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
-      {/* <label>
-          <input type="checkbox" required /> Tôi đã đọc, hiểu và đồng ý với các
-          điều khoản
-        </label> */}
-      <button type="submit" onClick={() => handleRegister()}>
+      <button type="submit" onClick={handleRegister}>
         ĐĂNG KÝ
       </button>
     </div>
