@@ -105,7 +105,7 @@ function Register() {
   }, []);
 
   const handleRegister = () => {
-    toast("login confirm !!!");
+    toast.error("login fail !!!");
     let useData = { accountName, accountPassword };
     console.log("sss", useData);
   };

@@ -657,6 +657,7 @@ import { loginApi } from "../../components/services/UserService";
 import { Toast, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Register from "./Register";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const buttonStyle = {
@@ -676,7 +677,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleInput = async (event) => {
-    alert("me")
+    toast.success("login success")
     event.preventDefault();
 
     // try {
