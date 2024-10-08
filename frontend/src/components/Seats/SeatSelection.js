@@ -8,6 +8,7 @@ import seatSelected from '../../assets/seats/ghe-da-chon.png';
 import seatCouple from '../../assets/seats/ghe-doi.png';
 import seatSold from '../../assets/seats/ghe-da-ban.png';
 import seatMapHeader from '../../assets/seats/seatMapHeader.png';
+import seatCoupleSelected from '../../assets/seats/ghe-doi-da-chon.png';
 
 const SeatSelection = () => {
     const { showtimeId } = useParams();
@@ -17,6 +18,7 @@ const SeatSelection = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showtimeDetails, setShowtimeDetails] = useState(null);
+    const [movieTitle, setMovieTitle] = useState(""); // Declare movieTitle state
 
     // Fetch seat layout and showtime details based on showtimeId
     useEffect(() => {
@@ -26,7 +28,19 @@ const SeatSelection = () => {
                 const seatResponse = await fetch(`http://localhost:8080/seats?showtimeId=${showtimeId}`);
                 const seatData = await seatResponse.json();
                 if (seatData && seatData.data) {
-                    setSeatLayout(seatData.data.slice(0, 60)); // Seat data fetched successfully
+                    const allSeats = seatData.data.slice(0, 60);
+
+                    const seatNormal = allSeats.filter(seats => seats.seatType.seatTypeName === 'Ghế thường');
+                    const seatVIP = allSeats.filter(seats => seats.seatType.seatTypeName === 'VIP');
+                    const seatCouple = allSeats.filter(seats => seats.seatType.seatTypeName === 'Couple');
+
+                    const arrangedSeats = [
+                        ...seatNormal,
+                        ...seatVIP.slice(Math.floor(seatVIP.length / 2)),
+                        ...seatCouple
+                    ];
+
+                    setSeatLayout(arrangedSeats);
                 } else {
                     setSeatLayout([]);
                     console.error("No seat data found");
@@ -37,11 +51,17 @@ const SeatSelection = () => {
                 const showtimeData = await showtimeResponse.json();
                 if (showtimeData && showtimeData.data) {
                     setShowtimeDetails(showtimeData.data); // Showtime details fetched successfully
+
+                    // Fetch movie details based on movieId
+                    const movieResponse = await fetch(`http://localhost:8080/movies/${showtimeData.movieId}`);
+                    const movieData = await movieResponse.json();
+                    if (movieData && movieData.data) {
+                        setMovieTitle(movieData.data.movieTitle); // Set movieTitle from fetched movie data
+                    }
                 } else {
                     setShowtimeDetails(null);
                     console.error("No showtime data found");
                 }
-
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setError("Unable to fetch seat or showtime data.");
@@ -56,8 +76,9 @@ const SeatSelection = () => {
     const handleSeatClick = (seat) => {
         if (seat.booked) {
             alert('This seat has already been sold!');
-            return; // Prevent selecting a booked seat
+            return;
         }
+
         setSelectedSeats((prevSelected) => {
             if (prevSelected.some(selected => selected.seatId === seat.seatId)) {
                 // If the seat is already selected, deselect it
@@ -69,9 +90,8 @@ const SeatSelection = () => {
         });
     };
 
-    // Navigate to the next step: order food
     const goToOrderFood = () => {
-        navigate('/orderfood', { state: { selectedSeats, showtimeDetails } }); // Pass selected seats and showtimeDetails to the next page
+        navigate('/orderFood', { state: { selectedSeats, showtimeDetails } }); // Pass selected seats and showtimeDetails to the next page
     };
 
     // Calculate total price based on ticket price and selected seats' seatTypePrice
@@ -86,7 +106,17 @@ const SeatSelection = () => {
         }, 0);
     };
 
-    // Display loading or error messages
+    const getGroupedSeatsByType = () => {
+        return selectedSeats.reduce((acc, seat) => {
+            const type = seat.seatType.seatTypeName;
+            if (!acc[type]) {
+                acc[type] = [];
+            }
+            acc[type].push(seat);
+            return acc;
+        }, {});
+    };
+
     if (loading) {
         return <div>Loading seat data...</div>;
     }
@@ -101,31 +131,6 @@ const SeatSelection = () => {
                 BƯỚC 2: CHỌN GHẾ
             </Card.Title>
             <Row className="justify-content-center align-items-stretch">
-                {/* Showtime Details Section */}
-                {/* {showtimeDetails && (
-                    <Col xs={12} lg={4} className="pricing-column d-flex flex-column justify-content-between">
-                        <div className="pricing-details p-3 rounded shadow-sm bg-white">
-                            <Card.Title>{showtimeDetails.movieTitle}</Card.Title>
-                            <h6 className="text-muted" style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'left' }}>
-                                {showtimeDetails.screen.cinema.cinemaName}
-                            </h6>
-                            <p style={{ fontSize: '1rem', textAlign: 'left' }}>
-                                <strong style={{ color: '#5DBB63', fontSize: '1.1rem' }}>{showtimeDetails.screen.screenName}</strong>
-                                {' - '}
-                                {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric'
-                                })}
-                            </p>
-                            <strong>Price per ticket:</strong> {showtimeDetails.showtimePrice} VND
-                        </div>
-                    </Col>
-                )} */}
-
-                {/* Seat Selection Map */}
                 <Col xs={12} lg={8} className="seat-selection-column d-flex flex-column">
                     <Col xs={12} lg={12} className="mb-3">
                         <Card.Img src={seatMapHeader} alt="Màn hình" style={{ width: '100%' }} />
@@ -138,7 +143,9 @@ const SeatSelection = () => {
                                     <img
                                         key={index}
                                         src={selectedSeats.some(selected => selected.seatId === seat.seatId)
-                                            ? seatSelected
+                                            ? seat.seatType.seatTypeName === 'Couple'
+                                                ? seatCoupleSelected
+                                                : seatSelected
                                             : seat.booked
                                                 ? seatSold
                                                 : seat.seatType.seatTypeName === 'Ghế thường'
@@ -153,12 +160,11 @@ const SeatSelection = () => {
                                     />
                                 ))
                             ) : (
-                                <div>No seats available.</div>
+                                <div>Không có ghế nào có sẵn.</div>
                             )}
                         </div>
                     </Col>
 
-                    {/* Seat legend */}
                     <div className="seat-legend text-center mt-3">
                         <Row>
                             <Col xs={4}><img src={seatNormal} alt="Ghế thường" /> Ghế thường</Col>
@@ -175,11 +181,10 @@ const SeatSelection = () => {
 
 
                     <div className="pricing-details p-3 rounded shadow-sm bg-white">
-
                         {showtimeDetails && (
-
                             <div className="pricing-details">
-                                <Card.Title>{showtimeDetails.movieTitle}</Card.Title>
+                                <Card.Title>{movieTitle}</Card.Title>
+
                                 <h6 className="text-muted" style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'left' }}>
                                     {showtimeDetails.screen.cinema.cinemaName}
                                 </h6>
@@ -194,16 +199,20 @@ const SeatSelection = () => {
                                         year: 'numeric'
                                     })}
                                 </p>
-                                {/* <strong style={{ textAlign: 'left' }}>Ticket Price</strong> {showtimeDetails.showtimePrice} VND */}
                             </div>
-
                         )}
 
-                        {/* <h6 className="text-muted">FHD Cinema</h6> */}
-                        <p style={{ textAlign: 'left' }}>{selectedSeats.length} x Seat(s)</p>
-                        <p style={{ textAlign: 'left' }}>{selectedSeats.map(seat => seat.seatName).join(', ')}</p>
+                        <div style={{ textAlign: 'left' }}>
+                            {Object.entries(getGroupedSeatsByType()).map(([seatType, seats]) => (
+                                <div key={seatType}>
+                                    <p><strong>{seats.length} x {seatType}</strong></p>
+                                    <p>{seats.map(seat => seat.seatName).join(', ')}</p>
+                                </div>
+                            ))}
+                        </div>
+
                         <hr />
-                        <p style={{ textAlign: 'left' }}>Total Price: {getTotalPrice()} VND</p>
+                        <p style={{ textAlign: 'left' }}>Total Price: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(getTotalPrice())}</p>
                         <Button variant="success" block onClick={goToOrderFood}>
                             CHỌN ĐỒ ĂN (2/4)
                         </Button>
