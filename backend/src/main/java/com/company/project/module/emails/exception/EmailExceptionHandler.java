@@ -27,4 +27,13 @@ public class EmailExceptionHandler {
             .build());
   }
 
+  @ExceptionHandler(value = EmailException.class)
+  ResponseEntity<ApiResponse<Void>> handleEmailException(EmailException exception) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+    .body(ApiResponse.<Void>builder()
+      .status(exception.getStatus())
+      .message(exception.getMessage())
+      .build()); 
+  }
+
 }
