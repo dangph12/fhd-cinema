@@ -2,6 +2,7 @@ package com.company.project.module.accounts.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
@@ -14,6 +15,10 @@ import com.company.project.module.accounts.repository.AccountRepository;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,12 +42,7 @@ public class AccountService {
     List<AccountDto> accountDtos = new ArrayList<>();
 
     for (Account account : accounts) {
-      AccountDto accountDto = modelMapper.map(account, AccountDto.class);
-      if (account.getAccountType() == 1) {
-        accountDto.setAccountType("Customer");
-      } else {
-        accountDto.setAccountType("Staff");
-      }
+      AccountDto accountDto = this.convertToAccountDto(account);
       accountDtos.add(accountDto);
     }
 
@@ -54,6 +54,24 @@ public class AccountService {
         .orElseThrow(() -> new AccountException(
             Status.FAIL.getValue(),
             AccountStatusMessage.NOT_EXIST.getMessage()));
+
+    return this.convertToAccountDto(account);
+  }
+
+  public List<AccountDto> searchAccountsByName(String accountName, int page, String sortBy) {
+    int pageSize = 50;
+
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
+
+    Page<Account> accountPage = accountRepository
+        .findByAccountNameContainingIgnoreCase(accountName, pageable);
+
+    return accountPage.getContent().stream()
+    .map(this::convertToAccountDto)
+    .collect(Collectors.toList());
+  }
+
+  private AccountDto convertToAccountDto(Account account) {
     AccountDto accountDto = modelMapper.map(account, AccountDto.class);
     if (account.getAccountType() == 1) {
       accountDto.setAccountType("Customer");
@@ -78,13 +96,8 @@ public class AccountService {
         .accountType(request.getAccountType())
         .build();
     accountRepository.save(account);
-    AccountDto accountDto = modelMapper.map(account, AccountDto.class);
-    if (account.getAccountType() == 1) {
-      accountDto.setAccountType("Customer");
-    } else {
-      accountDto.setAccountType("Staff");
-    }
-    return accountDto;
+
+    return this.convertToAccountDto(account);
   }
 
   public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {
@@ -96,13 +109,7 @@ public class AccountService {
 
     accountRepository.save(existingAccount);
 
-    AccountDto accountDto = modelMapper.map(existingAccount, AccountDto.class);
-    if (existingAccount.getAccountType() == 1) {
-      accountDto.setAccountType("Customer");
-    } else {
-      accountDto.setAccountType("Staff");
-    }
-    return accountDto;
+    return this.convertToAccountDto(existingAccount);
   }
 
   public void deleteAccountById(String accountId) {

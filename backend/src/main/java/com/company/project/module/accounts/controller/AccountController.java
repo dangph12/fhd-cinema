@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -49,6 +50,18 @@ public class AccountController {
         .status(Status.SUCCESS.getValue())
         .message(AccountStatusMessage.GET_SUCCESS.getMessage())
         .data(accountService.getAccountById(accountId))
+        .build());
+  }
+
+  @GetMapping(params = "search")
+  ResponseEntity<ApiResponse<List<AccountDto>>> filterAccountsByName(
+      @RequestParam(value = "search") String search,
+      @RequestParam(value = "page") int page,
+      @RequestParam(value = "sortBy", defaultValue = "accountId") String sortBy) {
+    return ResponseEntity.ok().body(ApiResponse.<List<AccountDto>>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.GET_SUCCESS.getMessage())
+        .data(accountService.searchAccountsByName(search, page, sortBy))
         .build());
   }
 
