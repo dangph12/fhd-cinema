@@ -15,6 +15,8 @@ import com.company.project.module.snacks.exception.SnackException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -68,9 +70,12 @@ public class AccountService {
         throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    String password = passwordEncoder.encode(request.getAccountPassword());
+
     Account account = Account.builder()
         .accountName(request.getAccountName())
-        .accountPassword(request.getAccountPassword())
+        .accountPassword(password)
         .accountType(request.getAccountType())
         .build();
     accountRepository.save(account);
