@@ -9,6 +9,7 @@ import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
+import com.company.project.module.accounts.dto.response.AccountTotalCount;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
@@ -118,4 +119,13 @@ public class AccountService {
     }
     accountRepository.deleteById(accountId);
   }
+
+  public AccountTotalCount getTotalAccountCount() {
+    long count = accountRepository.count();
+    
+    AccountTotalCount accountTotalCount = new AccountTotalCount(count);
+
+    return accountTotalCount;
+  }
+
 }

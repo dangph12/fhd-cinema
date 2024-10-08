@@ -10,6 +10,7 @@ import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
+import com.company.project.module.accounts.dto.response.AccountTotalCount;
 import com.company.project.module.accounts.service.AccountService;
 
 import org.springframework.http.HttpStatus;
@@ -62,6 +63,15 @@ public class AccountController {
         .status(Status.SUCCESS.getValue())
         .message(AccountStatusMessage.GET_SUCCESS.getMessage())
         .data(accountService.searchAccountsByName(search, page, sortBy))
+        .build());
+  }
+
+  @GetMapping("/counts")
+  ResponseEntity<ApiResponse<AccountTotalCount>> getTotalAccountCount() {
+    return ResponseEntity.ok().body(ApiResponse.<AccountTotalCount>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.GET_SUCCESS.getMessage())
+        .data(accountService.getTotalAccountCount())
         .build());
   }
 
