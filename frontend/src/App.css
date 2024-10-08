@@ -647,6 +647,11 @@ h2 {
   color: white;
   border: none;
   cursor: pointer;
+
+  &.active {
+    background-color: #64a70b;  
+    color: white;
+  }
 }
 
 /* Align radio buttons on the same line */
@@ -664,6 +669,10 @@ h2 {
   margin-right: 10px;
 }
 
+button[disabled=disabled], button:disabled {
+  background: #dddddd;
+  cursor: not-allowed;
+}
 /* Responsive design */
 @media (max-width: 768px) {
   .login-page-form-container {

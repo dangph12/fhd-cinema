@@ -1,4 +1,5 @@
 import axios from 'axios';
+import axiosFormat from './Customize-axios'
 
 const fetchAllUser = () => {
     return axios.get("http://localhost:8080/movies")
@@ -26,5 +27,17 @@ const fetchShowTimeById = (showtimeId) => {
 }
 
 
-export { fetchAllUser, fetchMovieById, fetchShowTime }
+const loginApi = (accountName, accountPassword) => {
+    return axiosFormat.post("/accounts", {accountName, accountPassword})
+}
+
+const fetchNews = () => {
+    return axios.get("http://localhost:8080/news")
+}
+
+// const loginApi = (accountName) => {
+//     return axiosFormat.post("/accounts", { accountName })
+// }
+
+export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi, fetchShowTimeById, fetchNews }
 
