@@ -9,7 +9,7 @@ const FilmTime = (props) => {
 
     // Hàm điều hướng đến trang chọn ghế
     const goToSeatSelection = () => {
-        navigate('/seatselection');
+        navigate('/seatSelection');
     };
 
     return (

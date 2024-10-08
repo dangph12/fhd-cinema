@@ -18,8 +18,6 @@
 
 //         getMovies();
 
-
-
 //     }, []);
 
 //     const getMovies = async () => {
@@ -77,7 +75,6 @@
 //                             })
 //                         }
 
-
 //                         {/* Repeat 3 more movie items below */}
 //                         <div className="col-3-4">
 //                             <div className="movie-item">
@@ -106,69 +103,132 @@
 
 // export default BodyFirst
 
-import React, { useEffect, useState } from 'react';
-import { fetchAllUser } from '../components/services/UserService';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { fetchAllUser } from "../components/services/UserService";
+import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 
+const buttonStyle = {
+  border: "2px solid #8bc34a", // green border
+  borderRadius: "15px", // rounded corners
+  padding: "10px 20px", // padding for the button
+  color: "#8bc34a", // green text
+  fontWeight: "bold",
+  fontFamily: "Arial, sans-serif",
+  backgroundColor: "transparent", // no background
+  display: "inline-block", // button behavior
+  marginBottom: '30px',
+};
+
+const tittle = {
+  borderRadius: "15px", // rounded corners
+  padding: "10px 20px", // padding for the button
+  color: "#8bc34a", // green text
+  fontWeight: "bold",
+  fontFamily: "Arial, sans-serif",
+  backgroundColor: "transparent", // no background
+  display: "inline-block", // button behavior
+};
+
+const orderButton = {
+  border: "none", // No border
+  borderRadius: "30px", // Rounded corners
+  padding: "10px 30px", // Padding for the button
+  color: "white", // White text
+  fontWeight: "bold",
+  fontFamily: "Arial, sans-serif",
+  background: "linear-gradient(90deg, #00c853, #aeea00)", // Gradient background
+  display: "flex", // Flexbox to align text and icon
+  alignItems: "center", // Vertically center
+  justifyContent: "center", // Horizontally center
+  cursor: "pointer",
+  fontSize: '20px', 
+};
 const BodyFirst = () => {
-    const [listMovies, setListMovies] = useState([])
+  const [listMovies, setListMovies] = useState([]);
 
-    useEffect(() => {
-        getMovies();
-    }, []);
+  useEffect(() => {
+    getMovies();
+  }, []);
 
-    const getMovies = async () => {
-        let res = await fetchAllUser();
-        if (res && res.data) {
-            setListMovies(res.data.data);
-        }
+  const getMovies = async () => {
+    let res = await fetchAllUser();
+    if (res && res.data) {
+      setListMovies(res.data.data);
     }
+  };
 
-    return (
-        <div className="container">
-            <div className="movie-gallery">
-                <div className="hot-label">
-                    <h2 className="title-heading">
-                        <span className="pd-l">Phim Đang Chiếu</span>
-                    </h2>
-                </div>
-                <div className="grid__row">
-                    {listMovies && listMovies.length > 0 &&
-                        listMovies.map((items, index) => {
-                            return (
-                                <div className="col-3-4" key={`movies-${index}`}>
-                                    <div className="movie-item">
-                                        <div className="img-wrapper">
-                                            {/* Dùng NavLink và truyền movieId qua URL */}
-                                            <NavLink className="nav-link" to={`/description/${items.movieId}`}>
-                                                <img id={items.movieId} src={items.moviePosterUrl} alt={items.movieTitle} className="movie-image" />
-                                            </NavLink>
-                                        </div>
-                                        <div className="movie-name">
-                                            <NavLink className="nav-link" to={`/description/${items.movieId}`}>
-                                                {items.movieTitle}
-                                            </NavLink>
-                                        </div>
-                                        <div className="vietsub">
-                                            <button type="button" className="btn btn-success btn-rounded">
-                                                <NavLink id={items.movieId} className="nav-link" to={`/orderTicket/${items.movieId}`}>Đặt Vé</NavLink>
-                                                {/* <NavLink id={items.movieId} className="nav-link" to={`/orderTicket`}>Đặt Vé</NavLink> */}
-                                            </button>
-                                            <span>
-                                                <button type="button" className="btn btn-outline-success btn-floating">
-                                                    <i className="fas fa-star"></i>
-                                                </button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-            </div>
+  return (
+    <div className="container">
+      <div className="movie-gallery">
+        <div className="hot-label">
+          <div className="hot-label">
+            <h2 className="">
+              <button style={buttonStyle}>PHIM ĐANG CHIẾU</button>
+            </h2>
+          </div>
         </div>
-    )
-}
+        <div className="grid__row">
+          {listMovies &&
+            listMovies.length > 0 &&
+            listMovies.map((items, index) => {
+              return (
+                <div className="col-3-4" key={`movies-${index}`}>
+                  <div className="movie-item">
+                    <div className="img-wrapper">
+                      {/* Dùng NavLink và truyền movieId qua URL */}
+                      <NavLink
+                        className="nav-link"
+                        to={`/description/${items.movieId}`}
+                      >
+                        <img
+                          id={items.movieId}
+                          src={items.moviePosterUrl}
+                          alt={items.movieTitle}
+                          className="movie-image"
+                        />
+                      </NavLink>
+                    </div>
+                    <div className="movie-name">
+                      <NavLink
+                        className="nav-link"
+                        to={`/description/${items.movieId}`}
+                      >
+                        <h4 style={tittle}>{items.movieTitle}</h4>
+                      </NavLink>
+                    </div>
+                    <div className="vietsub">
+                      <NavLink
+                        id={items.movieId}
+                        className="nav-link"
+                        to={`/orderTicket/${items.movieId}`}
+                      >
+                        <Button style={orderButton}>
+                          MUA VÉ NGAY
+                          <ConfirmationNumberIcon
+                            style={{ marginLeft: "10px", color: "white"}}
+                          />
+                        </Button>
+                      </NavLink>
+                      {/* <NavLink id={items.movieId} className="nav-link" to={`/orderTicket`}>Đặt Vé</NavLink> */}
+                      <span>
+                        <button
+                          type="button"
+                          className="btn btn-outline-success btn-floating"
+                        >
+                          <i className="fas fa-star"></i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default BodyFirst;
