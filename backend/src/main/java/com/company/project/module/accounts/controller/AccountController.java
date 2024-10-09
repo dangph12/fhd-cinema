@@ -10,7 +10,7 @@ import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
-import com.company.project.module.accounts.dto.response.AccountTotalCount;
+import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.service.AccountService;
 
 import org.springframework.http.HttpStatus;
@@ -55,23 +55,14 @@ public class AccountController {
   }
 
   @GetMapping(params = "search")
-  ResponseEntity<ApiResponse<List<AccountDto>>> filterAccountsByName(
+  ResponseEntity<ApiResponse<AccountPagination>> filterAccountsByName(
       @RequestParam(value = "search") String search,
       @RequestParam(value = "page") int page,
       @RequestParam(value = "sortBy", defaultValue = "accountId") String sortBy) {
-    return ResponseEntity.ok().body(ApiResponse.<List<AccountDto>>builder()
+    return ResponseEntity.ok().body(ApiResponse.<AccountPagination>builder()
         .status(Status.SUCCESS.getValue())
         .message(AccountStatusMessage.GET_SUCCESS.getMessage())
         .data(accountService.searchAccountsByName(search, page, sortBy))
-        .build());
-  }
-
-  @GetMapping("/counts")
-  ResponseEntity<ApiResponse<AccountTotalCount>> getTotalAccountCount() {
-    return ResponseEntity.ok().body(ApiResponse.<AccountTotalCount>builder()
-        .status(Status.SUCCESS.getValue())
-        .message(AccountStatusMessage.GET_SUCCESS.getMessage())
-        .data(accountService.getTotalAccountCount())
         .build());
   }
 
