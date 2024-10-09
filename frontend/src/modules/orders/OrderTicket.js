@@ -87,7 +87,7 @@ const OrderTicket = (props) => {
         <Youtube />
 
         <FilmTime />
-        
+
         <VisaBanner />
       </div>
     </div>
