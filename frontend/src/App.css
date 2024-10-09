@@ -696,3 +696,165 @@ button[disabled=disabled], button:disabled {
   flex-wrap: unset;
 }
 
+
+
+
+/*Seat Selection*/
+.seat-selection-container {
+  padding: 20px;
+
+  border-radius: 10px;
+}
+
+.seat-selection-column {
+
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+
+
+
+.pricing-column {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  height: max-content;
+}
+
+.seat-row {
+  margin: 5px 0;
+}
+
+.seat {
+  width: auto;
+  height: auto;
+  margin: 10px;
+
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+
+}
+
+.seat:hover {
+  transform: scale(1.1);
+}
+
+
+.seat-box {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.text-title {
+text-align: center;
+font-weight: bold;
+font-size: 1.5rem;
+}
+
+
+.film-title-price{
+color: #72be43;
+font-weight: bold;
+font-size: 1.9rem;
+
+}
+
+
+.cinema-title{
+color: Black;
+font-weight: bold;
+font-size: 1.5rem;
+}
+
+
+.screen-title{
+  color: #5DBB63;
+   font-size: 1.3rem;
+}
+
+.total-price{
+  color: black;
+  font-size: 1.5rem;
+}
+
+.time-title-price{
+font-size: 1.2rem;
+text-align: left;
+color:black;
+}
+
+
+/* Seat Selection */
+
+
+/* Ticket Infor*/
+
+.ticket-container {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  max-height: 600px;
+  height: 100%;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.ticket-left {
+  padding-top: 150px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.ticket-code {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #5DBB63;
+}
+
+.ticket-right {
+  padding: 10px;
+}
+
+.movie-poster-ticket {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.movie-title-ticket {
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: #5DBB63;
+  margin-bottom: 10px;
+  text-align: left;
+
+}
+
+.movie-details-ticket {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: black;
+  text-align: left;
+}
+
+.total-price-ticket {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #5DBB63;
+  text-align: left;
+}
+
+/* Ticket Infor */
