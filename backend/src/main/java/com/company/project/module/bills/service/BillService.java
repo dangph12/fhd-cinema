@@ -56,28 +56,20 @@ public class BillService {
     return billRepository.save(bill);
   }
 
-  /**
   public Bill updateBill(String billId, BillCreationRequest request) {
     if (!billRepository.existsById(billId)) {
       throw new BillException(Status.FAIL.getValue(), BillStatusMessage.NOT_EXIST.getMessage());
     }
+    Booking booking = bookingService.getBookingById(request.getBookingId());
 
     Bill existedBill = this.getBillById(billId);
 
-    if (!existedBill.getBillName().equals(request.getBillName()) 
-        && billRepository.existsByBillName(request.getBillName())) {
-        throw new BillException(Status.FAIL.getValue(), BillStatusMessage.EXIST_bill.getMessage());
-    }
-
-    existedBill.setBillName(request.getBillName());
-
-    if (!existedBill.getBillName().equals(request.getBillName())) {
-      existedBill.setBillName(request.getBillName());
-    }
+    existedBill.setBooking(booking);
+    existedBill.setBillAmount(request.getBillAmount());
+    existedBill.setPaid(request.isPaid());
 
     return billRepository.save(existedBill);
   }
-  **/
 
   public void deleteBillById(String billId) {
     if (!billRepository.existsById(billId)) {
