@@ -118,7 +118,7 @@ const buttonStyle = {
   fontFamily: "Arial, sans-serif",
   backgroundColor: "transparent", // no background
   display: "inline-block", // button behavior
-  marginBottom: '30px',
+  marginBottom: "30px",
 };
 
 const tittle = {
@@ -143,7 +143,7 @@ const orderButton = {
   alignItems: "center", // Vertically center
   justifyContent: "center", // Horizontally center
   cursor: "pointer",
-  fontSize: '20px', 
+  fontSize: "20px",
 };
 const BodyFirst = () => {
   const [listMovies, setListMovies] = useState([]);
@@ -207,7 +207,7 @@ const BodyFirst = () => {
                         <Button style={orderButton}>
                           MUA VÉ NGAY
                           <ConfirmationNumberIcon
-                            style={{ marginLeft: "10px", color: "white"}}
+                            style={{ marginLeft: "10px", color: "white" }}
                           />
                         </Button>
                       </NavLink>

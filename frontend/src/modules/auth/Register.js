@@ -35,7 +35,7 @@
 //     // Xử lý đăng ký (gửi dữ liệu đến API)
 //     let userData = { accountName, accountPassword };
 //     console.log(userData);
-    
+
 //     // Thực hiện gọi API đăng ký (nếu cần)
 //     // axios.post("http://localhost:8080/register", userData)
 //     //   .then(response => console.log(response))
@@ -77,7 +77,6 @@
 
 // export default Register;
 
-
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -109,7 +108,7 @@ function Register() {
         accountName,
         accountPassword,
       });
-      
+
       if (response.status === 201) {
         toast.success("Đăng ký thành công!");
       } else {

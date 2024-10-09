@@ -678,7 +678,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleInput = async (event) => {
-    toast.success("login success")
+    toast.success("login success");
     event.preventDefault();
 
     // try {
@@ -730,7 +730,7 @@ const LoginPage = () => {
 
   return (
     <div>
-      <BannerSecond/>
+      <BannerSecond />
       <ToastContainer position="top-end" className="p-3">
         <Toast
           bg="danger"

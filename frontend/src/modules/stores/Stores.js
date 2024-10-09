@@ -5,24 +5,24 @@ import { NavLink } from "react-router-dom";
 
 function Stores() {
   const buttonStyle = {
-    border: "2px solid #8bc34a", 
-    borderRadius: "15px", 
-    padding: "10px 20px", 
-    color: "#8bc34a", 
+    border: "2px solid #8bc34a",
+    borderRadius: "15px",
+    padding: "10px 20px",
+    color: "#8bc34a",
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", 
-    display: "inline-block", 
+    backgroundColor: "transparent",
+    display: "inline-block",
     marginBottom: "20px",
   };
 
   const tittle = {
-    borderRadius: "15px", 
-    color: "#8bc34a", 
+    borderRadius: "15px",
+    color: "#8bc34a",
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", 
-    display: "inline-block", 
+    backgroundColor: "transparent",
+    display: "inline-block",
   };
 
   const [snacks, setSnacks] = useState([]);
@@ -65,7 +65,7 @@ function Stores() {
               >
                 <h4 style={tittle}>{items.snackName}</h4>
               </h3>
-              <p style={{fontSize: '20px'}}>{items.snackPrice} VND</p>
+              <p style={{ fontSize: "20px" }}>{items.snackPrice} VND</p>
             </div>
           ))}
         </div>
