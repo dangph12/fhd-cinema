@@ -7,7 +7,6 @@ function ResetPasswordForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your logic to handle the password reset request here
     console.log("Reset password for:", usernameOrEmail);
   };
 
