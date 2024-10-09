@@ -17,6 +17,6 @@ import lombok.experimental.FieldDefaults;
 public class AccountPagination {
 
   List<AccountDto> accountDtos;
-  int count;
+  long count;
 
 }

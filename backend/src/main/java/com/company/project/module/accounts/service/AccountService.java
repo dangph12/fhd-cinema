@@ -58,7 +58,7 @@ public class AccountService {
   }
 
   public AccountPagination searchAccountsByName(String accountName, int page, String sortBy) {
-    int pageSize = 50;
+    int pageSize = 2;
 
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
 
@@ -71,7 +71,7 @@ public class AccountService {
 
     AccountPagination accountPagination = AccountPagination.builder()
         .accountDtos(accountDtos)
-        .count(accountDtos.size())
+        .count(accountRepository.countByAccountNameContainingIgnoreCase(accountName))
         .build();
 
     return accountPagination;
