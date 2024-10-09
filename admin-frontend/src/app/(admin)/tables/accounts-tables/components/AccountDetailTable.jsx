@@ -3,10 +3,15 @@ import { Button, Container, Row, Col, Card, CardHeader, CardBody, CardTitle } fr
 import ReactTable from '@/components/Table'
 import { AccountContext } from '../context/AccountContext'
 import DeleteAccountModal from '../modals/DeleteAccountModal'
+import CreateAccountModal from '../modals/CreateAccountModal'
+import UpdateAccountModal from '../modals/UpdateAccountModal'
 
 const AccountDetailTable = () => {
   const { state, fetchAccounts } = useContext(AccountContext)
   const [showDeleteModal, setShowDeleteModal] = useState({ accountId: null, show: false })
+  const [showUpdateModal, setShowUpdateModal] = useState({ accountId: null, show: false })
+  const [showCreateModal, setShowCreateModal] = useState({ show: false })
+
   const columns = [
     {
       header: 'accountName',
@@ -23,7 +28,7 @@ const AccountDetailTable = () => {
         row: {
           original: { accountId },
         },
-      }) => <Button variant="warning">Update</Button>,
+      }) => <Button variant="warning" onClick={() => setShowUpdateModal({ accountId, show: true })}>Update</Button>,
     },
     {
       id: 'delete',
@@ -50,7 +55,7 @@ const AccountDetailTable = () => {
                   <CardTitle as="h4">Accounts Details</CardTitle>
                 </Col>
                 <Col className="text-end">
-                  <Button className="btn btn-primary">Create account</Button>
+                  <Button className="btn btn-primary" onClick={() => setShowCreateModal({ show: true })}>Create account</Button>
                 </Col>
               </Row>
             </CardHeader>
@@ -66,6 +71,17 @@ const AccountDetailTable = () => {
         show={showDeleteModal.show}
         fetchAccounts={fetchAccounts}
         onHide={() => setShowDeleteModal({ accountId: null, show: false })}
+      />
+      <CreateAccountModal
+        show={showCreateModal.show}
+        fetchAccounts={fetchAccounts}
+        onHide={() => setShowCreateModal({ show: false })}
+      />
+      <UpdateAccountModal
+        accountId={showUpdateModal.accountId}
+        show={showUpdateModal.show}
+        fetchAccounts={fetchAccounts}
+        onHide={() => setShowUpdateModal({ accountId: null, show: false })}
       />
     </Container>
   )

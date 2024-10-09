@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 
-function CreateAccountModal({ show, fetchAccounts }) {
+function CreateAccountModal({ show, fetchAccounts, onHide }) {
     const [createShow, setCreateShow] = useState(false)
 
     useEffect(() => {
@@ -20,6 +20,7 @@ function CreateAccountModal({ show, fetchAccounts }) {
     }
   
     const closeCreateShow = () => {
+      onHide()
       setCreateShow(false)
       setForm({})
       setValidated(false)
@@ -60,6 +61,7 @@ function CreateAccountModal({ show, fetchAccounts }) {
             console.error('Error:', error)
           })
         setCreateShow(false)
+        onHide()
         setForm({})
         setErrors({})
       }
