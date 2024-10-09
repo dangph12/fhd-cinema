@@ -36,7 +36,7 @@ const NavBar = (props) => {
                                 <NavLink className="nav-link" to="/">Lịch Chiếu</NavLink>
                             </Nav.Link>
                             <Nav.Link className="nav-item active">
-                                <NavLink className="nav-link" to="/">Cửa Hàng</NavLink>
+                                <NavLink className="nav-link" to="/stores">Cửa Hàng</NavLink>
                             </Nav.Link>
                             <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/news">Khuyến Mãi</NavLink>

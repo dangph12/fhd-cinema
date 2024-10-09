@@ -658,6 +658,7 @@ import { Toast, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Register from "./Register";
 import { toast } from "react-toastify";
+import BannerSecond from "../home/components/BannerSecond";
 
 const LoginPage = () => {
   const buttonStyle = {
@@ -729,6 +730,7 @@ const LoginPage = () => {
 
   return (
     <div>
+      <BannerSecond/>
       <ToastContainer position="top-end" className="p-3">
         <Toast
           bg="danger"

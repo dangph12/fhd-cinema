@@ -88,6 +88,7 @@ import _ from "lodash";
 import Users from "./modules/auth/Users";
 import NewsDeatils from "./modules/news/NewsDeatils";
 import { ToastContainer, Bounce } from "react-toastify";
+import Stores from "./modules/stores/Stores";
 
 function App() {
   // login
@@ -117,6 +118,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:newsId" element={<NewsDeatils />} />
+        <Route path="/stores" element={<Stores />} />
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
       </Routes>
