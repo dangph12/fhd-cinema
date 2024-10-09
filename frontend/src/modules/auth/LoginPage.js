@@ -654,12 +654,13 @@
 
 import React, { useState } from "react";
 import { loginApi } from "../../components/services/UserService";
-import { Toast, ToastContainer } from "react-bootstrap";
+import { Button, Toast, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Register from "./Register";
 import { toast } from "react-toastify";
 import BannerSecond from "../home/components/BannerSecond";
 import VisaBanner from "../home/components/VisaBanner";
+import { NavLink } from "react-router-dom";
 
 const LoginPage = () => {
   const buttonStyle = {
@@ -714,10 +715,10 @@ const LoginPage = () => {
       // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
       if (response && response.data) {
         console.log("Đăng nhập thành công!");
-       let data = {
-        isAuthentiaction: true,
-        token: "fake token",
-       }
+        let data = {
+          isAuthentiaction: true,
+          token: "fake token",
+        };
 
         // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
         sessionStorage.setItem("account", JSON.stringify(response.data));
@@ -775,14 +776,22 @@ const LoginPage = () => {
             >
               ĐĂNG NHẬP
             </button>
-            <a href="#">Quên mật khẩu?</a>
+
+            <NavLink
+              id=""
+              className="nav-link"
+              // to={`/forget-password/${accountId}`}
+              to={`/forget-password`}
+            >
+              Quên mật khẩu?
+            </NavLink>
           </form>
         </div>
         <div className="login-page-register-form">
           <Register />
         </div>
       </div>
-      <VisaBanner/>
+      <VisaBanner />
     </div>
   );
 };
