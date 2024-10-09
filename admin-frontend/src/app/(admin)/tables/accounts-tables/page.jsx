@@ -4,8 +4,6 @@ import { Col, Row, Card, CardBody, CardHeader, CardTitle, Button, Form, Modal, C
 import { useEffect, useState } from 'react'
 
 const AccountsTables = () => {
-  const accountApiUrl = `http://localhost:8080/accounts?search=${query}&page=${currentPage}`
-
   const [accounts, setAccounts] = useState([])
   const [query, setQuery] = useState('')
   const [filters, setFilters] = useState([])
@@ -20,23 +18,30 @@ const AccountsTables = () => {
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
+  const accountApiUrl = `http://localhost:8080/accounts?search=${query}&page=${currentPage}&filters=${filters.join(',')}`
+
   useEffect(() => {
+    fetchAccounts()
+  }, [currentPage, query, filters])
+
+  const fetchAccounts = () => {
     fetch(accountApiUrl)
       .then((response) => response.json())
-      .then((json) => setAccounts(json.data))
+      .then((json) => {
+      setAccounts(json.data.accountDtos);
+      // fetch total counts of accounts, then calc totalPages = Math.ceil(counts / pageSize)
+      // page Size = 2 for debug
+      setTotalPages(Math.ceil(json.data.count / 2));
+      })
+      .catch((error) => console.error('Error fetching accounts:', error));
+  }
 
-    // fetch total counts of accounts, then calc totalPages = Math.ceil(counts / 50)
-    fetch('http://localhost:8080/accounts/counts')
-      .then((response) => response.json())
-      .then((json) => setTotalPages(Math.ceil(json.data / 50)))
-  }, [])
-
-  const filteredAccounts = accounts?.filter((account) => {
+  const filteredAccounts = Array.isArray(accounts) ? accounts.filter((account) => {
     return (
       // filter type by filters
       filters.length === 0 || filters.includes(account.accountType)
     )
-  })
+  }) : []
 
   const handleSearch = (event) => {
     setQuery(event.target.value)
@@ -156,9 +161,7 @@ const AccountsTables = () => {
       })
         .then((response) => {
           if (response.ok) {
-            fetch('http://localhost:8080/accounts')
-              .then((response) => response.json())
-              .then((json) => setAccounts(json.data))
+            fetchAccounts()
           } else {
             console.error('Failed to create the account')
           }
@@ -218,9 +221,7 @@ const AccountsTables = () => {
       })
         .then((response) => {
           if (response.ok) {
-            fetch('http://localhost:8080/accounts')
-              .then((response) => response.json())
-              .then((json) => setAccounts(json.data))
+            fetchAccounts()
           } else {
             console.error('Failed to update the account')
           }
@@ -261,7 +262,7 @@ const AccountsTables = () => {
     })
       .then((response) => {
         if (response.ok) {
-          setAccounts(accounts.filter((account) => account.accountId !== form.accountId))
+          fetchAccounts()
         } else {
           console.error('Failed to delete the account')
         }
@@ -284,6 +285,9 @@ const AccountsTables = () => {
       <Container className="pt-3">
         <Row>
           <Col md={8}>
+
+          
+          
             <Form.Control
               className="p-3 mb-3 rounded"
               size="lg"
@@ -293,6 +297,18 @@ const AccountsTables = () => {
               onChange={handleSearch}
               onKeyDown={handleKeyDown}
             />
+            
+
+
+
+
+
+
+
+
+
+
+
           </Col>
           <Col md={4} className="d-flex flex-column align-items-start fs-4">
             <Form.Check
@@ -337,7 +353,7 @@ const AccountsTables = () => {
           <Pagination.Prev onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
           {Array.from({ length: totalPages }, (_, index) => (
             <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
-              {index + 1}
+              {index + 1} 
             </Pagination.Item>
           ))}
           <Pagination.Next onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
@@ -445,7 +461,7 @@ const AccountsTables = () => {
                 name="accountType"
                 onChange={(e) => setField('accountType', Number(e.target.value))}
                 className="bg-body text-dark border-secondary"
-                value={form.accountType === 'Customer' ? 1 : 2}
+                value={form.accountType}
                 isInvalid={!!errors.accountType}>
                 <option value="">Select account type</option>
                 <option value={1}>Customer</option>

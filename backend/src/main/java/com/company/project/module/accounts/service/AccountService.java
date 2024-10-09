@@ -9,13 +9,12 @@ import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
-import com.company.project.module.accounts.dto.response.AccountTotalCount;
+import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
 
-  @Autowired
   private final ModelMapper modelMapper;
 
   private final AccountRepository accountRepository;
@@ -59,17 +57,24 @@ public class AccountService {
     return this.convertToAccountDto(account);
   }
 
-  public List<AccountDto> searchAccountsByName(String accountName, int page, String sortBy) {
-    int pageSize = 50;
+  public AccountPagination searchAccountsByName(String accountName, int page, String sortBy) {
+    int pageSize = 2;
 
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
 
     Page<Account> accountPage = accountRepository
         .findByAccountNameContainingIgnoreCase(accountName, pageable);
 
-    return accountPage.getContent().stream()
-    .map(this::convertToAccountDto)
-    .collect(Collectors.toList());
+    List<AccountDto> accountDtos = accountPage.getContent().stream()
+        .map(this::convertToAccountDto)
+        .collect(Collectors.toList());
+
+    AccountPagination accountPagination = AccountPagination.builder()
+        .accountDtos(accountDtos)
+        .count(accountRepository.countByAccountNameContainingIgnoreCase(accountName))
+        .build();
+
+    return accountPagination;
   }
 
   private AccountDto convertToAccountDto(Account account) {
@@ -118,14 +123,6 @@ public class AccountService {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage());
     }
     accountRepository.deleteById(accountId);
-  }
-
-  public AccountTotalCount getTotalAccountCount() {
-    long count = accountRepository.count();
-    
-    AccountTotalCount accountTotalCount = new AccountTotalCount(count);
-
-    return accountTotalCount;
   }
 
 }
