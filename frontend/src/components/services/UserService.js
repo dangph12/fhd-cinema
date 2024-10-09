@@ -36,6 +36,10 @@ const fetchNews = () => {
     return axios.get("http://localhost:8080/news")
 }
 
+const fetchSnacks = () => {
+    return axiosFormat.get("/snacks")
+}
+
 const fetchNewsById = (newsId) => {
     return axios.get(`http://localhost:8080/news/${newsId}`);
 }
@@ -44,5 +48,5 @@ const fetchNewsById = (newsId) => {
 //     return axiosFormat.post("/accounts", { accountName })
 // }
 
-export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi, fetchShowTimeById, fetchNews, fetchNewsById }
+export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi, fetchShowTimeById, fetchNews, fetchNewsById, fetchSnacks }
 
