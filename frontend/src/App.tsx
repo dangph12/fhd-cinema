@@ -90,7 +90,6 @@ import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
 import Home from "./components/Home";
 import News from "./modules/home/components/News";
-import _ from 'lodash';
 import Users from "./modules/auth/Users";
 
 function App() {
@@ -104,27 +103,27 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <>
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/description/:movieId" element={<FilmDetails />} />
         <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
-        <Route path="/seatselection" element={<SeatSelection />} />
-        <Route path="/cart.html" element={<FilmTime />} />
+        {/* <Route path="/seatselection" element={<SeatSelection />} /> */}
+        {/* <Route path="/cart.html" element={<FilmTime />} /> */}
         <Route path="/news" element={<News />} />
         <Route path="/orderfood" element={<OrderFood />} />
         <Route path="/users" element={<Users />} />
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
         <Route path="/film/:movieId/showtimes" element={<FilmTime />} />
-        <Route path="/seatselection/:showtimeId" element={<SeatSelection />} />
+        <Route path="/seatSelection" element={<SeatSelection />} />
         <Route path="/orderfood" element={<OrderFood />} />
-        <Route path="/ticketinfor" element={<TicketInfor />} />
+        <Route path="/ticketInfor" element={<TicketInfor />} />
       </Routes>
       <Footer />
-    </div>
+    </>
   );
 }
 
