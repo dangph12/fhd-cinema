@@ -29,8 +29,8 @@ public class CustomerService {
     return customerRepository.findAll();
   }
   
-  public Customer getCustomerById(String seatTypeId) {
-    return customerRepository.findById(seatTypeId)
+  public Customer getCustomerById(String customerId) {
+    return customerRepository.findById(customerId)
     .orElseThrow(() -> new CustomerException(
       Status.FAIL.getValue(), 
       CustomerStatusMessage.NOT_EXIST.getMessage()));
@@ -85,12 +85,12 @@ public class CustomerService {
     return customerRepository.save(existedCustomer);
   }
 
-  public void deleteCustomerById(String seatId) {
-    if (!customerRepository.existsById(seatId)) {
+  public void deleteCustomerById(String customerId) {
+    if (!customerRepository.existsById(customerId)) {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
     }
 
-    customerRepository.deleteById(seatId);
+    customerRepository.deleteById(customerId);
   }
 
   public Customer removeVoucherFromCustomer(String customerId, String voucherId) {
