@@ -25,7 +25,7 @@
 
 
 /*seats selection*/
-.seat-selection-container {
+/* .seat-selection-container {
     padding: 20px;
  
     border-radius: 10px;
@@ -38,7 +38,7 @@
     display: flex;
     flex-wrap: nowrap;
     flex-grow: 1;
-    /* flex-direction: column; */
+    flex-direction: column;
     justify-content: center;
   }
 
@@ -75,7 +75,7 @@
   }
 
   
-  .seat-legend {
+  .seat-box {
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
@@ -84,6 +84,25 @@
 
 
 
-  
- 
-  
+.text-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+
+.film-title{
+  color: #72be43;
+  font-weight: bold;
+  font-size: 1.9rem;
+
+}
+
+
+.cinema-title{
+  color: Black;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+ */
