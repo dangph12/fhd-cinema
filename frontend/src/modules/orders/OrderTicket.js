@@ -8,6 +8,7 @@ import {
   fetchShowTime,
 } from "../../components/services/UserService";
 import VisaBanner from "../home/components/VisaBanner";
+import Youtube from "./Youtube";
 
 // import YouTube from 'react-youtube';
 
@@ -83,31 +84,10 @@ const OrderTicket = (props) => {
           )}
         </div>
 
-        <div className="container">
-          {/* youtube link */}
-          <div className="cinema video-container">
-            <div className="video-wrapper">
-              <div
-                style={{
-                  position: "center",
-                  paddingBottom: "30%",
-                  height: 0,
-                  overflow: "hidden",
-                }}
-              >
-                {/* <ReactPlayer url='https://www.youtube.com/watch?v=wI2Wd2yA8YE' /> */}
-                {/* <iframe src={movieDetails.movieTrailerUrl}></iframe> */}
-                {movieDetails?.movieTrailerUrl ? (
-                  <ReactPlayer url={movieDetails.movieTrailerUrl} />
-                ) : (
-                  <p>Trailer not available</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        <Youtube />
 
         <FilmTime />
+        
         <VisaBanner />
       </div>
     </div>

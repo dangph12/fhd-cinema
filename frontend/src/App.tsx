@@ -103,7 +103,6 @@ function App() {
     }
   }, []);
 
-
   return (
     <div className="App">
       <NavBar />
@@ -122,8 +121,6 @@ function App() {
         <Route path="/stores" element={<Stores />} />
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
-
-
       </Routes>
 
       <ToastContainer
@@ -146,4 +143,3 @@ function App() {
 }
 
 export default App;
-
