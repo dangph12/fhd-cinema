@@ -5,24 +5,24 @@ import { NavLink } from "react-router-dom";
 
 function Stores() {
   const buttonStyle = {
-    border: "2px solid #8bc34a", // green border
-    borderRadius: "15px", // rounded corners
-    padding: "10px 20px", // padding for the button
-    color: "#8bc34a", // green text
+    border: "2px solid #8bc34a", 
+    borderRadius: "15px", 
+    padding: "10px 20px", 
+    color: "#8bc34a", 
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "inline-block", // button behavior
+    backgroundColor: "transparent", 
+    display: "inline-block", 
     marginBottom: "20px",
   };
 
   const tittle = {
-    borderRadius: "15px", // rounded corners
-    color: "#8bc34a", // green text
+    borderRadius: "15px", 
+    color: "#8bc34a", 
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "inline-block", // button behavior
+    backgroundColor: "transparent", 
+    display: "inline-block", 
   };
 
   const [snacks, setSnacks] = useState([]);
@@ -42,17 +42,17 @@ function Stores() {
       <BannerSecond />
       <section className="value-combo">
         <h2 className="">
-          <button style={buttonStyle}>FHD NEWS COMBO</button>
+          <button style={buttonStyle}>FHD SNACKS COMBO</button>
         </h2>
 
         <div className="combo-container">
-          {news.map((items) => (
-            <div className="combo-item1 shadow" key={items.newsId}>
-              <NavLink className="nav-link" to={}>
+          {snacks.map((items) => (
+            <div className="combo-item1 shadow" key={items.snackId}>
+              <NavLink className="nav-link" to="">
                 <img
                   style={{ width: "100%" }}
-                  src={items.newsImageUrl}
-                  alt={items.newsTitle}
+                  src="https://booking.bhdstar.vn/CDN/media/entity/get/ItemGraphic/662613?width=350&height=350&referenceScheme=HeadOffice&allowPlaceHolder=true"
+                  alt=""
                 />
               </NavLink>
               <h3
@@ -63,9 +63,9 @@ function Stores() {
                   marginTop: "30px",
                 }}
               >
-                <h4 style={tittle}>{items.newsTitle}</h4>
+                <h4 style={tittle}>{items.snackName}</h4>
               </h3>
-              <p>Thưởng thức ngay combo bánh Trung Thu hảo hạng của BHD Star</p>
+              <p style={{fontSize: '20px'}}>{items.snackPrice} VND</p>
             </div>
           ))}
         </div>

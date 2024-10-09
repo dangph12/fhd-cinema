@@ -37,7 +37,7 @@ const fetchNews = () => {
 }
 
 const fetchSnacks = () => {
-    return axiosFormat.get("/snacks")
+    return axios.get("http://localhost:8080/snacks")
 }
 
 const fetchNewsById = (newsId) => {
