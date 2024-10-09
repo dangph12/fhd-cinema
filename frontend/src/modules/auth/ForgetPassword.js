@@ -1,68 +1,74 @@
 import React, { useState } from "react";
+import BannerSecond from "../home/components/BannerSecond";
+import VisaBanner from "../home/components/VisaBanner";
 
 function ResetPasswordForm() {
-  const styles = {
-    container: {
-      maxWidth: "400px",
-      margin: "0 auto",
-      padding: "20px",
-      textAlign: "center",
-      border: "1px solid #ddd",
-      borderRadius: "8px",
-    },
-    inputContainer: {
-      marginBottom: "20px",
-    },
-    input: {
-      width: "100%",
-      padding: "10px",
-      borderRadius: "4px",
-      border: "1px solid #ccc",
-    },
-    button: {
-      backgroundColor: "#4CAF50",
-      color: "white",
-      padding: "10px 20px",
-      border: "none",
-      borderRadius: "4px",
-      cursor: "pointer",
-    },
-  };
-
-  const [emailOrUsername, setEmailOrUsername] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle the password reset logic here
-    console.log("Submitted email or username:", emailOrUsername);
-    setSubmitted(true);
+    // Add your logic to handle the password reset request here
+    console.log("Reset password for:", usernameOrEmail);
   };
 
   return (
-    <div style={styles.container}>
-      <h1>Quên mật khẩu</h1>
-      <p>
-        Quên mật khẩu? Vui lòng nhập tên đăng nhập hoặc địa chỉ email. Bạn sẽ
-        nhận được một liên kết tạo mật khẩu mới qua email.
-      </p>
-      <form onSubmit={handleSubmit}>
-        <div style={styles.inputContainer}>
-          <label htmlFor="emailOrUsername">Tên đăng nhập hoặc email</label>
-          <input
-            type="text"
-            id="emailOrUsername"
-            value={emailOrUsername}
-            onChange={(e) => setEmailOrUsername(e.target.value)}
-            required
-            style={styles.input}
-          />
+    <div>
+        <BannerSecond/>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "50px",
+          marginBottom: "50px",
+        }}
+      >
+        <div
+          style={{
+            width: "700px",
+            textAlign: "center",
+            fontFamily: "Arial, sans-serif",
+          }}
+        >
+          <h2 style={{ color: "#64a70b" }}>Quên mật khẩu</h2>
+          <p>
+            Quên mật khẩu? Vui lòng nhập tên đăng nhập hoặc địa chỉ email. Bạn
+            sẽ nhận được một liên kết tạo mật khẩu mới qua email.
+          </p>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Tên đăng nhập hoặc email"
+              value={usernameOrEmail}
+              onChange={(e) => setUsernameOrEmail(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "10px",
+                marginBottom: "20px",
+                borderRadius: "4px",
+                border: "5px solid white",
+                fontSize: "16px",
+              }}
+              required
+            />
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                padding: "10px",
+                backgroundColor: "#64a70b",
+                color: "white",
+                border: "10px",
+                borderRadius: "10px",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              ĐẶT LẠI MẬT KHẨU
+            </button>
+          </form>
         </div>
-        <button type="submit" style={styles.button}>
-          ĐẶT LẠI MẬT KHẨU
-        </button>
-      </form>
-      {submitted && <p>Liên kết đặt lại mật khẩu đã được gửi!</p>}
+      </div>
+      <VisaBanner/>
     </div>
   );
 }
