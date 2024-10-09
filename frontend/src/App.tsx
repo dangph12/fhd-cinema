@@ -122,6 +122,7 @@ function App() {
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
       </Routes>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -135,6 +136,7 @@ function App() {
         theme="light"
         transition={Bounce} // Sử dụng đúng cú pháp cho chuyển đổi
       />
+
       <Footer />
     </div>
   );
