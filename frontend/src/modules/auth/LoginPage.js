@@ -659,6 +659,7 @@ import { useNavigate } from "react-router-dom";
 import Register from "./Register";
 import { toast } from "react-toastify";
 import BannerSecond from "../home/components/BannerSecond";
+import VisaBanner from "../home/components/VisaBanner";
 
 const LoginPage = () => {
   const buttonStyle = {
@@ -713,6 +714,10 @@ const LoginPage = () => {
       // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
       if (response && response.data) {
         console.log("Đăng nhập thành công!");
+       let data = {
+        isAuthentiaction: true,
+        token: "fake token",
+       }
 
         // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
         sessionStorage.setItem("account", JSON.stringify(response.data));
@@ -777,14 +782,7 @@ const LoginPage = () => {
           <Register />
         </div>
       </div>
-      <div className="login-page-container" style={{ marginBottom: "40px" }}>
-        <div className="login-page-white-image">
-          <img
-            src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"
-            alt="Login Illustration"
-          />
-        </div>
-      </div>
+      <VisaBanner/>
     </div>
   );
 };
