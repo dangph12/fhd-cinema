@@ -1,7 +1,9 @@
 package com.company.project.module.accounts.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
@@ -57,13 +59,24 @@ public class AccountService {
     return this.convertToAccountDto(account);
   }
 
-  public AccountPagination searchAccountsByName(String accountName, int page, String sortBy) {
+  public AccountPagination searchAccountsByName(String accountName, int page, List<String> filters, String sortBy) {
     int pageSize = 2;
 
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
 
-    Page<Account> accountPage = accountRepository
-        .findByAccountNameContainingIgnoreCase(accountName, pageable);
+    List<Integer> accountTypes = this.convertToAccountTypes(filters);
+
+    Page<Account> accountPage;
+    long count;
+
+    if (!accountTypes.isEmpty()) {
+      accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
+        accountName, accountTypes, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, accountTypes);
+    } else {
+      accountPage = accountRepository.findByAccountNameContainingIgnoreCase(accountName, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCase(accountName);
+    }
 
     List<AccountDto> accountDtos = accountPage.getContent().stream()
         .map(this::convertToAccountDto)
@@ -71,10 +84,25 @@ public class AccountService {
 
     AccountPagination accountPagination = AccountPagination.builder()
         .accountDtos(accountDtos)
-        .count(accountRepository.countByAccountNameContainingIgnoreCase(accountName))
+        .count(count)
         .build();
 
     return accountPagination;
+  }
+
+  private List<Integer> convertToAccountTypes(List<String> filters) {
+    List<Integer> accountTypes = filters != null ? filters.stream()
+        .map(filter -> {
+          if ("Customer".equalsIgnoreCase(filter))
+            return 1;
+          else if ("Staff".equalsIgnoreCase(filter))
+            return 2;
+          else
+            return null;
+        })
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList()) : Collections.emptyList();
+    return accountTypes;
   }
 
   private AccountDto convertToAccountDto(Account account) {
