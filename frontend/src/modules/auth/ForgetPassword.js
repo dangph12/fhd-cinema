@@ -1,6 +1,34 @@
 import React, { useState } from "react";
 
 function ResetPasswordForm() {
+  const styles = {
+    container: {
+      maxWidth: "400px",
+      margin: "0 auto",
+      padding: "20px",
+      textAlign: "center",
+      border: "1px solid #ddd",
+      borderRadius: "8px",
+    },
+    inputContainer: {
+      marginBottom: "20px",
+    },
+    input: {
+      width: "100%",
+      padding: "10px",
+      borderRadius: "4px",
+      border: "1px solid #ccc",
+    },
+    button: {
+      backgroundColor: "#4CAF50",
+      color: "white",
+      padding: "10px 20px",
+      border: "none",
+      borderRadius: "4px",
+      cursor: "pointer",
+    },
+  };
+
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -38,33 +66,5 @@ function ResetPasswordForm() {
     </div>
   );
 }
-
-const styles = {
-  container: {
-    maxWidth: "400px",
-    margin: "0 auto",
-    padding: "20px",
-    textAlign: "center",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-  },
-  inputContainer: {
-    marginBottom: "20px",
-  },
-  input: {
-    width: "100%",
-    padding: "10px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-  },
-  button: {
-    backgroundColor: "#4CAF50",
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-};
 
 export default ResetPasswordForm;

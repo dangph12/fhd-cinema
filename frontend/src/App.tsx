@@ -89,6 +89,7 @@ import Users from "./modules/auth/Users";
 import NewsDeatils from "./modules/news/NewsDeatils";
 import { ToastContainer, Bounce } from "react-toastify";
 import Stores from "./modules/stores/Stores";
+import ForgetPassword from "./modules/auth/ForgetPassword";
 
 function App() {
   // login
@@ -119,6 +120,7 @@ function App() {
         <Route path="/news" element={<News />} />
         <Route path="/news/:newsId" element={<NewsDeatils />} />
         <Route path="/stores" element={<Stores />} />
+        <Route path="/forget-password" element={< ForgetPassword/>} />
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
       </Routes>
