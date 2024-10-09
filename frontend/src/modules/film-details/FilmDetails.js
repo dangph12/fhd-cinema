@@ -87,7 +87,8 @@ function FilmDetails() {
             {/* Phần thông tin thêm */}
             <div className="col-md-3 additional-info">
               <img
-                src="https://www.bhdstar.vn/wp-content/uploads/2024/09/singlebanner2.jpg"
+                // src="https://www.bhdstar.vn/wp-content/uploads/2024/09/singlebanner2.jpg"
+                src="https://bhdstar.vn/wp-content/uploads/2024/10/banner-trong-2.jpg"
                 alt="Additional Banner"
                 className="additional-banner"
               />
