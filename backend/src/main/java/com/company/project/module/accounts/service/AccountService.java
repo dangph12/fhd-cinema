@@ -1,7 +1,9 @@
 package com.company.project.module.accounts.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
@@ -9,13 +11,12 @@ import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
-import com.company.project.module.accounts.dto.response.AccountTotalCount;
+import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
 
-  @Autowired
   private final ModelMapper modelMapper;
   @Autowired
   private final ModelMapper modelMapper;
@@ -69,17 +69,50 @@ public class AccountService {
     return this.convertToAccountDto(account);
   }
 
-  public List<AccountDto> searchAccountsByName(String accountName, int page, String sortBy) {
-    int pageSize = 50;
+  public AccountPagination searchAccountsByName(String accountName, int page, List<String> filters, String sortBy) {
+    int pageSize = 2;
 
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
 
-    Page<Account> accountPage = accountRepository
-        .findByAccountNameContainingIgnoreCase(accountName, pageable);
+    List<Integer> accountTypes = this.convertToAccountTypes(filters);
 
-    return accountPage.getContent().stream()
-    .map(this::convertToAccountDto)
-    .collect(Collectors.toList());
+    Page<Account> accountPage;
+    long count;
+
+    if (!accountTypes.isEmpty()) {
+      accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
+        accountName, accountTypes, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, accountTypes);
+    } else {
+      accountPage = accountRepository.findByAccountNameContainingIgnoreCase(accountName, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCase(accountName);
+    }
+
+    List<AccountDto> accountDtos = accountPage.getContent().stream()
+        .map(this::convertToAccountDto)
+        .collect(Collectors.toList());
+
+    AccountPagination accountPagination = AccountPagination.builder()
+        .accountDtos(accountDtos)
+        .count(count)
+        .build();
+
+    return accountPagination;
+  }
+
+  private List<Integer> convertToAccountTypes(List<String> filters) {
+    List<Integer> accountTypes = filters != null ? filters.stream()
+        .map(filter -> {
+          if ("Customer".equalsIgnoreCase(filter))
+            return 1;
+          else if ("Staff".equalsIgnoreCase(filter))
+            return 2;
+          else
+            return null;
+        })
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList()) : Collections.emptyList();
+    return accountTypes;
   }
 
   private AccountDto convertToAccountDto(Account account) {
@@ -130,14 +163,6 @@ public class AccountService {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage());
     }
     accountRepository.deleteById(accountId);
-  }
-
-  public AccountTotalCount getTotalAccountCount() {
-    long count = accountRepository.count();
-    
-    AccountTotalCount accountTotalCount = new AccountTotalCount(count);
-
-    return accountTotalCount;
   }
 
 }
