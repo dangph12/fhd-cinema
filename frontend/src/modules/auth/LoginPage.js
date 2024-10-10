@@ -1,5 +1,6 @@
 // import React from 'react'
 
+
 // function LoginPage() {
 //     return (
 //         <div>
@@ -66,8 +67,11 @@
 
 // export default LoginPage
 
+
 // import React, { useState } from "react";
 // import { Form, Button, Alert } from "react-bootstrap";
+
+
 
 // const LoginPage = () => {
 //     const [inputUsername, setInputUsername] = useState("");
@@ -171,6 +175,7 @@
 
 // export default LoginPage;
 
+
 // import React from 'react';
 
 // const LoginPage = () => {
@@ -244,11 +249,13 @@
 
 // export default LoginPage;
 
+
 // import React, { useEffect, useState } from 'react';
 // import { loginApi } from '../../components/services/UserService';
 // import { Toast } from 'react-bootstrap';
 // import axios from 'axios';
 // import { Navigate, useNavigate } from 'react-router-dom';
+
 
 // const LoginPage = () => {
 //     let history = useNavigate()
@@ -273,6 +280,7 @@
 //             history("/seatselection")
 //         }
 
+
 //         console.log("check>>", respone.data.data);
 
 //     }
@@ -283,6 +291,7 @@
 
 //     //     })
 //     // }, []);
+
 
 //     return (
 //         <div>
@@ -581,6 +590,7 @@
 
 // export default LoginPage;
 
+
 // import React, { useState } from 'react';
 // import { loginApi } from '../../components/services/UserService';
 // import { Toast } from 'react-bootstrap';
@@ -652,116 +662,101 @@
 
 // export default LoginPage;
 
-import React, { useState } from "react";
-import { loginApi } from "../../components/services/UserService";
-import { Toast, ToastContainer } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import Register from "./Register";
+
+
+import React, { useState } from 'react';
+import { loginApi } from '../../components/services/UserService';
+import { Toast, ToastContainer } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import Register from './Register';
 
 const LoginPage = () => {
-  const buttonStyle = {
-    borderRadius: "15px", // rounded corners
-    padding: "10px 20px", // padding for the button
-    color: "#8bc34a", // green text
-    fontWeight: "bold",
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "inline-block", // button behavior
-  };
+    const [accountName, setAccountName] = useState('');
+    const [accountPassword, setaccountPassword] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const [toastMessage, setToastMessage] = useState('');
+    const navigate = useNavigate();
 
-  const [accountName, setAccountName] = useState("");
-  const [accountPassword, setaccountPassword] = useState("");
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const navigate = useNavigate();
+    const handleInput = async (event) => {
+        event.preventDefault();
 
-  const handleInput = async (event) => {
-    event.preventDefault();
+        try {
+            // Gửi yêu cầu đăng nhập
+            let response = await loginApi(accountName, accountPassword);
 
-    try {
-      // Gửi yêu cầu đăng nhập
-      let response = await loginApi(accountName, accountPassword);
+            // Kiểm tra phản hồi từ API
+            if (response && response.data) {
+                console.log("Đăng nhập thành công!");
 
-      // Kiểm tra phản hồi từ API
-      if (response && response.data) {
-        console.log("Đăng nhập thành công!");
+                let data = {
+                    isAuthentiaction: true,
+                    token: "fake token"
+                }
+                // covert object to string
+                sessionStorage.setItem('account', JSON.stringify(data))
+                navigate("/users"); // Chuyển hướng đến trang home
+            } else {
+                setToastMessage("Thông tin đăng nhập không hợp lệ");
+                setShowToast(true);
+            }
+        } catch (error) {
+            console.error("Lỗi đăng nhập:", error);
+            setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+            setShowToast(true);
+        }
+    };
 
-        let data = {
-          isAuthentiaction: true,
-          token: "fake token",
-        };
-        // covert object to string
-        sessionStorage.setItem("account", JSON.stringify(data));
-        navigate("/users"); // Chuyển hướng đến trang home
-      } else {
-        setToastMessage("Thông tin đăng nhập không hợp lệ");
-        setShowToast(true);
-      }
-    } catch (error) {
-      console.error("Lỗi đăng nhập:", error);
-      setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
-      setShowToast(true);
-    }
-  };
-
-  return (
-    <div>
-      <ToastContainer position="top-end" className="p-3">
-        <Toast
-          bg="danger"
-          show={showToast}
-          onClose={() => setShowToast(false)}
-          delay={3000}
-          autohide
-        >
-          <Toast.Body>{toastMessage}</Toast.Body>
-        </Toast>
-      </ToastContainer>
-      <div className="login-page-form-container">
-        <div className="login-page-login-form">
-          <h2 className="">
-            <button style={buttonStyle}>ĐĂNG NHẬP TÀI KHOẢN</button>
-          </h2>
-          <form onSubmit={handleInput}>
-            <div>Tên tài khoản *</div>
-            <input
-              value={accountName}
-              type="text"
-              placeholder="Tài khoản hoặc địa chỉ email"
-              required
-              onChange={(event) => setAccountName(event.target.value)}
-            />
-            <div>Mật khẩu *</div>
-            <input
-              value={accountPassword}
-              type="password"
-              placeholder="Mật khẩu"
-              required
-              onChange={(event) => setaccountPassword(event.target.value)}
-            />
-            <button
-              type="submit"
-              className={accountName && accountPassword ? "active" : ""}
-            >
-              ĐĂNG NHẬP
-            </button>
-            <a href="#">Quên mật khẩu?</a>
-          </form>
+    return (
+        <div>
+            <ToastContainer position="top-end" className="p-3">
+                <Toast
+                    bg="danger"
+                    show={showToast}
+                    onClose={() => setShowToast(false)}
+                    delay={3000}
+                    autohide
+                >
+                    <Toast.Body>{toastMessage}</Toast.Body>
+                </Toast>
+            </ToastContainer>
+            <div className="login-page-form-container">
+                <div className="login-page-login-form">
+                    <h2>Đăng nhập tài khoản</h2>
+                    <form onSubmit={handleInput}>
+                        <div>Tên tài khoản *</div>
+                        <input
+                            value={accountName}
+                            type="text"
+                            placeholder="Tài khoản hoặc địa chỉ email"
+                            required
+                            onChange={(event) => setAccountName(event.target.value)}
+                        />
+                        <div>Mật khẩu *</div>
+                        <input
+                            value={accountPassword}
+                            type="password"
+                            placeholder="Mật khẩu"
+                            required
+                            onChange={(event) => setaccountPassword(event.target.value)}
+                        />
+                        <button type="submit" className={accountName && accountPassword ? "active" : ""}>
+                            ĐĂNG NHẬP
+                        </button>
+                        <a href="#">Quên mật khẩu?</a>
+                    </form>
+                </div>
+                <div className="login-page-register-form">
+                   <Register/>
+                </div>
+            </div>
+            <div className="login-page-container">
+                <div className="login-page-white-image">
+                    <img src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png" alt="Login Illustration" />
+                </div>
+            </div>
         </div>
-        <div className="login-page-register-form">
-          <Register />
-        </div>
-      </div>
-      <div className="login-page-container" style={{ marginBottom: "40px" }}>
-        <div className="login-page-white-image">
-          <img
-            src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"
-            alt="Login Illustration"
-          />
-        </div>
-      </div>
-    </div>
-  );
+
+    );
 };
 
 export default LoginPage;

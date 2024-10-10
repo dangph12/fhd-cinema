@@ -35,13 +35,9 @@ const fetchNews = () => {
     return axios.get("http://localhost:8080/news")
 }
 
-const fetchNewsById = (newsId) => {
-    return axios.get(`http://localhost:8080/news/${newsId}`);
-}
-
 // const loginApi = (accountName) => {
 //     return axiosFormat.post("/accounts", { accountName })
 // }
 
-export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi, fetchShowTimeById, fetchNews, fetchNewsById }
+export { fetchAllUser, fetchMovieById, fetchShowTime, loginApi, fetchShowTimeById, fetchNews }
 

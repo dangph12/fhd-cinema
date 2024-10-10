@@ -25,7 +25,7 @@
 
 
 /*seats selection*/
-.seat-selection-container {
+/* .seat-selection-container {
     padding: 20px;
  
     border-radius: 10px;
@@ -36,10 +36,7 @@
     padding: 15px;
     border-radius: 10px;
     display: flex;
-    flex-wrap: nowrap;
-    flex-grow: 1;
-    /* flex-direction: column; */
-    justify-content: center;
+    flex-direction: column;
   }
 
   
@@ -73,7 +70,6 @@
   .seat:hover {
     transform: scale(1.1);
   }
-
   
   .seat-legend {
     background-color: #fff;
@@ -81,9 +77,4 @@
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
-
-
-
-  
- 
-  
+   
