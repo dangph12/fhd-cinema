@@ -63,7 +63,6 @@ const OrderTicket = (props) => {
                             <p><strong>Diễn viên:</strong> <a href="#">Blake Lively</a>, <a href="#">Justin Baldoni</a></p>
                             <p><strong>Thể loại:</strong> <a href="#">{movieDetails.movieGenre}</a></p>
                             <p><strong>Khởi chiếu:</strong> {movieDetails.movieReleaseDate} | <strong>Thời lượng:</strong> 130 phút</p>
-                            <p><strong>Định Dạng:</strong> {movieDetails.movieFormat} </p>
                             <button className="movie-button" onClick={handleButtonClick}>← CHỌN PHIM KHÁC</button>
                         </div>
                     )}
