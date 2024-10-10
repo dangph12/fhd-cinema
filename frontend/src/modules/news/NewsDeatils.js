@@ -5,6 +5,7 @@ import BannerSecond from "../home/components/BannerSecond";
 import { SocialIcon } from "react-social-icons";
 import { useParams } from "react-router-dom";
 import { fetchNewsById } from "../../components/services/UserService";
+import VisaBanner from "../home/components/VisaBanner";
 
 function NewsDeatils() {
   const { newsId } = useParams(); // Lấy movieId từ URL
@@ -60,14 +61,7 @@ function NewsDeatils() {
         </div>
       </div>
 
-      <div className="login-page-container" style={{marginBottom: '20px'}}>
-        <div className="login-page-white-image">
-          <img
-            src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"
-            alt="Login Illustration"
-          />
-        </div>
-      </div>
+     <VisaBanner/>
     </div>
   );
 }

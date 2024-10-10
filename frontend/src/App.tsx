@@ -87,9 +87,11 @@ import News from "./modules/news/News";
 import _ from "lodash";
 import Users from "./modules/auth/Users";
 import NewsDeatils from "./modules/news/NewsDeatils";
+import { ToastContainer, Bounce } from "react-toastify";
+import Stores from "./modules/stores/Stores";
+import ForgetPassword from "./modules/auth/ForgetPassword";
 
 function App() {
-
   // login
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
     null
@@ -111,14 +113,32 @@ function App() {
         <Route path="/description/:movieId" element={<FilmDetails />} />
         <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
         <Route path="/seatselection" element={<SeatSelection />} />
-        <Route path="/cart.html" element={<FilmTime/>} />
-        <Route path="/film/:movieId/showtimes" element={<FilmTime />} />
-        <Route path="/seatselection/:showtimeId" element={<SeatSelection />} />
-
+        <Route path="/cart.html" element={<FilmTime />} />
         <Route path="/orderfood" element={<OrderFood />} />
-        <Route path="/ticketinfor" element={<TicketInfor />} />
-
+        <Route path="/ticketInfor" element={<TicketInfor />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/news/:newsId" element={<NewsDeatils />} />
+        <Route path="/stores" element={<Stores />} />
+        <Route path="/forget-password" element={< ForgetPassword/>} />
+        {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
+        && <Users/>} */}
       </Routes>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce} // Sử dụng đúng cú pháp cho chuyển đổi
+      />
+
       <Footer />
     </div>
   );

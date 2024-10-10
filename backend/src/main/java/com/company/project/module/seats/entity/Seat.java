@@ -1,5 +1,6 @@
 package com.company.project.module.seats.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,11 +52,11 @@ public class Seat {
     @OneToOne(mappedBy = "seat")
     Ticket ticket;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="type_id", nullable=false)
     SeatType seatType;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="screen_id", nullable=false)
     Screen screen;
 

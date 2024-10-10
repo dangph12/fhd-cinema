@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
-import './SeatSelection.css';
+import axios from 'axios';
 import seatNormal from '../../assets/seats/ghe-thuong.png';
 import seatVIP from '../../assets/seats/ghe-vip.png';
 import seatSelected from '../../assets/seats/ghe-da-chon.png';
@@ -11,53 +11,43 @@ import seatMapHeader from '../../assets/seats/seatMapHeader.png';
 import seatCoupleSelected from '../../assets/seats/ghe-doi-da-chon.png';
 
 const SeatSelection = () => {
-    const { showtimeId } = useParams();
+    const location = useLocation();
+    const { showtimeId, movieDetails, moviePosterUrl } = location.state || {};
+
     const navigate = useNavigate();
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [seatLayout, setSeatLayout] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showtimeDetails, setShowtimeDetails] = useState(null);
-    const [movieTitle, setMovieTitle] = useState(""); // Declare movieTitle state
+    const [movieTitle] = useState(movieDetails?.movieTitle || "");
 
-    // Fetch seat layout and showtime details based on showtimeId
     useEffect(() => {
         const fetchSeatsAndShowtimeDetails = async () => {
             try {
-                // Fetch seat data
-                const seatResponse = await fetch(`http://localhost:8080/seats?showtimeId=${showtimeId}`);
-                const seatData = await seatResponse.json();
-                if (seatData && seatData.data) {
+                const seatResponse = await axios.get(`http://localhost:8080/seats?showtimeId=${showtimeId}`);
+                const seatData = seatResponse.data;
+                if (seatData?.data) {
                     const allSeats = seatData.data.slice(0, 60);
-
                     const seatNormal = allSeats.filter(seats => seats.seatType.seatTypeName === 'Ghế thường');
                     const seatVIP = allSeats.filter(seats => seats.seatType.seatTypeName === 'VIP');
                     const seatCouple = allSeats.filter(seats => seats.seatType.seatTypeName === 'Couple');
 
                     const arrangedSeats = [
                         ...seatNormal,
-                        ...seatVIP.slice(Math.floor(seatVIP.length / 2)),
+                        ...seatVIP,
                         ...seatCouple
                     ];
-
                     setSeatLayout(arrangedSeats);
                 } else {
                     setSeatLayout([]);
                     console.error("No seat data found");
                 }
 
-                // Fetch showtime details
-                const showtimeResponse = await fetch(`http://localhost:8080/showtimes/${showtimeId}`);
-                const showtimeData = await showtimeResponse.json();
-                if (showtimeData && showtimeData.data) {
-                    setShowtimeDetails(showtimeData.data); // Showtime details fetched successfully
-
-                    // Fetch movie details based on movieId
-                    const movieResponse = await fetch(`http://localhost:8080/movies/${showtimeData.movieId}`);
-                    const movieData = await movieResponse.json();
-                    if (movieData && movieData.data) {
-                        setMovieTitle(movieData.data.movieTitle); // Set movieTitle from fetched movie data
-                    }
+                const showtimeResponse = await axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
+                const showtimeData = showtimeResponse.data;
+                if (showtimeData?.data) {
+                    setShowtimeDetails(showtimeData.data);
                 } else {
                     setShowtimeDetails(null);
                     console.error("No showtime data found");
@@ -72,7 +62,10 @@ const SeatSelection = () => {
         fetchSeatsAndShowtimeDetails();
     }, [showtimeId]);
 
-    // Handle seat selection and deselection
+
+
+
+
     const handleSeatClick = (seat) => {
         if (seat.booked) {
             alert('This seat has already been sold!');
@@ -81,28 +74,23 @@ const SeatSelection = () => {
 
         setSelectedSeats((prevSelected) => {
             if (prevSelected.some(selected => selected.seatId === seat.seatId)) {
-                // If the seat is already selected, deselect it
                 return prevSelected.filter(selected => selected.seatId !== seat.seatId);
             } else {
-                // If the seat is not selected, add it to the selection
                 return [...prevSelected, seat];
             }
         });
     };
 
-    const goToOrderFood = () => {
-        navigate('/orderFood', { state: { selectedSeats, showtimeDetails } }); // Pass selected seats and showtimeDetails to the next page
-    };
 
-    // Calculate total price based on ticket price and selected seats' seatTypePrice
+
     const getTotalPrice = () => {
-        if (!showtimeDetails) return 0; // Ensure showtimeDetails are loaded
-        const ticketPrice = showtimeDetails.showtimePrice; // The base ticket price for the showtime
+        if (!showtimeDetails) return 0;
+        const ticketPrice = showtimeDetails.showtimePrice;
 
         return selectedSeats.reduce((total, selectedSeat) => {
             const seat = seatLayout.find(s => s.seatId === selectedSeat.seatId);
-            const seatPrice = seat ? seat.seatType.seatTypePrice : 0; // Get the seat type price
-            return total + (ticketPrice + seatPrice); // Add the ticketPrice and seatPrice for each seat
+            const seatPrice = seat ? seat.seatType.seatTypePrice : 0;
+            return total + (ticketPrice + seatPrice);
         }, 0);
     };
 
@@ -125,19 +113,25 @@ const SeatSelection = () => {
         return <div>{error}</div>;
     }
 
+
+    const goToOrderFood = () => {
+        navigate('/orderFood', { state: { selectedSeats, showtimeDetails, movieTitle, moviePosterUrl } });
+    };
+
     return (
         <Container fluid>
-            <Card.Title className="mx-3" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+            <Card.Title className="text-title mt-4">
                 BƯỚC 2: CHỌN GHẾ
             </Card.Title>
-            <Row className="justify-content-center align-items-stretch">
+            <Row>
+
                 <Col xs={12} lg={8} className="seat-selection-column d-flex flex-column">
                     <Col xs={12} lg={12} className="mb-3">
-                        <Card.Img src={seatMapHeader} alt="Màn hình" style={{ width: '100%' }} />
+                        <Card.Img src={seatMapHeader} alt="Màn hình" className="img-fluid" />
                     </Col>
 
                     <Col>
-                        <div className="seat-map flex-grow-1" style={{ overflowY: 'auto', padding: '10px' }}>
+                        <div className="fixed-height-container">
                             {seatLayout.length > 0 ? (
                                 seatLayout.map((seat, index) => (
                                     <img
@@ -155,7 +149,7 @@ const SeatSelection = () => {
                                                         : seatCouple
                                         }
                                         alt={seat.seatType.seatTypeName}
-                                        className={`seat ${seat.seatType.seatTypeName}`}
+                                        className="seat img-fluid"
                                         onClick={() => handleSeatClick(seat)}
                                     />
                                 ))
@@ -165,44 +159,50 @@ const SeatSelection = () => {
                         </div>
                     </Col>
 
-                    <div className="seat-legend text-center mt-3">
+                    <div className="seat-box text-center mt-3">
                         <Row>
-                            <Col xs={4}><img src={seatNormal} alt="Ghế thường" /> Ghế thường</Col>
-                            <Col xs={4}><img src={seatVIP} alt="Ghế VIP" /> Ghế VIP</Col>
-                            <Col xs={4}><img src={seatSelected} alt="Ghế đã chọn" /> Ghế đã chọn</Col>
-                            <Col xs={4}><img src={seatSold} alt="Ghế đã bán" /> Ghế đã bán</Col>
-                            <Col xs={4}><img src={seatCouple} alt="Ghế đôi" /> Ghế đôi</Col>
+                            <Col xs={4}><img src={seatNormal} alt="Ghế thường" className="img-fluid" /> Ghế thường</Col>
+                            <Col xs={4}><img src={seatVIP} alt="Ghế VIP" className="img-fluid" /> Ghế VIP</Col>
+                            <Col xs={4}><img src={seatSelected} alt="Ghế đã chọn" className="img-fluid" /> Ghế đã chọn</Col>
+                            <Col xs={4}><img src={seatSold} alt="Ghế đã bán" className="img-fluid" /> Ghế đã bán</Col>
+                            <Col xs={4}><img src={seatCouple} alt="Ghế đôi" className="img-fluid" /> Ghế đôi</Col>
                         </Row>
                     </div>
                 </Col>
 
+
+
+
                 {/* Pricing Details */}
-                <Col xs={12} lg={4} className="pricing-column d-flex flex-column justify-content-between">
-
-
-                    <div className="pricing-details p-3 rounded shadow-sm bg-white">
+                <Col xs={12} lg={4} className="pricing-column d-flex flex-column justify-content-between mt-3 mt-lg-0">
+                    <div className="pricing-details p-3 shadow-sm ">
                         {showtimeDetails && (
-                            <div className="pricing-details">
-                                <Card.Title>{movieTitle}</Card.Title>
+                            <div>
+                                <h4 className="film-title-price">{`${movieTitle}`}</h4>
 
-                                <h6 className="text-muted" style={{ fontSize: '1.2rem', fontWeight: 'bold', textAlign: 'left' }}>
+                                <h6 className="cinema-title">
                                     {showtimeDetails.screen.cinema.cinemaName}
                                 </h6>
-                                <p style={{ fontSize: '1rem', textAlign: 'left' }}>
-                                    <strong style={{ color: '#5DBB63', fontSize: '1.1rem' }}>{showtimeDetails.screen.screenName}</strong>
+                                
+                                <p className='time-title-price'>
+                                    <strong className="screen-title">{showtimeDetails.screen.screenName}</strong>
                                     {' - '}
-                                    {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
+                                   
+                                    {
+                                    new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
                                         hour: '2-digit',
                                         minute: '2-digit',
                                         day: '2-digit',
                                         month: '2-digit',
                                         year: 'numeric'
-                                    })}
+                                    })
+                                    }
+                                    
                                 </p>
                             </div>
                         )}
 
-                        <div style={{ textAlign: 'left' }}>
+                        <div>
                             {Object.entries(getGroupedSeatsByType()).map(([seatType, seats]) => (
                                 <div key={seatType}>
                                     <p><strong>{seats.length} x {seatType}</strong></p>
@@ -212,7 +212,7 @@ const SeatSelection = () => {
                         </div>
 
                         <hr />
-                        <p style={{ textAlign: 'left' }}>Total Price: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(getTotalPrice())}</p>
+                        <p className='total-price'>Total Price: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(getTotalPrice())}</p>
                         <Button variant="success" block onClick={goToOrderFood}>
                             CHỌN ĐỒ ĂN (2/4)
                         </Button>

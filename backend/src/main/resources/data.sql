@@ -620,48 +620,13 @@ VALUES
 ('c6a30404-7411-11ef-a157-0242ac110002', 'BIRTHDAY2024', 'Birthday Special', 'Giảm giá 30% cho khách hàng vào dịp sinh nhật', 30, '2024-03-01 00:00:00', '2024-03-31 00:00:00');
 
 INSERT INTO `fhd_cinema`.`news`
-(`news_id`, `news_title`, `news_description`, `news_created_at`, `news_image_url`)
+(`news_id`, `news_title`, `news_description`, `news_created_at`, `news_url`, `news_image_url`)
 VALUES
-('96731e75-7413-11ef-a157-0242ac110002', 'Combo: Trung Thu Sum Vầy', '🌕 Chương Trình Khuyến Mãi Tại BHD Star Cineplex: Thỏa Thích Thưởng Thức Bánh Trung Thu!
-Chào mùa Trung Thu, BHD Star Cineplex đã chuẩn bị một chương trình khuyến mãi đặc biệt cho bạn thưởng thức bánh trung thu cùng gia đình và bạn bè!
-🥮 Giá Ưu Đãi:
-• Bánh trung thu giá lẻ không hộp: 99,000đ
-• Bánh trung thu giá lẻ có hộp: 139,000đ
-• Bánh trung thu giá combo bắp nước không hộp: 181,000đ
-• Bánh trung thu giá combo bắp nước có hộp: 220,000đ
-Hãy đến BHD Star Cineplex, thưởng thức bánh trung thu ngon miệng và tận hưởng không gian ấm áp của rạp chiếu phim. Còn chần chừ gì mà không ghé thăm ngay? 🏮🎥
-', '2024-06-01 00:00:00', 'https://bhdstar.vn/wp-content/uploads/2024/09/Trung-Thu-LVV.jpg'),
-('96734829-7413-11ef-a157-0242ac110002', 'Combo: Ngọt Dịu', 'VÒNG TAY HẮC HƯỜNG TRONG KHU VỰC BHD STAR
-Quẫy cùng 4 chị đẹp với BẮP NGONNNNN NƯỚC DỊUUUUU trong COMBO HẮC HƯỜNG cực choáy!
-Ngoài ra khi mua COMBO này bạn còn được tặng chiếc VÒNG TAY BLACKPINK siêu xinh nữa
-Trải nghiệm âm thanh sống động cùng màn ảnh lớn rõ nét thì còn chờ gì nữa Blink ơiiiii
-Đặt vé book chỗ lẹ tận hưởng concert trọn vẹn ngập tràn sắc hồng đen tại BHD Star từ 07.08.2024
-Áp dụng tại các cụm rạp BHD Star Hồ Chí Minh và Huế
-', '2024-01-15 00:00:00', 'https://bhdstar.vn/wp-content/uploads/2024/09/Black-Pink.jpg'),
-('96734a91-7413-11ef-a157-0242ac110002', 'Combo: Túi Tote & Quai Xách Ly', '🎬 Chương Trình Khuyến Mãi Tại BHD Star Cineplex: Combo Bắp Nước – Thỏa Thích Xem Phim!
-Chào mọi người yêu thích điện ảnh! BHD Star Cineplex đã sẵn sàng đưa đến cho bạn những ưu đãi hấp dẫn với combo bắp và nước uống. Hãy cùng tận hưởng trải nghiệm xem phim đỉnh cao cùng BHD Star!
-🍿 Combo 1 Bắp + 1 Nước + 1 Túi Tole:
-• Giá chỉ 159,000đ.
-• Bạn sẽ được thưởng thức bắp ngon, nước uống mát lạnh, và nhận ngay một túi tole tiện lợi.
-🎁 Combo 1 Bắp + 1 Nước + 1 Quai Xách Ly:
-• Giá chỉ 129,000đ.
-• Bắp thơm béo, nước uống tươi mát, và quai xách ly tiện lợi để bạn dễ dàng mang theo.
-Hãy đến BHD Star Cineplex, chọn ngay combo yêu thích và tận hưởng bộ phim đỉnh cao cùng bạn bè và gia đình! 🌟🎥
-', '2024-09-01 00:00:00', 'https://bhdstar.vn/wp-content/uploads/2024/09/tui-tote-1x1-1.png'),
-('96734bad-7413-11ef-a157-0242ac110002', 'Combo: Conan - Thám Tử Lừng Danh', 'COMBO ĐẶC BIỆT DÀNH CHO CÁC FAN THÁM TỬ LỪNG DANH CONAN CHỈ CÓ TẠI BHD STAR CINEPLEX
-Một kho báu tất cả nhắm tới. Một bí mật sắp được vén màn.
-BHD Star Cineplex cùng Bom tấn Anime THÁM TỬ LỪNG DANH CONAN đã trở lại cùng COMBO ĐẶC BIỆT dành cho các fan trinh thám, tất cả đều được thiết kế tạo nên một trải nghiệm xem phim trọn vẹn và đáng nhớ.
-Móc Khóa mô hình phá án kẻ trộm
-Móc Khóa thú bông siêu trộm triệu trái tim
-Gấu bông và Ví Bông mô hình thám tử theo chân thủ phạm
-Gối Ôm Conan vỗ về giấc ngủ
-ĐIỀU KIỆN ÁP DỤNG
-Combo 1 và 2 áp dụng tại tất cả cụm rạp BHD Star (Trừ BHD Star Long Khánh và BHD Star Phạm Ngọc Thạch)
-Combo 3, 4 và 5 áp dụng chỉ áp dụng tại các cụm rạp BHD Star Lê Văn Việt, BHD Star Quang Trung và BHD Star Thảo Điền
-Vui lòng liên hệ nhân viên tại Rạp hoặc inbox BHD Star Cineplex để được tư vấn và đặt vé
-Còn chần chờ gì mà không đến rạp BHD Star gần nhất và triển ngay!!!!!
-', '2024-07-01 00:00:00', 'https://www.bhdstar.vn/wp-content/uploads/2024/09/Conan.jpg'),
-('96734bae-7413-11ef-a157-0242ac110002', 'COMBO “ÁO THUN BHDS x SAIGONINK” SIÊU CHẤT', 'Description: Công nghệ in hiện đại mang lại những sản phẩm áo thun BST Halloween của BHDS & SaigonInk có hình in sắc nét, màu sắc sinh động', '2024-07-01 00:00:00', 'https://bhdstar.vn/wp-content/uploads/2024/10/Ao-thun-Sai-gon-ink-vuong-2.jpg');
+('96731e75-7413-11ef-a157-0242ac110002', 'Khuyến mãi hè 2024', 'Chương trình khuyến mãi giảm giá 20% cho mọi suất chiếu trong mùa hè năm 2024', '2024-06-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
+('96734829-7413-11ef-a157-0242ac110002', 'Lịch chiếu phim Tết Nguyên Đán 2024', 'Cập nhật lịch chiếu phim mới nhất cho dịp Tết Nguyên Đán 2024 với nhiều phim bom tấn', '2024-01-15 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
+('96734a91-7413-11ef-a157-0242ac110002', 'Phim mới tháng 9/2024', 'Danh sách những bộ phim hot ra mắt trong tháng 9/2024 tại tất cả các rạp', '2024-09-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
+('96734bad-7413-11ef-a157-0242ac110002', 'Mua 1 vé tặng 1 vé', 'Chương trình mua 1 vé tặng 1 vé áp dụng từ ngày 1/7/2024 đến ngày 31/7/2024 cho tất cả suất chiếu', '2024-07-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
+('96734cbb-7413-11ef-a157-0242ac110002', 'Tuần lễ phim châu Âu 2024', 'Rạp chiếu phim tổ chức tuần lễ phim châu Âu với nhiều bộ phim đặc sắc từ các quốc gia châu Âu', '2024-05-10 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg');
 
 INSERT INTO `fhd_cinema`.`accounts`
 (`account_id`, `account_name`, `account_password`, `account_type`)
@@ -673,13 +638,13 @@ VALUES
 ('77ad9471-74e0-11ef-bc52-0242ac110002', 'chris_evans', 'password654', 2);
 
 INSERT INTO `fhd_cinema`.`customers`
-(`customer_id`, `account_id`, `customer_name`, `customer_email`)
+(`customer_id`, `account_id`, `customer_phone`, `customer_name`, `customer_email`)
 VALUES
-('77aed232-74e0-11ef-bc52-0242ac110002', '', 'John Doe', 'dubo01689@gmail.com'),
-('77aee0db-74e0-11ef-bc52-0242ac110002', '', 'Jane Smith', 'jane.smith@example.com'),
-('77aee4c4-74e0-11ef-bc52-0242ac110002', '', 'Alice Walker', 'alice.walker@example.com'),
-('77aee6c1-74e0-11ef-bc52-0242ac110002', '', 'Bob Jones', 'bob.jones@example.com'),
-('77aee9ce-74e0-11ef-bc52-0242ac110002', '', 'Chris Evans', 'chris.evans@example.com');
+('77aed232-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'John Doe', 'dubo01689@gmail.com'),
+('77aee0db-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Jane Smith', 'jane.smith@example.com'),
+('77aee4c4-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Alice Walker', 'alice.walker@example.com'),
+('77aee6c1-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Bob Jones', 'bob.jones@example.com'),
+('77aee9ce-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Chris Evans', 'chris.evans@example.com');
 
 INSERT INTO `fhd_cinema`.`bookings`
 (`booking_id`, `showtime_id`, `customer_id`, `booking_price`, `booking_create_at`)

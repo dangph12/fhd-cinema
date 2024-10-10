@@ -10,10 +10,11 @@ import com.company.project.module.bills.entity.Bill;
 import com.company.project.module.bills.exception.BillException;
 import com.company.project.module.bills.repository.BillRepository;
 import com.company.project.module.bookings.entity.Booking;
-import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.bookings.service.BookingService;
+import com.company.project.module.vouchers.entity.Voucher;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,10 +24,8 @@ public class BillService {
   private BillRepository billRepository;
 
   @Autowired
+  @Lazy
   private BookingService bookingService;
-
-  @Autowired
-  private BookingRepository bookingRepository;
 
   public List<Bill> getAllBill() {
     return billRepository.findAll();
@@ -57,28 +56,20 @@ public class BillService {
     return billRepository.save(bill);
   }
 
-  /**
   public Bill updateBill(String billId, BillCreationRequest request) {
     if (!billRepository.existsById(billId)) {
       throw new BillException(Status.FAIL.getValue(), BillStatusMessage.NOT_EXIST.getMessage());
     }
+    Booking booking = bookingService.getBookingById(request.getBookingId());
 
     Bill existedBill = this.getBillById(billId);
 
-    if (!existedBill.getBillName().equals(request.getBillName()) 
-        && billRepository.existsByBillName(request.getBillName())) {
-        throw new BillException(Status.FAIL.getValue(), BillStatusMessage.EXIST_bill.getMessage());
-    }
-
-    existedBill.setBillName(request.getBillName());
-
-    if (!existedBill.getBillName().equals(request.getBillName())) {
-      existedBill.setBillName(request.getBillName());
-    }
+    existedBill.setBooking(booking);
+    existedBill.setBillAmount(request.getBillAmount());
+    existedBill.setPaid(request.isPaid());
 
     return billRepository.save(existedBill);
   }
-  **/
 
   public void deleteBillById(String billId) {
     if (!billRepository.existsById(billId)) {
@@ -96,5 +87,12 @@ public class BillService {
     billRepository.deleteById(billId);
   }
 
-}
+  public void removeVoucherInBill(Voucher voucher) {
+    List<Bill> billsWithVoucher = billRepository.findByVouchersContaining(voucher);
+    for (Bill bill : billsWithVoucher) {
+      bill.getVouchers().remove(voucher);
+      billRepository.save(bill);
+    }
+  }
 
+}

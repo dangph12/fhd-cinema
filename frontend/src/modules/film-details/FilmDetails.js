@@ -29,7 +29,7 @@ function FilmDetails() {
           className="banner-img"
         />
         <div className="container">
-          <div className="row shadow-lg p-4 mb-5 bg-white rounded" style={{marginTop: '40px'}}>
+          <div className="row shadow-lg p-4 mb-5 bg-white rounded">
             {/* Phần hình ảnh phim */}
             <div className="col-md-4">
               <img
