@@ -86,7 +86,8 @@ const OrderTicket = (props) => {
 
         <Youtube />
 
-        <FilmTime />
+        <FilmTime movieDetails={movieDetails}
+         moviePosterUrl={movieDetails?.moviePosterUrl}/>
 
         <VisaBanner />
       </div>
