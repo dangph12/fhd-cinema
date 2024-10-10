@@ -29,9 +29,16 @@ public class AccountService {
 
   @Autowired
   private final ModelMapper modelMapper;
+  @Autowired
+  private final ModelMapper modelMapper;
 
   private final AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
+  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository) {
+    this.modelMapper = modelMapper;
+    this.accountRepository = accountRepository;
+  }
   public AccountService(ModelMapper modelMapper, AccountRepository accountRepository) {
     this.modelMapper = modelMapper;
     this.accountRepository = accountRepository;
@@ -39,7 +46,10 @@ public class AccountService {
 
   public List<AccountDto> getAllAccounts() {
     List<Account> accounts = accountRepository.findAll();
+  public List<AccountDto> getAllAccounts() {
+    List<Account> accounts = accountRepository.findAll();
 
+    List<AccountDto> accountDtos = new ArrayList<>();
     List<AccountDto> accountDtos = new ArrayList<>();
 
     for (Account account : accounts) {
@@ -105,6 +115,8 @@ public class AccountService {
     Account existingAccount = accountRepository.findById(accountId)
         .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
 
+    existingAccount.setAccountName(request.getAccountName());
+    existingAccount.setAccountType(request.getAccountType());
     existingAccount.setAccountName(request.getAccountName());
     existingAccount.setAccountType(request.getAccountType());
 

@@ -13,6 +13,7 @@ import com.company.project.module.snacks.repository.SnackRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SnackService {
@@ -69,6 +70,7 @@ public class SnackService {
     return snackRepository.save(existedSnack);
   }
 
+  @Transactional
   public void deleteSnackById(String snackId) {
     if (!snackRepository.existsById(snackId)) {
       throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.NOT_EXIST.getMessage());

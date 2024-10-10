@@ -59,6 +59,7 @@ const AccountsTables = () => {
             </Col>
             <Col className="text-end">
               <Button className="btn btn-primary" onClick={() => openCreateShow()}>
+              <Button className="btn btn-primary" onClick={() => openCreateShow()}>
                 Create account
               </Button>
             </Col>
@@ -114,8 +115,14 @@ const AccountsTables = () => {
       ...form,
       [field]: value,
     })
+  const setField = (field, value) => {
+    setForm({
+      ...form,
+      [field]: value,
+    })
   }
 
+  const openCreateShow = () => {
   const openCreateShow = () => {
     setCreateShow(true)
   }
@@ -251,8 +258,19 @@ const AccountsTables = () => {
       accountType: '',
       accountPassword: '',
     })
+    setField('accountId', accountId)
   }
 
+  const closeDeleteShow = () => {
+    setDeleteShow(false)
+    setForm({
+      accountName: '',
+      accountType: '',
+      accountPassword: '',
+    })
+  }
+
+  const handleDelete = (e) => {
   const handleDelete = (e) => {
     e.preventDefault()
 
@@ -261,6 +279,7 @@ const AccountsTables = () => {
     })
       .then((response) => {
         if (response.ok) {
+          setAccounts(accounts.filter((account) => account.accountId !== form.accountId))
           setAccounts(accounts.filter((account) => account.accountId !== form.accountId))
         } else {
           console.error('Failed to delete the account')
@@ -350,16 +369,20 @@ const AccountsTables = () => {
           <Modal.Title>Delete Modal</Modal.Title>
         </Modal.Header>
         <Modal.Body>Delete account</Modal.Body>
+        <Modal.Body>Delete account</Modal.Body>
         <Modal.Footer>
+          <Button variant="secondary" onClick={() => closeDeleteShow()}>
           <Button variant="secondary" onClick={() => closeDeleteShow()}>
             Close
           </Button>
+          <Button variant="primary" onClick={(e) => handleDelete(e)}>
           <Button variant="primary" onClick={(e) => handleDelete(e)}>
             Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
 
+      <Modal show={updateShow} onHide={() => closeUpdateShow()}>
       <Modal show={updateShow} onHide={() => closeUpdateShow()}>
         <Modal.Header closeButton>
           <Modal.Title>Update Modal</Modal.Title>
@@ -398,8 +421,10 @@ const AccountsTables = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => closeUpdateShow()}>
+          <Button variant="secondary" onClick={() => closeUpdateShow()}>
             Close
           </Button>
+          <Button variant="primary" type="submit" form="updateForm">
           <Button variant="primary" type="submit" form="updateForm">
             Save Changes
           </Button>
@@ -407,10 +432,14 @@ const AccountsTables = () => {
       </Modal>
 
       <Modal show={createShow} onHide={() => closeCreateShow()}>
+
+      <Modal show={createShow} onHide={() => closeCreateShow()}>
         <Modal.Header closeButton>
+          <Modal.Title>Create Modal</Modal.Title>
           <Modal.Title>Create Modal</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
           <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
             <Form.Group className="m-2">
               <Form.Label>Account name</Form.Label>
@@ -418,8 +447,11 @@ const AccountsTables = () => {
                 required
                 type="text"
                 onChange={(e) => setField('accountName', e.target.value)}
+                onChange={(e) => setField('accountName', e.target.value)}
                 placeholder="Account name"
                 name="accountName"
+                value={form.accountName}
+                isInvalid={!!errors.accountName}
                 value={form.accountName}
                 isInvalid={!!errors.accountName}
               />
@@ -431,8 +463,11 @@ const AccountsTables = () => {
                 required
                 type="text"
                 onChange={(e) => setField('accountPassword', e.target.value)}
+                onChange={(e) => setField('accountPassword', e.target.value)}
                 placeholder="Account password"
                 name="accountPassword"
+                value={form.accountPassword}
+                isInvalid={!!errors.accountPassword}
                 value={form.accountPassword}
                 isInvalid={!!errors.accountPassword}
               />
@@ -454,11 +489,14 @@ const AccountsTables = () => {
               <Form.Control.Feedback type="invalid">{errors.accountType}</Form.Control.Feedback>
             </Form.Group>
           </Form>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => closeCreateShow()}>
+          <Button variant="secondary" onClick={() => closeCreateShow()}>
             Close
           </Button>
+          <Button type="submit" variant="primary" form="createForm">
           <Button type="submit" variant="primary" form="createForm">
             Save Changes
           </Button>
@@ -467,5 +505,6 @@ const AccountsTables = () => {
     </>
   )
 }
+
 
 export default AccountsTables
