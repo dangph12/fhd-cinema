@@ -100,7 +100,7 @@ const BodySecond = (props) => {
     fontFamily: "Arial, sans-serif",
     backgroundColor: "transparent", // no background
     display: "inline-block", // button behavior
-    marginBottom: '30px',
+    marginBottom: "30px",
   };
 
   const tittle = {
