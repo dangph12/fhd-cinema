@@ -115,7 +115,7 @@ function App() {
         <Route path="/seatselection" element={<SeatSelection />} />
         <Route path="/cart.html" element={<FilmTime />} />
         <Route path="/orderfood" element={<OrderFood />} />
-        <Route path="/ticketinform" element={<TicketInfor />} />
+        <Route path="/ticketInfor" element={<TicketInfor />} />
         <Route path="/users" element={<Users />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:newsId" element={<NewsDeatils />} />
