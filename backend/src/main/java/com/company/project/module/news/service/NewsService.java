@@ -32,6 +32,7 @@ public class NewsService {
                 .newsTitle(request.getNewsTitle())
                 .newsDescription(request.getNewsDescription())
                 .newsCreateAt(request.getNewsCreateAt())
+                .newsImageUrl(request.getNewsImageUrl())
                 .build();
 
         return newsRepository.save(news);
@@ -43,6 +44,7 @@ public class NewsService {
         news.setNewsTitle(request.getNewsTitle());
         news.setNewsDescription(request.getNewsDescription());
         news.setNewsCreateAt(request.getNewsCreateAt());
+        news.setNewsImageUrl(request.getNewsImageUrl());
 
         return newsRepository.save(news);
     }

@@ -638,13 +638,13 @@ VALUES
 ('77ad9471-74e0-11ef-bc52-0242ac110002', 'chris_evans', 'password654', 2);
 
 INSERT INTO `fhd_cinema`.`customers`
-(`customer_id`, `account_id`, `customer_name`, `customer_email`)
+(`customer_id`, `account_id`, `customer_phone`, `customer_name`, `customer_email`)
 VALUES
-('77aed232-74e0-11ef-bc52-0242ac110002', '', 'John Doe', 'dubo01689@gmail.com'),
-('77aee0db-74e0-11ef-bc52-0242ac110002', '', 'Jane Smith', 'jane.smith@example.com'),
-('77aee4c4-74e0-11ef-bc52-0242ac110002', '', 'Alice Walker', 'alice.walker@example.com'),
-('77aee6c1-74e0-11ef-bc52-0242ac110002', '', 'Bob Jones', 'bob.jones@example.com'),
-('77aee9ce-74e0-11ef-bc52-0242ac110002', '', 'Chris Evans', 'chris.evans@example.com');
+('77aed232-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'John Doe', 'dubo01689@gmail.com'),
+('77aee0db-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Jane Smith', 'jane.smith@example.com'),
+('77aee4c4-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Alice Walker', 'alice.walker@example.com'),
+('77aee6c1-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Bob Jones', 'bob.jones@example.com'),
+('77aee9ce-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Chris Evans', 'chris.evans@example.com');
 
 INSERT INTO `fhd_cinema`.`bookings`
 (`booking_id`, `showtime_id`, `customer_id`, `booking_price`, `booking_create_at`)

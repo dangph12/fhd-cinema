@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Nav } from "react-bootstrap";
+import { Button, Nav } from "react-bootstrap";
 import { useLocation, NavLink } from "react-router-dom";
 import { fetchAllUser } from "../../../components/services/UserService";
+import SendIcon from "@mui/icons-material/Send";
 
 //     movieCast
 // :
@@ -90,6 +91,28 @@ import { fetchAllUser } from "../../../components/services/UserService";
 // "3cdbc369-73e0-11ef-ab6e-0242ac110002"
 
 const BodySecond = (props) => {
+  const buttonStyle = {
+    border: "2px solid #8bc34a", // green border
+    borderRadius: "15px", // rounded corners
+    padding: "10px 20px", // padding for the button
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
+    marginBottom: "30px",
+  };
+
+  const tittle = {
+    borderRadius: "15px", // rounded corners
+    padding: "10px 20px", // padding for the button
+    color: "#8bc34a", // green text
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent", // no background
+    display: "inline-block", // button behavior
+  };
+
   const [listMovies, setListMovies] = useState([]);
 
   useEffect(() => {
@@ -112,9 +135,11 @@ const BodySecond = (props) => {
       <div className="container">
         <div className="movie-gallery">
           <div className="hot-label">
-            <h2 className="title-heading">
-              <span className="pd-l">Comming Soon</span>
-            </h2>
+            <div className="hot-label">
+              <h2 className="">
+                <button style={buttonStyle}>COMING SOON</button>
+              </h2>
+            </div>
           </div>
           <div className="grid__row">
             {listMovies &&
@@ -138,20 +163,19 @@ const BodySecond = (props) => {
                         </NavLink>
                       </Nav.Link>
                       <div className="movie-name">
-                        <h2>{items.movieTitle}</h2>
+                        <h4 style={tittle}>{items.movieTitle}</h4>
                       </div>
                       <Nav.Link className="nav-item active">
                         <NavLink
                           className="nav-link"
                           to={`/description/${items.movieId}`}
                         >
-                          <button
-                            type="button"
-                            className="btn btn-outline-success btn-floating"
-                            data-mdb-ripple-init
-                          >
-                            <i className="fas fa-star"></i> Thông Tin Phim
-                          </button>
+                          <Button style={buttonStyle}>
+                            THÔNG TIN CHI TIẾT
+                            <SendIcon
+                              style={{ marginLeft: "10px", color: "#8bc34a" }}
+                            />
+                          </Button>
                         </NavLink>
                       </Nav.Link>
                     </div>

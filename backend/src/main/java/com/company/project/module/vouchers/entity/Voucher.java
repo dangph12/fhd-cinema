@@ -1,14 +1,19 @@
 package com.company.project.module.vouchers.entity;
 
-import com.company.project.module.bills.entity.Bill;
-import com.company.project.module.customers.entity.Customer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import java.time.LocalDateTime;
 
-import java.util.Date;
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Data
@@ -26,7 +31,7 @@ public class Voucher {
     String voucherName;
     String voucherDescription;
     int voucherDiscountPercent;
-    Date voucherStartedAt;
-    Date voucherEndedAt;
+    LocalDateTime voucherStartedAt;
+    LocalDateTime voucherEndedAt;
 
 }

@@ -9,6 +9,7 @@ public enum EmailStatusMessage {
   EMPTY_CUSTOMER("The customer's Id must not be empty"),
   EMPTY_SUBJECT("The subject must not be empty"),
   EMPTY_TEMPLATE("The template must not be empty"),
+  TEMPLATE_INVALID("The template does not exist"),
   EMAIL_INVALID("The email is not valid"),
   EMAIL_SENT_SUCCESSFULLY("Email is sent successfully");
 

@@ -14,29 +14,33 @@ import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.showtimes.service.ShowtimeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookingService {
-  
+
   @Autowired
+  @Lazy
   private BookingRepository bookingRepository;
 
   @Autowired
+  @Lazy
   private ShowtimeService showtimeService;
 
   @Autowired
+  @Lazy
   private CustomerService customerService;
 
   public List<Booking> getAllBooking() {
     return bookingRepository.findAll();
   }
-  
+
   public Booking getBookingById(String bookingId) {
     return bookingRepository.findById(bookingId)
-    .orElseThrow(() -> new BookingException(
-      Status.FAIL.getValue(), 
-      BookingStatusMessage.NOT_EXIST.getMessage()));
+        .orElseThrow(() -> new BookingException(
+            Status.FAIL.getValue(),
+            BookingStatusMessage.NOT_EXIST.getMessage()));
   }
 
   public Booking createBooking(BookingCreationRequest request) {
@@ -44,10 +48,10 @@ public class BookingService {
     Customer customer = customerService.getCustomerById(request.getCustomerId());
 
     Booking booking = Booking.builder()
-      .showtime(showtime)
-      .customer(customer)
-      .bookingPrice(request.getBookingPrice())
-      .build();
+        .showtime(showtime)
+        .customer(customer)
+        .bookingPrice(request.getBookingPrice())
+        .build();
 
     return bookingRepository.save(booking);
   }
@@ -77,6 +81,3 @@ public class BookingService {
   }
 
 }
-
-
-
