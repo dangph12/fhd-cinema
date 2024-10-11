@@ -13,6 +13,7 @@ import com.company.project.common.Status;
 import com.company.project.module.bills.entity.Bill;
 import com.company.project.module.bills.service.BillService;
 import com.company.project.module.customers.entity.Customer;
+import com.company.project.module.customers.repository.CustomerRepository;
 import com.company.project.module.customers.service.CustomerService;
 import com.company.project.module.emails.common.EmailStatusMessage;
 import com.company.project.module.emails.dto.request.EmailBillRequest;
@@ -50,6 +51,9 @@ public class EmailService {
   @Autowired
   private CustomerService customerService;
 
+  @Autowired
+  private CustomerRepository customerRepository;
+
   @Value("$(FHD Cinema)")
   private String fromEmailId;
 
@@ -66,10 +70,10 @@ public class EmailService {
         EmailStatusMessage.TEMPLATE_INVALID.getMessage());
     }
 
-    Customer customer = customerService.getCustomerById(request.getCustomerId());
+    Customer customer = customerRepository.findByCustomerEmail(request.getCustomerEmail());
 
     String customerId = customer.getCustomerId();
-    String email = customer.getCustomerEmail();
+    String email = request.getCustomerEmail();
     String customerName = customer.getCustomerName();
 
     try {
