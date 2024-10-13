@@ -1,20 +1,24 @@
-import PageMetaData from '@/components/PageMetaData';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { AccountProvider } from './context/AccountContext';
-import SearchBar from './components/SearchBar'; // Corrected import
-import AccountPagination from './components/AccountPagination';
+import SearchBar from './components/SearchBar';
 import AccountDetailTable from './components/AccountDetailTable';
+import AccountPagination from './components/AccountPagination';
 
-const AccountsTables = () => {
+function App() {
   return (
-    <>
-      <PageMetaData title="Account Tables" />
+    <Router>
       <AccountProvider>
-        <SearchBar />
-        <AccountDetailTable />
-        <AccountPagination />
+        <Switch>
+          <Route path="/" exact>
+            <SearchBar />
+            <AccountDetailTable />
+            <AccountPagination />
+          </Route>
+        </Switch>
       </AccountProvider>
-    </>
+    </Router>
   );
-};
+}
 
-export default AccountsTables;
+export default App;
