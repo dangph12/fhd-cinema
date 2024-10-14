@@ -15,7 +15,6 @@ import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
-import com.company.project.module.snacks.exception.SnackException;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -163,11 +162,6 @@ public class AccountService {
     if (!accountRepository.existsById(accountId)) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage());
     }
-
-    Account account = accountRepository.findById(accountId)
-        .orElseThrow(() -> new SnackException(
-            Status.FAIL.getValue(),
-            AccountStatusMessage.NOT_EXIST.getMessage()));
 
     accountRepository.deleteById(accountId);
   }
