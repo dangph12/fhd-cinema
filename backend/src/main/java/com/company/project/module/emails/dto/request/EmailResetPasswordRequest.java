@@ -19,8 +19,8 @@ public class EmailResetPasswordRequest {
   @NotEmpty(message = "EMPTY_SUBJECT")
   String subject;
 
-  @NotEmpty(message = "EMPTY_CUSTOMER")
-  String customerId;
+  @NotEmpty(message = "EMPTY_EMAIL")
+  String customerEmail;
 
   @NotEmpty(message = "EMPTY_TEMPLATE")
   String template;
