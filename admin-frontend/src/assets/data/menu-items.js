@@ -16,9 +16,15 @@ export const MENU_ITEMS = [
         parentKey: 'tables',
       },
       {
-        key: 'tables-accounts-tables',
-        label: 'Accounts Tables',
-        url: '/tables/accounts-tables',
+        key: 'tables-accounts-table',
+        label: 'Accounts Table',
+        url: '/tables/accounts-table',
+        parentKey: 'tables',
+      },
+      {
+        key: 'tables-movies-table',
+        label: 'Movies Table',
+        url: '/tables/movies-table',
         parentKey: 'tables',
       },
     ],

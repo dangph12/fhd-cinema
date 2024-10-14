@@ -6,7 +6,8 @@ const Analytics = lazy(() => import('@/app/(admin)/dashboard/analytics/page'))
 
 // Tables Routes
 const DataTables = lazy(() => import('@/app/(admin)/tables/data-tables/page'))
-const AccountsTables = lazy(() => import('@/app/(admin)/tables/accounts-tables/page'))
+const AccountsTable = lazy(() => import('@/app/(admin)/tables/accounts-table/page'))
+const MoviesTable = lazy(() => import('@/app/(admin)/tables/movies-table/page'))
 
 // Not Found Routes
 const Error500 = lazy(() => import('@/app/(other)/error-500/page'))
@@ -42,8 +43,13 @@ const tableRoutes = [
   },
   {
     name: 'Account Table',
-    path: '/tables/accounts-tables',
-    element: <AccountsTables />,
+    path: '/tables/accounts-table/*',
+    element: <AccountsTable />,
+  },
+  {
+    name: 'Movie Table',
+    path: '/tables/movies-table/*',
+    element: <MoviesTable />,
   },
 ]
 export const authRoutes = [
