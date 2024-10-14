@@ -77,7 +77,7 @@ export const AccountProvider = ({ children }) => {
   return (
     <AccountContext.Provider value={{ state, dispatch, fetchAccounts, updateQueryParams }}>
       <Routes>
-        <Route path="/*" element={children} />
+        <Route path="*" element={children} />
       </Routes>
     </AccountContext.Provider>
   );
