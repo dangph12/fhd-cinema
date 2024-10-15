@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/src/main/java/com/company/project/module/accounts/dto/request/AuthenticationRequest.java
 package com.company.project.module.accounts.dto.request;
-========
-package com.company.project.module.accounts.dto.response;
->>>>>>>> dang/feat/manage-movies-ui:backend/src/main/java/com/company/project/module/accounts/dto/response/AccountDto.java
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
