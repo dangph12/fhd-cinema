@@ -14,11 +14,11 @@ const AccountDetailTable = () => {
 
   const columns = [
     {
-      header: 'accountName',
+      header: 'Account Name',
       accessorKey: 'accountName',
     },
     {
-      header: 'accountType',
+      header: 'Account Type',
       accessorKey: 'accountType',
     },
     {

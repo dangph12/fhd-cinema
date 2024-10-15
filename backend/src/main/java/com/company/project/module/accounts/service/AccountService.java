@@ -60,9 +60,9 @@ public class AccountService {
 
   public AccountDto getAccountById(String accountId) {
     Account account = accountRepository.findById(accountId)
-        .orElseThrow(() -> new AccountException(
-            Status.FAIL.getValue(),
-            AccountStatusMessage.NOT_EXIST.getMessage()));
+            .orElseThrow(() -> new AccountException(
+                    Status.FAIL.getValue(),
+                    AccountStatusMessage.NOT_EXIST.getMessage()));
 
     return this.convertToAccountDto(account);
   }
@@ -79,7 +79,7 @@ public class AccountService {
 
     if (!accountTypes.isEmpty()) {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
-          accountName, accountTypes, pageable);
+              accountName, accountTypes, pageable);
       count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, accountTypes);
     } else {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCase(accountName, pageable);
@@ -87,29 +87,29 @@ public class AccountService {
     }
 
     List<AccountDto> accountDtos = accountPage.getContent().stream()
-        .map(this::convertToAccountDto)
-        .collect(Collectors.toList());
+            .map(this::convertToAccountDto)
+            .collect(Collectors.toList());
 
     AccountPagination accountPagination = AccountPagination.builder()
-        .accountDtos(accountDtos)
-        .count(count)
-        .build();
+            .accountDtos(accountDtos)
+            .count(count)
+            .build();
 
     return accountPagination;
   }
 
   private List<Integer> convertToAccountTypes(List<String> filters) {
     List<Integer> accountTypes = filters != null ? filters.stream()
-        .map(filter -> {
-          if ("Customer".equalsIgnoreCase(filter))
-            return 1;
-          else if ("Staff".equalsIgnoreCase(filter))
-            return 2;
-          else
-            return null;
-        })
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList()) : Collections.emptyList();
+            .map(filter -> {
+              if ("Customer".equalsIgnoreCase(filter))
+                return 1;
+              else if ("Staff".equalsIgnoreCase(filter))
+                return 2;
+              else
+                return null;
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList()) : Collections.emptyList();
     return accountTypes;
   }
 
@@ -130,10 +130,10 @@ public class AccountService {
     }
 
     Account account = Account.builder()
-        .accountName(request.getAccountName())
-        .accountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()))
-        .accountType(request.getAccountType())
-        .build();
+            .accountName(request.getAccountName())
+            .accountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()))
+            .accountType(request.getAccountType())
+            .build();
     accountRepository.save(account);
 
     return this.convertToAccountDto(account);
@@ -141,10 +141,10 @@ public class AccountService {
 
   public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {
     Account existingAccount = accountRepository.findById(accountId)
-        .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
 
     if (!existingAccount.getAccountName().equals(request.getAccountName())
-        && accountRepository.existsByAccountName(request.getAccountName())) {
+            && accountRepository.existsByAccountName(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 
@@ -171,9 +171,9 @@ public class AccountService {
     }
 
     Account account = accountRepository.findById(accountId)
-        .orElseThrow(() -> new SnackException(
-            Status.FAIL.getValue(),
-            AccountStatusMessage.NOT_EXIST.getMessage()));
+            .orElseThrow(() -> new SnackException(
+                    Status.FAIL.getValue(),
+                    AccountStatusMessage.NOT_EXIST.getMessage()));
 
     Staff staffsWithAccount = staffRepository.findByAccount(account);
 

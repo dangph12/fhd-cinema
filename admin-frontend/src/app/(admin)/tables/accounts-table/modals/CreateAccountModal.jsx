@@ -1,27 +1,16 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
-import { AccountContext } from '../context/AccountContext'
 
-function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
-  const { state } = useContext(AccountContext)
-
-  const [updateShow, setUpdateShow] = useState(false)
-
-  const [form, setForm] = useState({})
-  const [validated, setValidated] = useState(false)
-  const [errors, setErrors] = useState({})
+function CreateAccountModal({ show, fetchAccounts, onHide }) {
+  const [createShow, setCreateShow] = useState(false)
 
   useEffect(() => {
-    setUpdateShow(show)
+    setCreateShow(show)
   }, [show])
 
-  // setForm by accountId
-  useEffect(() => {
-    if (accountId) {
-      const account = state.accounts.find((account) => account.accountId === accountId)
-      setForm(account)
-    }
-  }, [accountId])
+  const [form, setForm] = useState({ accountName: '', accountPassword: '', accountType: '' })
+  const [validated, setValidated] = useState(false)
+  const [errors, setErrors] = useState({})
 
   const setField = (field, value) => {
     setForm({
@@ -29,6 +18,15 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
       [field]: value,
     })
   }
+
+  const closeCreateShow = () => {
+    onHide()
+    setCreateShow(false)
+    setForm({ accountName: '', accountPassword: '', accountType: '' })
+    setValidated(false)
+    setErrors({})
+  }
+
   const validateForm = () => {
     const newErrors = {}
     if (!form.accountName) newErrors.accountName = 'Account name is required'
@@ -37,15 +35,7 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
     return newErrors
   }
 
-  const closeUpdateShow = () => {
-    onHide()
-    setUpdateShow(false)
-    setForm({})
-    setValidated(false)
-    setErrors({})
-  }
-
-  const handleUpdate = (e) => {
+  const handleCreate = (e) => {
     e.preventDefault()
 
     const newErrors = validateForm()
@@ -53,38 +43,37 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
       setErrors(newErrors)
       e.stopPropagation()
     } else {
-      const { accountId, accountPassword, ...updateData } = form
-      fetch(`http://localhost:8080/accounts/${accountId}`, {
-        method: 'PUT',
+      fetch('http://localhost:8080/accounts', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updateData),
+        body: JSON.stringify(form),
       })
         .then((response) => {
           if (response.ok) {
             fetchAccounts()
           } else {
-            console.error('Failed to update the account')
+            console.error('Failed to create the account')
           }
         })
         .catch((error) => {
           console.error('Error:', error)
         })
-      setUpdateShow(false)
+      setCreateShow(false)
       onHide()
-      setForm({})
+      setForm({ accountName: '', accountPassword: '', accountType: '' })
       setErrors({})
     }
     setValidated(true)
   }
   return (
-    <Modal show={updateShow} onHide={() => closeUpdateShow()}>
+    <Modal show={createShow} onHide={() => closeCreateShow()}>
       <Modal.Header closeButton>
-        <Modal.Title>Update Modal</Modal.Title>
+        <Modal.Title>Create Modal</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate validated={validated} onSubmit={handleUpdate} id="updateForm">
+        <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
           <Form.Group className="m-2">
             <Form.Label>Account name</Form.Label>
             <Form.Control
@@ -99,13 +88,26 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
             <Form.Control.Feedback type="invalid">{errors.accountName}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="m-2">
+            <Form.Label>Account password</Form.Label>
+            <Form.Control
+              required
+              type="text"
+              onChange={(e) => setField('accountPassword', e.target.value)}
+              placeholder="Account password"
+              name="accountPassword"
+              value={form.accountPassword}
+              isInvalid={!!errors.accountPassword}
+            />
+            <Form.Control.Feedback type="invalid">{errors.accountPassword}</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group className="m-2">
             <Form.Label>Account type</Form.Label>
             <Form.Select
               required
               name="accountType"
               onChange={(e) => setField('accountType', Number(e.target.value))}
               className="bg-body text-dark border-secondary"
-              value={form.accountType === 'Customer' ? 1 : 2}
+              value={form.accountType}
               isInvalid={!!errors.accountType}>
               <option value="">Select account type</option>
               <option value={1}>Customer</option>
@@ -116,10 +118,10 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => closeUpdateShow()}>
+        <Button variant="secondary" onClick={() => closeCreateShow()}>
           Close
         </Button>
-        <Button variant="primary" type="submit" form="updateForm">
+        <Button type="submit" variant="primary" form="createForm">
           Save Changes
         </Button>
       </Modal.Footer>
@@ -127,4 +129,4 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
   )
 }
 
-export default UpdateAccountModal
+export default CreateAccountModal
