@@ -7,7 +7,18 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
+import com.company.project.module.accounts.dto.request.AccountCreationRequest;
+import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
+import com.company.project.module.accounts.dto.response.AccountDto;
+import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
@@ -39,7 +50,12 @@ public class AccountService {
   private final ModelMapper modelMapper;
 
   private final AccountRepository accountRepository;
+  private final AccountRepository accountRepository;
 
+  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository) {
+    this.modelMapper = modelMapper;
+    this.accountRepository = accountRepository;
+  }
   public AccountService(ModelMapper modelMapper, AccountRepository accountRepository) {
     this.modelMapper = modelMapper;
     this.accountRepository = accountRepository;
@@ -47,14 +63,23 @@ public class AccountService {
 
   public List<AccountDto> getAllAccounts() {
     List<Account> accounts = accountRepository.findAll();
+  public List<AccountDto> getAllAccounts() {
+    List<Account> accounts = accountRepository.findAll();
 
+    List<AccountDto> accountDtos = new ArrayList<>();
     List<AccountDto> accountDtos = new ArrayList<>();
 
     for (Account account : accounts) {
       AccountDto accountDto = this.convertToAccountDto(account);
       accountDtos.add(accountDto);
     }
+    for (Account account : accounts) {
+      AccountDto accountDto = this.convertToAccountDto(account);
+      accountDtos.add(accountDto);
+    }
 
+    return accountDtos;
+  }
     return accountDtos;
   }
 
@@ -139,6 +164,9 @@ public class AccountService {
     return this.convertToAccountDto(account);
   }
 
+  public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {
+    Account existingAccount = accountRepository.findById(accountId)
+        .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
   public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {
     Account existingAccount = accountRepository.findById(accountId)
         .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
