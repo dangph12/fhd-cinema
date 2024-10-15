@@ -20,7 +20,7 @@ function MovieDetailModal({ movieId, show, onHide }) {
 
   const closeDetailShow = () => {
     onHide()
-    setUpdateShow(false)
+    setDetailShow(false)
     setSelectedMovie({})
   }
 

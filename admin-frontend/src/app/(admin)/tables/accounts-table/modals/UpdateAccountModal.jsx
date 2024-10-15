@@ -7,7 +7,7 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
 
   const [updateShow, setUpdateShow] = useState(false)
 
-  const [form, setForm] = useState({})
+  const [form, setForm] = useState({ accountName: '', accountType: 0 })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -40,7 +40,7 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
   const closeUpdateShow = () => {
     onHide()
     setUpdateShow(false)
-    setForm({})
+    setForm({ accountName: '', accountType: '' })
     setValidated(false)
     setErrors({})
   }
@@ -73,7 +73,7 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
         })
       setUpdateShow(false)
       onHide()
-      setForm({})
+      setForm({ accountName: '', accountType: '' })
       setErrors({})
     }
     setValidated(true)
@@ -105,7 +105,7 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
               name="accountType"
               onChange={(e) => setField('accountType', Number(e.target.value))}
               className="bg-body text-dark border-secondary"
-              value={form.accountType === 'Customer' ? 1 : 2}
+              value={form.accountType}
               isInvalid={!!errors.accountType}>
               <option value="">Select account type</option>
               <option value={1}>Customer</option>
