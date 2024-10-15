@@ -1,16 +1,26 @@
 import React, { useContext } from 'react';
 import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
-import { AccountContext } from '../context/AccountContext';
+import { MovieContext } from '../context/MovieContext';
 
 const SearchBar = () => {
-  const { state, dispatch } = useContext(AccountContext);
+  const { state, dispatch, updateQueryParams } = useContext(MovieContext);
 
   const handleSearch = (event) => {
-    dispatch({ type: 'SET_QUERY', payload: event.target.value });
+    const query = event.target.value;
+    dispatch({ type: 'SET_QUERY', payload: query });
+    updateQueryParams({ query, page: 1 });
   };
 
   const handleFilters = (event) => {
-    dispatch({ type: 'SET_FILTERS', payload: event.target.value });
+    const filter = event.target.value;
+    let newFilters;
+    if (state.filters.includes(filter)) {
+      newFilters = state.filters.filter(f => f !== filter);
+    } else {
+      newFilters = [...state.filters, filter];
+    }
+    dispatch({ type: 'SET_FILTERS', payload: newFilters });
+    updateQueryParams({ filters: newFilters.join(','), page: 1 });
   };
 
   const handleKeyDown = (event) => {
@@ -28,7 +38,7 @@ const SearchBar = () => {
             className="p-3 mb-3 rounded"
             size="lg"
             type="text"
-            placeholder="Search by account name"
+            placeholder="Search by movie title"
             value={state.query}
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
@@ -36,17 +46,17 @@ const SearchBar = () => {
         </Col>
         <Col md={4} className="d-flex flex-column align-items-start fs-4">
           <Form.Check
-            label="Customer"
+            label="Now Showing"
             name="filter"
-            value="customer"
-            checked={state.filters.includes('customer')}
+            value="Now Showing"
+            checked={state.filters.includes('Now Showing')}
             onChange={(e) => handleFilters(e)}
           />
           <Form.Check
-            label="Staff"
+            label="Coming Soon"
             name="filter"
-            value="staff"
-            checked={state.filters.includes('staff')}
+            value="Coming Soon"
+            checked={state.filters.includes('Coming Soon')}
             onChange={(e) => handleFilters(e)}
           />
         </Col>
