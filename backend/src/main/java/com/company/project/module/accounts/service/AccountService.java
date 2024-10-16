@@ -1,9 +1,7 @@
 package com.company.project.module.accounts.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
@@ -15,12 +13,8 @@ import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
-import com.company.project.module.snacks.exception.SnackException;
-import com.company.project.module.staffs.entity.Staff;
-import com.company.project.module.staffs.repository.StaffRepository;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,13 +22,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountService {
-
-  @Autowired
-  private StaffRepository staffRepository;
 
   private final ModelMapper modelMapper;
 
@@ -60,57 +50,31 @@ public class AccountService {
 
   public AccountDto getAccountById(String accountId) {
     Account account = accountRepository.findById(accountId)
-            .orElseThrow(() -> new AccountException(
-                    Status.FAIL.getValue(),
-                    AccountStatusMessage.NOT_EXIST.getMessage()));
+        .orElseThrow(() -> new AccountException(
+            Status.FAIL.getValue(),
+            AccountStatusMessage.NOT_EXIST.getMessage()));
 
     return this.convertToAccountDto(account);
   }
 
-  public AccountPagination searchAccountsByName(String accountName, int page, List<String> filters, String sortBy) {
+  public AccountPagination searchAccountsByName(String accountName, int page, String sortBy) {
     int pageSize = 2;
 
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
 
-    List<Integer> accountTypes = this.convertToAccountTypes(filters);
-
-    Page<Account> accountPage;
-    long count;
-
-    if (!accountTypes.isEmpty()) {
-      accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
-              accountName, accountTypes, pageable);
-      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, accountTypes);
-    } else {
-      accountPage = accountRepository.findByAccountNameContainingIgnoreCase(accountName, pageable);
-      count = accountRepository.countByAccountNameContainingIgnoreCase(accountName);
-    }
+    Page<Account> accountPage = accountRepository
+        .findByAccountNameContainingIgnoreCase(accountName, pageable);
 
     List<AccountDto> accountDtos = accountPage.getContent().stream()
-            .map(this::convertToAccountDto)
-            .collect(Collectors.toList());
+        .map(this::convertToAccountDto)
+        .collect(Collectors.toList());
 
     AccountPagination accountPagination = AccountPagination.builder()
-            .accountDtos(accountDtos)
-            .count(count)
-            .build();
+        .accountDtos(accountDtos)
+        .count(accountRepository.countByAccountNameContainingIgnoreCase(accountName))
+        .build();
 
     return accountPagination;
-  }
-
-  private List<Integer> convertToAccountTypes(List<String> filters) {
-    List<Integer> accountTypes = filters != null ? filters.stream()
-            .map(filter -> {
-              if ("Customer".equalsIgnoreCase(filter))
-                return 1;
-              else if ("Staff".equalsIgnoreCase(filter))
-                return 2;
-              else
-                return null;
-            })
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList()) : Collections.emptyList();
-    return accountTypes;
   }
 
   private AccountDto convertToAccountDto(Account account) {
@@ -129,11 +93,14 @@ public class AccountService {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    String password = passwordEncoder.encode(request.getAccountPassword());
+
     Account account = Account.builder()
-            .accountName(request.getAccountName())
-            .accountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()))
-            .accountType(request.getAccountType())
-            .build();
+        .accountName(request.getAccountName())
+        .accountPassword(password)
+        .accountType(request.getAccountType())
+        .build();
     accountRepository.save(account);
 
     return this.convertToAccountDto(account);
@@ -141,44 +108,20 @@ public class AccountService {
 
   public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {
     Account existingAccount = accountRepository.findById(accountId)
-            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+        .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
 
-    if (!existingAccount.getAccountName().equals(request.getAccountName())
-            && accountRepository.existsByAccountName(request.getAccountName())) {
-      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
-    }
-
+    existingAccount.setAccountName(request.getAccountName());
     existingAccount.setAccountType(request.getAccountType());
-    existingAccount.setAccountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()));
 
-    if (!existingAccount.getAccountName().equals(request.getAccountName())) {
-      existingAccount.setAccountName(request.getAccountName());
-    }
     accountRepository.save(existingAccount);
 
     return this.convertToAccountDto(existingAccount);
   }
 
-  public String encodePassWordByBCryptPassword(String password) {
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-    return passwordEncoder.encode(password);
-  }
-
-  @Transactional
   public void deleteAccountById(String accountId) {
     if (!accountRepository.existsById(accountId)) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage());
     }
-
-    Account account = accountRepository.findById(accountId)
-            .orElseThrow(() -> new SnackException(
-                    Status.FAIL.getValue(),
-                    AccountStatusMessage.NOT_EXIST.getMessage()));
-
-    Staff staffsWithAccount = staffRepository.findByAccount(account);
-
-    staffRepository.delete(staffsWithAccount);
-
     accountRepository.deleteById(accountId);
   }
 
