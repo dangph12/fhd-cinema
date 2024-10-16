@@ -21,18 +21,18 @@ public class AccountExceptionHandler {
     AccountStatusMessage accountStatusMessage = AccountStatusMessage.valueOf(enumKey);
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
-        .body(ApiResponse.<Void>builder()
-            .status(Status.FAIL.getValue())
-            .message(accountStatusMessage.getMessage())
-            .build());
+            .body(ApiResponse.<Void>builder()
+                    .status(Status.FAIL.getValue())
+                    .message(accountStatusMessage.getMessage())
+                    .build());
   }
 
   @ExceptionHandler(value = AccountException.class)
   ResponseEntity<ApiResponse<Void>> handleAccountException(AccountException exception) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-        .body(ApiResponse.<Void>builder()
-            .status(exception.getStatus())
-            .message(exception.getMessage())
-            .build());
+            .body(ApiResponse.<Void>builder()
+                    .status(exception.getStatus())
+                    .message(exception.getMessage())
+                    .build());
   }
 }
