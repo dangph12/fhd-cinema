@@ -93,7 +93,7 @@ const MovieDetailTable = () => {
         fetchMovies={fetchMovies}
         onHide={() => setShowDeleteModal({ movieId: null, show: false })}
       />
-      <CreateMovieModal show={showCreateModal.show} fetchMovies={fetchMovies} onHide={() => setShowCreateModal({ show: false })} />
+      <CreateMovieModal show={showCreateModal.show} onHide={() => setShowCreateModal({ show: false })} />
       <UpdateMovieModal
         movieId={showUpdateModal.movieId}
         show={showUpdateModal.show}
