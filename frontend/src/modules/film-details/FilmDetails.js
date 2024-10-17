@@ -49,7 +49,7 @@ function FilmDetails() {
                 <h1 className="film-title">{movieDetails.movieTitle}</h1>
                 <p className="film-synopsis">{movieDetails.movieDescription}</p>
                 <br />
-                <p className="film-synopsis">
+                <p className="film-synopsiss">
                   <strong>Phân loại: </strong>{movieDetails.movieGenre}
                 </p>
                 <br />

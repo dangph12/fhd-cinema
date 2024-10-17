@@ -1,38 +1,60 @@
 import PageMetaData from '@/components/PageMetaData'
 import ReactTable from '@/components/Table'
-import { Col, Row, Card, CardBody, CardHeader, CardTitle, Button, Form, Modal } from 'react-bootstrap'
+import { Col, Row, Card, CardBody, CardHeader, CardTitle, Button, Form, Modal, Container, Pagination } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 
 const AccountsTables = () => {
   const [accounts, setAccounts] = useState([])
-  const [searchTerm, setSearchTerm] = useState('')
+  const [query, setQuery] = useState('')
+  const [filters, setFilters] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
   const [deleteShow, setDeleteShow] = useState(false)
   const [updateShow, setUpdateShow] = useState(false)
   const [createShow, setCreateShow] = useState(false)
-  const [form, setForm] = useState({
-    accountName: '',
-    accountType: '',
-    accountPassword: '',
-  })
+
+  const [form, setForm] = useState({})
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
-  useEffect(() => {
-    fetch('http://localhost:8080/accounts')
-      .then((response) => response.json())
-      .then((json) => setAccounts(json.data))
-  }, [])
+  const accountApiUrl = `http://localhost:8080/accounts?search=${query}&page=${currentPage}&filters=${filters.join(',')}`
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value)
+  useEffect(() => {
+    fetchAccounts()
+  }, [currentPage, query, filters])
+
+  const fetchAccounts = () => {
+    fetch(accountApiUrl)
+      .then((response) => response.json())
+      .then((json) => {
+      setAccounts(json.data.accountDtos);
+      // fetch total counts of accounts, then calc totalPages = Math.ceil(counts / pageSize)
+      // page Size = 2 for debug
+      setTotalPages(Math.ceil(json.data.count / 2));
+      })
+      .catch((error) => console.error('Error fetching accounts:', error));
   }
 
-  const filteredAccounts = accounts.filter((account) =>
-    account.accountName.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredAccounts = Array.isArray(accounts) ? accounts.filter((account) => {
+    return (
+      // filter type by filters
+      filters.length === 0 || filters.includes(account.accountType)
+    )
+  }) : []
 
-  const CustomerDetailTable = ({ accounts }) => {
-    const pageSizeList = [2, 5, 10, 20, 50]
+  const handleSearch = (event) => {
+    setQuery(event.target.value)
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      handleSearch(event)
+    }
+  }
+
+  const AccountDetailTable = ({ accounts }) => {
     return (
       <Card>
         <CardHeader>
@@ -48,15 +70,8 @@ const AccountsTables = () => {
           </Row>
         </CardHeader>
         <CardBody className="pt-0">
-          <ReactTable
-            columns={columns}
-            data={accounts}
-            rowsPerPageList={pageSizeList}
-            pageSize={10}
-            tableClass="datatable"
-            theadClass="table-light"
-            showPagination
-          />
+          {/* Accounts Table */}
+          <ReactTable columns={columns} data={accounts} />
         </CardBody>
       </Card>
     )
@@ -131,7 +146,7 @@ const AccountsTables = () => {
 
   const handleCreate = (e) => {
     e.preventDefault()
-    setCreateShow(false)
+
     const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
@@ -146,9 +161,7 @@ const AccountsTables = () => {
       })
         .then((response) => {
           if (response.ok) {
-            fetch('http://localhost:8080/accounts')
-              .then((response) => response.json())
-              .then((json) => setAccounts(json.data))
+            fetchAccounts()
           } else {
             console.error('Failed to create the account')
           }
@@ -156,6 +169,7 @@ const AccountsTables = () => {
         .catch((error) => {
           console.error('Error:', error)
         })
+      setCreateShow(false)
       setForm({
         accountName: '',
         accountType: '',
@@ -169,12 +183,13 @@ const AccountsTables = () => {
   const openUpdateShow = (accountId) => {
     setUpdateShow(true)
     const account = accounts.find((account) => account.accountId === accountId)
-    setForm({
+    const updatedForm = {
       accountId: accountId,
       accountName: account?.accountName || '',
       accountType: account?.accountType || '',
       accountPassword: '',
-    })
+    }
+    setForm(updatedForm)
   }
 
   const closeUpdateShow = () => {
@@ -190,13 +205,13 @@ const AccountsTables = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault()
-    setUpdateShow(false)
+
     const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       e.stopPropagation()
     } else {
-      const { accountId, accountPassword, ...updateData } = form;
+      const { accountId, accountPassword, ...updateData } = form
       fetch(`http://localhost:8080/accounts/${accountId}`, {
         method: 'PUT',
         headers: {
@@ -206,9 +221,7 @@ const AccountsTables = () => {
       })
         .then((response) => {
           if (response.ok) {
-            fetch('http://localhost:8080/accounts')
-              .then((response) => response.json())
-              .then((json) => setAccounts(json.data))
+            fetchAccounts()
           } else {
             console.error('Failed to update the account')
           }
@@ -216,6 +229,7 @@ const AccountsTables = () => {
         .catch((error) => {
           console.error('Error:', error)
         })
+      setUpdateShow(false)
       setForm({
         accountName: '',
         accountType: '',
@@ -242,13 +256,13 @@ const AccountsTables = () => {
 
   const handleDelete = (e) => {
     e.preventDefault()
-    setDeleteShow(false)
+
     fetch(`http://localhost:8080/accounts/${form.accountId}`, {
       method: 'DELETE',
     })
       .then((response) => {
         if (response.ok) {
-          setAccounts(accounts.filter((account) => account.accountId !== form.accountId))
+          fetchAccounts()
         } else {
           console.error('Failed to delete the account')
         }
@@ -256,6 +270,7 @@ const AccountsTables = () => {
       .catch((error) => {
         console.error('Error:', error)
       })
+    setDeleteShow(false)
     setForm({
       accountName: '',
       accountType: '',
@@ -266,21 +281,85 @@ const AccountsTables = () => {
   return (
     <>
       <PageMetaData title="Account Tables" />
-      <Form.Control
-        className="p-3 mb-3 rounded"
-        size="lg"
-        type="text"
-        placeholder="Search by account name"
-        value={searchTerm}
-        onChange={handleSearch}
-      />
+      {/* search */}
+      <Container className="pt-3">
+        <Row>
+          <Col md={8}>
+
+          
+          
+            <Form.Control
+              className="p-3 mb-3 rounded"
+              size="lg"
+              type="text"
+              placeholder="Search by account name"
+              value={query}
+              onChange={handleSearch}
+              onKeyDown={handleKeyDown}
+            />
+            
+
+
+
+
+
+
+
+
+
+
+
+          </Col>
+          <Col md={4} className="d-flex flex-column align-items-start fs-4">
+            <Form.Check
+              label="Customer"
+              name="filter"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setFilters([...filters, 'Customer'])
+                } else {
+                  setFilters(filters.filter((filter) => filter !== 'Customer'))
+                }
+              }}
+            />
+            <Form.Check
+              label="Staff"
+              name="filter"
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setFilters([...filters, 'Staff'])
+                } else {
+                  setFilters(filters.filter((filter) => filter !== 'Staff'))
+                }
+              }}
+            />
+          </Col>
+        </Row>
+      </Container>
+
+      {/* account detail */}
       {filteredAccounts && (
         <Row className="justify-content-center">
           <Col xs={12}>
-            <CustomerDetailTable accounts={filteredAccounts} />
+            <AccountDetailTable accounts={filteredAccounts} />
           </Col>
         </Row>
       )}
+
+      {/* Pagination */}
+      <Container className="d-flex justify-content-center mt-3">
+        <Pagination>
+          <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
+          <Pagination.Prev onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1} />
+          {Array.from({ length: totalPages }, (_, index) => (
+            <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => setCurrentPage(index + 1)}>
+              {index + 1} 
+            </Pagination.Item>
+          ))}
+          <Pagination.Next onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} />
+          <Pagination.Last onClick={() => setCurrentPage(totalPages)} disabled={currentPage === totalPages} />
+        </Pagination>
+      </Container>
 
       <Modal show={deleteShow} onHide={() => closeDeleteShow()}>
         <Modal.Header closeButton>
@@ -314,9 +393,7 @@ const AccountsTables = () => {
                 value={form.accountName}
                 isInvalid={!!errors.accountName}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.accountName}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.accountName}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="m-2">
               <Form.Label>Account type</Form.Label>
@@ -325,16 +402,13 @@ const AccountsTables = () => {
                 name="accountType"
                 onChange={(e) => setField('accountType', Number(e.target.value))}
                 className="bg-body text-dark border-secondary"
-                value={form.accountType}
-                isInvalid={!!errors.accountType}
-              >
+                value={form.accountType === 'Customer' ? 1 : 2}
+                isInvalid={!!errors.accountType}>
                 <option value="">Select account type</option>
                 <option value={1}>Customer</option>
                 <option value={2}>Staff</option>
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
-                {errors.accountType}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.accountType}</Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -365,9 +439,7 @@ const AccountsTables = () => {
                 value={form.accountName}
                 isInvalid={!!errors.accountName}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.accountName}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.accountName}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="m-2">
               <Form.Label>Account password</Form.Label>
@@ -380,9 +452,7 @@ const AccountsTables = () => {
                 value={form.accountPassword}
                 isInvalid={!!errors.accountPassword}
               />
-              <Form.Control.Feedback type="invalid">
-                {errors.accountPassword}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.accountPassword}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="m-2">
               <Form.Label>Account type</Form.Label>
@@ -392,15 +462,12 @@ const AccountsTables = () => {
                 onChange={(e) => setField('accountType', Number(e.target.value))}
                 className="bg-body text-dark border-secondary"
                 value={form.accountType}
-                isInvalid={!!errors.accountType}
-              >
+                isInvalid={!!errors.accountType}>
                 <option value="">Select account type</option>
                 <option value={1}>Customer</option>
                 <option value={2}>Staff</option>
               </Form.Select>
-              <Form.Control.Feedback type="invalid">
-                {errors.accountType}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">{errors.accountType}</Form.Control.Feedback>
             </Form.Group>
           </Form>
         </Modal.Body>

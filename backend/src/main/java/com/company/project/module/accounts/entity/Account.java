@@ -30,6 +30,6 @@ public class Account {
 
     String accountName;
     String accountPassword;
-    int accountType;
+    String accountType;
 
 }

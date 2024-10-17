@@ -11,6 +11,7 @@
     "format": "prettier --write 'src/**/*.{ts,tsx,js,jsx}'"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.670.0",
     "@fullcalendar/core": "^6.1.14",
     "@fullcalendar/daygrid": "^6.1.14",
     "@fullcalendar/interaction": "^6.1.14",
@@ -36,7 +37,6 @@
     "filepond-plugin-image-exif-orientation": "^1.0.11",
     "filepond-plugin-image-preview": "^4.6.12",
     "glightbox": "^3.3.0",
-    "google-maps-react": "^2.0.6",
     "jsvectormap": "^1.6.0",
     "justgage": "^1.6.1",
     "leaflet": "^1.9.4",
@@ -57,6 +57,7 @@
     "react-magic": "^0.2.4",
     "react-nestable": "^3.0.2",
     "react-quill": "^2.0.0",
+    "react-quill-new": "^3.3.3",
     "react-router-dom": "^6.24.0",
     "react-select": "^5.8.0",
     "react-sortablejs": "^6.1.4",

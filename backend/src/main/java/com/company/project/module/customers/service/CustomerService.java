@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.company.project.common.Status;
 import com.company.project.module.customers.common.CustomerStatusMessage;
+import com.company.project.module.customers.dto.request.CustomerCreationRequest;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.exception.CustomerException;
 import com.company.project.module.customers.repository.CustomerRepository;
@@ -16,87 +17,74 @@ public class CustomerService {
 
   @Autowired
   private CustomerRepository customerRepository;
-  
+
   public List<Customer> getAllCustomer() {
     return customerRepository.findAll();
   }
   
-  public Customer getCustomerById(String seatTypeId) {
-    return customerRepository.findById(seatTypeId)
+  public Customer getCustomerById(String customerId) {
+    return customerRepository.findById(customerId)
     .orElseThrow(() -> new CustomerException(
       Status.FAIL.getValue(), 
       CustomerStatusMessage.NOT_EXIST.getMessage()));
   }
 
-/**
-  public List<String> getCustomerNamesByScreenId(String screenId) {
-    Screen screen = screenService.findScreenById(screenId);
-
-    return screen.getCustomers()
-                 .stream()
-                 .map(Customer::getCustomerName)
-                 .collect(Collectors.toList()); 
-  }
-
-  public boolean existCustomerNameInScreen(String screenId, String seatName) {
-    List<String> existCustomerName = this.getCustomerNamesByScreenId(screenId);
-
-    return existCustomerName.contains(seatName);
-  }
-
   public Customer createCustomer(CustomerCreationRequest request) {
 
-    if (this.existCustomerNameInScreen(request.getScreenId(), request.getCustomerName())) {
-      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_SEAT.getMessage());
+    if (customerRepository.existsByCustomerPhone(request.getCustomerPhone())) {
+      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_PHONE.getMessage());
     }
 
-    CustomerType seatType = seatTypeService.getCustomerTypeById(request.getCustomerTypeId());
-    Screen screen = screenService.findScreenById(request.getScreenId());
+    if (customerRepository.existsByCustomerEmail(request.getCustomerEmail())) {
+      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_EMAIL.getMessage());
+    }
 
-    Customer seat = Customer.builder()
-      .seatType(seatType)
-      .screen(screen)
-      .seatName(request.getCustomerName())
-      .isBooked(request.isBooked())
+    Customer customer = Customer.builder()
+      .customerName(request.getCustomerName())
+      .customerPhone(request.getCustomerPhone())
+      .customerEmail(request.getCustomerEmail())
       .build();
 
-    return seatRepository.save(seat);
+    return customerRepository.save(customer);
   }
 
-  public Customer updateCustomer(String seatId, CustomerCreationRequest request) {
-    if (!seatRepository.existsById(seatId)) {
+  public Customer updateCustomer(String customerId, CustomerCreationRequest request) {
+    if (!customerRepository.existsById(customerId)) {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
     }
 
-    Customer existedCustomer = this.getCustomerById(seatId);
+    Customer existedCustomer = this.getCustomerById(customerId);
 
-    if (!existedCustomer.getCustomerName().equals(request.getCustomerName()) 
-        && this.existCustomerNameInScreen(request.getScreenId(), request.getCustomerName())) {
-        throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_SEAT.getMessage());
+    if (!existedCustomer.getCustomerPhone().equals(request.getCustomerPhone()) 
+        && customerRepository.existsByCustomerPhone(request.getCustomerPhone())) {
+        throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_PHONE.getMessage());
     }
 
-    CustomerType seatType = seatTypeService.getCustomerTypeById(request.getCustomerTypeId());
-    Screen screen = screenService.findScreenById(request.getScreenId());
-
-    existedCustomer.setCustomerType(seatType);
-    existedCustomer.setScreen(screen);
-    existedCustomer.setBooked(request.isBooked());
-
-    if (!existedCustomer.getCustomerName().equals(request.getCustomerName())) {
-      existedCustomer.setCustomerName(request.getCustomerName());
+    if (!existedCustomer.getCustomerEmail().equals(request.getCustomerEmail()) 
+        && customerRepository.existsByCustomerEmail(request.getCustomerEmail())) {
+        throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_EMAIL.getMessage());
     }
 
-    return seatRepository.save(existedCustomer);
+    existedCustomer.setCustomerName(request.getCustomerName());
+
+    if (!existedCustomer.getCustomerPhone().equals(request.getCustomerPhone())) {
+      existedCustomer.setCustomerPhone(request.getCustomerPhone());
+    }
+
+    if (!existedCustomer.getCustomerEmail().equals(request.getCustomerEmail())) {
+      existedCustomer.setCustomerEmail(request.getCustomerEmail());
+    }
+
+    return customerRepository.save(existedCustomer);
   }
 
-  public void deleteCustomerById(String seatId) {
-    if (!seatRepository.existsById(seatId)) {
+  public void deleteCustomerById(String customerId) {
+    if (!customerRepository.existsById(customerId)) {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
     }
 
-    seatRepository.deleteById(seatId);
+    customerRepository.deleteById(customerId);
   }
-  **/
 
 }
 

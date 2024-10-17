@@ -2,17 +2,24 @@ package com.company.project.module.customers.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.customers.common.CustomerStatusMessage;
+import com.company.project.module.customers.dto.request.CustomerCreationRequest;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.service.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +52,6 @@ public class CustomerController {
       .build());
   }
   
-/**
   @PostMapping
   ResponseEntity<ApiResponse<Customer>> addCustomer(
     @RequestBody @Valid CustomerCreationRequest request) {
@@ -84,7 +90,6 @@ public class CustomerController {
         .message(CustomerStatusMessage.DELETE_SUCCESS.getMessage())
         .build());
   }
-  **/
 
 }
 
