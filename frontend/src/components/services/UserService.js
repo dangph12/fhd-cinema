@@ -26,19 +26,19 @@ const fetchShowTimeById = (showtimeId) => {
   return axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
 };
 
-// const loginApi = (accountName, accountPassword) => {
-//   return axiosFormat.post("/accounts", { accountName, accountPassword });
-// };
-
-const loginApi = async (accountName, accountPassword) => {
-  try {
-    const response = await axiosFormat.post("/auth/sign-in", { accountName, accountPassword });
-    return response;
-  } catch (error) {
-    console.error("Lỗi khi gọi API:", error);
-    throw error; // Để có thể xử lý lỗi ở nơi khác
-  }
+const loginApi = (accountName, accountPassword) => {
+  return axiosFormat.get("/accounts", { accountName, accountPassword });
 };
+
+// const loginApi = async (accountName, accountPassword) => {
+//   try {
+//     const response = await axiosFormat.post("/auth/sign-in", { accountName, accountPassword });
+//     return response;
+//   } catch (error) {
+//     console.error("Lỗi khi gọi API:", error);
+//     throw error; // Để có thể xử lý lỗi ở nơi khác
+//   }
+// };
 
 const fetchToken = () => {
   return axios.get("localhost:8080/auth/token");
