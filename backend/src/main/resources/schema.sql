@@ -296,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`news` (
   INDEX `fk_news_news_category1_idx` (`news_category_id` ASC) VISIBLE,
   CONSTRAINT `fk_news_news_category1`
     FOREIGN KEY (`news_category_id`)
-    REFERENCES `fhd_cinema`.`news_category` (`news_category_id`)
+    REFERENCES `fhd_cinema`.`news_categories` (`news_category_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
