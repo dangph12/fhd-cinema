@@ -1,10 +1,7 @@
-
 package com.company.project.module.accounts.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
@@ -16,12 +13,8 @@ import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
-import com.company.project.module.snacks.exception.SnackException;
-import com.company.project.module.staffs.entity.Staff;
-import com.company.project.module.staffs.repository.StaffRepository;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AccountService {
-
-  @Autowired
-  private StaffRepository staffRepository;
 
   private final ModelMapper modelMapper;
 
@@ -61,9 +51,9 @@ public class AccountService {
 
   public AccountDto getAccountById(String accountId) {
     Account account = accountRepository.findById(accountId)
-            .orElseThrow(() -> new AccountException(
-                    Status.FAIL.getValue(),
-                    AccountStatusMessage.NOT_EXIST.getMessage()));
+        .orElseThrow(() -> new AccountException(
+            Status.FAIL.getValue(),
+            AccountStatusMessage.NOT_EXIST.getMessage()));
 
     return this.convertToAccountDto(account);
   }
@@ -73,54 +63,32 @@ public class AccountService {
 
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
 
-    List<Integer> accountTypes = this.convertToAccountTypes(filters);
-
     Page<Account> accountPage;
     long count;
 
-    if (!accountTypes.isEmpty()) {
+    if (!filters.isEmpty()) {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
-              accountName, accountTypes, pageable);
-      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, accountTypes);
+          accountName, filters, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, filters);
     } else {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCase(accountName, pageable);
       count = accountRepository.countByAccountNameContainingIgnoreCase(accountName);
     }
 
     List<AccountDto> accountDtos = accountPage.getContent().stream()
-            .map(this::convertToAccountDto)
-            .collect(Collectors.toList());
+        .map(this::convertToAccountDto)
+        .collect(Collectors.toList());
 
     AccountPagination accountPagination = AccountPagination.builder()
-            .accountDtos(accountDtos)
-            .count(count)
-            .build();
+        .accountDtos(accountDtos)
+        .count(count)
+        .build();
 
     return accountPagination;
   }
 
-  private List<Integer> convertToAccountTypes(List<String> filters) {
-    List<Integer> accountTypes = filters != null ? filters.stream()
-            .map(filter -> {
-              if ("Customer".equalsIgnoreCase(filter))
-                return 1;
-              else if ("Staff".equalsIgnoreCase(filter))
-                return 2;
-              else
-                return null;
-            })
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList()) : Collections.emptyList();
-    return accountTypes;
-  }
-
   private AccountDto convertToAccountDto(Account account) {
     AccountDto accountDto = modelMapper.map(account, AccountDto.class);
-    if (account.getAccountType() == 1) {
-      accountDto.setAccountType("Customer");
-    } else {
-      accountDto.setAccountType("Staff");
-    }
 
     return accountDto;
   }
@@ -131,10 +99,10 @@ public class AccountService {
     }
 
     Account account = Account.builder()
-            .accountName(request.getAccountName())
-            .accountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()))
-            .accountType(request.getAccountType())
-            .build();
+        .accountName(request.getAccountName())
+        .accountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()))
+        .accountType(request.getAccountType())
+        .build();
     accountRepository.save(account);
 
     return this.convertToAccountDto(account);
@@ -142,10 +110,10 @@ public class AccountService {
 
   public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {
     Account existingAccount = accountRepository.findById(accountId)
-            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+        .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
 
     if (!existingAccount.getAccountName().equals(request.getAccountName())
-            && accountRepository.existsByAccountName(request.getAccountName())) {
+        && accountRepository.existsByAccountName(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 
@@ -170,15 +138,6 @@ public class AccountService {
     if (!accountRepository.existsById(accountId)) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage());
     }
-
-    Account account = accountRepository.findById(accountId)
-            .orElseThrow(() -> new SnackException(
-                    Status.FAIL.getValue(),
-                    AccountStatusMessage.NOT_EXIST.getMessage()));
-
-    Staff staffsWithAccount = staffRepository.findByAccount(account);
-
-    staffRepository.delete(staffsWithAccount);
 
     accountRepository.deleteById(accountId);
   }

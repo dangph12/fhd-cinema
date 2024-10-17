@@ -1,13 +1,11 @@
 package com.company.project.module.accounts.exception;
 
-import java.text.ParseException;
 import java.util.Objects;
 
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 
-import com.nimbusds.jose.JOSEException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,36 +21,18 @@ public class AccountExceptionHandler {
     AccountStatusMessage accountStatusMessage = AccountStatusMessage.valueOf(enumKey);
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST.value())
-            .body(ApiResponse.<Void>builder()
-                    .status(Status.FAIL.getValue())
-                    .message(accountStatusMessage.getMessage())
-                    .build());
+        .body(ApiResponse.<Void>builder()
+            .status(Status.FAIL.getValue())
+            .message(accountStatusMessage.getMessage())
+            .build());
   }
 
   @ExceptionHandler(value = AccountException.class)
   ResponseEntity<ApiResponse<Void>> handleAccountException(AccountException exception) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-            .body(ApiResponse.<Void>builder()
-                    .status(exception.getStatus())
-                    .message(exception.getMessage())
-                    .build());
-  }
-
-  @ExceptionHandler(value = ParseException.class)
-  ResponseEntity<ApiResponse<Void>> handleParseException(ParseException exception) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-            .body(ApiResponse.<Void>builder()
-                    .status(exception.getMessage())
-                    .message(exception.getMessage())
-                    .build());
-  }
-
-  @ExceptionHandler(value = JOSEException.class)
-  ResponseEntity<ApiResponse<Void>> handleJOSEException(JOSEException exception) {
-    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-            .body(ApiResponse.<Void>builder()
-                    .status(exception.getMessage())
-                    .message(exception.getMessage())
-                    .build());
+        .body(ApiResponse.<Void>builder()
+            .status(exception.getStatus())
+            .message(exception.getMessage())
+            .build());
   }
 }
