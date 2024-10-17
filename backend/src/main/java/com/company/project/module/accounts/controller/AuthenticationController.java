@@ -1,6 +1,8 @@
 package com.company.project.module.accounts.controller;
 
 import com.company.project.common.ApiResponse;
+import com.company.project.common.Status;
+import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AuthenticationRequest;
 import com.company.project.module.accounts.dto.request.IntrospectRequest;
 import com.company.project.module.accounts.dto.response.AuthenticationResponse;
@@ -32,6 +34,8 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK.value())
                 .body(ApiResponse.<AuthenticationResponse>builder()
                         .data(result)
+                        .status(Status.SUCCESS.getValue())
+                        .message(AccountStatusMessage.TOKEN_SUCCESS.getMessage())
                         .build());
     }
 
@@ -41,6 +45,8 @@ public class AuthenticationController {
         return ResponseEntity.status(HttpStatus.OK.value())
                 .body(ApiResponse.<IntrospectResponse>builder()
                         .data(result)
+                        .status(Status.SUCCESS.getValue())
+                        .message(AccountStatusMessage.TOKEN_VERIFY_SUCCESS.getMessage())
                         .build());
     }
 }
