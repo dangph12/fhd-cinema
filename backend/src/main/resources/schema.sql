@@ -273,9 +273,9 @@ COLLATE = utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `fhd_cinema`.`news_category`
+-- Table `fhd_cinema`.`news_categories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fhd_cinema`.`news_category` (
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`news_categories` (
   `news_category_id` VARCHAR(36) NOT NULL DEFAULT (UUID()),
   `news_category_name` VARCHAR(64) NOT NULL,
   PRIMARY KEY (`news_category_id`))
