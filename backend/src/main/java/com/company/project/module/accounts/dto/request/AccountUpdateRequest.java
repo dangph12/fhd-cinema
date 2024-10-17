@@ -18,6 +18,8 @@ import lombok.experimental.FieldDefaults;
 public class AccountUpdateRequest {
     @NotEmpty(message = "EMPTY_NAME")
     String accountName;
+    @NotEmpty(message = "EMPTY_PASSWORD")
+    String accountPassword;
     @Min(value = 0, message = "NEGATIVE_VALUE")
     int accountType;
 }

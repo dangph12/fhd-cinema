@@ -7,6 +7,7 @@ public enum EmailStatusMessage {
   
   EMPTY_BILL("The bill's Id must not be empty"),
   EMPTY_CUSTOMER("The customer's Id must not be empty"),
+  EMPTY_EMAIL("The customer's email must not be empty"),
   EMPTY_SUBJECT("The subject must not be empty"),
   EMPTY_TEMPLATE("The template must not be empty"),
   TEMPLATE_INVALID("The template does not exist"),

@@ -2,9 +2,9 @@ package com.company.project.module.sales.controller;
 
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
+import com.company.project.module.sales.common.SaleStatusMessage;
 import com.company.project.module.sales.dto.response.SaleMovieDto;
 import com.company.project.module.sales.service.SaleService;
-import com.company.project.module.snacks.common.SnackStatusMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class SaleController {
     return ResponseEntity.status(HttpStatus.OK.value())
         .body(ApiResponse.<SaleMovieDto>builder()
             .status(Status.SUCCESS.getValue())
-            .message(SnackStatusMessage.GET_SUCCESS.getMessage())
+            .message(SaleStatusMessage.GET_SUCCESS.getMessage())
             .data(saleService.calculateRevenueByMovieId(movieId))
             .build());
   }

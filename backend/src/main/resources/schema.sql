@@ -33,11 +33,18 @@ COLLATE = utf8mb4_unicode_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`customers` (
   `customer_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
-  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT '',
   `customer_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_phone` VARCHAR(20) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_email` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`customer_id`))
+  `customer_phone` VARCHAR(20) NOT NULL,
+  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  PRIMARY KEY (`customer_id`),
+  INDEX `fk_customers_accounts1_idx` (`account_id` ASC) VISIBLE,
+  CONSTRAINT `fk_customers_accounts1`
+    FOREIGN KEY (`account_id`)
+    REFERENCES `fhd_cinema`.`accounts` (`account_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
@@ -70,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`movies` (
   `movie_duration_minute` INT UNSIGNED NOT NULL,
   `movie_release_date` DATE NOT NULL,
   `movie_trailer_url` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `movie_description` VARCHAR(2000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `movie_description` MEDIUMTEXT CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_language` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `movie_poster_url` VARCHAR(1000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `rating_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
@@ -186,10 +193,12 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`bills` (
   `bill_created_at` DATETIME NOT NULL,
   `booking_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   PRIMARY KEY (`bill_id`),
-  INDEX `fk_bill_bookings1_idx` (`booking_id` ASC) VISIBLE,
-  CONSTRAINT `fk_bill_bookings1`
+  INDEX `fk_bills_bookings1_idx` (`booking_id` ASC) VISIBLE,
+  CONSTRAINT `fk_bills_bookings1`
     FOREIGN KEY (`booking_id`)
-    REFERENCES `fhd_cinema`.`bookings` (`booking_id`))
+    REFERENCES `fhd_cinema`.`bookings` (`booking_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -265,35 +274,32 @@ COLLATE = utf8mb4_unicode_ci;
 
 
 -- -----------------------------------------------------
--- Table `fhd_cinema`.`customers_vouchers`
+-- Table `fhd_cinema`.`news_categories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fhd_cinema`.`customers_vouchers` (
-  `customer_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `voucher_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  INDEX `fk_customers_has_vouchers_vouchers1_idx` (`voucher_id` ASC) VISIBLE,
-  INDEX `fk_customers_has_vouchers_customers1_idx` (`customer_id` ASC) VISIBLE,
-  CONSTRAINT `fk_customers_has_vouchers_customers1`
-    FOREIGN KEY (`customer_id`)
-    REFERENCES `fhd_cinema`.`customers` (`customer_id`),
-  CONSTRAINT `fk_customers_has_vouchers_vouchers1`
-    FOREIGN KEY (`voucher_id`)
-    REFERENCES `fhd_cinema`.`vouchers` (`voucher_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS `fhd_cinema`.`news_categories` (
+  `news_category_id` VARCHAR(36) NOT NULL DEFAULT (UUID()),
+  `news_category_name` VARCHAR(64) NOT NULL,
+  PRIMARY KEY (`news_category_id`))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `fhd_cinema`.`news`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`news` (
-  `news_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `news_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
   `news_title` VARCHAR(300) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `news_description` VARCHAR(2000) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `news_description` MEDIUMTEXT CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `news_created_at` DATETIME NOT NULL,
-  `news_url` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `news_image_url` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`news_id`))
+  `news_category_id` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`news_id`),
+  INDEX `fk_news_news_category1_idx` (`news_category_id` ASC) VISIBLE,
+  CONSTRAINT `fk_news_news_category1`
+    FOREIGN KEY (`news_category_id`)
+    REFERENCES `fhd_cinema`.`news_categories` (`news_category_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -330,43 +336,6 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`seats` (
   CONSTRAINT `fk_seats_types`
     FOREIGN KEY (`type_id`)
     REFERENCES `fhd_cinema`.`seats_types` (`seat_type_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_unicode_ci;
-
-
--- -----------------------------------------------------
--- Table `fhd_cinema`.`staff_roles`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fhd_cinema`.`staff_roles` (
-  `staff_role_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
-  `staff_role_name` VARCHAR(45) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `staff_role_level` INT NOT NULL,
-  PRIMARY KEY (`staff_role_id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `fhd_cinema`.`staffs`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `fhd_cinema`.`staffs` (
-  `staff_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
-  `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `staff_role_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `staff_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  PRIMARY KEY (`staff_id`),
-  INDEX `fk_staffs_roles_idx` (`staff_role_id` ASC) VISIBLE,
-  INDEX `fk_staffs_accounts1_idx` (`account_id` ASC) VISIBLE,
-  CONSTRAINT `fk_staffs_roles`
-    FOREIGN KEY (`staff_role_id`)
-    REFERENCES `fhd_cinema`.`staff_roles` (`staff_role_id`),
-  CONSTRAINT `fk_staffs_accounts1`
-    FOREIGN KEY (`account_id`)
-    REFERENCES `fhd_cinema`.`accounts` (`account_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
