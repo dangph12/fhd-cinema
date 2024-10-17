@@ -178,7 +178,7 @@ function Users() {
 
   useEffect(() => {
     let session = sessionStorage.getItem("account");
-    console.log("Session:", session); // Kiểm tra giá trị của session
+    console.log("Session:", session);
     if (!session) {
       console.log("Navigating to login");
       navigate("/login");

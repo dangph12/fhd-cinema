@@ -27,7 +27,7 @@ const fetchShowTimeById = (showtimeId) => {
 };
 
 // const loginApi = (accountName, accountPassword) => {
-//   return axiosFormat.post("/accounts", { accountName, accountPassword });
+//   return axiosFormat.post("/auth/sign-in", { accountName, accountPassword });
 // };
 
 const loginApi = async (accountName, accountPassword) => {
@@ -38,10 +38,6 @@ const loginApi = async (accountName, accountPassword) => {
     console.error("Lỗi khi gọi API:", error);
     throw error; // Để có thể xử lý lỗi ở nơi khác
   }
-};
-
-const fetchToken = () => {
-  return axios.get("localhost:8080/auth/token");
 };
 
 
