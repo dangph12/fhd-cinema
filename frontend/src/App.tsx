@@ -78,7 +78,6 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./modules/auth/LoginPage";
 import FilmDetails from "./modules/film-details/FilmDetails";
 import OrderTicket from "./modules/orders/OrderTicket";
-import SeatSelection from "./components/Seats/SeatSelection";
 import TicketInfor from "./components/payment-inform/TicketInfor";
 import OrderFood from "./modules/orders/components/OrderFood/OrderFood";
 import FilmTime from "./components/FilmTime";
