@@ -619,7 +619,7 @@ VALUES
 ('c6a30360-7411-11ef-a157-0242ac110002', 'VIP10', 'VIP Member Discount', 'Giảm giá 10% cho thành viên VIP', 10, '2024-01-01 00:00:00', '2024-12-31 00:00:00'),
 ('c6a30404-7411-11ef-a157-0242ac110002', 'BIRTHDAY2024', 'Birthday Special', 'Giảm giá 30% cho khách hàng vào dịp sinh nhật', 30, '2024-03-01 00:00:00', '2024-03-31 00:00:00');
 
-INSERT INTO `fhd_cinema`.`news_category`
+INSERT INTO `fhd_cinema`.`news_categories`
 (`news_category_id`, `news_category_name`)
 VALUES
 ('111e4567-e89b-12d3-a456-426614174000', 'Khuyến mãi'),
