@@ -1,9 +1,7 @@
 package com.company.project.module.accounts.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
@@ -65,15 +63,13 @@ public class AccountService {
 
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
 
-    List<Integer> accountTypes = this.convertToAccountTypes(filters);
-
     Page<Account> accountPage;
     long count;
 
-    if (!accountTypes.isEmpty()) {
+    if (!filters.isEmpty()) {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
-          accountName, accountTypes, pageable);
-      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, accountTypes);
+          accountName, filters, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, filters);
     } else {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCase(accountName, pageable);
       count = accountRepository.countByAccountNameContainingIgnoreCase(accountName);
@@ -91,28 +87,8 @@ public class AccountService {
     return accountPagination;
   }
 
-  private List<Integer> convertToAccountTypes(List<String> filters) {
-    List<Integer> accountTypes = filters != null ? filters.stream()
-        .map(filter -> {
-          if ("Customer".equalsIgnoreCase(filter))
-            return 1;
-          else if ("Staff".equalsIgnoreCase(filter))
-            return 2;
-          else
-            return null;
-        })
-        .filter(Objects::nonNull)
-        .collect(Collectors.toList()) : Collections.emptyList();
-    return accountTypes;
-  }
-
   private AccountDto convertToAccountDto(Account account) {
     AccountDto accountDto = modelMapper.map(account, AccountDto.class);
-    if (account.getAccountType() == 1) {
-      accountDto.setAccountType("Customer");
-    } else {
-      accountDto.setAccountType("Staff");
-    }
 
     return accountDto;
   }
