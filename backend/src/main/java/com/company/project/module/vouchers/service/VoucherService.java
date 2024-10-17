@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.company.project.common.Status;
 import com.company.project.module.bills.service.BillService;
-import com.company.project.module.customers.service.CustomerService;
 import com.company.project.module.vouchers.common.VoucherStatusMessage;
 import com.company.project.module.vouchers.dto.request.VoucherCreationRequest;
 import com.company.project.module.vouchers.entity.Voucher;
@@ -23,9 +22,6 @@ public class VoucherService {
 
   @Autowired
   private BillService billService;
-
-  @Autowired
-  private CustomerService customerService;
 
   public List<Voucher> getAllVoucher() {
     return voucherRepository.findAll();
@@ -105,8 +101,6 @@ public class VoucherService {
     Voucher voucher = this.getVoucherById(voucherId);
 
     billService.removeVoucherInBill(voucher);
-
-    customerService.removeVoucherFromAllCustomer(voucher);
 
     voucherRepository.delete(voucher);
   }

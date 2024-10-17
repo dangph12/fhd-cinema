@@ -15,6 +15,7 @@ public enum AccountStatusMessage {
   GET_SUCCESS("Get all accounts successfully"),
   EMPTY_NAME("The account name must not be empty"),
   EMPTY_PASSWORD("The account password must not be empty"),
+  EMPTY_TYPE("The account type must not be empty"),
   UNAUTHORIZED("Unauthorized");
 
   private final String message;

@@ -8,11 +8,8 @@ import com.company.project.module.customers.dto.request.CustomerCreationRequest;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.exception.CustomerException;
 import com.company.project.module.customers.repository.CustomerRepository;
-import com.company.project.module.vouchers.entity.Voucher;
-import com.company.project.module.vouchers.service.VoucherService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,10 +17,6 @@ public class CustomerService {
 
   @Autowired
   private CustomerRepository customerRepository;
-
-  @Autowired
-  @Lazy
-  private VoucherService voucherService;
 
   public List<Customer> getAllCustomer() {
     return customerRepository.findAll();
@@ -91,37 +84,6 @@ public class CustomerService {
     }
 
     customerRepository.deleteById(customerId);
-  }
-
-  public Customer removeVoucherFromCustomer(String customerId, String voucherId) {
-    Customer customer = this.getCustomerById(customerId);
-    Voucher voucher = voucherService.getVoucherById(voucherId);
-
-    customer.getVouchers().remove(voucher);
-    return customerRepository.save(customer);
-  }
-
-  public void removeVoucherFromAllCustomer(Voucher voucher) {
-    List<Customer> customersWithVoucher = customerRepository.findByVouchersContaining(voucher);
-    for (Customer customer : customersWithVoucher) {
-      customer.getVouchers().remove(voucher);
-      customerRepository.save(customer);
-    }
-  }
-
-  public Customer addVoucherToCustomer(String customerId, String voucherId) {
-    Voucher voucher = voucherService.getVoucherById(voucherId);
-
-    Customer customer = this.getCustomerById(customerId);
-
-    if (!customer.getVouchers().contains(voucher)) {
-      customer.getVouchers().add(voucher);
-      customerRepository.save(customer);
-    } else {
-      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_VOUCHER.getMessage());
-    }
-
-    return customer;
   }
 
 }
