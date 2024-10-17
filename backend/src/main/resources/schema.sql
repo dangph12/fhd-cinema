@@ -35,7 +35,6 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`customers` (
   `customer_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
   `customer_name` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   `customer_email` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
-  `customer_phone` VARCHAR(20) NOT NULL,
   `account_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
   PRIMARY KEY (`customer_id`),
   INDEX `fk_customers_accounts1_idx` (`account_id` ASC) VISIBLE,
