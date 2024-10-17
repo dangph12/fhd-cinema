@@ -8,7 +8,6 @@ import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
-import com.company.project.module.customers.dto.request.CustomerModifyVoucherRequest;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.service.CustomerService;
 
@@ -64,34 +63,6 @@ public class CustomerController {
       .message(CustomerStatusMessage.CREATE_SUCCESS.getMessage())
       .data(customer)
       .build());
-  }
-
-  @PostMapping("/add-voucher/{customerId}")
-  ResponseEntity<ApiResponse<Customer>> addVoucherToCustomer(
-    @PathVariable(name = "customerId") String customerId,
-    @RequestBody @Valid CustomerModifyVoucherRequest request) {
-    Customer customer =  customerService.addVoucherToCustomer(customerId, request.getVoucherId());
-
-    return ResponseEntity.status(HttpStatus.CREATED.value())
-    .body(ApiResponse.<Customer>builder()
-      .status(Status.SUCCESS.getValue())
-      .message(CustomerStatusMessage.CREATE_SUCCESS.getMessage())
-      .data(customer)
-      .build());
-  }
-
-  @DeleteMapping("/remove-voucher/{customerId}")
-  ResponseEntity<ApiResponse<Customer>> removeVoucherFromCustomer(
-      @PathVariable(name = "customerId") String customerId,
-      @RequestBody @Valid CustomerModifyVoucherRequest request) {
-    Customer customer = customerService.removeVoucherFromCustomer(customerId, request.getVoucherId());
-
-      return ResponseEntity.status(HttpStatus.OK.value())
-      .body(ApiResponse.<Customer>builder()
-        .status(Status.SUCCESS.getValue())
-        .message(CustomerStatusMessage.REMOVE_VOUCHER_SUCCESS.getMessage())
-        .data(customer)
-        .build());
   }
 
   @PutMapping("/{customerId}")

@@ -59,7 +59,7 @@ public class AccountController {
       @RequestParam(value = "search") String search,
       @RequestParam(value = "page") int page,
       @RequestParam(value = "filters", required = false) List<String> filters,
-      @RequestParam(value = "sortBy", defaultValue = "accountId") String sortBy) {
+      @RequestParam(value = "sortBy", required = false) String sortBy) {
     return ResponseEntity.ok().body(ApiResponse.<AccountPagination>builder()
         .status(Status.SUCCESS.getValue())
         .message(AccountStatusMessage.GET_SUCCESS.getMessage())
