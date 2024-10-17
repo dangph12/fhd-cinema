@@ -619,32 +619,42 @@ VALUES
 ('c6a30360-7411-11ef-a157-0242ac110002', 'VIP10', 'VIP Member Discount', 'Giảm giá 10% cho thành viên VIP', 10, '2024-01-01 00:00:00', '2024-12-31 00:00:00'),
 ('c6a30404-7411-11ef-a157-0242ac110002', 'BIRTHDAY2024', 'Birthday Special', 'Giảm giá 30% cho khách hàng vào dịp sinh nhật', 30, '2024-03-01 00:00:00', '2024-03-31 00:00:00');
 
-INSERT INTO `fhd_cinema`.`news`
-(`news_id`, `news_title`, `news_description`, `news_created_at`, `news_url`, `news_image_url`)
+INSERT INTO `fhd_cinema`.`news_category`
+(`news_category_id`, `news_category_name`)
 VALUES
-('96731e75-7413-11ef-a157-0242ac110002', 'Khuyến mãi hè 2024', 'Chương trình khuyến mãi giảm giá 20% cho mọi suất chiếu trong mùa hè năm 2024', '2024-06-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
-('96734829-7413-11ef-a157-0242ac110002', 'Lịch chiếu phim Tết Nguyên Đán 2024', 'Cập nhật lịch chiếu phim mới nhất cho dịp Tết Nguyên Đán 2024 với nhiều phim bom tấn', '2024-01-15 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
-('96734a91-7413-11ef-a157-0242ac110002', 'Phim mới tháng 9/2024', 'Danh sách những bộ phim hot ra mắt trong tháng 9/2024 tại tất cả các rạp', '2024-09-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
-('96734bad-7413-11ef-a157-0242ac110002', 'Mua 1 vé tặng 1 vé', 'Chương trình mua 1 vé tặng 1 vé áp dụng từ ngày 1/7/2024 đến ngày 31/7/2024 cho tất cả suất chiếu', '2024-07-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg'),
-('96734cbb-7413-11ef-a157-0242ac110002', 'Tuần lễ phim châu Âu 2024', 'Rạp chiếu phim tổ chức tuần lễ phim châu Âu với nhiều bộ phim đặc sắc từ các quốc gia châu Âu', '2024-05-10 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg');
+('111e4567-e89b-12d3-a456-426614174000', 'Khuyến mãi'),
+('222e4567-e89b-12d3-a456-426614174000', 'Lịch chiếu'),
+('333e4567-e89b-12d3-a456-426614174000', 'Phim mới'),
+('444e4567-e89b-12d3-a456-426614174000', 'Ưu đãi vé'),
+('555e4567-e89b-12d3-a456-426614174000', 'Sự kiện đặc biệt');
+
+INSERT INTO `fhd_cinema`.`news`
+(`news_id`, `news_title`, `news_description`, `news_created_at`, `news_image_url`, `news_category_id`)
+VALUES
+('96731e75-7413-11ef-a157-0242ac110002', 'Khuyến mãi hè 2024', 'Chương trình khuyến mãi giảm giá 20% cho mọi suất chiếu trong mùa hè năm 2024', '2024-06-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', '111e4567-e89b-12d3-a456-426614174000'),
+('96734829-7413-11ef-a157-0242ac110002', 'Lịch chiếu phim Tết Nguyên Đán 2024', 'Cập nhật lịch chiếu phim mới nhất cho dịp Tết Nguyên Đán 2024 với nhiều phim bom tấn', '2024-01-15 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', '222e4567-e89b-12d3-a456-426614174000'),
+('96734a91-7413-11ef-a157-0242ac110002', 'Phim mới tháng 9/2024', 'Danh sách những bộ phim hot ra mắt trong tháng 9/2024 tại tất cả các rạp', '2024-09-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', '333e4567-e89b-12d3-a456-426614174000'),
+('96734bad-7413-11ef-a157-0242ac110002', 'Mua 1 vé tặng 1 vé', 'Chương trình mua 1 vé tặng 1 vé áp dụng từ ngày 1/7/2024 đến ngày 31/7/2024 cho tất cả suất chiếu', '2024-07-01 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', '444e4567-e89b-12d3-a456-426614174000'),
+('96734cbb-7413-11ef-a157-0242ac110002', 'Tuần lễ phim châu Âu 2024', 'Rạp chiếu phim tổ chức tuần lễ phim châu Âu với nhiều bộ phim đặc sắc từ các quốc gia châu Âu', '2024-05-10 00:00:00', 'https://fhd-cinema.s3.ap-southeast-1.amazonaws.com/sample-data/inception.jpg', '555e4567-e89b-12d3-a456-426614174000');
 
 INSERT INTO `fhd_cinema`.`accounts`
 (`account_id`, `account_name`, `account_password`, `account_type`)
 VALUES
-('77ad8674-74e0-11ef-bc52-0242ac110002', 'john_doe', 'password123', 2),
-('77ad8fc8-74e0-11ef-bc52-0242ac110002', 'jane_smith', 'password456', 2),
-('77ad9225-74e0-11ef-bc52-0242ac110002', 'alice_walker', 'password789', 2),
-('77ad935a-74e0-11ef-bc52-0242ac110002', 'bob_jones', 'password321', 2),
-('77ad9471-74e0-11ef-bc52-0242ac110002', 'chris_evans', 'password654', 2);
+('77ad8664-74e0-11ef-bc52-0242ac110002', 'admin', 'admin123', "Admin"),
+('77ad8674-74e0-11ef-bc52-0242ac110002', 'john_doe', 'password123', "Customer"),
+('77ad8fc8-74e0-11ef-bc52-0242ac110002', 'jane_smith', 'password456', "Customer"),
+('77ad9225-74e0-11ef-bc52-0242ac110002', 'alice_walker', 'password789', "Customer"),
+('77ad935a-74e0-11ef-bc52-0242ac110002', 'bob_jones', 'password321', "Customer"),
+('77ad9471-74e0-11ef-bc52-0242ac110002', 'chris_evans', 'password654', "Customer");
 
 INSERT INTO `fhd_cinema`.`customers`
 (`customer_id`, `account_id`, `customer_phone`, `customer_name`, `customer_email`)
 VALUES
-('77aed232-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'John Doe', 'dubo01689@gmail.com'),
-('77aee0db-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Jane Smith', 'jane.smith@example.com'),
-('77aee4c4-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Alice Walker', 'alice.walker@example.com'),
-('77aee6c1-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Bob Jones', 'bob.jones@example.com'),
-('77aee9ce-74e0-11ef-bc52-0242ac110002', '', '0123456789', 'Chris Evans', 'chris.evans@example.com');
+('77aed232-74e0-11ef-bc52-0242ac110002', '77ad8674-74e0-11ef-bc52-0242ac110002', '0123456789', 'John Doe', 'dubo01689@gmail.com'),
+('77aee0db-74e0-11ef-bc52-0242ac110002', '77ad8fc8-74e0-11ef-bc52-0242ac110002', '0123456789', 'Jane Smith', 'jane.smith@example.com'),
+('77aee4c4-74e0-11ef-bc52-0242ac110002', '77ad9225-74e0-11ef-bc52-0242ac110002', '0123456789', 'Alice Walker', 'alice.walker@example.com'),
+('77aee6c1-74e0-11ef-bc52-0242ac110002', '77ad935a-74e0-11ef-bc52-0242ac110002', '0123456789', 'Bob Jones', 'bob.jones@example.com'),
+('77aee9ce-74e0-11ef-bc52-0242ac110002', '77ad9471-74e0-11ef-bc52-0242ac110002', '0123456789', 'Chris Evans', 'chris.evans@example.com');
 
 INSERT INTO `fhd_cinema`.`bookings`
 (`booking_id`, `showtime_id`, `customer_id`, `booking_price`, `booking_create_at`)
@@ -670,32 +680,6 @@ VALUES
 ('f0bd65fa-7c1e-11ef-98e7-0242ac110002', 67500, 0, '2024-09-17 18:05:00', '77afcc45-74e0-11ef-bc52-0242ac110002'),
 ('f0bd6771-7c1e-11ef-98e7-0242ac110002', 162000, 0, '2024-09-17 20:05:00', '77afced6-74e0-11ef-bc52-0242ac110002'),
 ('f0bd68d8-7c1e-11ef-98e7-0242ac110002', 150500, 0, '2024-09-17 22:05:00', '77afd161-74e0-11ef-bc52-0242ac110002');
-
-INSERT INTO `fhd_cinema`.`staff_roles` (`staff_role_id`, `staff_role_name`, `staff_role_level`)
-VALUES
-('13064a54-7c20-11ef-98e7-0242ac110002', 'Manager', 1),
-('13064f83-7c20-11ef-98e7-0242ac110002', 'Ticket officer', 2),
-('1306511e-7c20-11ef-98e7-0242ac110002', 'Sales manager', 3),
-('13065205-7c20-11ef-98e7-0242ac110002', 'Movie manager', 4),
-('130652dc-7c20-11ef-98e7-0242ac110002', 'Marketer', 5);
-
-INSERT INTO `fhd_cinema`.`staffs`
-(`staff_id`, `account_id`, `staff_role_id`, `staff_name`)
-VALUES
-('02297517-7c21-11ef-98e7-0242ac110002', '77ad8674-74e0-11ef-bc52-0242ac110002', '13064a54-7c20-11ef-98e7-0242ac110002', 'John Doe'),
-('02297b14-7c21-11ef-98e7-0242ac110002', '77ad8fc8-74e0-11ef-bc52-0242ac110002', '13064f83-7c20-11ef-98e7-0242ac110002', 'Jane Smith'),
-('02297dab-7c21-11ef-98e7-0242ac110002', '77ad9225-74e0-11ef-bc52-0242ac110002', '1306511e-7c20-11ef-98e7-0242ac110002', 'Alice Walker'),
-('02297f97-7c21-11ef-98e7-0242ac110002', '77ad935a-74e0-11ef-bc52-0242ac110002', '13065205-7c20-11ef-98e7-0242ac110002', 'Bob Jones'),
-('02298189-7c21-11ef-98e7-0242ac110002', '77ad9471-74e0-11ef-bc52-0242ac110002', '130652dc-7c20-11ef-98e7-0242ac110002', 'Chris Evans');
-
-INSERT INTO `fhd_cinema`.`customers_vouchers`
-(`customer_id`, `voucher_id`)
-VALUES
-('77aed232-74e0-11ef-bc52-0242ac110002', 'c6a2e034-7411-11ef-a157-0242ac110002'), 
-('77aee0db-74e0-11ef-bc52-0242ac110002', 'c6a3013f-7411-11ef-a157-0242ac110002'), 
-('77aee4c4-74e0-11ef-bc52-0242ac110002', 'c6a302be-7411-11ef-a157-0242ac110002'), 
-('77aee6c1-74e0-11ef-bc52-0242ac110002', 'c6a30360-7411-11ef-a157-0242ac110002'), 
-('77aee9ce-74e0-11ef-bc52-0242ac110002', 'c6a30404-7411-11ef-a157-0242ac110002'); 
 
 INSERT INTO `fhd_cinema`.`bills_vouchers`
 (`bill_id`, `voucher_id`)
