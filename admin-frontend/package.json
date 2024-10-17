@@ -57,6 +57,7 @@
     "react-magic": "^0.2.4",
     "react-nestable": "^3.0.2",
     "react-quill": "^2.0.0",
+    "react-quill-new": "^3.3.3",
     "react-router-dom": "^6.24.0",
     "react-select": "^5.8.0",
     "react-sortablejs": "^6.1.4",

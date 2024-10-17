@@ -33,24 +33,11 @@ function MovieDetailModal({ movieId, show, onHide }) {
         <Form id="detailForm">
           <Form.Group className="m-2">
             <Form.Label>Movie Title</Form.Label>
-            <Form.Control
-              readOnly
-              type="text"
-              onChange={(e) => setField('movieTitle', e.target.value)}
-              placeholder="Movie Title"
-              name="movieTitle"
-              value={selectedMovie.movieTitle}
-            />
+            <Form.Control readOnly type="text" value={selectedMovie.movieTitle} />
           </Form.Group>
           <Form.Group className="m-2">
             <Form.Label>Movie Status</Form.Label>
-            <Form.Control
-              type="text"
-              readOnly
-              name="movieStatus"
-              onChange={(e) => setField('movieStatus', e.target.value)}
-              className="bg-body text-dark border-secondary"
-              value={selectedMovie.movieStatus}></Form.Control>
+            <Form.Control type="text" readOnly name="movieStatus" className="bg-body text-dark border-secondary" value={selectedMovie.movieStatus} />
           </Form.Group>
         </Form>
       </Modal.Body>

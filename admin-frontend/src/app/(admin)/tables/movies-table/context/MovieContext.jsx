@@ -7,6 +7,7 @@ const pageSize = 2;
 
 const initialState = {
   movies: [],
+  ratings: [],
   query: '',
   filters: [],
   currentPage: 1,
@@ -17,6 +18,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_MOVIES':
       return { ...state, movies: action.payload };
+    case 'SET_RATINGS':
+      return { ...state, ratings: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
     case 'SET_FILTERS':
@@ -38,6 +41,7 @@ export const MovieProvider = ({ children }) => {
   // const movieApiUrl = `http://localhost:8080/movies?search=${state.query}&page=${state.currentPage}&filters=${state.filters.join(',')}`;
 
   const movieApiUrl = `http://localhost:8080/movies`;
+  const ratingApiUrl = `http://localhost:8080/ratings`;
 
   useEffect(() => {
     const params = new URLSearchParams(location.search || '');
@@ -52,6 +56,7 @@ export const MovieProvider = ({ children }) => {
 
   useEffect(() => {
     fetchMovies();
+    fetchRatings();
   }, [state.currentPage, state.query, state.filters]);
 
   const fetchMovies = () => {
@@ -62,6 +67,15 @@ export const MovieProvider = ({ children }) => {
         // dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(json.data.count / pageSize) });
       })
       .catch((error) => console.error('Error fetching movies:', error));
+  };
+
+  const fetchRatings = () => {
+    fetch(ratingApiUrl)
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: 'SET_RATINGS', payload: json.data });
+      })
+      .catch((error) => console.error('Error fetching ratings:', error));
   };
 
   const updateQueryParams = (params) => {
