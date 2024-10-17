@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Dùng để lấy movieId từ URL
 import { fetchMovieById } from "../../components/services/UserService"; // Hàm lấy chi tiết phim
 import { SocialIcon } from "react-social-icons";
+import VisaBanner from "../home/components/VisaBanner";
 
 function FilmDetails() {
   const { movieId } = useParams(); // Lấy movieId từ URL
@@ -29,7 +30,7 @@ function FilmDetails() {
           className="banner-img"
         />
         <div className="container">
-          <div className="row shadow-lg p-4 mb-5 bg-white rounded">
+          <div className="row shadow-lg p-4 mb-5 bg-white rounded" style={{marginTop: '40px'}}>
             {/* Phần hình ảnh phim */}
             <div className="col-md-4">
               <img
@@ -86,7 +87,8 @@ function FilmDetails() {
             {/* Phần thông tin thêm */}
             <div className="col-md-3 additional-info">
               <img
-                src="https://www.bhdstar.vn/wp-content/uploads/2024/09/singlebanner2.jpg"
+                // src="https://www.bhdstar.vn/wp-content/uploads/2024/09/singlebanner2.jpg"
+                src="https://bhdstar.vn/wp-content/uploads/2024/10/banner-trong-2.jpg"
                 alt="Additional Banner"
                 className="additional-banner"
               />
@@ -94,12 +96,7 @@ function FilmDetails() {
           </div>
         </div>
       </div>
-      <div className="white-image">
-        <img
-          src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"
-          alt="White Rectangle"
-        />
-      </div>
+      <VisaBanner/>
     </>
   );
 }
