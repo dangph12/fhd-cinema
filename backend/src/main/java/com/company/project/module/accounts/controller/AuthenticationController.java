@@ -5,10 +5,12 @@ import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AuthenticationRequest;
 import com.company.project.module.accounts.dto.request.IntrospectRequest;
+import com.company.project.module.accounts.dto.request.SignInRequest;
 import com.company.project.module.accounts.dto.response.AuthenticationResponse;
 import com.company.project.module.accounts.dto.response.IntrospectResponse;
 import com.company.project.module.accounts.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -47,6 +49,26 @@ public class AuthenticationController {
                         .data(result)
                         .status(Status.SUCCESS.getValue())
                         .message(AccountStatusMessage.TOKEN_VERIFY_SUCCESS.getMessage())
+                        .build());
+    }
+
+    @PostMapping("/sign-in") // New endpoint for signing in
+    ResponseEntity<ApiResponse<String>> signIn(@RequestBody @Valid SignInRequest request) {
+        String token = authenticationService.signIn(request); // Implement signIn in your service
+
+        if (token == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+                    .body(ApiResponse.<String>builder()
+                            .status(Status.FAIL.getValue())
+                            .message("The account's name has been existed")
+                            .build());
+        }
+
+        return ResponseEntity.ok()
+                .body(ApiResponse.<String>builder()
+                        .status(Status.SUCCESS.getValue())
+                        .message("Sign-in successful")
+                        .data(token) // Assuming you return a token on successful sign-in
                         .build());
     }
 }

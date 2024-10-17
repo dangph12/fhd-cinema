@@ -4,8 +4,10 @@ import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AuthenticationRequest;
 import com.company.project.module.accounts.dto.request.IntrospectRequest;
+import com.company.project.module.accounts.dto.request.SignInRequest;
 import com.company.project.module.accounts.dto.response.AuthenticationResponse;
 import com.company.project.module.accounts.dto.response.IntrospectResponse;
+import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
 import com.nimbusds.jose.*;
@@ -100,6 +102,23 @@ public class AuthenticationService {
             log.error("Cannot create token", e);
             throw new RuntimeException(e);
         }
+    }
+
+    public String signIn(SignInRequest request) {
+        Account account = accountRepository.findByAccountName(request.getAccountName())
+                .orElseThrow(() -> new AccountException(
+                        Status.FAIL.getValue(),
+                        AccountStatusMessage.NOT_EXIST.getMessage()));
+
+        // Validate the password
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(request.getAccountPassword(), account.getAccountPassword())) {
+            throw new AccountException(Status.FAIL.getValue(), "Invalid credentials");
+        }
+
+        // Generate and return token
+        String token = generateToken(account.getAccountName());
+        return token;
     }
 
 }
