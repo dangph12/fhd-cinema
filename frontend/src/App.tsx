@@ -113,7 +113,6 @@ function App() {
         <Route path="/description/:movieId" element={<FilmDetails />} />
         <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
         <Route path="/seatselection" element={<SeatSelection />} />
-        <Route path="/cart.html" element={<FilmTime />} />
         <Route path="/orderfood" element={<OrderFood />} />
         <Route path="/ticketInfor" element={<TicketInfor />} />
         <Route path="/users" element={<Users />} />
