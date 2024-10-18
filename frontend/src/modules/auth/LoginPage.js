@@ -655,12 +655,12 @@
 import React, { useState } from "react";
 import { loginApi } from "../../components/services/UserService";
 import { Button, Toast, ToastContainer } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+
 import Register from "./Register";
 import { toast } from "react-toastify";
 import BannerSecond from "../home/components/BannerSecond";
 import VisaBanner from "../home/components/VisaBanner";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const buttonStyle = {
@@ -696,8 +696,8 @@ const LoginPage = () => {
     //       isAuthentiaction: true,
     //       token: response.data.token, // Lấy token thực sự từ phản hồi API
     //     };
-    //     sessionStorage.setItem("account", JSON.stringify(data));
-    //     navigate("/users"); // Chuyển hướng đến trang người dùng
+    //     sessionStorage.setItem("account", JSON.stringify(response.data));
+    //     navigate("/users");
     //   } else {
     //     setToastMessage("Thông tin đăng nhập không hợp lệ");
     //     setShowToast(true);
@@ -708,31 +708,61 @@ const LoginPage = () => {
     //   setShowToast(true);
     // }
 
-    try {
-      // Gửi yêu cầu đăng nhập với accountName và accountPassword
-      let response = await loginApi(accountName, accountPassword);
+  //   try {
+  //     // Gửi yêu cầu đăng nhập với accountName và accountPassword
+  //     let response = await loginApi(accountName, accountPassword);
 
-      // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
-      if (response && response.data) {
-        console.log("Đăng nhập thành công!");
-        let data = {
-          isAuthentiaction: true,
-          token: "fake token",
-        };
+  //     // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
+  //     if (response && response.data) {
+  //       console.log("Đăng nhập thành công!");
+  //       let data = {
+  //         isAuthentiaction: true,
+  //         // isAuthentiaction: response.data.authenticated,
+  //         token: response.data.token,
+  //       };
 
-        // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
-        sessionStorage.setItem("account", JSON.stringify(response.data));
-        navigate("/users"); // Chuyển hướng đến trang người dùng
-      } else {
-        setToastMessage("Thông tin đăng nhập không hợp lệ");
-        setShowToast(true);
-      }
-    } catch (error) {
-      console.error("Lỗi đăng nhập:", error);
-      setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+  //       // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
+  //       sessionStorage.setItem("account", JSON.stringify(data));
+  //       // navigate(`users/${customerId}`);
+  //       navigate(`/users`);
+  //     } else {
+  //       setToastMessage("Thông tin đăng nhập không hợp lệ");
+  //       setShowToast(true);
+  //     }
+  //   } catch (error) {
+  //     console.error("Lỗi đăng nhập:", error);
+  //     setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+  //     setShowToast(true);
+  //   }
+  // };
+
+  try {
+    // Gửi yêu cầu đăng nhập với accountName và accountPassword
+    let response = await loginApi(accountName, accountPassword);
+
+    // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
+    if (response && response.data) {
+      console.log("Đăng nhập thành công!");
+      let data = {
+        isAuthentiaction: true,
+        // isAuthentiaction: response.data.authenticated,
+        token: response.data.token,
+      };
+
+      // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
+      sessionStorage.setItem("account", JSON.stringify(data));
+      // navigate(`users/${customerId}`);
+      navigate(`/users`);
+    } else {
+      setToastMessage("Thông tin đăng nhập không hợp lệ");
       setShowToast(true);
     }
-  };
+  } catch (error) {
+    console.error("Lỗi đăng nhập:", error);
+    setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+    setShowToast(true);
+  }
+};
 
   return (
     <div>

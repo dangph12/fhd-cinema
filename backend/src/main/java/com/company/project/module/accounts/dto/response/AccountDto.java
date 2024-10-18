@@ -13,7 +13,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class AccountDto {
+
     String accountId;
     String accountName;
     String accountType;
+
 }
