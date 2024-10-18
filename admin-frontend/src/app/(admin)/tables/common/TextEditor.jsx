@@ -3,10 +3,10 @@ import ReactQuill from "react-quill-new";
 import "react-quill/dist/quill.snow.css";
 import uploadToS3 from "./UploadToS3";
 
-const TextEditor = ({object, form, setField}) => {
+const TextEditor = ({object, description, setField}) => {
 
   const quillRef = useRef(null);
-  const [content, setContent] = useState(form.movieDescription);
+  const [content, setContent] = useState(description);
 
   const imageHandler = useCallback(() => {
     const input = document.createElement("input");
@@ -76,10 +76,7 @@ const TextEditor = ({object, form, setField}) => {
         value={content}
       />
 
-      <div>
-        <h2>Preview for debug</h2>
-        <div dangerouslySetInnerHTML={{ __html: content }}></div>
-      </div>
+
     </div>
   );
 };
