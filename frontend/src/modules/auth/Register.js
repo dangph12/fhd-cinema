@@ -95,6 +95,7 @@ function Register() {
 
   const [accountName, setAccountName] = useState("");
   const [accountPassword, setaccountPassword] = useState("");
+  const [accountType, setAccountType] = useState("Customer");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleRegister = async () => {
@@ -107,6 +108,7 @@ function Register() {
       const response = await axios.post("http://localhost:8080/accounts", {
         accountName,
         accountPassword,
+        accountType,
       });
 
       if (response.status === 201) {
