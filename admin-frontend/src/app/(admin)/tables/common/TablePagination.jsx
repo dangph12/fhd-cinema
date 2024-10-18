@@ -1,13 +1,11 @@
-import React, { useContext, useEffect } from 'react';
-import { AccountContext } from '../context/AccountContext';
+import React, { useEffect } from 'react';
 import { Container, Pagination } from 'react-bootstrap';
 
-function AccountPagination() {
-  const { state, dispatch, fetchAccounts, updateQueryParams } = useContext(AccountContext);
+function TablePagination({ state, dispatch, fetch, updateQueryParams }) {
 
-  useEffect(() => {
-    fetchAccounts();
-  }, [state.currentPage]);
+  // useEffect(() => {
+  //   fetch();
+  // }, [state.currentPage]);
 
   const setCurrentPage = (page) => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: page });
@@ -51,4 +49,4 @@ function AccountPagination() {
   );
 }
 
-export default AccountPagination;
+export default TablePagination;
