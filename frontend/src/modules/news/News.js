@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { fetchNews } from "../../components/services/UserService";
 import BannerSecond from "../home/components/BannerSecond";
 import { NavLink } from "react-router-dom";
+import VisaBanner from "../home/components/VisaBanner";
 
 function News() {
   const buttonStyle = {
@@ -73,14 +74,7 @@ function News() {
         </div>
       </section>
 
-      <div className="login-page-container" style={{ marginBottom: "20px" }}>
-        <div className="login-page-white-image">
-          <img
-            src="https://bhdstar.vn/wp-content/uploads/2024/09/Rectangle-27.png"
-            alt="Login Illustration"
-          />
-        </div>
-      </div>
+      <VisaBanner/>
     </div>
   );
 }

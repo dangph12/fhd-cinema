@@ -49,10 +49,6 @@ function FilmDetails() {
                 <h1 className="film-title">{movieDetails.movieTitle}</h1>
                 <p className="film-synopsis">{movieDetails.movieDescription}</p>
                 <br />
-                <p className="film-synopsiss">
-                  <strong>Phân loại: </strong>{movieDetails.movieGenre}
-                </p>
-                <br />
                 <p className="film-synopsis">
                   <strong>Định dạng: </strong>{movieDetails.movieFormat}
                 </p>
@@ -71,6 +67,10 @@ function FilmDetails() {
                 <br />
                 <p className="film-synopsis">
                   <strong>Thời Gian: </strong>{movieDetails.movieDurationMinute}
+                </p>
+                <br />
+                <p className="film-synopsis">
+                  <strong>Thể Loại: </strong>{movieDetails.movieGenre}
                 </p>
                 <br />
                 {/* Social Links */}
