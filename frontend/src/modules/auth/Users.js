@@ -200,7 +200,7 @@ function Users() {
         <h2 className="text-center mb-4" style={tittle}>Tài khoản</h2>
         <Row>
           {/* Left Side Form */}
-          <Col md={8} className="border p-4 rounded">
+          <Col md={8} className="border p-4 rounded shadow">
             <div className="d-flex">
               <div className="mr-3">
                 <img
@@ -229,18 +229,18 @@ function Users() {
               <Row>
                 <Form.Group as={Col} controlId="formFirstName">
                   <Form.Label>Họ *</Form.Label>
-                  <Form.Control type="text" placeholder="" />
+                  <Form.Control type="text" placeholder="họ" />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formLastName">
                   <Form.Label>Tên đệm và tên *</Form.Label>
-                  <Form.Control type="text" placeholder="" />
+                  <Form.Control type="text" placeholder="tên đệm và tên" />
                 </Form.Group>
               </Row>
 
               <Form.Group controlId="formEmail">
                 <Form.Label>Email *</Form.Label>
-                <Form.Control type="email" placeholder="" />
+                <Form.Control type="email" placeholder="email" />
               </Form.Group>
 
               <Form.Group controlId="formPassword">
@@ -253,7 +253,7 @@ function Users() {
 
               <Form.Group controlId="formPhoneNumber">
                 <Form.Label>Số điện thoại *</Form.Label>
-                <Form.Control type="text" placeholder="0337641615" />
+                <Form.Control type="text" placeholder="số điện thoại" />
               </Form.Group>
 
               <Form.Group controlId="formGender">
@@ -268,48 +268,48 @@ function Users() {
                 <Form.Group as={Col} controlId="formBirthDay">
                   <Form.Label>Ngày sinh *</Form.Label>
                   <Form.Control as="select">
-                    <option>02</option>
+                    <option></option>
                   </Form.Control>
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formBirthMonth">
                   <Form.Label>Tháng sinh *</Form.Label>
                   <Form.Control as="select">
-                    <option>02</option>
+                    <option></option>
                   </Form.Control>
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formBirthYear">
                   <Form.Label>Năm sinh *</Form.Label>
                   <Form.Control as="select">
-                    <option>2000</option>
+                    <option></option>
                   </Form.Control>
                 </Form.Group>
               </Row>
 
               <Form.Group controlId="formCity">
                 <Form.Label>Tỉnh/Thành phố *</Form.Label>
-                <Form.Control type="text" placeholder="Hà Nội" />
+                <Form.Control type="text" placeholder="thành phố" />
               </Form.Group>
 
               <Form.Group controlId="formAddress">
                 <Form.Label>Địa chỉ *</Form.Label>
-                <Form.Control type="text" placeholder="Hà Nội" />
+                <Form.Control type="text" placeholder="địa chỉ" />
               </Form.Group>
 
-              <Button variant="success" type="submit" className="w-100">
+              <Button variant="success" type="submit" className="w-100 mt-5">
                 Cập nhật
               </Button>
             </Form>
           </Col>
 
           {/* Right Side QR and Account Info */}
-          <Col md={4} className="border p-4 rounded">
+          <Col md={4} className="border p-4 rounded shadow">
             <div className="text-center mb-4">
               <img
                 style={{ width: "30%" }}
                 src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png"
-                alt="QR Code"
+                alt="logo"
                 className="img-fluid"
               />
             </div>
@@ -321,12 +321,6 @@ function Users() {
             <Button variant="success" className="w-100 mb-2"  onClick={handleLogout}>
               Đăng xuất
             </Button>
-
-            <div className="text-right mt-2">
-              <a href="#" className="text-danger">
-                Xóa thông tin
-              </a>
-            </div>
           </Col>
         </Row>
 
@@ -347,7 +341,7 @@ function Users() {
         </Col>
       </Row> */}
 
-        <Table striped bordered hover className="mt-3">
+        <Table striped bordered hover className="mt-3 mb-5">
           <thead>
             <tr>
               <th>STT</th>
@@ -359,7 +353,6 @@ function Users() {
             </tr>
           </thead>
           <tbody>
-            {/* Add dynamic data here */}
             <tr>
               <td colSpan="6" className="text-center">
                 Không có giao dịch
