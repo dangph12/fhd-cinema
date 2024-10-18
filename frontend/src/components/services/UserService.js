@@ -50,8 +50,9 @@ const fetchSnacks = () => {
   return axios.get("http://localhost:8080/snacks");
 };
 
-const fetchNewsById = (newsId) => {
-  return axios.get(`http://localhost:8080/news/${newsId}`);
+// news details
+const fetchNewsById = (news_category_id) => {
+  return axios.get(`http://localhost:8080/news/${news_category_id}`);
 };
 
 
