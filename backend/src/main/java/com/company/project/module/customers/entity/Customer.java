@@ -2,14 +2,8 @@ package com.company.project.module.customers.entity;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.company.project.module.accounts.entity.Account;
+import jakarta.persistence.*;
 
 import com.company.project.module.bookings.entity.Booking;
 
@@ -39,5 +33,9 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<Booking> bookings;
+
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    Account account;
 
 }

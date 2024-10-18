@@ -3,6 +3,7 @@ package com.company.project.module.bookings.repository;
 import java.util.List;
 
 import com.company.project.module.bookings.entity.Booking;
+import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.snacks.entity.Snack;
 
@@ -13,5 +14,6 @@ import org.springframework.stereotype.Repository;
 public interface BookingRepository extends JpaRepository<Booking, String> {
   List<Booking> findBySnacksContaining(Snack snack);
   List<Booking> findByShowtime(Showtime showtime);
+  List<Booking> findByCustomer(Customer customer);
 }
 

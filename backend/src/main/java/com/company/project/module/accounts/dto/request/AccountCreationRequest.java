@@ -21,4 +21,8 @@ public class AccountCreationRequest {
     String accountPassword;
     @NotEmpty(message = "EMPTY_TYPE")
     String accountType;
+
+    String customerName;
+    String customerEmail;
+    String customerPhone;
 }

@@ -3,12 +3,21 @@ package com.company.project.module.customers.service;
 import java.util.List;
 
 import com.company.project.common.Status;
+import com.company.project.module.accounts.common.AccountStatusMessage;
+import com.company.project.module.accounts.dto.response.AccountDto;
+import com.company.project.module.accounts.entity.Account;
+import com.company.project.module.accounts.exception.AccountException;
+import com.company.project.module.accounts.repository.AccountRepository;
+import com.company.project.module.bookings.entity.Booking;
+import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
+import com.company.project.module.customers.dto.response.CustomerDto;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.exception.CustomerException;
 import com.company.project.module.customers.repository.CustomerRepository;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +26,12 @@ public class CustomerService {
 
   @Autowired
   private CustomerRepository customerRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private BookingRepository bookingRepository;
 
   public List<Customer> getAllCustomer() {
     return customerRepository.findAll();
@@ -39,10 +54,14 @@ public class CustomerService {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_EMAIL.getMessage());
     }
 
+    Account account = accountRepository.findById(request.getAccountId())
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), "Invalid Account ID"));
+
     Customer customer = Customer.builder()
       .customerName(request.getCustomerName())
       .customerPhone(request.getCustomerPhone())
       .customerEmail(request.getCustomerEmail())
+      .account(account)
       .build();
 
     return customerRepository.save(customer);
@@ -84,6 +103,46 @@ public class CustomerService {
     }
 
     customerRepository.deleteById(customerId);
+  }
+
+
+
+  public CustomerDto getCustomerByAccountId(String accountId) {
+    Account account = accountRepository.findById(accountId)
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+
+    return getCustomerDto(account);
+  }
+
+  public CustomerDto getUserInformationByAccountName(String accountName) {
+    Account account = accountRepository.findByAccountName(accountName)
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+
+    return getCustomerDto(account);
+  }
+
+  private CustomerDto getCustomerDto(Account account) {
+    Customer customer = account.getCustomer();
+
+    if (customer == null) {
+      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
+    }
+
+    List<Booking> bookings = bookingRepository.findByCustomer(customer);
+
+    return CustomerDto.builder()
+            .customerId(customer.getCustomerId())
+            .customerName(customer.getCustomerName())
+            .customerPhone(customer.getCustomerPhone())
+            .customerEmail(customer.getCustomerEmail())
+            .account(account)
+            .bookings(bookings)
+            .build();
+  }
+
+  public Customer convertToCustomer(CustomerDto customerDto) {
+
+      return modelMapper.map(customerDto, Customer.class);
   }
 
 }

@@ -7,9 +7,14 @@ import com.company.project.module.accounts.dto.request.IntrospectRequest;
 import com.company.project.module.accounts.dto.request.SignInRequest;
 import com.company.project.module.accounts.dto.response.AuthenticationResponse;
 import com.company.project.module.accounts.dto.response.IntrospectResponse;
+import com.company.project.module.accounts.dto.response.SignInResponse;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
+import com.company.project.module.customers.dto.response.CustomerDto;
+import com.company.project.module.customers.entity.Customer;
+import com.company.project.module.customers.repository.CustomerRepository;
+import com.company.project.module.customers.service.CustomerService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -36,6 +41,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
     AccountRepository accountRepository;
+    private final CustomerService customerService;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -104,11 +110,14 @@ public class AuthenticationService {
         }
     }
 
-    public String signIn(SignInRequest request) {
+    public SignInResponse signIn(SignInRequest request) {
         Account account = accountRepository.findByAccountName(request.getAccountName())
                 .orElseThrow(() -> new AccountException(
                         Status.FAIL.getValue(),
                         AccountStatusMessage.NOT_EXIST.getMessage()));
+
+        CustomerDto customerDto = customerService.getUserInformationByAccountName(account.getAccountName());
+        Customer customer = customerService.convertToCustomer(customerDto);
 
         // Validate the password
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -119,7 +128,11 @@ public class AuthenticationService {
 
         // Generate and return token
         String token = generateToken(account.getAccountName());
-        return token;
+
+        return SignInResponse.builder()
+                .token(token)
+                .customer(customer)
+                .build();
     }
 
 }
