@@ -3,6 +3,7 @@ package com.company.project.module.customers.entity;
 import java.util.List;
 
 import com.company.project.module.accounts.entity.Account;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import com.company.project.module.bookings.entity.Booking;
@@ -31,9 +32,11 @@ public class Customer {
     String customerPhone;
     String customerEmail;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<Booking> bookings;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     Account account;
