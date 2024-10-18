@@ -147,7 +147,7 @@
 
 // export default Users;
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -157,10 +157,11 @@ import {
   InputGroup,
   Table,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BannerSecond from "../home/components/BannerSecond";
 import Banner from "../home/components/Banner";
 import VisaBanner from "../home/components/VisaBanner";
+import { fetchUsers } from "../../components/services/UserService";
 
 function Users() {
 
@@ -173,6 +174,8 @@ function Users() {
         display: "inline-block", // button behavior
       };
     
+      const [usersById, getUsersId] = useState("")
+      const {customerId} = useParams()
 
   let navigate = useNavigate();
 
@@ -183,7 +186,23 @@ function Users() {
       console.log("Navigating to login");
       navigate("/login");
     }
+    getUsers();
   }, []);
+
+  
+  const getUsers = async () => {
+    let res = await fetchUsers(customerId);
+    if (res && res.data) {
+      getUsersId(res.data.data);
+    }
+  };
+
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("account");
+    navigate("/login"); 
+  }
+
   return (
     <div>
       <BannerSecond />
@@ -309,7 +328,7 @@ function Users() {
             <p>Hạng thẻ: Star</p>
             <p>Ngày đăng ký: 05/10/2024</p>
             
-            <Button variant="success" className="w-100 mb-2">
+            <Button variant="success" className="w-100 mb-2"  onClick={handleLogout}>
               Đăng xuất
             </Button>
 

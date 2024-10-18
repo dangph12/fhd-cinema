@@ -54,6 +54,10 @@ const fetchNewsById = (newsId) => {
   return axios.get(`http://localhost:8080/news/${newsId}`);
 };
 
+const fetchUsers = (customerId) => {
+  return axios.get(`http://localhost:8080/customers/${customerId}`);
+};
+
 // const loginApi = (accountName) => {
 //     return axiosFormat.post("/accounts", { accountName })
 // }
@@ -67,4 +71,5 @@ export {
   fetchNews,
   fetchNewsById,
   fetchSnacks,
+  fetchUsers,
 };

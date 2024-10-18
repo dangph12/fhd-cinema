@@ -722,8 +722,9 @@ const LoginPage = () => {
         };
 
         // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
-        sessionStorage.setItem("account", JSON.stringify(response.data));
-        navigate("/users"); // Chuyển hướng đến trang người dùng
+        sessionStorage.setItem("account", JSON.stringify(data));
+        // navigate(`users/${customerId}`);
+        navigate(`/users`);
       } else {
         setToastMessage("Thông tin đăng nhập không hợp lệ");
         setShowToast(true);
