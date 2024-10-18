@@ -14,6 +14,9 @@ import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
 
+import com.company.project.module.customers.dto.request.CustomerCreationRequest;
+import com.company.project.module.customers.entity.Customer;
+import com.company.project.module.customers.service.CustomerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,10 +33,12 @@ public class AccountService {
   private final ModelMapper modelMapper;
 
   private final AccountRepository accountRepository;
+  private final CustomerService customerService;
 
-  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository) {
+  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository, CustomerService customerService) {
     this.modelMapper = modelMapper;
     this.accountRepository = accountRepository;
+    this.customerService = customerService;
   }
 
   public List<AccountDto> getAllAccounts() {
@@ -105,7 +110,26 @@ public class AccountService {
         .build();
     accountRepository.save(account);
 
-    return this.convertToAccountDto(account);
+    Customer customer = null;
+    if(request.getAccountType().equalsIgnoreCase("Customer")) {
+      CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
+      customerCreationRequest.setCustomerName(request.getAccountName());
+      customerCreationRequest.setCustomerPhone(request.getCustomerPhone());
+      customerCreationRequest.setCustomerEmail(request.getCustomerEmail());
+      customerCreationRequest.setAccountId(account.getAccountId());
+
+      customer = customerService.createCustomer(customerCreationRequest);
+    }
+
+    AccountDto accountDto = this.convertToAccountDto(account);
+    if(customer != null) {
+      accountDto.setCustomerId(customer.getCustomerId());
+      accountDto.setCustomerName(customer.getCustomerName());
+      accountDto.setCustomerPhone(customer.getCustomerPhone());
+      accountDto.setCustomerEmail(customer.getCustomerEmail());
+    }
+
+    return accountDto;
   }
 
   public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {

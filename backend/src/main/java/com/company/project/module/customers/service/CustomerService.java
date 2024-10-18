@@ -3,12 +3,19 @@ package com.company.project.module.customers.service;
 import java.util.List;
 
 import com.company.project.common.Status;
+import com.company.project.module.accounts.dto.response.AccountDto;
+import com.company.project.module.accounts.entity.Account;
+import com.company.project.module.accounts.exception.AccountException;
+import com.company.project.module.accounts.repository.AccountRepository;
+import com.company.project.module.accounts.service.AccountService;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.exception.CustomerException;
 import com.company.project.module.customers.repository.CustomerRepository;
 
+import com.company.project.module.movies.exception.MovieException;
+import com.company.project.module.ratings.entity.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +24,8 @@ public class CustomerService {
 
   @Autowired
   private CustomerRepository customerRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
   public List<Customer> getAllCustomer() {
     return customerRepository.findAll();
@@ -39,10 +48,14 @@ public class CustomerService {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.EXIST_EMAIL.getMessage());
     }
 
+    Account account = accountRepository.findById(request.getAccountId())
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), "Invalid Account ID"));
+
     Customer customer = Customer.builder()
       .customerName(request.getCustomerName())
       .customerPhone(request.getCustomerPhone())
       .customerEmail(request.getCustomerEmail())
+      .account(account)
       .build();
 
     return customerRepository.save(customer);
