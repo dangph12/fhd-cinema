@@ -8,6 +8,7 @@ import com.company.project.module.accounts.dto.request.IntrospectRequest;
 import com.company.project.module.accounts.dto.request.SignInRequest;
 import com.company.project.module.accounts.dto.response.AuthenticationResponse;
 import com.company.project.module.accounts.dto.response.IntrospectResponse;
+import com.company.project.module.accounts.dto.response.SignInResponse;
 import com.company.project.module.accounts.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import jakarta.validation.Valid;
@@ -52,23 +53,15 @@ public class AuthenticationController {
                         .build());
     }
 
-    @PostMapping("/sign-in") // New endpoint for signing in
-    ResponseEntity<ApiResponse<String>> signIn(@RequestBody @Valid SignInRequest request) {
-        String token = authenticationService.signIn(request); // Implement signIn in your service
-
-        if (token == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
-                    .body(ApiResponse.<String>builder()
-                            .status(Status.FAIL.getValue())
-                            .message("The account's name has been existed")
-                            .build());
-        }
+    @PostMapping("/sign-in")
+    ResponseEntity<ApiResponse<SignInResponse>> signIn(@RequestBody @Valid SignInRequest request) {
+        SignInResponse signIn = authenticationService.signIn(request);
 
         return ResponseEntity.ok()
-                .body(ApiResponse.<String>builder()
+                .body(ApiResponse.<SignInResponse>builder()
                         .status(Status.SUCCESS.getValue())
-                        .message("Sign-in successful")
-                        .data(token) // Assuming you return a token on successful sign-in
+                        .message("Sign-in successfully")
+                        .data(signIn)
                         .build());
     }
 }
