@@ -3,19 +3,17 @@ package com.company.project.module.customers.service;
 import java.util.List;
 
 import com.company.project.common.Status;
-import com.company.project.module.accounts.dto.response.AccountDto;
+import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
-import com.company.project.module.accounts.service.AccountService;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
+import com.company.project.module.customers.dto.response.CustomerDto;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.exception.CustomerException;
 import com.company.project.module.customers.repository.CustomerRepository;
 
-import com.company.project.module.movies.exception.MovieException;
-import com.company.project.module.ratings.entity.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -97,6 +95,37 @@ public class CustomerService {
     }
 
     customerRepository.deleteById(customerId);
+  }
+
+
+
+  public CustomerDto getCustomerByAccountId(String accountId) {
+    Account account = accountRepository.findById(accountId)
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+
+    return getCustomerDto(account);
+  }
+
+  public CustomerDto getUserInformationByAccountName(String accountName) {
+    Account account = accountRepository.findByAccountName(accountName)
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+
+    return getCustomerDto(account);
+  }
+
+  private CustomerDto getCustomerDto(Account account) {
+    Customer customer = account.getCustomer();
+
+    if (customer == null) {
+      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
+    }
+
+    return CustomerDto.builder()
+            .customerId(customer.getCustomerId())
+            .customerName(customer.getCustomerName())
+            .customerPhone(customer.getCustomerPhone())
+            .customerEmail(customer.getCustomerEmail())
+            .build();
   }
 
 }
