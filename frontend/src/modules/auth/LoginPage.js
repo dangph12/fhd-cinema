@@ -652,121 +652,438 @@
 
 // export default LoginPage;
 
-import React, { useState } from "react";
-import { loginApi } from "../../components/services/UserService";
-import { Button, Toast, ToastContainer } from "react-bootstrap";
+// import React, { useState } from "react";
+// import { loginApi } from "../../components/services/UserService";
+// import { Button, Toast, ToastContainer } from "react-bootstrap";
 
-import Register from "./Register";
+// import Register from "./Register";
+// import { toast } from "react-toastify";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+// import { NavLink, useNavigate } from "react-router-dom";
+
+// const LoginPage = () => {
+//   const buttonStyle = {
+//     borderRadius: "15px", // rounded corners
+//     padding: "10px 20px", // padding for the button
+//     color: "#8bc34a", // green text
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//     backgroundColor: "transparent", // no background
+//     display: "inline-block", // button behavior
+//   };
+
+//   const [accountName, setAccountName] = useState("");
+//   const [accountPassword, setaccountPassword] = useState("");
+//   const [showToast, setShowToast] = useState(false);
+//   const [toastMessage, setToastMessage] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleInput = async (event) => {
+//     toast.success("login success");
+//     event.preventDefault();
+
+//     // try {
+//     //   // Gửi yêu cầu đăng nhập
+//     //   let response = await loginApi(accountName, accountPassword);
+
+//     //   // Kiểm tra phản hồi từ API
+//     //   if (response && response.data && response.data.token) {
+//     //     console.log("Đăng nhập thành công!");
+
+//     //     // Lưu token và thông tin xác thực thực sự
+//     //     let data = {
+//     //       isAuthentiaction: true,
+//     //       token: response.data.token, // Lấy token thực sự từ phản hồi API
+//     //     };
+//     //     sessionStorage.setItem("account", JSON.stringify(response.data));
+//     //     navigate("/users");
+//     //   } else {
+//     //     setToastMessage("Thông tin đăng nhập không hợp lệ");
+//     //     setShowToast(true);
+//     //   }
+//     // } catch (error) {
+//     //   console.error("Lỗi đăng nhập:", error);
+//     //   setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+//     //   setShowToast(true);
+//     // }
+
+//   //   try {
+//   //     // Gửi yêu cầu đăng nhập với accountName và accountPassword
+//   //     let response = await loginApi(accountName, accountPassword);
+
+//   //     // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
+//   //     if (response && response.data) {
+//   //       console.log("Đăng nhập thành công!");
+//   //       let data = {
+//   //         isAuthentiaction: true,
+//   //         // isAuthentiaction: response.data.authenticated,
+//   //         token: response.data.token,
+//   //       };
+
+//   //       // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
+//   //       sessionStorage.setItem("account", JSON.stringify(data));
+//   //       // navigate(`users/${customerId}`);
+//   //       navigate(`/users`);
+//   //     } else {
+//   //       setToastMessage("Thông tin đăng nhập không hợp lệ");
+//   //       setShowToast(true);
+//   //     }
+//   //   } catch (error) {
+//   //     console.error("Lỗi đăng nhập:", error);
+//   //     setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+//   //     setShowToast(true);
+//   //   }
+//   // };
+
+//   try {
+//     // Gửi yêu cầu đăng nhập với accountName và accountPassword
+//     let response = await loginApi(accountName, accountPassword);
+
+//     // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
+//     if (response && response.data) {
+//       console.log("Đăng nhập thành công!");
+//       let data = {
+//         isAuthentiaction: true,
+//         // isAuthentiaction: response.data.authenticated,
+//         token: response.data.token,
+//       };
+
+//       // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
+//       sessionStorage.setItem("account", JSON.stringify(data));
+//       // navigate(`users/${customerId}`);
+//       navigate(`/users`);
+//     } else {
+//       setToastMessage("Thông tin đăng nhập không hợp lệ");
+//       setShowToast(true);
+//     }
+//   } catch (error) {
+//     console.error("Lỗi đăng nhập:", error);
+//     setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+//     setShowToast(true);
+//   }
+// };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <ToastContainer position="top-end" className="p-3">
+//         <Toast
+//           bg="danger"
+//           show={showToast}
+//           onClose={() => setShowToast(false)}
+//           delay={3000}
+//           autohide
+//         >
+//           <Toast.Body>{toastMessage}</Toast.Body>
+//         </Toast>
+//       </ToastContainer>
+//       <div className="login-page-form-container">
+//         <div className="login-page-login-form">
+//           <h2 className="">
+//             <button style={buttonStyle}>ĐĂNG NHẬP TÀI KHOẢN</button>
+//           </h2>
+//           <form onSubmit={handleInput}>
+//             <div>Tên tài khoản *</div>
+//             <input
+//               value={accountName}
+//               type="text"
+//               placeholder="Tài khoản hoặc địa chỉ email"
+//               required
+//               onChange={(event) => setAccountName(event.target.value)}
+//             />
+//             <div>Mật khẩu *</div>
+//             <input
+//               value={accountPassword}
+//               type="password"
+//               placeholder="Mật khẩu"
+//               required
+//               onChange={(event) => setaccountPassword(event.target.value)}
+//             />
+//             <button
+//               type="submit"
+//               className={accountName && accountPassword ? "active" : ""}
+//             >
+//               ĐĂNG NHẬP
+//             </button>
+
+//             <NavLink
+//               id=""
+//               className="nav-link"
+//               // to={`/forget-password/${accountId}`}
+//               to={`/forget-password`}
+//             >
+//               Quên mật khẩu?
+//             </NavLink>
+//           </form>
+//         </div>
+//         <div className="login-page-register-form">
+//           <Register />
+//         </div>
+//       </div>
+//       <VisaBanner />
+//     </div>
+//   );
+// };
+
+// export default LoginPage;
+
+// import React, { useState } from "react";
+// import { loginApi } from "../../components/services/UserService";
+// import { Button, Toast, ToastContainer } from "react-bootstrap";
+// import Register from "./Register";
+// import { toast } from "react-toastify";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+// import { NavLink, useNavigate } from "react-router-dom";
+
+// const LoginPage = () => {
+//   const buttonStyle = {
+//     borderRadius: "15px",
+//     padding: "10px 20px",
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//     backgroundColor: "transparent",
+//     display: "inline-block",
+//   };
+
+//   const [accountName, setAccountName] = useState("");
+//   const [accountPassword, setaccountPassword] = useState("");
+//   const [showToast, setShowToast] = useState(false);
+//   const [toastMessage, setToastMessage] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleInput = async (event) => {
+//     event.preventDefault();
+
+//     try {
+//       // Gửi yêu cầu đăng nhập với accountName và accountPassword
+//       let response = await loginApi(accountName, accountPassword);
+
+//       // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
+//       if (response && response.data) {
+//         console.log("Đăng nhập thành công!");
+
+//         // Lưu thông tin người dùng và token vào sessionStorage
+//         let data = {
+//           isAuthenticated: true,
+//           token: response.data.token,
+//           customerName: response.data.customer,
+//         };
+
+//         sessionStorage.setItem("account", JSON.stringify(data));
+
+//         // Chuyển hướng người dùng đến trang "users"
+//         navigate("/users");
+//       } else {
+//         setToastMessage("Thông tin đăng nhập không hợp lệ");
+//         setShowToast(true);
+//       }
+//     } catch (error) {
+//       console.error("Lỗi đăng nhập:", error);
+//       setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+//       setShowToast(true);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <ToastContainer position="top-end" className="p-3">
+//         <Toast
+//           bg="danger"
+//           show={showToast}
+//           onClose={() => setShowToast(false)}
+//           delay={3000}
+//           autohide
+//         >
+//           <Toast.Body>{toastMessage}</Toast.Body>
+//         </Toast>
+//       </ToastContainer>
+//       <div className="login-page-form-container">
+//         <div className="login-page-login-form">
+//           <h2 className="">
+//             <button style={buttonStyle}>ĐĂNG NHẬP TÀI KHOẢN</button>
+//           </h2>
+//           <form onSubmit={handleInput}>
+//             <div>Tên tài khoản *</div>
+//             <input
+//               value={accountName}
+//               type="text"
+//               placeholder="Tài khoản hoặc địa chỉ email"
+//               required
+//               onChange={(event) => setAccountName(event.target.value)}
+//             />
+//             <div>Mật khẩu *</div>
+//             <input
+//               value={accountPassword}
+//               type="password"
+//               placeholder="Mật khẩu"
+//               required
+//               onChange={(event) => setaccountPassword(event.target.value)}
+//             />
+//             <button
+//               type="submit"
+//               className={accountName && accountPassword ? "active" : ""}
+//             >
+//               ĐĂNG NHẬP
+//             </button>
+
+//             <NavLink
+//               className="nav-link"
+//               to={`/forget-password`}
+//             >
+//               Quên mật khẩu?
+//             </NavLink>
+//           </form>
+//         </div>
+//         <div className="login-page-register-form">
+//           <Register />
+//         </div>
+//       </div>
+//       <VisaBanner />
+//     </div>
+//   );
+// };
+
+// export default LoginPage;
+
+// import React, { useState } from "react";
+// import { loginApi } from "../../components/services/UserService"; // API đăng nhập
+// import { Button, Toast, ToastContainer } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import { toast } from "react-toastify";
+// import VisaBanner from "../home/components/VisaBanner";
+// import Register from "./Register";
+
+// const LoginPage = () => {
+//   const [accountName, setAccountName] = useState("");
+//   const [accountPassword, setaccountPassword] = useState("");
+//   const navigate = useNavigate();
+
+//   const handleInput = async (event) => {
+//     event.preventDefault();
+
+//     try {
+//       // Gọi API đăng nhập với accountName và accountPassword
+//       let response = await loginApi(accountName, accountPassword);
+
+//       if (response && response.data) {
+//         console.log("Đăng nhập thành công!", response.data);
+
+//         // Lưu dữ liệu vào sessionStorage
+//         sessionStorage.setItem("account", JSON.stringify(response.data));
+
+//         // Chuyển hướng đến trang users
+//         navigate("/users");
+//       } else {
+//         toast.error("Thông tin đăng nhập không hợp lệ");
+//       }
+//     } catch (error) {
+//       console.error("Lỗi đăng nhập:", error);
+//       toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <ToastContainer position="top-end" className="p-3">
+//         <Toast bg="danger" show={false} delay={3000} autohide>
+//           <Toast.Body>Đăng nhập không thành công</Toast.Body>
+//         </Toast>
+//       </ToastContainer>
+//       <div className="login-page-form-container">
+//         <div className="login-page-login-form">
+//           <h2>ĐĂNG NHẬP TÀI KHOẢN</h2>
+//           <form onSubmit={handleInput}>
+//             <div>Tên tài khoản *</div>
+//             <input
+//               value={accountName}
+//               type="text"
+//               placeholder="Tài khoản hoặc địa chỉ email"
+//               required
+//               onChange={(event) => setAccountName(event.target.value)}
+//             />
+//             <div>Mật khẩu *</div>
+//             <input
+//               value={accountPassword}
+//               type="password"
+//               placeholder="Mật khẩu"
+//               required
+//               onChange={(event) => setaccountPassword(event.target.value)}
+//             />
+//             <button type="submit">ĐĂNG NHẬP</button>
+//           </form>
+//         </div>
+//         <div className="login-page-register-form">
+//           <Register />
+//         </div>
+//       </div>
+//       <VisaBanner/>
+//     </div>
+//   );
+// };
+
+// export default LoginPage;
+
+
+import React, { useState } from "react";
+import { loginApi } from "../../components/services/UserService"; // API đăng nhập
+import { Button, Toast, ToastContainer } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import BannerSecond from "../home/components/BannerSecond";
 import VisaBanner from "../home/components/VisaBanner";
-import { NavLink, useNavigate } from "react-router-dom";
+import Register from "./Register";
+import BannerSecond from "../home/components/BannerSecond"; // Thêm BannerSecond để giao diện giống nhau
+import { NavLink } from "react-router-dom";
 
 const LoginPage = () => {
-  const buttonStyle = {
-    borderRadius: "15px", // rounded corners
-    padding: "10px 20px", // padding for the button
-    color: "#8bc34a", // green text
-    fontWeight: "bold",
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "inline-block", // button behavior
-  };
-
   const [accountName, setAccountName] = useState("");
   const [accountPassword, setaccountPassword] = useState("");
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState(false); // Thêm state cho Toast
+  const [toastMessage, setToastMessage] = useState(""); // Thêm state cho message Toast
   const navigate = useNavigate();
 
+  const buttonStyle = {
+    borderRadius: "15px",
+    padding: "10px 20px",
+    color: "#8bc34a",
+    fontWeight: "bold",
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "transparent",
+    display: "inline-block",
+  };
+
   const handleInput = async (event) => {
-    toast.success("login success");
     event.preventDefault();
 
-    // try {
-    //   // Gửi yêu cầu đăng nhập
-    //   let response = await loginApi(accountName, accountPassword);
+    try {
+      // Gọi API đăng nhập với accountName và accountPassword
+      let response = await loginApi(accountName, accountPassword);
 
-    //   // Kiểm tra phản hồi từ API
-    //   if (response && response.data && response.data.token) {
-    //     console.log("Đăng nhập thành công!");
+      if (response && response.data) {
+        console.log("Đăng nhập thành công!", response.data);
 
-    //     // Lưu token và thông tin xác thực thực sự
-    //     let data = {
-    //       isAuthentiaction: true,
-    //       token: response.data.token, // Lấy token thực sự từ phản hồi API
-    //     };
-    //     sessionStorage.setItem("account", JSON.stringify(response.data));
-    //     navigate("/users");
-    //   } else {
-    //     setToastMessage("Thông tin đăng nhập không hợp lệ");
-    //     setShowToast(true);
-    //   }
-    // } catch (error) {
-    //   console.error("Lỗi đăng nhập:", error);
-    //   setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
-    //   setShowToast(true);
-    // }
+        // Lưu dữ liệu vào sessionStorage
+        sessionStorage.setItem("account", JSON.stringify(response.data));
 
-  //   try {
-  //     // Gửi yêu cầu đăng nhập với accountName và accountPassword
-  //     let response = await loginApi(accountName, accountPassword);
-
-  //     // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
-  //     if (response && response.data) {
-  //       console.log("Đăng nhập thành công!");
-  //       let data = {
-  //         isAuthentiaction: true,
-  //         // isAuthentiaction: response.data.authenticated,
-  //         token: response.data.token,
-  //       };
-
-  //       // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
-  //       sessionStorage.setItem("account", JSON.stringify(data));
-  //       // navigate(`users/${customerId}`);
-  //       navigate(`/users`);
-  //     } else {
-  //       setToastMessage("Thông tin đăng nhập không hợp lệ");
-  //       setShowToast(true);
-  //     }
-  //   } catch (error) {
-  //     console.error("Lỗi đăng nhập:", error);
-  //     setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
-  //     setShowToast(true);
-  //   }
-  // };
-
-  try {
-    // Gửi yêu cầu đăng nhập với accountName và accountPassword
-    let response = await loginApi(accountName, accountPassword);
-
-    // Nếu đăng nhập thành công, server sẽ trả về thông tin xác thực
-    if (response && response.data) {
-      console.log("Đăng nhập thành công!");
-      let data = {
-        isAuthentiaction: true,
-        // isAuthentiaction: response.data.authenticated,
-        token: response.data.token,
-      };
-
-      // Lưu thông tin người dùng (có thể là userID hoặc sessionID) vào sessionStorage
-      sessionStorage.setItem("account", JSON.stringify(data));
-      // navigate(`users/${customerId}`);
-      navigate(`/users`);
-    } else {
-      setToastMessage("Thông tin đăng nhập không hợp lệ");
-      setShowToast(true);
+        // Chuyển hướng đến trang users
+        navigate("/users");
+      } else {
+        setToastMessage("Thông tin đăng nhập không hợp lệ");
+        setShowToast(true); // Hiển thị thông báo lỗi
+      }
+    } catch (error) {
+      console.error("Lỗi đăng nhập:", error);
+      setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
+      setShowToast(true); // Hiển thị thông báo lỗi khi có lỗi
     }
-  } catch (error) {
-    console.error("Lỗi đăng nhập:", error);
-    setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
-    setShowToast(true);
-  }
-};
+  };
 
   return (
     <div>
-      <BannerSecond />
+      <BannerSecond /> {/* Thêm BannerSecond vào giao diện giống mẫu */}
       <ToastContainer position="top-end" className="p-3">
         <Toast
           bg="danger"
@@ -806,22 +1123,19 @@ const LoginPage = () => {
             >
               ĐĂNG NHẬP
             </button>
-
-            <NavLink
-              id=""
-              className="nav-link"
-              // to={`/forget-password/${accountId}`}
-              to={`/forget-password`}
-            >
+          </form>
+          <div>
+            {/* Đường dẫn tới trang quên mật khẩu */}
+            <NavLink className="nav-link" to={`/forget-password`}>
               Quên mật khẩu?
             </NavLink>
-          </form>
+          </div>
         </div>
         <div className="login-page-register-form">
-          <Register />
+          <Register /> {/* Giữ nguyên phần đăng ký */}
         </div>
       </div>
-      <VisaBanner />
+      <VisaBanner /> {/* Giữ nguyên banner quảng cáo Visa */}
     </div>
   );
 };
