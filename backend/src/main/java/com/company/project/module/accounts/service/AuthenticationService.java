@@ -112,6 +112,7 @@ public class AuthenticationService {
 
         // Validate the password
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        account.setAccountPassword(passwordEncoder.encode(request.getAccountPassword()));
         if (!passwordEncoder.matches(request.getAccountPassword(), account.getAccountPassword())) {
             throw new AccountException(Status.FAIL.getValue(), "Invalid credentials");
         }

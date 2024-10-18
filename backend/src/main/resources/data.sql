@@ -632,7 +632,7 @@ INSERT INTO `fhd_cinema`.`news`
 (`news_id`, `news_title`, `news_description`, `news_created_at`, `news_image_url`, `news_category_id`)
 VALUES
 ('96731e75-7413-11ef-a157-0242ac110002', 'Combo: Trung Thu Sum Vầy', '🌕 Chương Trình Khuyến Mãi Tại BHD Star Cineplex: Thỏa Thích Thưởng Thức Bánh Trung Thu!
-Chào mùa Trung Thu, BHD Star Cineplex đã chuẩn bị một chương trình khuyến mãi đặc biệt cho bạn thưởng thức bánh trung thu cùng gia đình và bạn bè!
+Chào mùa Trung Thu, FHD Star Cineplex đã chuẩn bị một chương trình khuyến mãi đặc biệt cho bạn thưởng thức bánh trung thu cùng gia đình và bạn bè!
 🥮 Giá Ưu Đãi:
 • Bánh trung thu giá lẻ không hộp: 99,000đ
 • Bánh trung thu giá lẻ có hộp: 139,000đ
