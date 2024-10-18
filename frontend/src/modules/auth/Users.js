@@ -173,9 +173,6 @@ function Users() {
         backgroundColor: "transparent", // no background
         display: "inline-block", // button behavior
       };
-    
-      const [usersById, getUsersId] = useState("")
-      const {customerId} = useParams()
 
   let navigate = useNavigate();
 
@@ -186,16 +183,9 @@ function Users() {
       console.log("Navigating to login");
       navigate("/login");
     }
-    getUsers();
+
   }, []);
 
-  
-  const getUsers = async () => {
-    let res = await fetchUsers(customerId);
-    if (res && res.data) {
-      getUsersId(res.data.data);
-    }
-  };
 
 
   const handleLogout = () => {
