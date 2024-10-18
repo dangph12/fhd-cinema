@@ -11,6 +11,8 @@ import com.company.project.module.accounts.dto.response.SignInResponse;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
+import com.company.project.module.bookings.entity.Booking;
+import com.company.project.module.bookings.service.BookingService;
 import com.company.project.module.customers.dto.response.CustomerDto;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.repository.CustomerRepository;
@@ -34,6 +36,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -42,6 +45,7 @@ import java.util.Date;
 public class AuthenticationService {
     AccountRepository accountRepository;
     private final CustomerService customerService;
+    private final BookingService bookingService;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -119,6 +123,8 @@ public class AuthenticationService {
         CustomerDto customerDto = customerService.getUserInformationByAccountName(account.getAccountName());
         Customer customer = customerService.convertToCustomer(customerDto);
 
+        List<Booking> booking = bookingService.getAllBookingFromCustomer(customer.getCustomerId());
+
         // Validate the password
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         account.setAccountPassword(passwordEncoder.encode(request.getAccountPassword()));
@@ -132,6 +138,7 @@ public class AuthenticationService {
         return SignInResponse.builder()
                 .token(token)
                 .customer(customer)
+                .booking(booking)
                 .build();
     }
 
