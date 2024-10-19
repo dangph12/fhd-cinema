@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
+import { Modal, Form, Button, Image } from 'react-bootstrap'
 import { NewsContext } from '../context/NewsContext'
 
 function NewsDetailModal({ newsId, show, onHide }) {
   const { state } = useContext(NewsContext)
   const [detailShow, setDetailShow] = useState(false)
   const [selectedNews, setSelectedNews] = useState({
-    newsName: '',
+    newsTitle: '',
+    newsDescription: '',
+    newsCreateAt: '',
+    newsImageUrl: '',
+    newsCategoryName: '',
   })
 
   useEffect(() => {
@@ -16,7 +20,13 @@ function NewsDetailModal({ newsId, show, onHide }) {
   useEffect(() => {
     if (newsId) {
       const news = state.news.find((news) => news.newsId === newsId)
-      setSelectedNews(news)
+      setSelectedNews({
+        newsTitle: news.newsTitle,
+        newsDescription: news.newsDescription,
+        newsCreateAt: news.newsCreateAt,
+        newsImageUrl: news.newsImageUrl,
+        newsCategoryName: news.newsCategory.newsCategoryName,
+      })
     }
   }, [newsId])
 
@@ -24,7 +34,11 @@ function NewsDetailModal({ newsId, show, onHide }) {
     onHide()
     setDetailShow(false)
     setSelectedNews({
-      newsName: '',
+      newsTitle: '',
+      newsDescription: '',
+      newsCreateAt: '',
+      newsImageUrl: '',
+      newsCategoryName: '',
     })
   }
 
@@ -36,8 +50,24 @@ function NewsDetailModal({ newsId, show, onHide }) {
       <Modal.Body>
         <Form id="detailForm">
           <Form.Group className="m-2">
-            <Form.Label>News Name</Form.Label>
-            <Form.Control readOnly type="text" value={selectedNews.newsName} />
+            <Form.Label>News Title</Form.Label>
+            <Form.Control readOnly type="text" value={selectedNews.newsTitle} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>News Description</Form.Label>
+            <div dangerouslySetInnerHTML={{ __html: selectedNews.newsDescription }} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>News Create At</Form.Label>
+            <Form.Control readOnly type="text" value={selectedNews.newsCreateAt} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>News Image</Form.Label>
+            <Image src={selectedNews.newsImageUrl} alt="news image" fluid/>
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>News Category</Form.Label>
+            <Form.Control readOnly type="text" value={selectedNews.newsCategoryName} />
           </Form.Group>
         </Form>
       </Modal.Body>
