@@ -19,7 +19,6 @@ public class AccountDto {
     String accountId;
     String accountName;
     String accountType;
-    String accountPassword;
     String customerId;
     String customerName;
     String customerEmail;
