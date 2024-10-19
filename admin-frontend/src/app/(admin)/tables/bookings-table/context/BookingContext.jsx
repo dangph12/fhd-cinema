@@ -16,6 +16,11 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_BOOKINGS':
+      // make showtime.showtimeAt readable
+      action.payload.forEach((booking) => {
+        booking.showtime.showtimeAt = new Date(booking.showtime.showtimeAt).toLocaleString();
+        booking.bookingCreateAt = new Date(booking.bookingCreateAt).toLocaleString();
+      });
       return { ...state, bookings: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
@@ -54,11 +59,24 @@ export const BookingProvider = ({ children }) => {
     fetchBookings();
   }, [state.currentPage, state.query, state.filters]);
 
+  const fetchMoviesForBookings = async (bookings) => {
+    const updatedBookings = await Promise.all(
+      bookings.map(async (booking) => {
+        const movieResponse = await fetch(`http://localhost:8080/movies/${booking.showtime.movieId}`);
+        const movieData = await movieResponse.json();
+        const movie = movieData.data;
+        return { ...booking, movie };
+      })
+    );
+    return updatedBookings;
+  };
+
   const fetchBookings = () => {
     fetch(bookingApiUrl)
       .then((response) => response.json())
-      .then((json) => {
-        dispatch({ type: 'SET_BOOKINGS', payload: json.data });
+      .then(async (json) => {
+        const bookingsWithMovies = await fetchMoviesForBookings(json.data);
+        dispatch({ type: 'SET_BOOKINGS', payload: bookingsWithMovies });
         dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(json.data.count / pageSize) });
       })
       .catch((error) => console.error('Error fetching bookings:', error));

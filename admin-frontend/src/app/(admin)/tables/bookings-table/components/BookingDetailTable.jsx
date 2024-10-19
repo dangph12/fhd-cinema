@@ -15,10 +15,6 @@ const BookingDetailTable = () => {
   const [showDetailModal, setShowDetailModal] = useState({ bookingId: null, show: false })
   const [showCreateModal, setShowCreateModal] = useState({ show: false })
 
-  // useEffect(() => {
-  //   fetchBookings()
-  // }, [fetchBookings])
-
   const columns = [
     {
       id: 'detail',
@@ -38,8 +34,16 @@ const BookingDetailTable = () => {
       accessorKey: 'bookingId',
     },
     {
-      header: 'Booking Amount',
-      accessorKey: 'bookingAmount',
+      header: 'Booking Movie',
+      accessorKey: 'movie.movieTitle',
+    },
+    {
+      header: 'Booking Showtime',
+      accessorKey: 'showtime.showtimeAt',
+    },
+    {
+      header: 'Booking Created At',
+      accessorKey: 'bookingCreateAt',
     },
     {
       id: 'update',
@@ -112,7 +116,7 @@ const BookingDetailTable = () => {
         onHide={() => setShowUpdateModal({ bookingId: null, show: false })}
       />
       <BookingDetailModal
-        bookingId={showDetailModal.movieId}
+        bookingId={showDetailModal.bookingId}
         show={showDetailModal.show}
         onHide={() => setShowDetailModal({ bookingId: null, show: false })}
       />
