@@ -284,8 +284,133 @@
 
 // export default RequestResetPassword;
 
+// import React, { useState } from "react";
+// import axios from "axios";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+// import { Toast, ToastContainer } from "react-bootstrap";
+
+// const ResetPasswordForm = () => {
+//   const [email, setEmail] = useState("");
+//   const [subject, setSubject] = useState("Đặt lại mật khẩu tài khoản của bạn");
+//   const [template, setTemplate] = useState("email-reset-password");
+//   const [showToast, setShowToast] = useState(false);
+//   const [toastMessage, setToastMessage] = useState("");
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     // Kiểm tra nếu email có định dạng hợp lệ
+//     if (!email || !email.includes("@")) {
+//       setToastMessage("Vui lòng nhập một địa chỉ email hợp lệ.");
+//       setShowToast(true);
+//       return;
+//     }
+
+//     try {
+//       // Gửi yêu cầu đặt lại mật khẩu qua API
+//       const response = await axios.post(
+//         "http://localhost:8080/email/reset-password",
+//         {
+//           customerEmail: email,
+//         }
+//       );
+
+//       // Kiểm tra nếu phản hồi thành công
+//       if (response.status === 200) {
+//         setToastMessage(
+//           "Liên kết đặt lại mật khẩu đã được gửi tới email của bạn."
+//         );
+//       } else {
+//         setToastMessage("Có lỗi xảy ra, vui lòng thử lại.");
+//       }
+//     } catch (error) {
+//       console.error("Lỗi khi gửi yêu cầu đặt lại mật khẩu:", error);
+//       setToastMessage("Không thể gửi yêu cầu. Vui lòng kiểm tra lại email.");
+//     }
+
+//     // Hiển thị Toast với thông báo kết quả
+//     setShowToast(true);
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond /> {/* Thêm banner giống giao diện chính */}
+//       <ToastContainer position="top-end" className="p-3">
+//         <Toast
+//           bg="danger"
+//           show={showToast}
+//           onClose={() => setShowToast(false)}
+//           delay={3000}
+//           autohide
+//         >
+//           <Toast.Body>{toastMessage}</Toast.Body>
+//         </Toast>
+//       </ToastContainer>
+//       <div
+//         style={{
+//           display: "flex",
+//           justifyContent: "center",
+//           marginTop: "50px",
+//           marginBottom: "50px",
+//         }}
+//       >
+//         <div
+//           style={{
+//             width: "700px",
+//             textAlign: "center",
+//             fontFamily: "Arial, sans-serif",
+//           }}
+//         >
+//           <h2 style={{ color: "#64a70b" }}>Quên mật khẩu</h2>
+//           <p>
+//             Quên mật khẩu? Vui lòng nhập địa chỉ email của bạn. Bạn sẽ nhận được
+//             một liên kết tạo mật khẩu mới qua email.
+//           </p>
+//           <form onSubmit={handleSubmit}>
+//             <input
+//               type="email"
+//               placeholder="Địa chỉ email"
+//               value={email}
+//               onChange={(e) => setEmail(e.target.value)}
+//               style={{
+//                 width: "100%",
+//                 padding: "10px",
+//                 marginBottom: "20px",
+//                 borderRadius: "4px",
+//                 border: "1px solid #ccc",
+//                 fontSize: "16px",
+//               }}
+//               required
+//             />
+//             <button
+//               type="submit"
+//               style={{
+//                 width: "100%",
+//                 padding: "10px",
+//                 backgroundColor: "#64a70b",
+//                 color: "white",
+//                 border: "none",
+//                 borderRadius: "10px",
+//                 fontSize: "16px",
+//                 cursor: "pointer",
+//               }}
+//             >
+//               ĐẶT LẠI MẬT KHẨU
+//             </button>
+//           </form>
+//         </div>
+//       </div>
+//       <VisaBanner />
+//     </div>
+//   );
+// };
+
+// export default ResetPasswordForm;
+
+
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Import useNavigate để chuyển trang
 import BannerSecond from "../home/components/BannerSecond";
 import VisaBanner from "../home/components/VisaBanner";
 import { Toast, ToastContainer } from "react-bootstrap";
@@ -296,6 +421,8 @@ const ResetPasswordForm = () => {
   const [template, setTemplate] = useState("email-reset-password");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const navigate = useNavigate();  // Sử dụng navigate để điều hướng
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -317,24 +444,27 @@ const ResetPasswordForm = () => {
 
       // Kiểm tra nếu phản hồi thành công
       if (response.status === 200) {
-        setToastMessage(
-          "Liên kết đặt lại mật khẩu đã được gửi tới email của bạn."
-        );
+        setToastMessage("Liên kết đặt lại mật khẩu đã được gửi tới email của bạn.");
+        setShowToast(true);
+
+        // Sau khi hiển thị thông báo thành công, điều hướng đến trang reset password
+        setTimeout(() => {
+          navigate("/reset");  // Điều hướng đến trang reset mật khẩu
+        }, 2000); // Chờ 2 giây trước khi chuyển trang
       } else {
         setToastMessage("Có lỗi xảy ra, vui lòng thử lại.");
+        setShowToast(true);
       }
     } catch (error) {
       console.error("Lỗi khi gửi yêu cầu đặt lại mật khẩu:", error);
       setToastMessage("Không thể gửi yêu cầu. Vui lòng kiểm tra lại email.");
+      setShowToast(true);
     }
-
-    // Hiển thị Toast với thông báo kết quả
-    setShowToast(true);
   };
 
   return (
     <div>
-      <BannerSecond /> {/* Thêm banner giống giao diện chính */}
+      <BannerSecond />
       <ToastContainer position="top-end" className="p-3">
         <Toast
           bg="danger"
