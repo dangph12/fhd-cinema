@@ -136,9 +136,8 @@ function App() {
         draggable
         pauseOnHover
         theme="light"
-        transition={Bounce} // Sử dụng đúng cú pháp cho chuyển đổi
+        transition={Bounce}
       />
-
       <Footer />
     </div>
   );

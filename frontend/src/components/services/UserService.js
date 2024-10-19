@@ -43,7 +43,7 @@ const loginApi = async (accountName, accountPassword) => {
     return response;
   } catch (error) {
     console.error("Lỗi khi gọi API:", error);
-    throw error; // Để có thể xử lý lỗi ở nơi khác
+    throw error;
   }
 };
 
@@ -60,9 +60,10 @@ const fetchNewsById = (news_category_id) => {
   return axios.get(`http://localhost:8080/news/${news_category_id}`);
 };
 
-// const loginApi = (accountName) => {
-//     return axiosFormat.post("/accounts", { accountName })
-// }
+ const fetchShowTime2= async (movieId) => {
+  return await axios.get(`http://localhost:8080/movies/${movieId}/showtimes`);
+};
+
 
 export {
   fetchAllUser,
@@ -74,4 +75,5 @@ export {
   fetchNewsById,
   fetchSnacks,
   fetchAllMovies,
+  fetchShowTime2
 };
