@@ -36,6 +36,7 @@ public class EmailController{
 
   @GetMapping("/reset-password")
   ResponseEntity<ApiResponse<Void>> sendEmailResetPassword(@Valid @RequestBody EmailResetPasswordRequest request) {
+
     emailService.sendEmailResetPassword(request);
 
     return ResponseEntity.ok().body(ApiResponse.<Void>builder()

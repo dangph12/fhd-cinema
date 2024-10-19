@@ -101,6 +101,7 @@ public class CustomerController {
   @PutMapping("/update-password")
   ResponseEntity<ApiResponse<CustomerDto>> updateCustomerPassword(@RequestBody @Valid UpdatePasswordRequest request) {
     CustomerDto customerDto = customerService.getCustomerByCustomerEmail(request.getCustomerEmail());
+    customerService.updatePasswordByCustomerEmail(request);
 
     return ResponseEntity.status(HttpStatus.OK.value())
             .body(ApiResponse.<CustomerDto>builder()
