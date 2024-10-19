@@ -7,6 +7,7 @@ const pageSize = 2;
 
 const initialState = {
   seats: [],
+  seatTypes: [],
   query: '',
   filters: [],
   currentPage: 1,
@@ -17,6 +18,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_SEATS':
       return { ...state, seats: action.payload };
+    case 'SET_SEAT_TYPES':
+      return { ...state, seatTypes: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
     case 'SET_FILTERS':
@@ -44,6 +47,14 @@ export const SeatProvider = ({ children }) => {
   const seatApiUrl = `http://localhost:8080/seats`;
   useEffect(() => {
     fetchSeats();
+  }, []);
+
+  const seatTypeApiUrl = `http://localhost:8080/seat-types`;
+  useEffect(() => {
+    fetch(seatTypeApiUrl)
+      .then((response) => response.json())
+      .then((json) => dispatch({ type: 'SET_SEAT_TYPES', payload: json.data }))
+      .catch((error) => console.error('Error fetching seat types:', error));
   }, []);
 
   useEffect(() => {
