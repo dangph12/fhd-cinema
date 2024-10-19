@@ -22,6 +22,8 @@ import com.company.project.module.customers.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -171,7 +173,14 @@ public class CustomerService {
 
     String accountId = customer.getAccount().getAccountId();
 
-    accountService.updateAccountPassword(accountId, request.getNewPassword());
+    String newPassword = encodePassWordByBCryptPassword(request.getNewPassword());
+
+    accountService.updateAccountPassword(accountId, newPassword);
+  }
+
+  public String encodePassWordByBCryptPassword(String password) {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    return passwordEncoder.encode(password);
   }
 
 }
