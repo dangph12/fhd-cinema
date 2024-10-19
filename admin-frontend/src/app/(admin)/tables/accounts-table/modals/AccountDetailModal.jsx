@@ -7,6 +7,10 @@ function AccountDetailModal({ accountId, show, onHide }) {
   const [detailShow, setDetailShow] = useState(false)
   const [selectedAccount, setSelectedAccount] = useState({
     accountName: '',
+    accountType: '',
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
   })
 
   useEffect(() => {
@@ -18,7 +22,13 @@ function AccountDetailModal({ accountId, show, onHide }) {
       const account = state.accounts.find((account) => account.accountId === accountId)
       // set accountName for selectedAccount
       if (account) {
-        setSelectedAccount({ accountName: account.accountName });
+        setSelectedAccount({
+          accountName: account.accountName,
+          accountType: account.accountType,
+          customerName: account.customerName,
+          customerEmail: account.customerEmail,
+          customerPhone: account.customerPhone,
+        })
       }
       console.log(selectedAccount)
     }
@@ -29,6 +39,10 @@ function AccountDetailModal({ accountId, show, onHide }) {
     setDetailShow(false)
     setSelectedAccount({
       accountName: '',
+      accountType: '',
+      customerName: '',
+      customerEmail: '',
+      customerPhone: '',
     })
   }
 
@@ -43,6 +57,26 @@ function AccountDetailModal({ accountId, show, onHide }) {
             <Form.Label>Account Name</Form.Label>
             <Form.Control readOnly type="text" value={selectedAccount.accountName} />
           </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Account Type</Form.Label>
+            <Form.Control readOnly type="text" value={selectedAccount.accountType} />
+          </Form.Group>
+          {selectedAccount.accountType === 'Customer' && (
+            <>
+              <Form.Group className="m-2">
+                <Form.Label>Customer Name</Form.Label>
+                <Form.Control readOnly type="text" value={selectedAccount.customerName} />
+              </Form.Group>
+              <Form.Group className="m-2">
+                <Form.Label>Customer Email</Form.Label>
+                <Form.Control readOnly type="text" value={selectedAccount.customerEmail} />
+              </Form.Group>
+              <Form.Group className="m-2">
+                <Form.Label>Customer Phone</Form.Label>
+                <Form.Control readOnly type="text" value={selectedAccount.customerPhone} />
+              </Form.Group>
+            </>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer></Modal.Footer>
