@@ -30,12 +30,16 @@ const NewsDetailTable = () => {
       ),
     },
     {
-      header: 'News Name',
+      header: 'News Title',
       accessorKey: 'newsTitle',
     },
     {
       header: 'News Type',
-      accessorKey: 'newsType',
+      accessorKey: 'newsCreateAt',
+    },
+    {
+      header: 'News Type',
+      accessorKey: 'newsCategory.newsCategoryName',
     },
     {
       id: 'update',

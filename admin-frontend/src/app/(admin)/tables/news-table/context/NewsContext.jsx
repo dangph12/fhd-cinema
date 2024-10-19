@@ -7,6 +7,7 @@ const pageSize = 2;
 
 const initialState = {
   news: [],
+  newsCategories: [],
   query: '',
   filters: [],
   currentPage: 1,
@@ -16,7 +17,13 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_NEWS':
+      // make newsCreateAt to be readable
+      action.payload.forEach((news) => {
+        news.newsCreateAt = new Date(news.newsCreateAt).toLocaleDateString();
+      });
       return { ...state, news: action.payload };
+    case 'SET_NEWS_CATEGORIES':
+      return { ...state, newsCategories: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
     case 'SET_FILTERS':
@@ -44,6 +51,14 @@ export const NewsProvider = ({ children }) => {
   const newsApiUrl = `http://localhost:8080/news`;
   useEffect(() => {
     fetchNews();
+  }, []);
+
+  const newsCategoriesApiUrl = `http://localhost:8080/newscategories`;
+  useEffect(() => {
+    fetch(newsCategoriesApiUrl)
+      .then((response) => response.json())
+      .then((json) => dispatch({ type: 'SET_NEWS_CATEGORIES', payload: json.data }))
+      .catch((error) => console.error('Error fetching news categories:', error));
   }, []);
 
   useEffect(() => {

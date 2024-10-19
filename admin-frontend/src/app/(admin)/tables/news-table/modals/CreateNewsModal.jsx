@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
+import { NewsContext } from '../context/NewsContext'
+
 
 function CreateNewsModal({ show, fetchNews, onHide }) {
+
+  const { state } = useContext(NewsContext)
   const [createShow, setCreateShow] = useState(false)
 
   useEffect(() => {
