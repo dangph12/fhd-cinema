@@ -35,7 +35,15 @@ const SeatDetailTable = () => {
     },
     {
       header: 'Seat Type',
-      accessorKey: 'seatType',
+      accessorKey: 'seatType.seatTypeName',
+    },
+    {
+      header: 'Seat Type',
+      accessorKey: 'seatType.seatTypePrice',
+    },
+    {
+      header: 'Booked',
+      accessorKey: 'booked',
     },
     {
       id: 'update',
