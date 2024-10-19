@@ -34,8 +34,8 @@ const CinemaDetailTable = () => {
       accessorKey: 'cinemaName',
     },
     {
-      header: 'Cinema Type',
-      accessorKey: 'cinemaType',
+      header: 'Location Name',
+      accessorKey: 'location.locationName',
     },
     {
       id: 'update',

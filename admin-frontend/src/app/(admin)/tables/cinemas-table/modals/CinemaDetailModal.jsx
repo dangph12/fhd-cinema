@@ -7,6 +7,7 @@ function CinemaDetailModal({ cinemaId, show, onHide }) {
   const [detailShow, setDetailShow] = useState(false)
   const [selectedCinema, setSelectedCinema] = useState({
     cinemaName: '',
+    locationName: '',
   })
 
   useEffect(() => {
@@ -16,7 +17,10 @@ function CinemaDetailModal({ cinemaId, show, onHide }) {
   useEffect(() => {
     if (cinemaId) {
       const cinema = state.cinemas.find((cinema) => cinema.cinemaId === cinemaId)
-      setSelectedCinema(cinema)
+      setSelectedCinema({
+        cinemaName: cinema.cinemaName,
+        locationName: cinema.location.locationName,
+      })
     }
   }, [cinemaId])
 
@@ -25,6 +29,7 @@ function CinemaDetailModal({ cinemaId, show, onHide }) {
     setDetailShow(false)
     setSelectedCinema({
       cinemaName: '',
+      locationName: '',
     })
   }
 
@@ -38,6 +43,10 @@ function CinemaDetailModal({ cinemaId, show, onHide }) {
           <Form.Group className="m-2">
             <Form.Label>Cinema Name</Form.Label>
             <Form.Control readOnly type="text" value={selectedCinema.cinemaName} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Location Name</Form.Label>
+            <Form.Control readOnly type="text" value={selectedCinema.locationName} />
           </Form.Group>
         </Form>
       </Modal.Body>

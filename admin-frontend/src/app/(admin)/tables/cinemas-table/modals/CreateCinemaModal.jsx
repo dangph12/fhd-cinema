@@ -8,9 +8,22 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
     setCreateShow(show)
   }, [show])
 
-  const [form, setForm] = useState({ cinemaName: '', cinemaType: '' })
+    // list locations
+    useEffect(() => {
+      fetch('http://localhost:8080/locations')
+        .then((response) => response.json())
+        .then((json) => {
+          setLocations(json.data)
+        })
+        .catch((error) => {
+          console.error('Error:', error)
+        })
+    }, [])
+
+  const [form, setForm] = useState({ cinemaName: '', locationId: '' })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
+  const [locations, setLocations] = useState([])
 
   const setField = (field, value) => {
     setForm({
@@ -22,7 +35,7 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
   const closeCreateShow = () => {
     onHide()
     setCreateShow(false)
-    setForm({ cinemaName: '', cinemaPassword: '', cinemaType: '' })
+    setForm({ cinemaName: '', locationId: '' })
     setValidated(false)
     setErrors({})
   }
@@ -30,7 +43,7 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
   const validateForm = () => {
     const newErrors = {}
     if (!form.cinemaName) newErrors.cinemaName = 'Cinema name is required'
-    if (!form.cinemaType) newErrors.cinemaType = 'Cinema type is required'
+    if (!form.locationId) newErrors.locationId = 'Location is required'
     return newErrors
   }
 
@@ -87,63 +100,20 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
             <Form.Control.Feedback type="invalid">{errors.cinemaName}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="m-2">
-            <Form.Label>Cinema type</Form.Label>
+            <Form.Label>Location</Form.Label>
             <Form.Select
-              required
-              name="cinemaType"
-              onChange={(e) => setField('cinemaType', e.target.value)}
               className="bg-body text-dark border-secondary"
-              value={form.cinemaType}
-              isInvalid={!!errors.cinemaType}>
-              <option value="">Select cinema type</option>
-              <option value={'Admin'}>Admin</option>
-              <option value={'Customer'}>Customer</option>
+              required
+              onChange={(e) => setField('locationId', e.target.value)}
+              value={form.locationId}>
+              <option value="">Select location</option>
+              {locations.map((location) => (
+                <option key={location.locationId} value={location.locationId}>
+                  {location.locationName}
+                </option>
+              ))}
             </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.cinemaType}</Form.Control.Feedback>
           </Form.Group>
-          {form.cinemaType == 'Customer' ? (
-            <>
-              <Form.Group className="m-2">
-                <Form.Label>Customer name</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  onChange={(e) => setField('customerName', e.target.value)}
-                  placeholder="Customer name"
-                  name="cinemaPassword"
-                  value={form.cinemaPassword}
-                  isInvalid={!!errors.cinemaPassword}
-                />
-                <Form.Control.Feedback type="invalid">{errors.cinemaPassword}</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="m-2">
-                <Form.Label>Customer Email</Form.Label>
-                <Form.Control
-                  required
-                  type="email"
-                  onChange={(e) => setField('customerEmail', e.target.value)}
-                  placeholder="Customer email"
-                  name="customerEmail"
-                  value={form.customerEmail}
-                  isInvalid={!!errors.customerEmail}
-                />
-                <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="m-2">
-                <Form.Label>Customer Phone</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  onChange={(e) => setField('customerPhone', e.target.value)}
-                  placeholder="Customer phone"
-                  name="customerPhone"
-                  value={form.customerPhone}
-                  isInvalid={!!errors.customerPhone}
-                />
-                <Form.Control.Feedback type="invalid">{errors.customerPhone}</Form.Control.Feedback>
-              </Form.Group>
-            </>
-          ) : null}
         </Form>
       </Modal.Body>
       <Modal.Footer>

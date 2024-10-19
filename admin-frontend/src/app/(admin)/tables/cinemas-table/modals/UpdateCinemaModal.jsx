@@ -7,7 +7,8 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
 
   const [updateShow, setUpdateShow] = useState(false)
 
-  const [form, setForm] = useState({ cinemaName: '', cinemaType: 0 })
+  const [form, setForm] = useState({ cinemaName: '', locationId: '' })
+  const [locations, setLocations] = useState([])
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -19,9 +20,24 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
   useEffect(() => {
     if (cinemaId) {
       const cinema = state.cinemas.find((cinema) => cinema.cinemaId === cinemaId)
-      setForm(cinema)
+      setForm({
+        cinemaName: cinema.cinemaName,
+        locationId: cinema.location.locationId,
+      })
     }
   }, [cinemaId])
+
+  // list locations
+  useEffect(() => {
+    fetch('http://localhost:8080/locations')
+      .then((response) => response.json())
+      .then((json) => {
+        setLocations(json.data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }, [])
 
   const setField = (field, value) => {
     setForm({
@@ -32,15 +48,14 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
   const validateForm = () => {
     const newErrors = {}
     if (!form.cinemaName) newErrors.cinemaName = 'Cinema name is required'
-    if (!form.cinemaType) newErrors.cinemaType = 'Cinema type is required'
-    if (!form.cinemaPassword && !form.cinemaId) newErrors.cinemaPassword = 'Cinema password is required'
+    if (!form.locationId) newErrors.locationId = 'Location is required'
     return newErrors
   }
 
   const closeUpdateShow = () => {
     onHide()
     setUpdateShow(false)
-    setForm({ cinemaName: '', cinemaType: '' })
+    setForm({ cinemaName: '', locationName: '' })
     setValidated(false)
     setErrors({})
   }
@@ -99,19 +114,19 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
             <Form.Control.Feedback type="invalid">{errors.cinemaName}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="m-2">
-            <Form.Label>Cinema type</Form.Label>
+            <Form.Label>Location</Form.Label>
             <Form.Select
-              required
-              name="cinemaType"
-              onChange={(e) => setField('cinemaType', Number(e.target.value))}
               className="bg-body text-dark border-secondary"
-              value={form.cinemaType}
-              isInvalid={!!errors.cinemaType}>
-              <option value="">Select cinema type</option>
-              <option value={1}>Customer</option>
-              <option value={2}>Staff</option>
+              required
+              onChange={(e) => setField('locationId', e.target.value)}
+              value={form.locationId}>
+              <option value="">Select location</option>
+              {locations.map((location) => (
+                <option key={location.locationId} value={location.locationId}>
+                  {location.locationName}
+                </option>
+              ))}
             </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.cinemaType}</Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>
