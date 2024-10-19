@@ -1,4 +1,3 @@
-
 package com.company.project.module.accounts.controller;
 
 import java.util.List;

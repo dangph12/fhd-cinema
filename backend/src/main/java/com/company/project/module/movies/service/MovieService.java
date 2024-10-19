@@ -1,17 +1,19 @@
 package com.company.project.module.movies.service;
 
+import java.util.List;
+
 import com.company.project.common.Status;
 import com.company.project.module.movies.common.MovieStatusMessage;
 import com.company.project.module.movies.dto.request.MovieCreationRequest;
 import com.company.project.module.movies.dto.request.MovieUpdateRequest;
+import com.company.project.module.movies.dto.response.MoviePagination;
 import com.company.project.module.movies.entity.Movie;
 import com.company.project.module.movies.exception.MovieException;
 import com.company.project.module.movies.repository.MovieRepository;
 import com.company.project.module.ratings.entity.Rating;
 import com.company.project.module.ratings.repository.RatingRepository;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MovieService {
@@ -99,5 +101,4 @@ public class MovieService {
         movieRepository.deleteById(movieId);
 
     }
-
 }
