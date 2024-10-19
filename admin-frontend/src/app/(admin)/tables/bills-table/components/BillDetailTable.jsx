@@ -15,10 +15,6 @@ const BillDetailTable = () => {
   const [showDetailModal, setShowDetailModal] = useState({ billId: null, show: false })
   const [showCreateModal, setShowCreateModal] = useState({ show: false })
 
-  // useEffect(() => {
-  //   fetchBills()
-  // }, [fetchBills])
-
   const columns = [
     {
       id: 'detail',
@@ -42,17 +38,16 @@ const BillDetailTable = () => {
       accessorKey: 'billAmount',
     },
     {
-      id: 'update',
-      header: 'Update',
-      cell: ({
-        row: {
-          original: { billId },
-        },
-      }) => (
-        <Button variant="warning" onClick={() => setShowUpdateModal({ billId, show: true })}>
-          Update
-        </Button>
-      ),
+      header: 'Bill Created At',
+      accessorKey: 'billCreatedAt',
+    },
+    {
+      header: 'Booking Id',
+      accessorKey: 'booking.bookingId',
+    },
+    {
+      header: 'Is Paid',
+      accessorKey: 'paid',
     },
     {
       id: 'delete',
@@ -83,11 +78,6 @@ const BillDetailTable = () => {
                 <Col>
                   <CardTitle as="h4">Bills Details</CardTitle>
                 </Col>
-                <Col className="text-end">
-                  <Button className="btn btn-primary" onClick={() => setShowCreateModal({ show: true })}>
-                    Create bill
-                  </Button>
-                </Col>
               </Row>
             </CardHeader>
             <CardBody className="pt-0">
@@ -112,7 +102,7 @@ const BillDetailTable = () => {
         onHide={() => setShowUpdateModal({ billId: null, show: false })}
       />
       <BillDetailModal
-        billId={showDetailModal.movieId}
+        billId={showDetailModal.billId}
         show={showDetailModal.show}
         onHide={() => setShowDetailModal({ billId: null, show: false })}
       />
