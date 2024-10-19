@@ -4,10 +4,19 @@ import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AuthenticationRequest;
 import com.company.project.module.accounts.dto.request.IntrospectRequest;
+import com.company.project.module.accounts.dto.request.SignInRequest;
 import com.company.project.module.accounts.dto.response.AuthenticationResponse;
 import com.company.project.module.accounts.dto.response.IntrospectResponse;
+import com.company.project.module.accounts.dto.response.SignInResponse;
+import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
+import com.company.project.module.bookings.entity.Booking;
+import com.company.project.module.bookings.service.BookingService;
+import com.company.project.module.customers.dto.response.CustomerDto;
+import com.company.project.module.customers.entity.Customer;
+import com.company.project.module.customers.repository.CustomerRepository;
+import com.company.project.module.customers.service.CustomerService;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -27,6 +36,7 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -34,6 +44,8 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
     AccountRepository accountRepository;
+    private final CustomerService customerService;
+    private final BookingService bookingService;
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -100,6 +112,34 @@ public class AuthenticationService {
             log.error("Cannot create token", e);
             throw new RuntimeException(e);
         }
+    }
+
+    public SignInResponse signIn(SignInRequest request) {
+        Account account = accountRepository.findByAccountName(request.getAccountName())
+                .orElseThrow(() -> new AccountException(
+                        Status.FAIL.getValue(),
+                        AccountStatusMessage.NOT_EXIST.getMessage()));
+
+        CustomerDto customerDto = customerService.getUserInformationByAccountName(account.getAccountName());
+        Customer customer = customerService.convertToCustomer(customerDto);
+
+        List<Booking> booking = bookingService.getAllBookingFromCustomer(customer.getCustomerId());
+
+        // Validate the password
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        account.setAccountPassword(passwordEncoder.encode(request.getAccountPassword()));
+        if (!passwordEncoder.matches(request.getAccountPassword(), account.getAccountPassword())) {
+            throw new AccountException(Status.FAIL.getValue(), "Invalid credentials");
+        }
+
+        // Generate and return token
+        String token = generateToken(account.getAccountName());
+
+        return SignInResponse.builder()
+                .token(token)
+                .customer(customer)
+                .booking(booking)
+                .build();
     }
 
 }

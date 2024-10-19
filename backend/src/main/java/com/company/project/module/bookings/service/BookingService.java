@@ -80,4 +80,11 @@ public class BookingService {
     bookingRepository.deleteById(bookingId);
   }
 
+  public List<Booking> getAllBookingFromCustomer(String customerId) {
+    Customer customer = customerService.getCustomerById(customerId);
+
+    return bookingRepository.findByCustomer(customer);
+  }
+
+
 }

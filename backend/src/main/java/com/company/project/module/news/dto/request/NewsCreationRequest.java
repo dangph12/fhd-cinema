@@ -1,11 +1,16 @@
 package com.company.project.module.news.dto.request;
 
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Data
 @AllArgsConstructor
@@ -25,5 +30,8 @@ public class NewsCreationRequest {
 
     @NotEmpty(message = "EMPTY_IMAGE_URL")
     String newsImageUrl;
+
+    @NotEmpty(message = "EMPTY_CATEGORY")
+    String newsCategoryId;
 
 }
