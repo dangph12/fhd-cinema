@@ -1,29 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
+import { CinemaContext } from '../context/CinemaContext'; 
 
 function CreateCinemaModal({ show, fetchCinemas, onHide }) {
+  const { state } = useContext(CinemaContext)
+
   const [createShow, setCreateShow] = useState(false)
 
   useEffect(() => {
     setCreateShow(show)
   }, [show])
 
-    // list locations
-    useEffect(() => {
-      fetch('http://localhost:8080/locations')
-        .then((response) => response.json())
-        .then((json) => {
-          setLocations(json.data)
-        })
-        .catch((error) => {
-          console.error('Error:', error)
-        })
-    }, [])
-
   const [form, setForm] = useState({ cinemaName: '', locationId: '' })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
-  const [locations, setLocations] = useState([])
 
   const setField = (field, value) => {
     setForm({
@@ -107,7 +97,7 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
               onChange={(e) => setField('locationId', e.target.value)}
               value={form.locationId}>
               <option value="">Select location</option>
-              {locations.map((location) => (
+              {state.locations.map((location) => (
                 <option key={location.locationId} value={location.locationId}>
                   {location.locationName}
                 </option>

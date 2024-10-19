@@ -8,7 +8,6 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
   const [updateShow, setUpdateShow] = useState(false)
 
   const [form, setForm] = useState({ cinemaName: '', locationId: '' })
-  const [locations, setLocations] = useState([])
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -26,18 +25,6 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
       })
     }
   }, [cinemaId])
-
-  // list locations
-  useEffect(() => {
-    fetch('http://localhost:8080/locations')
-      .then((response) => response.json())
-      .then((json) => {
-        setLocations(json.data)
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-  }, [])
 
   const setField = (field, value) => {
     setForm({
@@ -121,7 +108,7 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
               onChange={(e) => setField('locationId', e.target.value)}
               value={form.locationId}>
               <option value="">Select location</option>
-              {locations.map((location) => (
+              {state.locations.map((location) => (
                 <option key={location.locationId} value={location.locationId}>
                   {location.locationName}
                 </option>

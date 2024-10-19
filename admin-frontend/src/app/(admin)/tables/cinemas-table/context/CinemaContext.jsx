@@ -7,6 +7,7 @@ const pageSize = 2;
 
 const initialState = {
   cinemas: [],
+  locations: [],
   query: '',
   filters: [],
   currentPage: 1,
@@ -17,6 +18,8 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_CINEMAS':
       return { ...state, cinemas: action.payload };
+    case 'SET_LOCATIONS':
+        return { ...state, locations: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
     case 'SET_FILTERS':
@@ -44,6 +47,16 @@ export const CinemaProvider = ({ children }) => {
   const cinemaApiUrl = `http://localhost:8080/cinemas`;
   useEffect(() => {
     fetchCinemas();
+  }, []);
+
+  const locationApiUrl = `http://localhost:8080/locations`;
+  useEffect(() => {
+    fetch(locationApiUrl)
+      .then((response) => response.json())
+      .then((json) => {
+        dispatch({ type: 'SET_LOCATIONS', payload: json.data });
+      })
+      .catch((error) => console.error('Error fetching locations:', error));
   }, []);
 
   useEffect(() => {
