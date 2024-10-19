@@ -22,6 +22,7 @@ public enum CustomerStatusMessage {
   CREATE_SUCCESS("The customer has been created successfully"),
   DELETE_SUCCESS("The customer deleted successfully"),
   UPDATE_SUCCESS("The customer updated successfully"),
+  UPDATE_PASSWORD_SUCCESS("The customer password has been updated successfully"),
   REMOVE_VOUCHER_SUCCESS("The voucher of customer removed successfully");
 
   private final String message;
