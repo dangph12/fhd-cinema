@@ -7,6 +7,8 @@ function ScreenDetailModal({ screenId, show, onHide }) {
   const [detailShow, setDetailShow] = useState(false)
   const [selectedScreen, setSelectedScreen] = useState({
     screenName: '',
+    cinemaName: '',
+    locationName: '',
   })
 
   useEffect(() => {
@@ -16,7 +18,11 @@ function ScreenDetailModal({ screenId, show, onHide }) {
   useEffect(() => {
     if (screenId) {
       const screen = state.screens.find((screen) => screen.screenId === screenId)
-      setSelectedScreen(screen)
+      setSelectedScreen({
+        screenName: screen.screenName,
+        cinemaName: screen.cinema.cinemaName,
+        locationName: screen.cinema.location.locationName,
+      })
     }
   }, [screenId])
 
@@ -25,6 +31,8 @@ function ScreenDetailModal({ screenId, show, onHide }) {
     setDetailShow(false)
     setSelectedScreen({
       screenName: '',
+      cinemaName: '',
+      locationName: '',
     })
   }
 
@@ -38,6 +46,14 @@ function ScreenDetailModal({ screenId, show, onHide }) {
           <Form.Group className="m-2">
             <Form.Label>Screen Name</Form.Label>
             <Form.Control readOnly type="text" value={selectedScreen.screenName} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Cinema Name</Form.Label>
+            <Form.Control readOnly type="text" value={selectedScreen.cinemaName} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Location Name</Form.Label>
+            <Form.Control readOnly type="text" value={selectedScreen.locationName} />
           </Form.Group>
         </Form>
       </Modal.Body>

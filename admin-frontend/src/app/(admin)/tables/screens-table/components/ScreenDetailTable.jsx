@@ -35,7 +35,11 @@ const ScreenDetailTable = () => {
     },
     {
       header: 'Screen Type',
-      accessorKey: 'screenType',
+      accessorKey: 'cinema.cinemaName',
+    },
+    {
+      header: 'Screen Type',
+      accessorKey: 'cinema.location.locationName',
     },
     {
       id: 'update',
