@@ -32,15 +32,16 @@ const fetchShowTimeById = (showtimeId) => {
 
 const loginApi = async (accountName, accountPassword) => {
   try {
-    const response = await axiosFormat.post("/auth/sign-in", { accountName, accountPassword });
+    const response = await axiosFormat.post("/auth/sign-in", {
+      accountName,
+      accountPassword,
+    });
     return response;
   } catch (error) {
     console.error("Lỗi khi gọi API:", error);
     throw error; // Để có thể xử lý lỗi ở nơi khác
   }
 };
-
-
 
 const fetchNews = () => {
   return axios.get("http://localhost:8080/news");
@@ -54,7 +55,6 @@ const fetchSnacks = () => {
 const fetchNewsById = (news_category_id) => {
   return axios.get(`http://localhost:8080/news/${news_category_id}`);
 };
-
 
 // const loginApi = (accountName) => {
 //     return axiosFormat.post("/accounts", { accountName })

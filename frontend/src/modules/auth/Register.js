@@ -216,42 +216,48 @@ function Register() {
         type="text"
         required
         value={accountName}
+        placeholder="Tên Tài Khoản"
         onChange={(e) => setAccountName(e.target.value)}
       />
-      <div>Mật khẩu *</div>
+      <div style={{marginTop: "10px"}}>Mật khẩu *</div>
       <input
         type="password"
         required
         value={accountPassword}
+        placeholder="Mật Khẩu"
         onChange={(e) => setAccountPassword(e.target.value)}
       />
-      <div>Nhập lại mật khẩu *</div>
+      <div style={{marginTop: "10px"}}>Nhập lại mật khẩu *</div>
       <input
         type="password"
         required
         value={confirmPassword}
+        placeholder="Nhập Lại Mật Khẩu"
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
 
-      <div>Tên khách hàng *</div>
+      <div style={{marginTop: "10px"}}>Tên khách hàng *</div>
       <input
         type="text"
         required
         value={customerName}
+        placeholder="Tên Khách Hàng"
         onChange={(e) => setCustomerName(e.target.value)}
       />
-      <div>Email khách hàng *</div>
+      <div style={{marginTop: "10px"}}>Email khách hàng *</div>
       <input
         type="email"
         required
         value={customerEmail}
+        placeholder="Email Cá Nhân"
         onChange={(e) => setCustomerEmail(e.target.value)}
       />
-      <div>Số điện thoại khách hàng *</div>
+      <div style={{marginTop: "10px"}}>Số điện thoại khách hàng *</div>
       <input
         type="text"
         required
         value={customerPhone}
+        placeholder="Số Điện Thoại"
         onChange={(e) => setCustomerPhone(e.target.value)}
       />
 

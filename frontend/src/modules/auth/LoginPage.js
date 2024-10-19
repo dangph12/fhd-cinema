@@ -1109,7 +1109,7 @@ const LoginPage = () => {
               required
               onChange={(event) => setAccountName(event.target.value)}
             />
-            <div>Mật khẩu *</div>
+            <div style={{marginTop: "10px"}}>Mật khẩu *</div>
             <input
               value={accountPassword}
               type="password"
@@ -1125,17 +1125,16 @@ const LoginPage = () => {
             </button>
           </form>
           <div>
-            {/* Đường dẫn tới trang quên mật khẩu */}
             <NavLink className="nav-link" to={`/forget-password`}>
               Quên mật khẩu?
             </NavLink>
           </div>
         </div>
         <div className="login-page-register-form">
-          <Register /> {/* Giữ nguyên phần đăng ký */}
+          <Register />
         </div>
       </div>
-      <VisaBanner /> {/* Giữ nguyên banner quảng cáo Visa */}
+      <VisaBanner /> 
     </div>
   );
 };
