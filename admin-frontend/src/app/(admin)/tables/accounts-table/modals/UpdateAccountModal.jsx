@@ -7,7 +7,13 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
 
   const [updateShow, setUpdateShow] = useState(false)
 
-  const [form, setForm] = useState({ accountName: '', accountType: 0 })
+  const [form, setForm] = useState({
+    accountName: '',
+    accountType: '',
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+  })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -33,7 +39,7 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
     const newErrors = {}
     if (!form.accountName) newErrors.accountName = 'Account name is required'
     if (!form.accountType) newErrors.accountType = 'Account type is required'
-    if (!form.accountPassword && !form.accountId) newErrors.accountPassword = 'Account password is required'
+    if (!form.customerName) newErrors.customerName = 'Customer name is required'
     return newErrors
   }
 
@@ -103,16 +109,53 @@ function UpdateAccountModal({ accountId, show, fetchAccounts, onHide }) {
             <Form.Select
               required
               name="accountType"
-              onChange={(e) => setField('accountType', Number(e.target.value))}
+              onChange={(e) => setField('accountType', e.target.value)}
               className="bg-body text-dark border-secondary"
               value={form.accountType}
               isInvalid={!!errors.accountType}>
               <option value="">Select account type</option>
-              <option value={1}>Customer</option>
-              <option value={2}>Staff</option>
+              <option value={"Admin"}>Admin</option>
+              <option value={"Customer"}>Customer</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">{errors.accountType}</Form.Control.Feedback>
           </Form.Group>
+          {form.accountType === 'Customer' && (
+            <>
+              <Form.Group className="m-2">
+                <Form.Label>Customer name</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  onChange={(e) => setField('customerName', e.target.value)}
+                  placeholder="Customer name"
+                  name="customerName"
+                  value={form.customerName}
+                  isInvalid={!!errors.customerName}
+                />
+                <Form.Control.Feedback type="invalid">{errors.customerName}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="m-2">
+                <Form.Label>Customer email</Form.Label>
+                <Form.Control
+                  type="email"
+                  onChange={(e) => setField('customerEmail', e.target.value)}
+                  placeholder="Customer email"
+                  name="customerEmail"
+                  value={form.customerEmail}
+                />
+              </Form.Group>
+              <Form.Group className="m-2">
+                <Form.Label>Customer phone</Form.Label>
+                <Form.Control
+                  type="tel"
+                  onChange={(e) => setField('customerPhone', e.target.value)}
+                  placeholder="Customer phone"
+                  name="customerPhone"
+                  value={form.customerPhone}
+                />
+              </Form.Group>
+            </>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer>
