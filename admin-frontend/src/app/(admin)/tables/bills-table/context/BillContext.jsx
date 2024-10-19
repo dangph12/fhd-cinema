@@ -16,6 +16,10 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_BILLS':
+      // modify billCreatedAt to be more readable
+      action.payload.forEach((bill) => {
+        bill.billCreatedAt = new Date(bill.billCreatedAt).toLocaleString();
+      });
       return { ...state, bills: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
@@ -36,8 +40,14 @@ export const BillProvider = ({ children }) => {
   const navigate = useNavigate();
 
   // const billApiUrl = `http://localhost:8080/bills?search=${state.query}&page=${state.currentPage}&filters=${state.filters.join(',')}`;
+  // useEffect(() => {
+  //   fetchBills();
+  // }, [state.currentPage, state.query, state.filters]);
 
   const billApiUrl = `http://localhost:8080/bills`;
+  useEffect(() => {
+    fetchBills();
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search || '');
@@ -50,9 +60,7 @@ export const BillProvider = ({ children }) => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage });
   }, [location.search]);
 
-  useEffect(() => {
-    fetchBills();
-  }, [state.currentPage, state.query, state.filters]);
+
 
   const fetchBills = () => {
     fetch(billApiUrl)

@@ -7,6 +7,10 @@ function BillDetailModal({ billId, show, onHide }) {
   const [detailShow, setDetailShow] = useState(false)
   const [selectedBill, setSelectedBill] = useState({
     billId: '',
+    billAmount: '',
+    billCreatedAt: '',
+    bookingId: '',
+    vouchers: [],
   })
 
   useEffect(() => {
@@ -14,11 +18,15 @@ function BillDetailModal({ billId, show, onHide }) {
   }, [show])
 
   useEffect(() => {
-    console.log(billId)
     if (billId) {
       const bill = state.bills.find((bill) => bill.billId === billId)
-      setSelectedBill({ billId: bill.billId })
-      console.log(selectedBill)
+      setSelectedBill({
+        billId: bill.billId,
+        billAmount: bill.billAmount,
+        billCreatedAt: bill.billCreatedAt,
+        bookingId: bill.booking.bookingId,
+        vouchers: bill.vouchers,
+      })
     }
   }, [billId])
 
@@ -27,6 +35,10 @@ function BillDetailModal({ billId, show, onHide }) {
     setDetailShow(false)
     setSelectedBill({
       billId: '',
+      billAmount: '',
+      billCreatedAt: '',
+      bookingId: '',
+      vouchers: [],
     })
   }
 
@@ -40,6 +52,27 @@ function BillDetailModal({ billId, show, onHide }) {
           <Form.Group className="m-2">
             <Form.Label>Bill Id</Form.Label>
             <Form.Control readOnly type="text" value={selectedBill.billId} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Bill Amount</Form.Label>
+            <Form.Control readOnly type="text" value={selectedBill.billAmount} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Bill Created At</Form.Label>
+            <Form.Control readOnly type="text" value={selectedBill.billCreatedAt} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Booking Id</Form.Label>
+            <Form.Control readOnly type="text" value={selectedBill.bookingId} />
+          </Form.Group>
+          <Form.Group className="m-2">
+            <Form.Label>Vouchers</Form.Label>
+            <Form.Control
+              readOnly
+              as="textarea"
+              rows={3}
+              value={selectedBill.vouchers.map((voucher) => voucher.voucherCode).join(', ')}
+            />
           </Form.Group>
         </Form>
       </Modal.Body>
