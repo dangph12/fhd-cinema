@@ -9,6 +9,10 @@ const fetchMovieById = (movieId) => {
   return axios.get(`http://localhost:8080/movies/${movieId}`);
 };
 
+const fetchAllMovies = () => {
+  return axios.get(`http://localhost:8080/movies`);
+};
+
 // const fetchShowTime = (showtimeId) =>{
 //     return axios.get(`http://localhost:8080/showtimes`);
 // }
@@ -69,4 +73,5 @@ export {
   fetchNews,
   fetchNewsById,
   fetchSnacks,
+  fetchAllMovies,
 };
