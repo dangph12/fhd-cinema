@@ -89,7 +89,6 @@ import NewsDeatils from "./modules/news/NewsDeatils";
 import { ToastContainer, Bounce } from "react-toastify";
 import Stores from "./modules/stores/Stores";
 import ForgetPassword from "./modules/auth/ForgetPassword";
-
 function App() {
   // login
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
@@ -121,6 +120,8 @@ function App() {
         <Route path="/forget-password" element={< ForgetPassword/>} />
         {/* { account && !_.isEmpty(account) && account.isAuthentiaction 
         && <Users/>} */}
+          {/* <Route path="/reset-password" element={<RequestResetPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} /> */}
       </Routes>
 
       <ToastContainer

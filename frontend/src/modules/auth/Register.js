@@ -84,8 +84,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
   const buttonStyle = {
-    borderRadius: "15px", // rounded corners
-    padding: "10px 20px", // padding for the button
+    borderRadius: "15px", 
+    padding: "10px 20px",
     color: "#8bc34a", // green text
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",

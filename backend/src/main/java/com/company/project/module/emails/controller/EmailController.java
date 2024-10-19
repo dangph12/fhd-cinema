@@ -13,6 +13,7 @@ import com.company.project.module.emails.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,7 @@ public class EmailController{
       .build());
   }
 
-  @GetMapping("/reset-password")
+  @PostMapping("/reset-password")
   ResponseEntity<ApiResponse<Void>> sendEmailResetPassword(@Valid @RequestBody EmailResetPasswordRequest request) {
 
     emailService.sendEmailResetPassword(request);
