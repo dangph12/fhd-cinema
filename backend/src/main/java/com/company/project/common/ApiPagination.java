@@ -1,4 +1,4 @@
-package com.company.project.module.accounts.dto.response;
+package com.company.project.common;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AccountPagination {
+public class ApiPagination<T> {
 
-  List<AccountDto> accountDtos;
+  List<T> data;
   long count;
 
 }

@@ -11,6 +11,7 @@ public enum AccountStatusMessage {
   EXIST_NAME("The account's name have been existed"),
   STRING_VALUE("The account's price must be a valid number"),
   NEGATIVE_VALUE("The variable must be greater than 0"),
+  LESS_THAN_ZERO("The index must not be less than 0"),
   CREATE_SUCCESS("The account was created successfully"),
   GET_SUCCESS("Get all accounts successfully"),
   EMPTY_NAME("The account name must not be empty"),

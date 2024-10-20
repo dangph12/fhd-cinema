@@ -4,13 +4,13 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import com.company.project.common.ApiPagination;
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
-import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.service.AccountService;
 
 import org.springframework.http.HttpStatus;
@@ -55,15 +55,16 @@ public class AccountController {
   }
 
   @GetMapping(params = "search")
-  ResponseEntity<ApiResponse<AccountPagination>> filterAccountsByName(
+  ResponseEntity<ApiResponse<ApiPagination<AccountDto>>> filterAccountsByName(
       @RequestParam(value = "search") String search,
       @RequestParam(value = "page") int page,
       @RequestParam(value = "filters", required = false) List<String> filters,
-      @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy) {
-    return ResponseEntity.ok().body(ApiResponse.<AccountPagination>builder()
+      @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy, 
+      @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
+    return ResponseEntity.ok().body(ApiResponse.<ApiPagination<AccountDto>>builder()
             .status(Status.SUCCESS.getValue())
             .message(AccountStatusMessage.GET_SUCCESS.getMessage())
-            .data(accountService.searchAccountsByName(search, page, filters, sortBy))
+            .data(accountService.searchAccountsByName(search, page, filters, sortBy, pageSize))
             .build());
   }
 
