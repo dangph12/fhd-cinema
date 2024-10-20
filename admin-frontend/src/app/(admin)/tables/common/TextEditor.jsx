@@ -3,7 +3,7 @@ import ReactQuill from "react-quill-new";
 import "react-quill/dist/quill.snow.css";
 import uploadToS3 from "./UploadToS3";
 
-const TextEditor = ({object, description, setField}) => {
+const TextEditor = ({object, description, field, setField}) => {
 
   const quillRef = useRef(null);
   const [content, setContent] = useState(description);
@@ -69,7 +69,7 @@ const TextEditor = ({object, description, setField}) => {
         onChange={(content) => {
           setContent(content);
           if (setField) {
-            setField('movieDescription', content);
+            setField(field, content);
           }
         }}
         formats={formats}
