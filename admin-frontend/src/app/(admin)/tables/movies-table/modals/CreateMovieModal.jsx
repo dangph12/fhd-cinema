@@ -316,7 +316,7 @@ function CreateMovieModal({ show, onHide }) {
             <Row>
               <Form.Group className="m-2">
                 <Form.Label>Movie description</Form.Label>
-                <TextEditor object="movies" description={form.movieDescription} setField={setField} />
+                <TextEditor object="movies" field="movieDescription" description={form.movieDescription} setField={setField} />
               </Form.Group>
             </Row>
           </Container>
