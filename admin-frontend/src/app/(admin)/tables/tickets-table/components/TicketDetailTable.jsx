@@ -31,11 +31,15 @@ const TicketDetailTable = () => {
     },
     {
       header: 'Ticket Name',
-      accessorKey: 'ticketName',
+      accessorKey: 'ticketId',
     },
     {
       header: 'Ticket Type',
-      accessorKey: 'ticketType',
+      accessorKey: 'ticketPrice',
+    },
+    {
+      header: 'Ticket Type',
+      accessorKey: 'ticketCreateAt',
     },
     {
       id: 'update',

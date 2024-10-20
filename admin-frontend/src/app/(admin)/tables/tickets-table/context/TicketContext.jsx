@@ -16,6 +16,10 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_TICKETS':
+      // make ticketCreateAt readable
+      action.payload.forEach((ticket) => {
+        ticket.ticketCreateAt = new Date(ticket.ticketCreateAt).toLocaleString();
+      });
       return { ...state, tickets: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
