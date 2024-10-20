@@ -31,11 +31,15 @@ const ShowtimeDetailTable = () => {
     },
     {
       header: 'Showtime Name',
-      accessorKey: 'showtimeName',
+      accessorKey: 'showtimeId',
     },
     {
       header: 'Showtime Type',
-      accessorKey: 'showtimeType',
+      accessorKey: 'showtimePrice',
+    },
+    {
+      header: 'Showtime Type',
+      accessorKey: 'showtimeAt',
     },
     {
       id: 'update',

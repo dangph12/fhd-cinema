@@ -16,6 +16,10 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_SHOWTIMES':
+      // make showtimeAt readable
+      action.payload.forEach((showtime) => {
+        showtime.showtimeAt = new Date(showtime.showtimeAt).toLocaleString();
+      });
       return { ...state, showtimes: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
