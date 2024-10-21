@@ -30,15 +30,15 @@ const ScreenDetailTable = () => {
       ),
     },
     {
-      header: 'Screen Name',
+      header: 'Screen',
       accessorKey: 'screenName',
     },
     {
-      header: 'Screen Type',
+      header: 'Cinema',
       accessorKey: 'cinema.cinemaName',
     },
     {
-      header: 'Screen Type',
+      header: 'Location',
       accessorKey: 'cinema.location.locationName',
     },
     {
