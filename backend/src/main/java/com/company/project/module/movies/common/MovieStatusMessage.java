@@ -10,6 +10,7 @@ public enum MovieStatusMessage {
     UPDATE_SUCCESS("The movie was updated successfully"),
     GET_SUCCESS("Get all movies successfully"),
     NOT_EXIST("The movie is not exist"),
+    LESS_THAN_ZERO("The index must not be less than 0"),
     MOVIE_EXIST("The movie is already exist"),
     STRING_VALUE("The movie duration minute must be a valid number"),
     NEGATIVE_VALUE("The variable must be greater than 0"),
