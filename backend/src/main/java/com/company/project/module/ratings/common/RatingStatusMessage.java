@@ -8,6 +8,7 @@ public enum RatingStatusMessage {
     DELETE_SUCCESS("The rating was deleted successfully"),
     UPDATE_SUCCESS("The rating was updated successfully"),
     NOT_EXIST("The rating is not exist"),
+    LESS_THAN_ZERO("The index must not be less than 0"),
     RATING_EXIST("The rating is already exist"),
     CREATE_SUCCESS("The rating was created successfully"),
     GET_SUCCESS("Get all ratings successfully"),

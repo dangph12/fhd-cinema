@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
-import com.company.project.module.movies.common.MovieStatusMessage;
-import com.company.project.module.movies.exception.MovieException;
 import com.company.project.module.ratings.common.RatingStatusMessage;
 import com.company.project.module.ratings.dto.request.RatingCreationRequest;
 import com.company.project.module.ratings.entity.Rating;
@@ -35,10 +33,10 @@ public class RatingService {
         return ratingRepository.findById(ratingId).orElseThrow(() -> new RatingException(Status.FAIL.getValue(), RatingStatusMessage.NOT_EXIST.getMessage()));
     }
 
-    public ApiPagination<Rating> filterMovies(String ratingName, int page, int pageSize,
+    public ApiPagination<Rating> filterRatings(String ratingName, int page, int pageSize,
           String sortBy, String sortDirection) {
       if (page < 1 || pageSize < 1) {
-        throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.LESS_THAN_ZERO.getMessage());
+        throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.LESS_THAN_ZERO.getMessage());
       }
 
       Sort.Direction direction = Sort.Direction.fromString(sortDirection);

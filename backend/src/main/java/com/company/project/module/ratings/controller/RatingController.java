@@ -56,7 +56,7 @@ public class RatingController {
     }
 
     @GetMapping(params = "search")
-    ResponseEntity<ApiResponse<ApiPagination<Rating>>> filterMovies(
+    ResponseEntity<ApiResponse<ApiPagination<Rating>>> filterRatings(
         @RequestParam(value = "search") String search,
         @RequestParam(value = "page", defaultValue = "1") int page,
         @RequestParam(value = "sortBy", defaultValue = "ratingName") String sortBy, 
@@ -65,7 +65,7 @@ public class RatingController {
       return ResponseEntity.ok().body(ApiResponse.<ApiPagination<Rating>>builder()
               .status(Status.SUCCESS.getValue())
               .message(RatingStatusMessage.GET_SUCCESS.getMessage())
-              .data(ratingService.filterMovies(search, page, pageSize, sortBy, sortDirection))
+              .data(ratingService.filterRatings(search, page, pageSize, sortBy, sortDirection))
               .build());
     }
 
