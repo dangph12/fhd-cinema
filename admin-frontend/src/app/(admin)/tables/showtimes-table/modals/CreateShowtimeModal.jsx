@@ -9,8 +9,29 @@ function CreateShowtimeModal({ show, fetchShowtimes, onHide }) {
   }, [show])
 
   const [form, setForm] = useState({ showtimeName: '', showtimeType: '' })
+  const [movies, setMovies] = useState([])
+  const [screens, setScreens] = useState([])
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    fetch('http://localhost:8080/movies')
+      .then((response) => response.json())
+      .then((json) => {
+        setMovies(json.data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+    fetch('http://localhost:8080/screens')
+      .then((response) => response.json())
+      .then((json) => {
+        setScreens(json.data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }, [])
 
   const setField = (field, value) => {
     setForm({
@@ -73,77 +94,58 @@ function CreateShowtimeModal({ show, fetchShowtimes, onHide }) {
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
-          <Form.Group className="m-2">
-            <Form.Label>Showtime name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('showtimeName', e.target.value)}
-              placeholder="Showtime name"
-              name="showtimeName"
-              value={form.showtimeName}
-              isInvalid={!!errors.showtimeName}
-            />
-            <Form.Control.Feedback type="invalid">{errors.showtimeName}</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="m-2">
-            <Form.Label>Showtime type</Form.Label>
+          <Form.Group controlId="formMovie">
+            <Form.Label>Movie</Form.Label>
             <Form.Select
-              required
-              name="showtimeType"
-              onChange={(e) => setField('showtimeType', e.target.value)}
+              value={form.movieId || ''}
+              onChange={(e) => setField('movieId', e.target.value)}
+              isInvalid={!!errors.movieId}
               className="bg-body text-dark border-secondary"
-              value={form.showtimeType}
-              isInvalid={!!errors.showtimeType}>
-              <option value="">Select showtime type</option>
-              <option value={'Admin'}>Admin</option>
-              <option value={'Customer'}>Customer</option>
+            >
+              <option value="">Choose...</option>
+              {movies.map((movie) => (
+                <option key={movie.id} value={movie.id}>
+                  {movie.movieTitle}
+                </option>
+              ))}
             </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.showtimeType}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+              {errors.movieId}
+            </Form.Control.Feedback>
           </Form.Group>
-          {form.showtimeType == 'Customer' ? (
-            <>
-              <Form.Group className="m-2">
-                <Form.Label>Customer name</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  onChange={(e) => setField('customerName', e.target.value)}
-                  placeholder="Customer name"
-                  name="showtimePassword"
-                  value={form.showtimePassword}
-                  isInvalid={!!errors.showtimePassword}
-                />
-                <Form.Control.Feedback type="invalid">{errors.showtimePassword}</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="m-2">
-                <Form.Label>Customer Email</Form.Label>
-                <Form.Control
-                  required
-                  type="email"
-                  onChange={(e) => setField('customerEmail', e.target.value)}
-                  placeholder="Customer email"
-                  name="customerEmail"
-                  value={form.customerEmail}
-                  isInvalid={!!errors.customerEmail}
-                />
-                <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="m-2">
-                <Form.Label>Customer Phone</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  onChange={(e) => setField('customerPhone', e.target.value)}
-                  placeholder="Customer phone"
-                  name="customerPhone"
-                  value={form.customerPhone}
-                  isInvalid={!!errors.customerPhone}
-                />
-                <Form.Control.Feedback type="invalid">{errors.customerPhone}</Form.Control.Feedback>
-              </Form.Group>
-            </>
-          ) : null}
+          <Form.Group controlId="formScreen">
+            <Form.Label>Screen</Form.Label>
+            <Form.Select
+              value={form.screenId || ''}
+              onChange={(e) => setField('screenId', e.target.value)}
+              isInvalid={!!errors.screenId}
+              className="bg-body text-dark border-secondary"
+            >
+              <option value="">Choose...</option>
+              {screens.map((screen) => (
+                <option key={screen.id} value={screen.id}>
+                  {screen.screenName} - {screen.cinema.cinemaName} - {screen.cinema.location.locationName}
+                </option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">
+              {errors.screenId}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId="formShowtimeName">
+            <Form.Label>Showtime Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter showtime name"
+              value={form.showtimeName}
+              onChange={(e) => setField('showtimeName', e.target.value)}
+              isInvalid={!!errors.showtimeName}
+              className="bg-body text-dark border-secondary"
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.showtimeName}
+            </Form.Control.Feedback>
+          </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>

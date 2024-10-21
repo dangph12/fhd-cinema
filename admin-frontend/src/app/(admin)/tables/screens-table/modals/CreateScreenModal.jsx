@@ -8,7 +8,8 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
     setCreateShow(show)
   }, [show])
 
-  const [form, setForm] = useState({ screenName: '', screenType: '' })
+  const [form, setForm] = useState({ screenName: '', cinemaId: '' })
+  const [cinemas, setCinemas] = useState([])
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -19,10 +20,21 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
     })
   }
 
+  useEffect(() => {
+    fetch('http://localhost:8080/cinemas')
+      .then((response) => response.json())
+      .then((json) => {
+        setCinemas(json.data)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }, [])
+
   const closeCreateShow = () => {
     onHide()
     setCreateShow(false)
-    setForm({ screenName: '', screenPassword: '', screenType: '' })
+    setForm({ screenName: '', cinemaId: '' })
     setValidated(false)
     setErrors({})
   }
@@ -30,7 +42,7 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
   const validateForm = () => {
     const newErrors = {}
     if (!form.screenName) newErrors.screenName = 'Screen name is required'
-    if (!form.screenType) newErrors.screenType = 'Screen type is required'
+    if (!form.cinemaId) newErrors.screenType = 'Cinema is required'
     return newErrors
   }
 
@@ -61,7 +73,7 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
         })
       setCreateShow(false)
       onHide()
-      setForm({ screenName: '', screenPassword: '', screenType: '' })
+      setForm({ screenName: '', cinemaId: '' })
       setErrors({})
     }
     setValidated(true)
@@ -83,67 +95,28 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
               name="screenName"
               value={form.screenName}
               isInvalid={!!errors.screenName}
+              
             />
             <Form.Control.Feedback type="invalid">{errors.screenName}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="m-2">
-            <Form.Label>Screen type</Form.Label>
+            <Form.Label>Cinema</Form.Label>
             <Form.Select
               required
-              name="screenType"
-              onChange={(e) => setField('screenType', e.target.value)}
+              onChange={(e) => setField('cinemaId', e.target.value)}
+              value={form.cinemaId}
+              isInvalid={!!errors.cinemaId}
               className="bg-body text-dark border-secondary"
-              value={form.screenType}
-              isInvalid={!!errors.screenType}>
-              <option value="">Select screen type</option>
-              <option value={'Admin'}>Admin</option>
-              <option value={'Customer'}>Customer</option>
+            >
+              <option value="">Select cinema</option>
+              {cinemas.map((cinema) => (
+                <option key={cinema.cinemaId} value={cinema.cinemaId}>
+                  {cinema.cinemaName}
+                </option>
+              ))}
             </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.screenType}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.cinemaId}</Form.Control.Feedback>
           </Form.Group>
-          {form.screenType == 'Customer' ? (
-            <>
-              <Form.Group className="m-2">
-                <Form.Label>Customer name</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  onChange={(e) => setField('customerName', e.target.value)}
-                  placeholder="Customer name"
-                  name="screenPassword"
-                  value={form.screenPassword}
-                  isInvalid={!!errors.screenPassword}
-                />
-                <Form.Control.Feedback type="invalid">{errors.screenPassword}</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="m-2">
-                <Form.Label>Customer Email</Form.Label>
-                <Form.Control
-                  required
-                  type="email"
-                  onChange={(e) => setField('customerEmail', e.target.value)}
-                  placeholder="Customer email"
-                  name="customerEmail"
-                  value={form.customerEmail}
-                  isInvalid={!!errors.customerEmail}
-                />
-                <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="m-2">
-                <Form.Label>Customer Phone</Form.Label>
-                <Form.Control
-                  required
-                  type="text"
-                  onChange={(e) => setField('customerPhone', e.target.value)}
-                  placeholder="Customer phone"
-                  name="customerPhone"
-                  value={form.customerPhone}
-                  isInvalid={!!errors.customerPhone}
-                />
-                <Form.Control.Feedback type="invalid">{errors.customerPhone}</Form.Control.Feedback>
-              </Form.Group>
-            </>
-          ) : null}
         </Form>
       </Modal.Body>
       <Modal.Footer>
