@@ -63,17 +63,20 @@ public class AccountService {
     return this.convertToAccountDto(account);
   }
 
-  public ApiPagination<AccountDto> searchAccountsByName(String accountName, int page, List<String> filters, String sortBy, int pageSize) {
+  public ApiPagination<AccountDto> searchAccountsByName(String accountName, int page, List<String> filters, 
+        String sortBy, String sortDirection, int pageSize) {
     if (page < 1 || pageSize < 1) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.LESS_THAN_ZERO.getMessage());
     }
 
-    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
 
     Page<Account> accountPage;
     long count;
 
-    if (!filters.isEmpty()) {
+    if (filters != null && !filters.isEmpty()) {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
           accountName, filters, pageable);
       count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, filters);
@@ -87,7 +90,7 @@ public class AccountService {
         .collect(Collectors.toList());
 
     ApiPagination<AccountDto> accountPagination = ApiPagination.<AccountDto>builder()
-        .data(accountDtos)
+        .result(accountDtos)
         .count(count)
         .build();
 
