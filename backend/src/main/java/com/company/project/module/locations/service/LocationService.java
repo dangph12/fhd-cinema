@@ -1,14 +1,20 @@
 package com.company.project.module.locations.service;
 
+import java.util.List;
+
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.locations.common.LocationStatusMessage;
 import com.company.project.module.locations.dto.request.LocationCreationRequest;
 import com.company.project.module.locations.entity.Location;
 import com.company.project.module.locations.exception.LocationException;
 import com.company.project.module.locations.repository.LocationRepository;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Service
 public class LocationService {
@@ -53,6 +59,27 @@ public class LocationService {
         }
 
         locationRepository.deleteById(locationId);
+    }
+
+    public ApiPagination<Location> filterLocations(String locationName, int page, int pageSize,
+          String sortBy, String sortDirection) {
+      if (page < 1 || pageSize < 1) {
+        throw new LocationException(Status.FAIL.getValue(), LocationStatusMessage.LESS_THAN_ZERO.getMessage());
+      }
+
+      Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+      Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+      Page<Location> locationPages = locationRepository.findByLocationNameContainingIgnoreCase(locationName, pageable);
+      long count = locationRepository.countByLocationNameContainingIgnoreCase(locationName);
+
+      ApiPagination<Location> locationPagination = ApiPagination.<Location>builder()
+          .result(locationPages.getContent())
+          .count(count)
+          .build();
+      
+      return locationPagination;
     }
 
 }
