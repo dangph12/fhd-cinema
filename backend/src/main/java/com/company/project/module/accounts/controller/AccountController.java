@@ -57,14 +57,15 @@ public class AccountController {
   @GetMapping(params = "search")
   ResponseEntity<ApiResponse<ApiPagination<AccountDto>>> filterAccountsByName(
       @RequestParam(value = "search") String search,
-      @RequestParam(value = "page") int page,
+      @RequestParam(value = "page", defaultValue = "1") int page,
       @RequestParam(value = "filters", required = false) List<String> filters,
       @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy, 
+      @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
       @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
     return ResponseEntity.ok().body(ApiResponse.<ApiPagination<AccountDto>>builder()
             .status(Status.SUCCESS.getValue())
             .message(AccountStatusMessage.GET_SUCCESS.getMessage())
-            .data(accountService.searchAccountsByName(search, page, filters, sortBy, pageSize))
+            .data(accountService.searchAccountsByName(search, page, filters, sortBy, sortDirection, pageSize))
             .build());
   }
 
