@@ -8,7 +8,7 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
     setCreateShow(show)
   }, [show])
 
-  const [form, setForm] = useState({ accountName: '', accountType: '' })
+  const [form, setForm] = useState({ accountName: '', accountPassword:'', accountType: '' })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
