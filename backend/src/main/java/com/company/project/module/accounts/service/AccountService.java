@@ -76,7 +76,7 @@ public class AccountService {
     Page<Account> accountPage;
     long count;
 
-    if (filters != null && !filters.isEmpty()) {
+    if (filters != null) {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
           accountName, filters, pageable);
       count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, filters);
