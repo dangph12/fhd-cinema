@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiPagination<T> {
 
-  List<T> data;
+  List<T> result;
   long count;
 
 }
