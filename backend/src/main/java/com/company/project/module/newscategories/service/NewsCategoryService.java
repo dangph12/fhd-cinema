@@ -2,6 +2,7 @@ package com.company.project.module.newscategories.service;
 
 import java.util.List;
 
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.newscategories.common.NewsCategoryStatusMessage;
 import com.company.project.module.newscategories.dto.request.NewsCategoryCreationRequest;
@@ -10,6 +11,10 @@ import com.company.project.module.newscategories.exception.NewsCategoryException
 import com.company.project.module.newscategories.repository.NewsCategoryRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +33,27 @@ public class NewsCategoryService {
     .orElseThrow(() -> new NewsCategoryException(
       Status.FAIL.getValue(), 
       NewsCategoryStatusMessage.NOT_EXIST.getMessage()));
+  }
+
+  public ApiPagination<NewsCategory> filterNewsCategories(String newsCategoryName, int page, int pageSize,
+        String sortBy, String sortDirection) {
+    if (page < 1 || pageSize < 1) {
+      throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
+
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+    Page<NewsCategory> newsCategoryPages = newsCategoryRepository.findByNewsCategoryNameContainingIgnoreCase(newsCategoryName, pageable);
+    long count = newsCategoryRepository.countByNewsCategoryNameContainingIgnoreCase(newsCategoryName);
+
+    ApiPagination<NewsCategory> newsCategoryPagination = ApiPagination.<NewsCategory>builder()
+        .result(newsCategoryPages.getContent())
+        .count(count)
+        .build();
+    
+    return newsCategoryPagination;
   }
 
   public NewsCategory createNewsCategory(NewsCategoryCreationRequest request) {
