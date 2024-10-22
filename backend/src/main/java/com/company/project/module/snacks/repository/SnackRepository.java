@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SnackRepository extends JpaRepository<Snack, String> {
   boolean existsBySnackName(String snackName);
-  Page<Snack> findBySnackNameContainingIgnoreCase(String ratingName, Pageable pageable);
-  long countBySnackNameContainingIgnoreCase(String ratingName);
+  Page<Snack> findBySnackNameContainingIgnoreCase(String snackName, Pageable pageable);
+  long countBySnackNameContainingIgnoreCase(String snackName);
 }

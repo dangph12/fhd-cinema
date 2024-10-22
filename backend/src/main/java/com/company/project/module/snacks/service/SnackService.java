@@ -11,6 +11,7 @@ import com.company.project.module.snacks.dto.request.SnackCreationRequest;
 import com.company.project.module.snacks.entity.Snack;
 import com.company.project.module.snacks.exception.SnackException;
 import com.company.project.module.snacks.repository.SnackRepository;
+import com.company.project.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public class SnackService {
 
   @Autowired
   private BookingRepository bookingRepository;
+
+  @Autowired
+  private Utils utils;
 
   public List<Snack> getAllSnack() {
     return snackRepository.findAll();
@@ -96,6 +100,12 @@ public class SnackService {
         String sortBy, String sortDirection) {
     if (page < 1 || pageSize < 1) {
       throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
+
+    List<String> accountFieldNames = utils.getEntityFields(Snack.class);
+
+    if (!accountFieldNames.contains(sortBy)) {
+      throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
     }
 
     Sort.Direction direction = Sort.Direction.fromString(sortDirection);
