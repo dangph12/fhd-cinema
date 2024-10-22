@@ -32,27 +32,21 @@ const NavBar = (props) => {
                             <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/">Home</NavLink>
                             </Nav.Link>
-                            <Nav.Link className="nav-item active">
+                            {/* <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/">Lịch Chiếu</NavLink>
-                            </Nav.Link>
+                            </Nav.Link> */}
                             <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/stores">Cửa Hàng</NavLink>
                             </Nav.Link>
                             <Nav.Link className="nav-item active">
-                                <NavLink className="nav-link" to="/news">Khuyến Mãi</NavLink>
+                                <NavLink className="nav-link" to="/news">News</NavLink>
                             </Nav.Link>
                             <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/login">Login</NavLink>
                             </Nav.Link>
-                            <Nav.Link className="nav-item active">
+                            {/* <Nav.Link className="nav-item active">
                                 <NavLink className="nav-link" to="/logout">Logout</NavLink>
-                            </Nav.Link>
-
-                            {/* <li><a className="nav-link" href="shop.html">Lịch Chiếu</a></li>
-                            <li><a className="nav-link" href="about.html">Cửa Hàng</a></li>
-                            <li><a className="nav-link" href="services.html">Khuyến Mãi</a></li>
-                            <li><a className="nav-link" href="/login">Login</a></li>
-                            <li><a className="nav-link" href="/logout">Logout</a></li> */}
+                            </Nav.Link> */}
                         </ul>
 
                         <ul className="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">

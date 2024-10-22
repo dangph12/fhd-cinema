@@ -77,6 +77,85 @@
 
 // export default Register;
 
+// import axios from "axios";
+// import React, { useState } from "react";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+// function Register() {
+//   const buttonStyle = {
+//     borderRadius: "15px", 
+//     padding: "10px 20px",
+//     color: "#8bc34a", // green text
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//     backgroundColor: "transparent", // no background
+//     display: "inline-block", // button behavior
+//   };
+
+//   const [accountName, setAccountName] = useState("");
+//   const [accountPassword, setaccountPassword] = useState("");
+//   const [accountType, setAccountType] = useState("Customer");
+//   const [confirmPassword, setConfirmPassword] = useState("");
+
+//   const handleRegister = async () => {
+//     if (accountPassword !== confirmPassword) {
+//       toast.error("Mật khẩu nhập lại không khớp!");
+//       return;
+//     }
+
+//     try {
+//       const response = await axios.post("http://localhost:8080/accounts", {
+//         accountName,
+//         accountPassword,
+//         accountType,
+//       });
+
+//       if (response.status === 201) {
+//         toast.success("Đăng ký thành công!");
+//       } else {
+//         toast.error("Đăng ký thất bại!");
+//       }
+//     } catch (error) {
+//       toast.error("Lỗi hệ thống. Vui lòng thử lại sau.");
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h2 className="">
+//         <button style={buttonStyle}>ĐĂNG KÍ TÀI KHOẢN</button>
+//       </h2>
+//       <div>Tên đệm và tên *</div>
+//       <input
+//         type="text"
+//         required
+//         value={accountName}
+//         onChange={(e) => setAccountName(e.target.value)}
+//       />
+//       <div>Mật khẩu *</div>
+//       <input
+//         type="password"
+//         required
+//         value={accountPassword}
+//         onChange={(e) => setaccountPassword(e.target.value)}
+//       />
+//       <div>Nhập lại mật khẩu *</div>
+//       <input
+//         type="password"
+//         required
+//         value={confirmPassword}
+//         onChange={(e) => setConfirmPassword(e.target.value)}
+//       />
+//       <button type="submit" onClick={handleRegister}>
+//         ĐĂNG KÝ
+//       </button>
+//     </div>
+//   );
+// }
+
+// export default Register;
+
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -84,19 +163,22 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Register() {
   const buttonStyle = {
-    borderRadius: "15px", // rounded corners
-    padding: "10px 20px", // padding for the button
-    color: "#8bc34a", // green text
+    borderRadius: "15px",
+    padding: "10px 20px",
+    color: "#8bc34a", 
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "inline-block", // button behavior
+    backgroundColor: "transparent", 
+    display: "inline-block", 
   };
 
   const [accountName, setAccountName] = useState("");
-  const [accountPassword, setaccountPassword] = useState("");
-  const [accountType, setAccountType] = useState("Customer");
+  const [accountPassword, setAccountPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [accountType] = useState("Customer");
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
 
   const handleRegister = async () => {
     if (accountPassword !== confirmPassword) {
@@ -109,9 +191,12 @@ function Register() {
         accountName,
         accountPassword,
         accountType,
+        customerName,
+        customerEmail,
+        customerPhone,
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         toast.success("Đăng ký thành công!");
       } else {
         toast.error("Đăng ký thất bại!");
@@ -124,29 +209,58 @@ function Register() {
   return (
     <div>
       <h2 className="">
-        <button style={buttonStyle}>ĐĂNG KÍ TÀI KHOẢN</button>
+        <button style={buttonStyle}>ĐĂNG KÝ TÀI KHOẢN</button>
       </h2>
-      <div>Tên đệm và tên *</div>
+      <div>Tên tài khoản *</div>
       <input
         type="text"
         required
         value={accountName}
+        placeholder="Tên Tài Khoản"
         onChange={(e) => setAccountName(e.target.value)}
       />
-      <div>Mật khẩu *</div>
+      <div style={{marginTop: "10px"}}>Mật khẩu *</div>
       <input
         type="password"
         required
         value={accountPassword}
-        onChange={(e) => setaccountPassword(e.target.value)}
+        placeholder="Mật Khẩu"
+        onChange={(e) => setAccountPassword(e.target.value)}
       />
-      <div>Nhập lại mật khẩu *</div>
+      <div style={{marginTop: "10px"}}>Nhập lại mật khẩu *</div>
       <input
         type="password"
         required
         value={confirmPassword}
+        placeholder="Nhập Lại Mật Khẩu"
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
+
+      <div style={{marginTop: "10px"}}>Tên khách hàng *</div>
+      <input
+        type="text"
+        required
+        value={customerName}
+        placeholder="Tên Khách Hàng"
+        onChange={(e) => setCustomerName(e.target.value)}
+      />
+      <div style={{marginTop: "10px"}}>Email khách hàng *</div>
+      <input
+        type="email"
+        required
+        value={customerEmail}
+        placeholder="Email Cá Nhân"
+        onChange={(e) => setCustomerEmail(e.target.value)}
+      />
+      <div style={{marginTop: "10px"}}>Số điện thoại khách hàng *</div>
+      <input
+        type="text"
+        required
+        value={customerPhone}
+        placeholder="Số Điện Thoại"
+        onChange={(e) => setCustomerPhone(e.target.value)}
+      />
+
       <button type="submit" onClick={handleRegister}>
         ĐĂNG KÝ
       </button>

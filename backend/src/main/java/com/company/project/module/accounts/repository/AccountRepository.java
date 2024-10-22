@@ -19,4 +19,5 @@ public interface AccountRepository extends JpaRepository<Account, String> {
   Page<Account> findByAccountNameContainingIgnoreCaseAndAccountTypeIn(String accountName, List<String> filters, Pageable pageable);
   long countByAccountNameContainingIgnoreCase(String accountName);
   long countByAccountNameContainingIgnoreCaseAndAccountTypeIn(String accountName, List<String> filters);
+  Optional<Account> findByAccountId(String accountId);
 }

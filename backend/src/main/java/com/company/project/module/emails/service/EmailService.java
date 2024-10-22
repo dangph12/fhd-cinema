@@ -61,7 +61,7 @@ public class EmailService {
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-    String templatePath = "classpath:/templates/" + request.getTemplate() + ".html";
+    String templatePath = "classpath:/templates/email-reset-password.html";
     Resource resource = resourceLoader.getResource(templatePath);
 
     if (!resource.exists() || !resource.isReadable()) {
@@ -78,13 +78,13 @@ public class EmailService {
 
     try {
       helper.setTo(email);
-      helper.setSubject(request.getSubject());
+      helper.setSubject("Đặt lại mật khẩu tài khoản của bạn");
 
       Context context = new Context();
       context.setVariable("customerId", customerId);
       context.setVariable("customerName", customerName);
 
-      String htmlContent = templateEngine.process(request.getTemplate(), context);
+      String htmlContent = templateEngine.process("email-reset-password", context);
       helper.setText(htmlContent, true);
       javaMailSender.send(mimeMessage);
     } catch (MessagingException e) {
