@@ -2,6 +2,7 @@ package com.company.project.module.snacks.service;
 
 import java.util.List;
 
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.repository.BookingRepository;
@@ -10,8 +11,13 @@ import com.company.project.module.snacks.dto.request.SnackCreationRequest;
 import com.company.project.module.snacks.entity.Snack;
 import com.company.project.module.snacks.exception.SnackException;
 import com.company.project.module.snacks.repository.SnackRepository;
+import com.company.project.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +29,9 @@ public class SnackService {
 
   @Autowired
   private BookingRepository bookingRepository;
+
+  @Autowired
+  private Utils utils;
 
   public List<Snack> getAllSnack() {
     return snackRepository.findAll();
@@ -85,6 +94,33 @@ public class SnackService {
     }
 
     snackRepository.deleteById(snackId);
+  }
+
+  public ApiPagination<Snack> filterSnacks(String snackName, int page, int pageSize,
+        String sortBy, String sortDirection) {
+    if (page < 1 || pageSize < 1) {
+      throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
+
+    List<String> accountFieldNames = utils.getEntityFields(Snack.class);
+
+    if (!accountFieldNames.contains(sortBy)) {
+      throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+    }
+
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+    Page<Snack> snackPages = snackRepository.findBySnackNameContainingIgnoreCase(snackName, pageable);
+    long count = snackRepository.countBySnackNameContainingIgnoreCase(snackName);
+
+    ApiPagination<Snack> snackPagination = ApiPagination.<Snack>builder()
+        .result(snackPages.getContent())
+        .count(count)
+        .build();
+    
+    return snackPagination;
   }
 
 }
