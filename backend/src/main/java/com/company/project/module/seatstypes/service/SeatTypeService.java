@@ -9,6 +9,7 @@ import com.company.project.module.seatstypes.dto.request.SeatTypeCreationRequest
 import com.company.project.module.seatstypes.entity.SeatType;
 import com.company.project.module.seatstypes.exception.SeatTypeException;
 import com.company.project.module.seatstypes.repository.SeatTypeRepository;
+import com.company.project.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,9 @@ public class SeatTypeService {
   
   @Autowired
   private SeatTypeRepository seatTypeRepository;
+
+  @Autowired
+  private Utils utils;
 
   public List<SeatType> getAllSeatType() {
     return seatTypeRepository.findAll();
@@ -76,6 +80,12 @@ public class SeatTypeService {
         String sortBy, String sortDirection) {
     if (page < 1 || pageSize < 1) {
       throw new SeatTypeException(Status.FAIL.getValue(), SeatTypeStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
+
+    List<String> seatTypeFieldNames = utils.getEntityFields(SeatType.class);
+
+    if (!seatTypeFieldNames.contains(sortBy)) {
+      throw new SeatTypeException(Status.FAIL.getValue(), SeatTypeStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
     }
 
     Sort.Direction direction = Sort.Direction.fromString(sortDirection);
