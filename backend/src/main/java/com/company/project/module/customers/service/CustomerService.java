@@ -28,6 +28,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.annotation.Lazy;
 
 @Service
 public class CustomerService {
@@ -187,6 +190,11 @@ public class CustomerService {
     String newPassword = encodePassWordByBCryptPassword(request.getNewPassword());
 
     accountService.updateAccountPassword(accountId, newPassword);
+  }
+
+  public String encodePassWordByBCryptPassword(String password) {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    return passwordEncoder.encode(password);
   }
 
   public ApiPagination<Customer> filterCustomers(String customerName, int page, int pageSize,

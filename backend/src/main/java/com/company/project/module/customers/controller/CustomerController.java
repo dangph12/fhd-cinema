@@ -45,7 +45,7 @@ public class CustomerController {
       .build());
   }
 
-  @GetMapping("/id/{customerId}")
+  @GetMapping("/{customerId}")
   ResponseEntity<ApiResponse<Customer>> getCustomerById(@PathVariable(name = "customerId") String customerId) {
     Customer customer = customerService.getCustomerById(customerId);
 
@@ -70,7 +70,7 @@ public class CustomerController {
       .build());
   }
 
-  @PutMapping("/id/{customerId}")
+  @PutMapping("/{customerId}")
   ResponseEntity<ApiResponse<Customer>> updateCustomer(
     @PathVariable(name = "customerId") String customerId,
     @Valid @RequestBody CustomerCreationRequest request) {
@@ -84,7 +84,7 @@ public class CustomerController {
         .build());
   }
 
-  @DeleteMapping("/id/{customerId}")
+  @DeleteMapping("/{customerId}")
   ResponseEntity<ApiResponse<Void>> deleteCustomer(
     @PathVariable(name = "customerId") String customerId) {
     customerService.deleteCustomerById(customerId);
@@ -119,6 +119,8 @@ public class CustomerController {
                     .message(CustomerStatusMessage.UPDATE_PASSWORD_SUCCESS.getMessage())
                     .data(customerDto)
                     .build());
+  }
+  
   @GetMapping(params = "search")
   ResponseEntity<ApiResponse<ApiPagination<Customer>>> filterCustomers(
       @RequestParam(value = "search") String search,

@@ -209,34 +209,34 @@ import { NavLink } from "react-router-dom";
 import VisaBanner from "../home/components/VisaBanner";
 
 const News = () => {
-  const [newsList, setNewsList] = useState([]); // Danh sách tin tức
-  const [categories, setCategories] = useState([]); // Danh mục tin tức
-  const [selectedCategoryId, setSelectedCategoryId] = useState("all"); // Lưu trữ categoryId được chọn
+  const [newsList, setNewsList] = useState([]); 
+  const [categories, setCategories] = useState([]); 
+  const [selectedCategoryId, setSelectedCategoryId] = useState("all"); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Hàm để lấy danh sách các danh mục
+  
   const fetchCategories = async () => {
     try {
       const response = await axios.get("http://localhost:8080/newscategories");
-      setCategories(response.data.data); // Lưu danh mục vào state
+      setCategories(response.data.data); 
     } catch (err) {
       console.error("Lỗi khi lấy dữ liệu danh mục:", err);
       setError("Không thể tải danh mục.");
     }
   };
 
-  // Hàm để lấy danh sách tin tức theo danh mục hoặc tất cả tin tức
+  
   const fetchNews = async () => {
     try {
       const response = await axios.get("http://localhost:8080/news");
       const newsData = response.data.data;
 
-      // Nếu chọn "Tất cả", không cần lọc, trả về tất cả tin tức
+      
       if (selectedCategoryId === "all") {
         setNewsList(newsData);
       } else {
-        // Lọc tin tức theo danh mục
+        
         const filteredNews = newsData.filter(
           (news) => news.newsCategory.newsCategoryId === selectedCategoryId
         );
@@ -250,13 +250,13 @@ const News = () => {
     }
   };
 
-  // Gọi API để lấy danh mục khi component được render lần đầu
+  
   useEffect(() => {
     fetchCategories();
-    fetchNews(); // Lấy tin tức ngay khi component được mount
+    fetchNews(); 
   }, []);
 
-  // Gọi API để lấy tin tức khi danh mục thay đổi
+  
   useEffect(() => {
     if (selectedCategoryId) {
       fetchNews();

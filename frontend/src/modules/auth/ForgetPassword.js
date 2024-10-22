@@ -421,12 +421,12 @@ const ResetPasswordForm = () => {
   const [template, setTemplate] = useState("email-reset-password");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const navigate = useNavigate();  // Sử dụng navigate để điều hướng
+  const navigate = useNavigate();  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra nếu email có định dạng hợp lệ
+    
     if (!email || !email.includes("@")) {
       setToastMessage("Vui lòng nhập một địa chỉ email hợp lệ.");
       setShowToast(true);
@@ -434,23 +434,23 @@ const ResetPasswordForm = () => {
     }
 
     try {
-      // Gửi yêu cầu đặt lại mật khẩu qua API
+      
       const response = await axios.post(
         "http://localhost:8080/email/reset-password",
         {
-          customerEmail: email,
+          customerEmail: email,   
         }
       );
 
-      // Kiểm tra nếu phản hồi thành công
+      
       if (response.status === 200) {
         setToastMessage("Liên kết đặt lại mật khẩu đã được gửi tới email của bạn.");
         setShowToast(true);
 
-        // Sau khi hiển thị thông báo thành công, điều hướng đến trang reset password
+   
         setTimeout(() => {
-          navigate("/reset");  // Điều hướng đến trang reset mật khẩu
-        }, 2000); // Chờ 2 giây trước khi chuyển trang
+          navigate("/reset"); 
+        }, 2000); 
       } else {
         setToastMessage("Có lỗi xảy ra, vui lòng thử lại.");
         setShowToast(true);
@@ -514,6 +514,7 @@ const ResetPasswordForm = () => {
             />
             <button
               type="submit"
+              id = "resetButton"
               style={{
                 width: "100%",
                 padding: "10px",

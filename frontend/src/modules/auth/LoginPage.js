@@ -1068,7 +1068,6 @@ const LoginPage = () => {
         
         sessionStorage.setItem("account", JSON.stringify(response.data));
 
-        
         navigate("/users");
       } else {
         setToastMessage("Thông tin đăng nhập không hợp lệ");
