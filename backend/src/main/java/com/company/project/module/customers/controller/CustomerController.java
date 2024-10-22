@@ -9,6 +9,7 @@ import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
+import com.company.project.module.customers.dto.request.CustomerUpdateRequest;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.service.CustomerService;
 
@@ -70,7 +71,7 @@ public class CustomerController {
   @PutMapping("/{customerId}")
   ResponseEntity<ApiResponse<Customer>> updateCustomer(
     @PathVariable(name = "customerId") String customerId,
-    @Valid @RequestBody CustomerCreationRequest request) {
+    @Valid @RequestBody CustomerUpdateRequest request) {
     Customer customer = customerService.updateCustomer(customerId, request);
 
     return ResponseEntity.status(HttpStatus.OK.value())

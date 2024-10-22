@@ -12,6 +12,7 @@ import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
+import com.company.project.module.customers.dto.request.CustomerUpdateRequest;
 import com.company.project.module.customers.dto.response.CustomerDto;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.exception.CustomerException;
@@ -78,7 +79,7 @@ public class CustomerService {
     return customerRepository.save(customer);
   }
 
-  public Customer updateCustomer(String customerId, CustomerCreationRequest request) {
+  public Customer updateCustomer(String customerId, CustomerUpdateRequest request) {
     if (!customerRepository.existsById(customerId)) {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
     }
