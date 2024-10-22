@@ -2,7 +2,6 @@ package com.company.project.module.news.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,7 +40,7 @@ public class News {
 
     String newsImageUrl;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "news_category_id", nullable = false)
     NewsCategory newsCategory;
 }
