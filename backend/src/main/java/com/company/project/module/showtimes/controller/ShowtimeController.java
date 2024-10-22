@@ -1,5 +1,10 @@
 package com.company.project.module.showtimes.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import com.company.project.common.ApiPagination;
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.showtimes.common.ShowtimeStatusMessage;
@@ -7,12 +12,18 @@ import com.company.project.module.showtimes.dto.request.ShowtimeCreationRequest;
 import com.company.project.module.showtimes.dto.request.ShowtimeUpdateRequest;
 import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.showtimes.service.ShowtimeService;
-import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/showtimes")
@@ -80,4 +91,20 @@ public class ShowtimeController {
                         .message(ShowtimeStatusMessage.DELETE_SUCCESS.getMessage())
                         .build());
     }
+
+    @GetMapping(params = "search")
+    ResponseEntity<ApiResponse<ApiPagination<Showtime>>> filterShowtimes(
+        @RequestParam(value = "search") String search,
+        @RequestParam(value = "page", defaultValue = "1") int page,
+        @RequestParam(value = "cinemas", required = false) List<String> cinemas,
+        @RequestParam(value = "sortBy", defaultValue = "showtimeAt") String sortBy, 
+        @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
+        @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
+      return ResponseEntity.ok().body(ApiResponse.<ApiPagination<Showtime>>builder()
+              .status(Status.SUCCESS.getValue())
+              .message(ShowtimeStatusMessage.GET_SUCCESS.getMessage())
+              .data(showtimeService.filterShowtimes(search, page, pageSize, cinemas, sortBy, sortDirection))
+              .build());
+    }
+
 }

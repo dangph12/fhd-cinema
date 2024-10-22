@@ -1,5 +1,8 @@
 package com.company.project.module.showtimes.service;
 
+import java.util.List;
+
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.movies.entity.Movie;
 import com.company.project.module.movies.repository.MovieRepository;
@@ -11,9 +14,13 @@ import com.company.project.module.showtimes.dto.request.ShowtimeUpdateRequest;
 import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.showtimes.exception.ShowtimeException;
 import com.company.project.module.showtimes.repository.ShowtimeRepository;
-import org.springframework.stereotype.Service;
+import com.company.project.utils.Utils;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ShowtimeService {
@@ -21,11 +28,13 @@ public class ShowtimeService {
     private final ShowtimeRepository showtimeRepository;
     private final MovieRepository movieRepository;
     private final ScreenRepository screenRepository;
+    private final Utils utils;
 
-    public ShowtimeService(ShowtimeRepository showtimeRepository, MovieRepository movieRepository, ScreenRepository screenRepository) {
+    public ShowtimeService(ShowtimeRepository showtimeRepository, MovieRepository movieRepository, ScreenRepository screenRepository, Utils utils) {
         this.showtimeRepository = showtimeRepository;
         this.movieRepository = movieRepository;
         this.screenRepository = screenRepository;
+        this.utils = utils;
     }
 
 
@@ -82,6 +91,33 @@ public class ShowtimeService {
 
         showtimeRepository.deleteById(showtimeId);
 
+    }
+
+    public ApiPagination<Showtime> filterShowtimes(String showtimeId, int page, int pageSize,
+          List<String> cinemaName, String sortBy, String sortDirection) {
+      if (page < 1 || pageSize < 1) {
+        throw new ShowtimeException(Status.FAIL.getValue(), ShowtimeStatusMessage.LESS_THAN_ZERO.getMessage());
+      }
+
+      List<String> showtimeFieldNames = utils.getEntityFields(Showtime.class);
+
+      if (!showtimeFieldNames.contains(sortBy)) {
+        throw new ShowtimeException(Status.FAIL.getValue(), ShowtimeStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+      }
+
+      Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+      Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+      Page<Showtime> showtimePages = showtimeRepository.searchShowtimes(showtimeId, cinemaName, pageable);
+      long count = showtimeRepository.countMovies(showtimeId, cinemaName);
+
+      ApiPagination<Showtime> showtimePagination = ApiPagination.<Showtime>builder()
+          .result(showtimePages.getContent())
+          .count(count)
+          .build();
+      
+      return showtimePagination;
     }
 
 }
