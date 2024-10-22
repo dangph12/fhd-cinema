@@ -5,9 +5,11 @@ import java.util.List;
 import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
+import com.company.project.module.accounts.dto.request.UpdatePasswordRequest;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
+import com.company.project.module.accounts.service.AccountService;
 import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.customers.common.CustomerStatusMessage;
@@ -21,10 +23,13 @@ import com.company.project.utils.Utils;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,6 +49,10 @@ public class CustomerService {
 
   @Autowired
   private Utils utils;
+
+  @Lazy
+  @Autowired
+  private AccountService accountService;
 
   public List<Customer> getAllCustomer() {
     return customerRepository.findAll();
@@ -182,6 +191,36 @@ public class CustomerService {
         .build();
     
     return customerPagination;
+  }
+
+  public CustomerDto getCustomerByCustomerEmail(String customerEmail) {
+    Customer customer = customerRepository.findByCustomerEmail(customerEmail);
+
+    return CustomerDto.builder()
+            .customerId(customer.getCustomerId())
+            .customerName(customer.getCustomerName())
+            .customerPhone(customer.getCustomerPhone())
+            .accountId(customer.getAccount().getAccountId())
+            .build();
+  }
+
+  public void updatePasswordByCustomerEmail(UpdatePasswordRequest request) {
+    Customer customer = customerRepository.findByCustomerEmail(request.getCustomerEmail());
+
+    if(customer == null) {
+      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
+    }
+
+    String accountId = customer.getAccount().getAccountId();
+
+    String newPassword = encodePassWordByBCryptPassword(request.getNewPassword());
+
+    accountService.updateAccountPassword(accountId, newPassword);
+  }
+
+  public String encodePassWordByBCryptPassword(String password) {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+    return passwordEncoder.encode(password);
   }
 
 }

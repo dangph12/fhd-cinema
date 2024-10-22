@@ -7,9 +7,11 @@ import jakarta.validation.Valid;
 import com.company.project.common.ApiPagination;
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
+import com.company.project.module.accounts.dto.request.UpdatePasswordRequest;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
 import com.company.project.module.customers.dto.request.CustomerUpdateRequest;
+import com.company.project.module.customers.dto.response.CustomerDto;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.service.CustomerService;
 
@@ -43,7 +45,7 @@ public class CustomerController {
       .build());
   }
 
-  @GetMapping("/{customerId}")
+  @GetMapping("/id/{customerId}")
   ResponseEntity<ApiResponse<Customer>> getCustomerById(@PathVariable(name = "customerId") String customerId) {
     Customer customer = customerService.getCustomerById(customerId);
 
@@ -68,7 +70,7 @@ public class CustomerController {
       .build());
   }
 
-  @PutMapping("/{customerId}")
+  @PutMapping("/id/{customerId}")
   ResponseEntity<ApiResponse<Customer>> updateCustomer(
     @PathVariable(name = "customerId") String customerId,
     @Valid @RequestBody CustomerUpdateRequest request) {
@@ -82,7 +84,7 @@ public class CustomerController {
         .build());
   }
 
-  @DeleteMapping("/{customerId}")
+  @DeleteMapping("/id/{customerId}")
   ResponseEntity<ApiResponse<Void>> deleteCustomer(
     @PathVariable(name = "customerId") String customerId) {
     customerService.deleteCustomerById(customerId);
@@ -106,6 +108,31 @@ public class CustomerController {
             .message(CustomerStatusMessage.GET_SUCCESS.getMessage())
             .data(customerService.filterCustomers(search, page, pageSize, sortBy, sortDirection))
             .build());
+  }
+
+  @GetMapping("/email/{customerEmail}")
+  ResponseEntity<ApiResponse<CustomerDto>> getCustomerByEmail(@PathVariable(name = "customerEmail") String customerEmail) {
+    CustomerDto customerDto = customerService.getCustomerByCustomerEmail(customerEmail);
+
+    return ResponseEntity.status(HttpStatus.OK.value())
+            .body(ApiResponse.<CustomerDto>builder()
+                    .status(Status.SUCCESS.getValue())
+                    .message(CustomerStatusMessage.GET_SUCCESS.getMessage())
+                    .data(customerDto)
+                    .build());
+  }
+
+  @PutMapping("/update-password")
+  ResponseEntity<ApiResponse<CustomerDto>> updateCustomerPassword(@RequestBody @Valid UpdatePasswordRequest request) {
+    CustomerDto customerDto = customerService.getCustomerByCustomerEmail(request.getCustomerEmail());
+    customerService.updatePasswordByCustomerEmail(request);
+
+    return ResponseEntity.status(HttpStatus.OK.value())
+            .body(ApiResponse.<CustomerDto>builder()
+                    .status(Status.SUCCESS.getValue())
+                    .message(CustomerStatusMessage.UPDATE_PASSWORD_SUCCESS.getMessage())
+                    .data(customerDto)
+                    .build());
   }
 
 }

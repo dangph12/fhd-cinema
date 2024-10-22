@@ -16,13 +16,13 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmailResetPasswordRequest {
 
-  @NotEmpty(message = "EMPTY_SUBJECT")
-  String subject;
+//  @NotEmpty(message = "EMPTY_SUBJECT")
+//  String subject;
 
   @NotEmpty(message = "EMPTY_EMAIL")
   String customerEmail;
 
-  @NotEmpty(message = "EMPTY_TEMPLATE")
-  String template;
+//  @NotEmpty(message = "EMPTY_TEMPLATE")
+//  String template;
 
 }
