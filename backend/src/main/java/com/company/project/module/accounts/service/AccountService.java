@@ -2,6 +2,7 @@ package com.company.project.module.accounts.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.company.project.common.Status;
@@ -165,5 +166,15 @@ public class AccountService {
 
     accountRepository.deleteById(accountId);
   }
+
+  public void updateAccountPassword(String accountId, String newPassword) {
+    Account account = accountRepository.findByAccountId(accountId)
+            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+
+    account.setAccountPassword(newPassword);
+
+    accountRepository.save(account);
+  }
+
 
 }

@@ -2,6 +2,8 @@ package com.company.project.module.customers.controller;
 
 import java.util.List;
 
+import com.company.project.module.accounts.dto.request.UpdatePasswordRequest;
+import com.company.project.module.customers.dto.response.CustomerDto;
 import jakarta.validation.Valid;
 
 import com.company.project.common.ApiResponse;
@@ -14,14 +16,7 @@ import com.company.project.module.customers.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/customers")
@@ -40,7 +35,7 @@ public class CustomerController {
       .build());
   }
 
-  @GetMapping("/{customerId}")
+  @GetMapping("/id/{customerId}")
   ResponseEntity<ApiResponse<Customer>> getCustomerById(@PathVariable(name = "customerId") String customerId) {
     Customer customer = customerService.getCustomerById(customerId);
 
@@ -65,7 +60,7 @@ public class CustomerController {
       .build());
   }
 
-  @PutMapping("/{customerId}")
+  @PutMapping("/id/{customerId}")
   ResponseEntity<ApiResponse<Customer>> updateCustomer(
     @PathVariable(name = "customerId") String customerId,
     @Valid @RequestBody CustomerCreationRequest request) {
@@ -79,7 +74,7 @@ public class CustomerController {
         .build());
   }
 
-  @DeleteMapping("/{customerId}")
+  @DeleteMapping("/id/{customerId}")
   ResponseEntity<ApiResponse<Void>> deleteCustomer(
     @PathVariable(name = "customerId") String customerId) {
     customerService.deleteCustomerById(customerId);
@@ -89,6 +84,31 @@ public class CustomerController {
         .status(Status.SUCCESS.getValue())
         .message(CustomerStatusMessage.DELETE_SUCCESS.getMessage())
         .build());
+  }
+
+  @GetMapping("/email/{customerEmail}")
+  ResponseEntity<ApiResponse<CustomerDto>> getCustomerByEmail(@PathVariable(name = "customerEmail") String customerEmail) {
+    CustomerDto customerDto = customerService.getCustomerByCustomerEmail(customerEmail);
+
+    return ResponseEntity.status(HttpStatus.OK.value())
+            .body(ApiResponse.<CustomerDto>builder()
+                    .status(Status.SUCCESS.getValue())
+                    .message(CustomerStatusMessage.GET_SUCCESS.getMessage())
+                    .data(customerDto)
+                    .build());
+  }
+
+  @PutMapping("/update-password")
+  ResponseEntity<ApiResponse<CustomerDto>> updateCustomerPassword(@RequestBody @Valid UpdatePasswordRequest request) {
+    CustomerDto customerDto = customerService.getCustomerByCustomerEmail(request.getCustomerEmail());
+    customerService.updatePasswordByCustomerEmail(request);
+
+    return ResponseEntity.status(HttpStatus.OK.value())
+            .body(ApiResponse.<CustomerDto>builder()
+                    .status(Status.SUCCESS.getValue())
+                    .message(CustomerStatusMessage.UPDATE_PASSWORD_SUCCESS.getMessage())
+                    .data(customerDto)
+                    .build());
   }
 
 }
