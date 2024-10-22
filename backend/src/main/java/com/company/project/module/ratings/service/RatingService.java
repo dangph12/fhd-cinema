@@ -9,6 +9,7 @@ import com.company.project.module.ratings.dto.request.RatingCreationRequest;
 import com.company.project.module.ratings.entity.Rating;
 import com.company.project.module.ratings.exception.RatingException;
 import com.company.project.module.ratings.repository.RatingRepository;
+import com.company.project.utils.Utils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,9 +21,11 @@ import org.springframework.stereotype.Service;
 public class RatingService {
 
     public final RatingRepository ratingRepository;
+    public final Utils utils;
 
-    public RatingService(RatingRepository ratingRepository) {
+    public RatingService(RatingRepository ratingRepository, Utils utils) {
         this.ratingRepository = ratingRepository;
+        this.utils = utils;
     }
 
     public List<Rating> getAllRatings() {
@@ -37,6 +40,12 @@ public class RatingService {
           String sortBy, String sortDirection) {
       if (page < 1 || pageSize < 1) {
         throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.LESS_THAN_ZERO.getMessage());
+      }
+
+      List<String> ratingFieldNames = utils.getEntityFields(Rating.class);
+
+      if (!ratingFieldNames.contains(sortBy)) {
+        throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
       }
 
       Sort.Direction direction = Sort.Direction.fromString(sortDirection);

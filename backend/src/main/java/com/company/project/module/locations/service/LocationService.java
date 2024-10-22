@@ -9,6 +9,7 @@ import com.company.project.module.locations.dto.request.LocationCreationRequest;
 import com.company.project.module.locations.entity.Location;
 import com.company.project.module.locations.exception.LocationException;
 import com.company.project.module.locations.repository.LocationRepository;
+import com.company.project.utils.Utils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +22,11 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
 
-    public LocationService(LocationRepository locationRepository) {
+    private final Utils utils;
+
+    public LocationService(LocationRepository locationRepository, Utils utils) {
         this.locationRepository = locationRepository;
+        this.utils = utils;
     }
 
     public List<Location> findAll() {
@@ -65,6 +69,12 @@ public class LocationService {
           String sortBy, String sortDirection) {
       if (page < 1 || pageSize < 1) {
         throw new LocationException(Status.FAIL.getValue(), LocationStatusMessage.LESS_THAN_ZERO.getMessage());
+      }
+
+      List<String> locationFieldNames = utils.getEntityFields(Location.class);
+
+      if (!locationFieldNames.contains(sortBy)) {
+        throw new LocationException(Status.FAIL.getValue(), LocationStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
       }
 
       Sort.Direction direction = Sort.Direction.fromString(sortDirection);

@@ -11,6 +11,7 @@ import com.company.project.module.news.exception.NewsException;
 import com.company.project.module.news.repository.NewsRepository;
 import com.company.project.module.newscategories.entity.NewsCategory;
 import com.company.project.module.newscategories.service.NewsCategoryService;
+import com.company.project.utils.Utils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,9 +26,12 @@ public class NewsService {
 
     private final NewsCategoryService newsCategoryService;
 
-    public NewsService(NewsRepository newsRepository, NewsCategoryService newsCategoryService) {
+    private final Utils utils;
+
+    public NewsService(NewsRepository newsRepository, NewsCategoryService newsCategoryService, Utils utils) {
         this.newsRepository = newsRepository;
         this.newsCategoryService = newsCategoryService;
+        this.utils = utils;
     }
 
     public List<News> getAllNews() {
@@ -82,6 +86,12 @@ public class NewsService {
           List<String> newsCategories, String sortBy, String sortDirection) {
       if (page < 1 || pageSize < 1) {
         throw new NewsException(Status.FAIL.getValue(), NewsStatusMessage.LESS_THAN_ZERO.getMessage());
+      }
+
+      List<String> newsFieldNames = utils.getEntityFields(News.class);
+
+      if (!newsFieldNames.contains(sortBy)) {
+        throw new NewsException(Status.FAIL.getValue(), NewsStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
       }
 
       Sort.Direction direction = Sort.Direction.fromString(sortDirection);

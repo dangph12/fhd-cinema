@@ -9,6 +9,7 @@ import com.company.project.module.newscategories.dto.request.NewsCategoryCreatio
 import com.company.project.module.newscategories.entity.NewsCategory;
 import com.company.project.module.newscategories.exception.NewsCategoryException;
 import com.company.project.module.newscategories.repository.NewsCategoryRepository;
+import com.company.project.utils.Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,9 @@ public class NewsCategoryService {
   
   @Autowired
   private NewsCategoryRepository newsCategoryRepository;
+
+  @Autowired
+  private Utils utils;
 
   public List<NewsCategory> getAllNewsCategory() {
     return newsCategoryRepository.findAll();
@@ -39,6 +43,12 @@ public class NewsCategoryService {
         String sortBy, String sortDirection) {
     if (page < 1 || pageSize < 1) {
       throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
+
+    List<String> newsCategoryFieldNames = utils.getEntityFields(NewsCategory.class);
+
+    if (!newsCategoryFieldNames.contains(sortBy)) {
+      throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
     }
 
     Sort.Direction direction = Sort.Direction.fromString(sortDirection);

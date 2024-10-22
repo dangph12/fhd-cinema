@@ -7,6 +7,7 @@ public enum NewsCategoryStatusMessage {
 
   EMPTY_NAME("The name of news category must not be empty"),
   NOT_EXIST("The news category does not exist"),
+  UNKNOWN_ATTRIBUTE("The attribute does not exist"),
   LESS_THAN_ZERO("The index must not be less than 0"),
   EXIST_NEWSCATEGORY("The name of news category have been existed"),
   GET_SUCCESS("Get NewsCategory successfully"),

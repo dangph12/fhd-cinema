@@ -12,6 +12,7 @@ import com.company.project.module.movies.exception.MovieException;
 import com.company.project.module.movies.repository.MovieRepository;
 import com.company.project.module.ratings.entity.Rating;
 import com.company.project.module.ratings.repository.RatingRepository;
+import com.company.project.utils.Utils;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,10 +25,12 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final RatingRepository ratingRepository;
+    private final Utils utils;
 
-    public MovieService(MovieRepository movieRepository, RatingRepository ratingRepository) {
+    public MovieService(MovieRepository movieRepository, RatingRepository ratingRepository, Utils utils) {
         this.movieRepository = movieRepository;
         this.ratingRepository = ratingRepository;
+        this.utils = utils;
     }
 
     public List<Movie> getAllMovies(){
@@ -43,6 +46,12 @@ public class MovieService {
           List<String> ratings, String sortBy, String sortDirection) {
       if (page < 1 || pageSize < 1) {
         throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.LESS_THAN_ZERO.getMessage());
+      }
+
+      List<String> movieFieldNames = utils.getEntityFields(Movie.class);
+
+      if (!movieFieldNames.contains(sortBy)) {
+        throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
       }
 
       Sort.Direction direction = Sort.Direction.fromString(sortDirection);
