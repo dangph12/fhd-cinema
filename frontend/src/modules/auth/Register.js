@@ -165,11 +165,11 @@ function Register() {
   const buttonStyle = {
     borderRadius: "15px",
     padding: "10px 20px",
-    color: "#8bc34a", // green text
+    color: "#8bc34a", 
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent", // no background
-    display: "inline-block", // button behavior
+    backgroundColor: "transparent", 
+    display: "inline-block", 
   };
 
   const [accountName, setAccountName] = useState("");

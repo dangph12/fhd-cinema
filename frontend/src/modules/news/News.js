@@ -275,7 +275,7 @@ const News = () => {
     <div>
       <BannerSecond />
 
-      {/* Dropdown để chọn danh mục */}
+      
       <div style={{ textAlign: "center", margin: "20px 0" }}>
         <select
           value={selectedCategoryId}
@@ -288,7 +288,7 @@ const News = () => {
             marginBottom: "20px",
           }}
         >
-          {/* Thêm tùy chọn hiển thị tất cả */}
+          
           <option value="all">Tất cả</option>
           {categories.map((category) => (
             <option key={category.newsCategoryId} value={category.newsCategoryId}>

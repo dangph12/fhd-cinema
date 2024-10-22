@@ -1029,20 +1029,20 @@
 
 
 import React, { useState } from "react";
-import { loginApi } from "../../components/services/UserService"; // API đăng nhập
+import { loginApi } from "../../components/services/UserService"; 
 import { Button, Toast, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import VisaBanner from "../home/components/VisaBanner";
 import Register from "./Register";
-import BannerSecond from "../home/components/BannerSecond"; // Thêm BannerSecond để giao diện giống nhau
+import BannerSecond from "../home/components/BannerSecond"; 
 import { NavLink } from "react-router-dom";
 
 const LoginPage = () => {
   const [accountName, setAccountName] = useState("");
   const [accountPassword, setaccountPassword] = useState("");
-  const [showToast, setShowToast] = useState(false); // Thêm state cho Toast
-  const [toastMessage, setToastMessage] = useState(""); // Thêm state cho message Toast
+  const [showToast, setShowToast] = useState(false); 
+  const [toastMessage, setToastMessage] = useState(""); 
   const navigate = useNavigate();
 
   const buttonStyle = {
@@ -1059,31 +1059,31 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      // Gọi API đăng nhập với accountName và accountPassword
+     
       let response = await loginApi(accountName, accountPassword);
 
       if (response && response.data) {
         console.log("Đăng nhập thành công!", response.data);
 
-        // Lưu dữ liệu vào sessionStorage
+        
         sessionStorage.setItem("account", JSON.stringify(response.data));
 
-        // Chuyển hướng đến trang users
+        
         navigate("/users");
       } else {
         setToastMessage("Thông tin đăng nhập không hợp lệ");
-        setShowToast(true); // Hiển thị thông báo lỗi
+        setShowToast(true); 
       }
     } catch (error) {
       console.error("Lỗi đăng nhập:", error);
       setToastMessage("Đăng nhập thất bại. Vui lòng thử lại.");
-      setShowToast(true); // Hiển thị thông báo lỗi khi có lỗi
+      setShowToast(true); 
     }
   };
 
   return (
     <div>
-      <BannerSecond /> {/* Thêm BannerSecond vào giao diện giống mẫu */}
+      <BannerSecond /> 
       <ToastContainer position="top-end" className="p-3">
         <Toast
           bg="danger"
