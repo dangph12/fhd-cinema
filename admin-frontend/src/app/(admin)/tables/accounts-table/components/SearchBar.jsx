@@ -46,17 +46,17 @@ const SearchBar = () => {
         </Col>
         <Col md={4} className="d-flex flex-column align-items-start fs-4">
           <Form.Check
-            label="Customer"
+            label="Admin"
             name="filter"
-            value="customer"
-            checked={state.filters.includes('customer')}
+            value="Admin"
+            checked={state.filters.includes('Admin')}
             onChange={(e) => handleFilters(e)}
           />
           <Form.Check
-            label="Staff"
+            label="Customer"
             name="filter"
-            value="staff"
-            checked={state.filters.includes('staff')}
+            value="Customer"
+            checked={state.filters.includes('Customer')}
             onChange={(e) => handleFilters(e)}
           />
         </Col>

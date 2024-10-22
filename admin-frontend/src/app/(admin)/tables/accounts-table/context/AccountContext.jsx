@@ -36,6 +36,15 @@ export const AccountProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const accountApiUrl = `http://localhost:8080/accounts?search=${state.query}&page=${state.currentPage}&filters=${state.filters.join(',')}`;
+  useEffect(() => {
+    fetchAccounts();
+  }, [state.currentPage, state.query, state.filters]);
+
+  // for debug
+  // const accountApiUrl = `http://localhost:8080/accounts`;
+  // useEffect(() => {
+  //   fetchAccounts();
+  // }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search || '');
@@ -47,10 +56,6 @@ export const AccountProvider = ({ children }) => {
     dispatch({ type: 'SET_FILTERS', payload: filters });
     dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage });
   }, [location.search]);
-
-  useEffect(() => {
-    fetchAccounts();
-  }, [state.currentPage, state.query, state.filters]);
 
   const fetchAccounts = () => {
     fetch(accountApiUrl)
