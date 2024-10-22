@@ -2,10 +2,10 @@ package com.company.project.module.customers.service;
 
 import java.util.List;
 
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.UpdatePasswordRequest;
-import com.company.project.module.accounts.dto.response.AccountDto;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
@@ -14,14 +14,20 @@ import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.customers.common.CustomerStatusMessage;
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
+import com.company.project.module.customers.dto.request.CustomerUpdateRequest;
 import com.company.project.module.customers.dto.response.CustomerDto;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.exception.CustomerException;
 import com.company.project.module.customers.repository.CustomerRepository;
+import com.company.project.utils.Utils;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,15 +37,22 @@ public class CustomerService {
 
   @Autowired
   private CustomerRepository customerRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private BookingRepository bookingRepository;
-    @Lazy
-    @Autowired
-    private AccountService accountService;
+
+  @Autowired
+  private AccountRepository accountRepository;
+
+  @Autowired
+  private ModelMapper modelMapper;
+
+  @Autowired
+  private BookingRepository bookingRepository;
+
+  @Autowired
+  private Utils utils;
+
+  @Lazy
+  @Autowired
+  private AccountService accountService;
 
   public List<Customer> getAllCustomer() {
     return customerRepository.findAll();
@@ -75,7 +88,7 @@ public class CustomerService {
     return customerRepository.save(customer);
   }
 
-  public Customer updateCustomer(String customerId, CustomerCreationRequest request) {
+  public Customer updateCustomer(String customerId, CustomerUpdateRequest request) {
     if (!customerRepository.existsById(customerId)) {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
     }
@@ -151,6 +164,33 @@ public class CustomerService {
   public Customer convertToCustomer(CustomerDto customerDto) {
 
       return modelMapper.map(customerDto, Customer.class);
+  }
+
+  public ApiPagination<Customer> filterCustomers(String customerName, int page, int pageSize,
+        String sortBy, String sortDirection) {
+    if (page < 1 || pageSize < 1) {
+      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
+
+    List<String> customerFieldNames = utils.getEntityFields(Customer.class);
+
+    if (!customerFieldNames.contains(sortBy)) {
+      throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+    }
+
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+    Page<Customer> customerPages = customerRepository.findByCustomerNameContainingIgnoreCase(customerName, pageable);
+    long count = customerRepository.countByCustomerNameContainingIgnoreCase(customerName);
+
+    ApiPagination<Customer> customerPagination = ApiPagination.<Customer>builder()
+        .result(customerPages.getContent())
+        .count(count)
+        .build();
+    
+    return customerPagination;
   }
 
   public CustomerDto getCustomerByCustomerEmail(String customerEmail) {

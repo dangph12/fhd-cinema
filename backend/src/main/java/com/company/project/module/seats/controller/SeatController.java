@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 
+import com.company.project.common.ApiPagination;
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.seats.common.SeatStatusMessage;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -90,6 +92,21 @@ public class SeatController {
         .status(Status.SUCCESS.getValue())
         .message(SeatStatusMessage.DELETE_SUCCESS.getMessage())
         .build());
+  }
+
+  @GetMapping(params = "search")
+  ResponseEntity<ApiResponse<ApiPagination<Seat>>> filterSeats(
+      @RequestParam(value = "search") String search,
+      @RequestParam(value = "page", defaultValue = "1") int page,
+      @RequestParam(value = "seatTypes", required = false) List<String> seatTypes,
+      @RequestParam(value = "sortBy", defaultValue = "seatName") String sortBy, 
+      @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
+      @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
+    return ResponseEntity.ok().body(ApiResponse.<ApiPagination<Seat>>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(SeatStatusMessage.GET_SUCCESS.getMessage())
+            .data(seatService.filterSeats(search, page, pageSize, seatTypes, sortBy, sortDirection))
+            .build());
   }
 
 }

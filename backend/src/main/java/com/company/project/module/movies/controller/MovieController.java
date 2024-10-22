@@ -1,5 +1,10 @@
 package com.company.project.module.movies.controller;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import com.company.project.common.ApiPagination;
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.movies.common.MovieStatusMessage;
@@ -7,12 +12,18 @@ import com.company.project.module.movies.dto.request.MovieCreationRequest;
 import com.company.project.module.movies.dto.request.MovieUpdateRequest;
 import com.company.project.module.movies.entity.Movie;
 import com.company.project.module.movies.service.MovieService;
-import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/movies")
@@ -80,4 +91,20 @@ public class MovieController {
                         .message(MovieStatusMessage.DELETE_SUCCESS.getMessage())
                         .build());
     }
+
+    @GetMapping(params = "search")
+    ResponseEntity<ApiResponse<ApiPagination<Movie>>> filterMovies(
+        @RequestParam(value = "search") String search,
+        @RequestParam(value = "page", defaultValue = "1") int page,
+        @RequestParam(value = "ratings", required = false) List<String> ratings,
+        @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy, 
+        @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
+        @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
+      return ResponseEntity.ok().body(ApiResponse.<ApiPagination<Movie>>builder()
+              .status(Status.SUCCESS.getValue())
+              .message(MovieStatusMessage.GET_SUCCESS.getMessage())
+              .data(movieService.filterMovies(search, page, pageSize, ratings, sortBy, sortDirection))
+              .build());
+    }
+
 }
