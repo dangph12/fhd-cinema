@@ -9,6 +9,7 @@ public enum CustomerStatusMessage {
   EMPTY_NAME("The name of customer must not be empty"),
   EMPTY_PHONE("The phone number of customer must not be empty"),
   EMPTY_EMAIL("The email of customer must not be empty"),
+  EMPTY_ACCOUNT_ID("The accountId of customer must not be empty"),
   EMAIL_INVALID("The email of customer is not valid"),
   PHONE_INVALID("The phone number is not valid"),
   NULL_BOOKED("The isBooked must not be empty"),

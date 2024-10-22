@@ -10,6 +10,8 @@ public enum TicketStatusMessage {
   EMPTY_SEAT("The seat must not be empty"),
   EMPTY_BOOKING("The booking must not be empty"),
   NOT_EXIST("The ticket's Id does not exist"),
+  UNKNOWN_ATTRIBUTE("The attribute does not exist"),
+  LESS_THAN_ZERO("The index must not be less than 0"),
   EXIST_SEAT("The seat have been existed"),
   STRING_VALUE("The ticket's price must be a valid number"),
   NEGATIVE_VALUE("The variable must be greater than 0"),

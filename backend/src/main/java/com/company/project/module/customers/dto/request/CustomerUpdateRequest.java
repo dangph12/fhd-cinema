@@ -16,10 +16,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CustomerCreationRequest {
-
-  @NotNull(message = "EMPTY_ACCOUNT_ID")
-  String accountId;
+public class CustomerUpdateRequest {
 
   @NotNull(message = "EMPTY_NAME")
   String customerName;
