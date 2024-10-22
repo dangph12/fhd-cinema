@@ -116,8 +116,9 @@ const TicketDetailTable = () => {
         onHide={() => setShowUpdateModal({ ticketId: null, show: false })}
       />
       <TicketDetailModal
-        ticketId={showDetailModal.ticketId}
-        show={showDetailModal.show}
+        ticketId={showUpdateModal.ticketId}
+        show={showUpdateModal.show}
+        fetchTickets={fetchTickets}
         onHide={() => setShowDetailModal({ ticketId: null, show: false })}
       />
     </Container>
