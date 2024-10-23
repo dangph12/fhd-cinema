@@ -4,12 +4,7 @@ import { Card } from 'react-bootstrap';
 const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, snacks, totalPrice, discount, finalPrice, moviePosterUrl }) => {
   return (
     <Card className="p-3 shadow-sm">
-      <Image
-                  src={moviePosterUrl}
-                  alt="Movie Poster"
-                  fluid
-                  className="movie-poster-ticket"
-                />
+      <Card.Img src={moviePosterUrl} alt="Movie Poster" className="movie-poster" />
       <Card.Title className="film-title-price">{movieTitle}</Card.Title>
       <h6 className="cinema-title">{showtimeDetails.screen.cinema.cinemaName}</h6>
       <p className="time-title-price">
