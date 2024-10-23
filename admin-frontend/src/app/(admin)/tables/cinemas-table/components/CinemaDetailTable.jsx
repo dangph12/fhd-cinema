@@ -9,7 +9,7 @@ import CinemaDetailModal from '../modals/CinemaDetailModal';
 import TablePagination from '../../common/TablePagination';
 
 const CinemaDetailTable = () => {
-  const { state, dispatch, fetchCinemas, updateQueryParams } = useContext(CinemaContext);
+  const { state, dispatch, fetchCinemas, updateSearchParams } = useContext(CinemaContext);
   const [showDeleteModal, setShowDeleteModal] = useState({ cinemaId: null, show: false });
   const [showUpdateModal, setShowUpdateModal] = useState({ cinemaId: null, show: false });
   const [showDetailModal, setShowDetailModal] = useState({ cinemaId: null, show: false })
@@ -89,7 +89,7 @@ const CinemaDetailTable = () => {
             <CardBody className="pt-0">
               {/* Cinemas Table */}
               <ReactTable columns={columns} data={state.cinemas} />
-              <TablePagination state={state} dispatch={dispatch} fetch={fetchCinemas} updateQueryParams={updateQueryParams} />
+              <TablePagination state={state} dispatch={dispatch} fetch={fetchCinemas} updateSearchParams={updateSearchParams} />
             </CardBody>
           </Card>
         </Col>
