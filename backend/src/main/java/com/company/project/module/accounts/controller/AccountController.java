@@ -8,6 +8,7 @@ import com.company.project.common.ApiPagination;
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
+import com.company.project.module.accounts.dto.request.AccountCreationByAdminRequest;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
@@ -36,74 +37,105 @@ public class AccountController {
   }
 
   @GetMapping
-  ResponseEntity<ApiResponse<List<AccountDto>>> getAllAccount() {
-    return ResponseEntity.ok().body(ApiResponse.<List<AccountDto>>builder()
-            .status(Status.SUCCESS.getValue())
-            .message(AccountStatusMessage.GET_SUCCESS.getMessage())
-            .data(accountService.getAllAccounts())
-            .build());
+  public ResponseEntity<ApiResponse<List<AccountDto>>> getAllAccounts() {
+    return ResponseEntity.ok(
+      ApiResponse.<List<AccountDto>>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.GET_SUCCESS.getMessage())
+        .data(accountService.getAllAccounts())
+        .build()
+    );
   }
 
   @GetMapping("/{accountId}")
-  ResponseEntity<ApiResponse<AccountDto>> getAccountById(
-          @PathVariable(name = "accountId") String accountId) {
-    return ResponseEntity.ok().body(ApiResponse.<AccountDto>builder()
-            .status(Status.SUCCESS.getValue())
-            .message(AccountStatusMessage.GET_SUCCESS.getMessage())
-            .data(accountService.getAccountById(accountId))
-            .build());
+  public ResponseEntity<ApiResponse<AccountDto>> getAccountById(
+    @PathVariable String accountId) {
+    AccountDto accountDto = accountService.getAccountDtoById(accountId);
+
+    return ResponseEntity.ok(
+      ApiResponse.<AccountDto>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.GET_SUCCESS.getMessage())
+        .data(accountDto)
+        .build()
+    );
   }
 
   @GetMapping(params = "search")
-  ResponseEntity<ApiResponse<ApiPagination<AccountDto>>> filterAccountsByName(
-      @RequestParam(value = "search") String search,
-      @RequestParam(value = "page", defaultValue = "1") int page,
-      @RequestParam(value = "filters", required = false) List<String> filters,
-      @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy, 
-      @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
-      @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
-    return ResponseEntity.ok().body(ApiResponse.<ApiPagination<AccountDto>>builder()
-            .status(Status.SUCCESS.getValue())
-            .message(AccountStatusMessage.GET_SUCCESS.getMessage())
-            .data(accountService.searchAccountsByName(search, page, filters, sortBy, sortDirection, pageSize))
-            .build());
+  public ResponseEntity<ApiResponse<ApiPagination<AccountDto>>> filterAccountsByName(
+    @RequestParam(value = "search") String search,
+    @RequestParam(value = "page", defaultValue = "1") int page,
+    @RequestParam(value = "filters", required = false) List<String> filters,
+    @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy,
+    @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
+    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+
+    ApiPagination<AccountDto> accountPagination = accountService
+      .searchAccounts(search, page, pageSize, filters, sortBy, sortDirection);
+
+    return ResponseEntity.ok(
+      ApiResponse.<ApiPagination<AccountDto>>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.GET_SUCCESS.getMessage())
+        .data(accountPagination)
+        .build()
+    );
   }
 
   @PostMapping
-  ResponseEntity<ApiResponse<AccountDto>> addAccount(@RequestBody @Valid AccountCreationRequest request) {
+  public ResponseEntity<ApiResponse<AccountDto>> addAccount(
+    @RequestBody @Valid AccountCreationRequest request) {
     AccountDto accountDto = accountService.createAccount(request);
 
-    return ResponseEntity.status(HttpStatus.CREATED.value())
-            .body(ApiResponse.<AccountDto>builder()
-                    .status(Status.SUCCESS.getValue())
-                    .message(AccountStatusMessage.CREATE_SUCCESS.getMessage())
-                    .data(accountDto)
-                    .build());
+    return ResponseEntity.status(HttpStatus.CREATED).body(
+      ApiResponse.<AccountDto>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.CREATE_SUCCESS.getMessage())
+        .data(accountDto)
+        .build()
+    );
+  }
+
+  @PostMapping("/admin")
+  public ResponseEntity<ApiResponse<AccountDto>> addAccountByAdmin(
+    @RequestBody @Valid AccountCreationByAdminRequest request) {
+    AccountDto accountDto = accountService.createAccountByAdmin(request);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(
+      ApiResponse.<AccountDto>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.CREATE_SUCCESS.getMessage())
+        .data(accountDto)
+        .build()
+    );
   }
 
   @PutMapping("/{accountId}")
-  ResponseEntity<ApiResponse<AccountDto>> updateAccount(
-          @PathVariable(name = "accountId") String accountId,
-          @RequestBody @Valid AccountUpdateRequest request) {
+  public ResponseEntity<ApiResponse<AccountDto>> updateAccount(
+    @PathVariable String accountId,
+    @RequestBody @Valid AccountUpdateRequest request) {
+
     AccountDto accountDto = accountService.updateAccount(accountId, request);
 
-    return ResponseEntity.status(HttpStatus.OK.value())
-            .body(ApiResponse.<AccountDto>builder()
-                    .status(Status.SUCCESS.getValue())
-                    .message(AccountStatusMessage.UPDATE_SUCCESS.getMessage())
-                    .data(accountDto)
-                    .build());
+    return ResponseEntity.ok(
+      ApiResponse.<AccountDto>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.UPDATE_SUCCESS.getMessage())
+        .data(accountDto)
+        .build()
+    );
   }
 
   @DeleteMapping("/{accountId}")
-  ResponseEntity<ApiResponse<Void>> deleteAccount(
-          @PathVariable(name = "accountId") String accountId) {
+  public ResponseEntity<ApiResponse<Void>> deleteAccount(
+    @PathVariable String accountId) {
     accountService.deleteAccountById(accountId);
-    return ResponseEntity.status(HttpStatus.OK.value())
-            .body(ApiResponse.<Void>builder()
-                    .status(Status.SUCCESS.getValue())
-                    .message(AccountStatusMessage.DELETE_SUCCESS.getMessage())
-                    .build());
-  }
 
+    return ResponseEntity.ok(
+      ApiResponse.<Void>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(AccountStatusMessage.DELETE_SUCCESS.getMessage())
+        .build()
+    );
+  }
 }
