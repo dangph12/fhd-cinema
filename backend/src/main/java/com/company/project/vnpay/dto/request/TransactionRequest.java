@@ -11,4 +11,5 @@ import lombok.experimental.FieldDefaults;
 public class TransactionRequest {
     int orderTotal;
     String orderInfo;
+    String urlReturn;
 }
