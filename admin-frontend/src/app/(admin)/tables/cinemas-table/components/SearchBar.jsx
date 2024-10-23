@@ -3,12 +3,12 @@ import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
 import { CinemaContext } from '../context/CinemaContext';
 
 const SearchBar = () => {
-  const { state, dispatch, updateQueryParams } = useContext(CinemaContext);
+  const { state, dispatch, updateSearchParams } = useContext(CinemaContext);
 
   const handleSearch = (event) => {
-    const query = event.target.value;
-    dispatch({ type: 'SET_QUERY', payload: query });
-    updateQueryParams({ query, page: 1 });
+    const search = event.target.value;
+    dispatch({ type: 'SET_SAERCH', payload: search });
+    updateSearchParams({ search, page: 1 });
   };
 
   const handleFilters = (event) => {
@@ -20,7 +20,7 @@ const SearchBar = () => {
       newFilters = [...state.filters, filter];
     }
     dispatch({ type: 'SET_FILTERS', payload: newFilters });
-    updateQueryParams({ filters: newFilters.join(','), page: 1 });
+    updateSearchParams({ filters: newFilters.join(','), page: 1 });
   };
 
   const handleKeyDown = (event) => {
@@ -39,7 +39,7 @@ const SearchBar = () => {
             size="lg"
             type="text"
             placeholder="Search by cinema name"
-            value={state.query}
+            value={state.search}
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
           />
