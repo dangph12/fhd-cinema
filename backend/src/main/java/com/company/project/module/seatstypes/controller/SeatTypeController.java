@@ -58,7 +58,7 @@ public class SeatTypeController {
 
     @PostMapping
     ResponseEntity<ApiResponse<SeatTypeDto>> addSeatType(
-            @RequestBody @Valid SeatTypeCreationRequest request) {
+            @Valid @RequestBody SeatTypeCreationRequest request) {
         SeatTypeDto seatType = seatTypeService.createSeatType(request);
 
         return ResponseEntity.status(HttpStatus.CREATED.value())
