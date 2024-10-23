@@ -272,3 +272,4 @@ function UpdateCinemaModal({ cinemaId, show, fetchCinemas, onHide }) {
 }
 
 export default UpdateCinemaModal;
+  
