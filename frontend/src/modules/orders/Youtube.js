@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchMovieById } from "../../components/services/UserService";
+import { fetchMovieById } from "../../../src/components/services/UserService";
 import { useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
 
