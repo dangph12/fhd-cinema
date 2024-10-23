@@ -1,20 +1,11 @@
-package com.company.project.module.movies.entity;
+package com.company.project.module.movies.dto.response;
 
 import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
 import com.company.project.module.ratings.entity.Rating;
 import com.company.project.module.showtimes.entity.Showtime;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,19 +14,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-@Entity
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "movies")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Movie {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "movie_id")
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class MovieDto {
     String movieId;
-
     String movieTitle;
     String movieGenre;
     String movieDirector;
@@ -48,14 +34,6 @@ public class Movie {
     String movieDescription;
     String movieLanguage;
     String moviePosterUrl;
-
-    @ManyToOne
-    @JoinColumn(name = "rating_id")
     Rating rating;
-
-    @OneToMany(mappedBy = "movie")
     List<Showtime> showtimes;
-    
-    @Builder.Default
-    boolean isDeleted = false;
 }

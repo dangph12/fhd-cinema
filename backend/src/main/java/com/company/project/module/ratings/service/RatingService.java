@@ -134,6 +134,9 @@ public class RatingService {
   public void deleteRating(String ratingId) {
     Rating existedRating = this.getRatingById(ratingId);
 
+    existedRating.getMovies().forEach(movie -> {
+      movie.setDeleted(true);
+    });
     existedRating.setDeleted(true);
 
     ratingRepository.save(existedRating);
