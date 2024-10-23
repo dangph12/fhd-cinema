@@ -254,7 +254,7 @@
 
   const pageSize = 3; // Số lượng phần tử trên mỗi trang
 
-  // Trạng thái ban đầu của NewsContext
+
   const initialState = {
     news: [],
     newsCategories: [],
