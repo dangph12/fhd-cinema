@@ -18,16 +18,19 @@ public class Controller {
     @Autowired
     private VNPayService vnPayService;
 
-    @PostMapping("/submitOrder")
-    public String submidOrder(@RequestBody TransactionRequest transactionRequest,
+    @PostMapping("/vnpay/create-order")
+    public @ResponseBody ResponseEntity<ApiResponse<?>> createVnPayPayment(@RequestBody TransactionRequest transactionRequest,
                             HttpServletRequest request){
-        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-        String vnpayUrl = vnPayService.createOrder(transactionRequest.getOrderTotal(), transactionRequest.getOrderInfo(), baseUrl);
-        return "redirect:" + vnpayUrl;
+        String vnpayUrl = vnPayService.createOrder(request, transactionRequest.getOrderTotal(), transactionRequest.getOrderInfo(), transactionRequest.getUrlReturn());
+        return ResponseEntity.ok().body(ApiResponse.builder()
+                .status(Status.SUCCESS.getValue())
+                .message("Success")
+                .data(vnpayUrl)
+                .build());
     }
 
     @GetMapping("/vnpay-payment")
-    public @ResponseBody ResponseEntity<ApiResponse<TransactionResponse>> GetMapping(HttpServletRequest request){
+    public @ResponseBody ResponseEntity<ApiResponse<TransactionResponse>> getOrderReturn(HttpServletRequest request){
         int paymentStatus =vnPayService.orderReturn(request);
 
         String orderInfo = request.getParameter("vnp_OrderInfo");
@@ -50,8 +53,8 @@ public class Controller {
                     .build());
         }
         return ResponseEntity.ok().body(ApiResponse.<TransactionResponse>builder()
-                .status(Status.SUCCESS.getValue())
-                .message("Success")
+                .status(Status.FAIL.getValue())
+                .message("Fail")
                 .data(transactionResponse)
                 .build());
     }
