@@ -2,12 +2,13 @@ package com.company.project.module.ratings.exception;
 
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = "com.company.project.module.ratings")
 public class RatingExceptionHandle {
 
     @ExceptionHandler(value = RatingException.class)

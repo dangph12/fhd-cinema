@@ -8,6 +8,8 @@ public enum NewsStatusMessage {
     DELETE_SUCCESS("The news was deleted successfully"),
     UPDATE_SUCCESS("The news was updated successfully"),
     NOT_EXIST("The news is not exist"),
+    UNKNOWN_ATTRIBUTE("The attribute does not exist"),
+    LESS_THAN_ZERO("The index must not be less than 0"),
     STRING_VALUE("The news's price must be a valid number"),
     NEGATIVE_VALUE("The variable must be greater than 0"),
     EXIST_TITLE("The title of news have been existed"),
