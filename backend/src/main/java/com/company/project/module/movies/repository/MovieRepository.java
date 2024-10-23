@@ -18,15 +18,19 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
 
     @Query("SELECT m FROM Movie m WHERE " +
            "(:movieTitle IS NULL OR LOWER(m.movieTitle) LIKE LOWER(CONCAT('%', :movieTitle, '%'))) AND " +
-           "(:ratings IS NULL OR m.rating.ratingName IN :ratings)")
+           "(:ratings IS NULL OR m.rating.ratingName IN :ratings) AND " +
+           "(:status IS NULL OR m.movieStatus IN :status)")
     Page<Movie> searchMovies(@Param("movieTitle") String movieTitle,
                              @Param("ratings") List<String> ratings,
+                             @Param("status") List<String> status,
                              Pageable pageable);
 
     @Query("SELECT COUNT(m) FROM Movie m WHERE " +
            "(:movieTitle IS NULL OR LOWER(m.movieTitle) LIKE LOWER(CONCAT('%', :movieTitle, '%'))) AND " +
-           "(:ratings IS NULL OR m.rating.ratingName IN :ratings)")
+           "(:ratings IS NULL OR m.rating.ratingName IN :ratings) AND " +
+           "(:status IS NULL OR m.movieStatus IN :status)")
     long countMovies(@Param("movieTitle") String movieTitle,
-                     @Param("ratings") List<String> ratings);
+                     @Param("ratings") List<String> ratings,
+                     @Param("status") List<String> status);
 
 }

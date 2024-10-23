@@ -43,7 +43,7 @@ public class MovieService {
     }
 
     public ApiPagination<Movie> filterMovies(String movieTitle, int page, int pageSize,
-          List<String> ratings, String sortBy, String sortDirection) {
+          List<String> ratings, List<String> status, String sortBy, String sortDirection) {
       if (page < 1 || pageSize < 1) {
         throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.LESS_THAN_ZERO.getMessage());
       }
@@ -58,8 +58,8 @@ public class MovieService {
 
       Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
 
-      Page<Movie> moviePages = movieRepository.searchMovies(movieTitle, ratings, pageable);
-      long count = movieRepository.countMovies(movieTitle, ratings);
+      Page<Movie> moviePages = movieRepository.searchMovies(movieTitle, ratings, status, pageable);
+      long count = movieRepository.countMovies(movieTitle, ratings, status);
 
       ApiPagination<Movie> moviePagination = ApiPagination.<Movie>builder()
           .result(moviePages.getContent())

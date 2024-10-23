@@ -97,13 +97,14 @@ public class MovieController {
         @RequestParam(value = "search") String search,
         @RequestParam(value = "page", defaultValue = "1") int page,
         @RequestParam(value = "ratings", required = false) List<String> ratings,
+        @RequestParam(value = "status", required = false) List<String> status,
         @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy, 
         @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
         @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
       return ResponseEntity.ok().body(ApiResponse.<ApiPagination<Movie>>builder()
               .status(Status.SUCCESS.getValue())
               .message(MovieStatusMessage.GET_SUCCESS.getMessage())
-              .data(movieService.filterMovies(search, page, pageSize, ratings, sortBy, sortDirection))
+              .data(movieService.filterMovies(search, page, pageSize, ratings, status, sortBy, sortDirection))
               .build());
     }
 
