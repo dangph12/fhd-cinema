@@ -2,9 +2,7 @@ package com.company.project.module.newscategories.entity;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,7 +33,9 @@ public class NewsCategory {
     String newsCategoryName;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "newsCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "newsCategory")
     List<News> news;
 
+    @Builder.Default
+    boolean isDeleted = false;
 }
