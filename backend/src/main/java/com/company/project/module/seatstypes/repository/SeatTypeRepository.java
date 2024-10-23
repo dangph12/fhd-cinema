@@ -1,5 +1,7 @@
 package com.company.project.module.seatstypes.repository;
 
+import java.util.List;
+
 import com.company.project.module.seatstypes.entity.SeatType;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +11,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SeatTypeRepository extends JpaRepository<SeatType, String> {
-  boolean existsBySeatTypeName(String seatTypeName);
-  Page<SeatType> findBySeatTypeNameContainingIgnoreCase(String seatTypeName, Pageable pageable);
-  long countBySeatTypeNameContainingIgnoreCase(String seatTypeName);
+  boolean existsBySeatTypeNameAndIsDeletedFalse(String seatTypeName);
+
+  List<SeatType> findAllByIsDeletedFalse();
+
+  SeatType findBySeatTypeIdAndIsDeletedFalse(String seatTypeId);
+
+  Page<SeatType> findBySeatTypeNameContainingIgnoreCaseAndIsDeletedFalse(String seatTypeName, Pageable pageable);
+
+  long countBySeatTypeNameContainingIgnoreCaseAndIsDeletedFalse(String seatTypeName);
 }
