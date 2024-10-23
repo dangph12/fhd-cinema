@@ -12,7 +12,7 @@ FROM builder as dev-envs
 
 RUN <<EOF
 apt-get update
-apt-get install -y git
+apt-get install -y git tzdata
 EOF
 
 RUN <<EOF
@@ -20,16 +20,28 @@ useradd -s /bin/bash -m vscode
 groupadd docker
 usermod -aG docker vscode
 EOF
+
+# Set timezone to Asia/Ho_Chi_Minh
+ENV TZ=Asia/Ho_Chi_Minh
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
 CMD ["mvn", "spring-boot:run"]
 
 FROM builder as prepare-production
+
 RUN mkdir -p target/dependency
 WORKDIR /workdir/server/target/dependency
 RUN jar -xf ../*.jar
 
 FROM eclipse-temurin:21.0.4_7-jre-alpine
+
+# Set timezone to Asia/Ho_Chi_Minh
+ENV TZ=Asia/Ho_Chi_Minh
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
 
 EXPOSE 8080
 VOLUME /tmp
