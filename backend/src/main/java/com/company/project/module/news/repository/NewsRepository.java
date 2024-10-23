@@ -13,20 +13,29 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NewsRepository extends JpaRepository<News, String> {
-    boolean existsByNewsId(String newsId);
-    boolean existsByNewsTitle(String newsTitle);
+  boolean existsByNewsIdAndIsDeletedFalse(String newsId);
 
-    @Query("SELECT n FROM News n WHERE " +
-           "(:newsTitle IS NULL OR LOWER(n.newsTitle) LIKE LOWER(CONCAT('%', :newsTitle, '%'))) AND " +
-           "(:newsCategories IS NULL OR n.newsCategory.newsCategoryName IN :newsCategories)")
-    Page<News> searchNews(@Param("newsTitle") String newsTitle,
-                             @Param("newsCategories") List<String> newsCategories,
-                             Pageable pageable);
+  boolean existsByNewsTitleAndIsDeletedFalse(String newsTitle);
 
-    @Query("SELECT COUNT(n) FROM News n WHERE " +
-           "(:newsTitle IS NULL OR LOWER(n.newsTitle) LIKE LOWER(CONCAT('%', :newsTitle, '%'))) AND " +
-           "(:newsCategories IS NULL OR n.newsCategory.newsCategoryName IN :newsCategories)")
-    long countNews(@Param("newsTitle") String newsTitle,
-                       @Param("newsCategories") List<String> newsCategories);
+  List<News> findAllByIsDeletedFalse();
+
+  News findByNewsIdAndIsDeletedFalse(String newsId);
+
+  @Query("SELECT n FROM News n WHERE " +
+      "n.isDeleted = false AND " +
+      "(:newsTitle IS NULL OR LOWER(n.newsTitle) LIKE LOWER(CONCAT('%', :newsTitle, '%'))) AND " +
+      "(:newsCategories IS NULL OR (n.newsCategory.isDeleted = false AND " +
+      "n.newsCategory.newsCategoryName IN :newsCategories))")
+  Page<News> searchNews(@Param("newsTitle") String newsTitle,
+      @Param("newsCategories") List<String> newsCategories,
+      Pageable pageable);
+
+  @Query("SELECT COUNT(n) FROM News n WHERE " +
+      "n.isDeleted = false AND " +
+      "(:newsTitle IS NULL OR LOWER(n.newsTitle) LIKE LOWER(CONCAT('%', :newsTitle, '%'))) AND " +
+      "(:newsCategories IS NULL OR (n.newsCategory.isDeleted = false AND " +
+      "n.newsCategory.newsCategoryName IN :newsCategories))")
+  long countNews(@Param("newsTitle") String newsTitle,
+      @Param("newsCategories") List<String> newsCategories);
 
 }

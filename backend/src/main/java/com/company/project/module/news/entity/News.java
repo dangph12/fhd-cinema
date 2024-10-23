@@ -43,4 +43,7 @@ public class News {
     @ManyToOne()
     @JoinColumn(name = "news_category_id", nullable = false)
     NewsCategory newsCategory;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }
