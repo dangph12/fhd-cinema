@@ -122,7 +122,7 @@ public class RatingService {
 
     existedRating.setRatingDescription(request.getRatingDescription());
 
-    if (!existedRating.getRatingName().equals(request.getRatingName())){
+    if (!existedRating.getRatingName().equals(request.getRatingName())) {
       existedRating.setRatingName(request.getRatingName());
     }
 

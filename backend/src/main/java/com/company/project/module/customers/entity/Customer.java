@@ -49,4 +49,6 @@ public class Customer {
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     Account account;
 
+    @Builder.Default
+    boolean isDeleted = false;
 }
