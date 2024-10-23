@@ -234,7 +234,7 @@
 // export default BodyFirst;
 
 import React, { useEffect, useState } from "react";
-import { fetchAllUser } from "../components/services/UserService";
+import { fetchAllUser } from "./services/UserService";
 import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
