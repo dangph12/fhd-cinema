@@ -50,4 +50,7 @@ public class Screen {
     @JsonIgnore
     @OneToMany(mappedBy = "screen")
     List<Seat> seats;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }

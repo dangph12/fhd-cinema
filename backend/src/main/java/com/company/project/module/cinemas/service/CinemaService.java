@@ -134,6 +134,9 @@ public class CinemaService {
   public void deleteCinema(String cinemaId) {
     Cinema existedCinema = this.getCinemaById(cinemaId);
 
+    existedCinema.getScreens().forEach(screen -> {
+      screen.setDeleted(true);
+    });
     existedCinema.setDeleted(true);
     cinemaRepository.save(existedCinema);
   }
