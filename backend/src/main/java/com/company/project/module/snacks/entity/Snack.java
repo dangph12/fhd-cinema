@@ -28,4 +28,6 @@ public class Snack {
     String snackName;
     int snackPrice;
 
+    @Builder.Default
+    boolean isDeleted = false;
 }
