@@ -17,11 +17,11 @@ public class VNPayService {
     @Autowired
     private VNPayConfig vnPayConfig;
 
-    public String createOrder(int total, String orderInfo, String urlReturn) {
+    public String createOrder(HttpServletRequest request, int total, String orderInfo, String urlReturn) {
         String vnpVersion = "2.1.0";
         String vnpCommand = "pay";
         String vnpTxnRef = vnPayConfig.getRandomNumber(8);
-        String vnpIpAddr = "127.0.0.1";
+        String vnpIpAddr = vnPayConfig.getIpAddress(request);
         String vnpTmnCode = vnPayConfig.vnpTmnCode;
         String orderType = "order-type";
 
