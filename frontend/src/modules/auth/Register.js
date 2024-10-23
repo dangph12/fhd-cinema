@@ -156,6 +156,121 @@
 
 // export default Register;
 
+// import axios from "axios";
+// import React, { useState } from "react";
+// import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
+// function Register() {
+//   const buttonStyle = {
+//     borderRadius: "15px",
+//     padding: "10px 20px",
+//     color: "#8bc34a", 
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//     backgroundColor: "transparent", 
+//     display: "inline-block", 
+//   };
+
+//   const [accountName, setAccountName] = useState("");
+//   const [accountPassword, setAccountPassword] = useState("");
+//   const [confirmPassword, setConfirmPassword] = useState("");
+//   const [accountType] = useState("Customer");
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+
+//   const handleRegister = async () => {
+//     if (accountPassword !== confirmPassword) {
+//       toast.error("Mật khẩu nhập lại không khớp!");
+//       return;
+//     }
+
+//     try {
+//       const response = await axios.post("http://localhost:8080/accounts", {
+//         accountName,
+//         accountPassword,
+//         accountType,
+//         customerName,
+//         customerEmail,
+//         customerPhone,
+//       });
+
+//       if (response.status === 200) {
+//         toast.success("Đăng ký thành công!");
+//       } else {
+//         toast.error("Đăng ký thất bại!");
+//       }
+//     } catch (error) {
+//       toast.error("Lỗi hệ thống. Vui lòng thử lại sau.");
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h2 className="">
+//         <button style={buttonStyle}>ĐĂNG KÝ TÀI KHOẢN</button>
+//       </h2>
+//       <div>Tên tài khoản *</div>
+//       <input
+//         type="text"
+//         required
+//         value={accountName}
+//         placeholder="Tên Tài Khoản"
+//         onChange={(e) => setAccountName(e.target.value)}
+//       />
+//       <div style={{marginTop: "10px"}}>Mật khẩu *</div>
+//       <input
+//         type="password"
+//         required
+//         value={accountPassword}
+//         placeholder="Mật Khẩu"
+//         onChange={(e) => setAccountPassword(e.target.value)}
+//       />
+//       <div style={{marginTop: "10px"}}>Nhập lại mật khẩu *</div>
+//       <input
+//         type="password"
+//         required
+//         value={confirmPassword}
+//         placeholder="Nhập Lại Mật Khẩu"
+//         onChange={(e) => setConfirmPassword(e.target.value)}
+//       />
+
+//       <div style={{marginTop: "10px"}}>Tên khách hàng *</div>
+//       <input
+//         type="text"
+//         required
+//         value={customerName}
+//         placeholder="Tên Khách Hàng"
+//         onChange={(e) => setCustomerName(e.target.value)}
+//       />
+//       <div style={{marginTop: "10px"}}>Email khách hàng *</div>
+//       <input
+//         type="email"
+//         required
+//         value={customerEmail}
+//         placeholder="Email Cá Nhân"
+//         onChange={(e) => setCustomerEmail(e.target.value)}
+//       />
+//       <div style={{marginTop: "10px"}}>Số điện thoại khách hàng *</div>
+//       <input
+//         type="text"
+//         required
+//         value={customerPhone}
+//         placeholder="Số Điện Thoại"
+//         onChange={(e) => setCustomerPhone(e.target.value)}
+//       />
+
+//       <button type="submit" onClick={handleRegister}>
+//         ĐĂNG KÝ
+//       </button>
+//     </div>
+//   );
+// }
+
+// export default Register;
+
+
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -180,7 +295,21 @@ function Register() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
 
+  // Regex kiểm tra mật khẩu
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  const validatePassword = (password) => {
+    return passwordRegex.test(password);
+  };
+
   const handleRegister = async () => {
+    if (!validatePassword(accountPassword)) {
+      toast.error(
+        "Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt!"
+      );
+      return;
+    }
+
     if (accountPassword !== confirmPassword) {
       toast.error("Mật khẩu nhập lại không khớp!");
       return;
@@ -196,7 +325,7 @@ function Register() {
         customerPhone,
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success("Đăng ký thành công!");
       } else {
         toast.error("Đăng ký thất bại!");
@@ -219,7 +348,7 @@ function Register() {
         placeholder="Tên Tài Khoản"
         onChange={(e) => setAccountName(e.target.value)}
       />
-      <div style={{marginTop: "10px"}}>Mật khẩu *</div>
+      <div style={{ marginTop: "10px" }}>Mật khẩu *</div>
       <input
         type="password"
         required
@@ -227,7 +356,7 @@ function Register() {
         placeholder="Mật Khẩu"
         onChange={(e) => setAccountPassword(e.target.value)}
       />
-      <div style={{marginTop: "10px"}}>Nhập lại mật khẩu *</div>
+      <div style={{ marginTop: "10px" }}>Nhập lại mật khẩu *</div>
       <input
         type="password"
         required
@@ -236,7 +365,7 @@ function Register() {
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
 
-      <div style={{marginTop: "10px"}}>Tên khách hàng *</div>
+      <div style={{ marginTop: "10px" }}>Tên khách hàng *</div>
       <input
         type="text"
         required
@@ -244,7 +373,7 @@ function Register() {
         placeholder="Tên Khách Hàng"
         onChange={(e) => setCustomerName(e.target.value)}
       />
-      <div style={{marginTop: "10px"}}>Email khách hàng *</div>
+      <div style={{ marginTop: "10px" }}>Email khách hàng *</div>
       <input
         type="email"
         required
@@ -252,7 +381,7 @@ function Register() {
         placeholder="Email Cá Nhân"
         onChange={(e) => setCustomerEmail(e.target.value)}
       />
-      <div style={{marginTop: "10px"}}>Số điện thoại khách hàng *</div>
+      <div style={{ marginTop: "10px" }}>Số điện thoại khách hàng *</div>
       <input
         type="text"
         required
