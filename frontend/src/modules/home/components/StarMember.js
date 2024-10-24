@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
-import { fetchNews } from "../../../components/services/UserService";
+import { fetchNews } from "../../../../src/components/services/UserService";
 import { NavLink } from "react-router-dom";
 import BannerThird from "./BannerThird";
 

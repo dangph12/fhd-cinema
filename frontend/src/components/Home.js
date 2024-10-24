@@ -3,12 +3,12 @@ import React from 'react'
 // import 'react-slideshow-image/dist/styles.css';
 // import Carousel from 'react-multi-carousel';
 // import 'react-multi-carousel/lib/styles.css';
-import SlideBar from '../modules/home/components/SlideBar';
-import Banner from '../modules/home/components/Banner';
+import SlideBar from '../../src/modules/home/components/SlideBar';
+import Banner from '../../src/modules/home/components/Banner';
 import BodyFirst from './BodyFirst';
-import BannerSecond from '../modules/home/components/BannerSecond';
-import BodySecond from '../modules/home/components/BodySecond';
-import StarMember from '../modules/home/components/StarMember';
+import BannerSecond from '../../src/modules/home/components/BannerSecond';
+import BodySecond from '../../src/modules/home/components/BodySecond';
+import StarMember from '../../src/modules/home/components/StarMember';
 
 
 const Home = (props) => {

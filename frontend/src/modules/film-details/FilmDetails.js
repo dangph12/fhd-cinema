@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Dùng để lấy movieId từ URL
-import { fetchMovieById } from "../../components/services/UserService"; // Hàm lấy chi tiết phim
+import { fetchMovieById } from "../../../src/components/services/UserService"; // Hàm lấy chi tiết phim
 import { SocialIcon } from "react-social-icons";
 import VisaBanner from "../home/components/VisaBanner";
 

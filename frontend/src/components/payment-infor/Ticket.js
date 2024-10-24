@@ -2,27 +2,20 @@ import React from 'react';
 import { Container, Row, Col, Card, Image } from 'react-bootstrap';
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 function Ticket() {
-  const navigate = useNavigate();
   const { state } = useLocation();  
-  const { selectedSeats, showtimeDetails, movieTitle, totalPrice, snacks, moviePosterUrl } = state || {}; // Nhận dữ liệu từ state
+  const { selectedSeats, showtimeDetails, movieTitle, snacks, moviePosterUrl, paymentSuccess } = state || {}; 
 
-  function handleButtonClick() {  
-    navigate("/");  
-  }
+  
 
   return (
-    <Container className=" d-flex justify-content-center" fluid>
+    <Container className="d-flex justify-content-center" fluid>
       <Card className="ticket-container">
         <Row className="g-2">
-          {/* Phần trái - Mã QR và mã vé */}
-          <Col lg={4} md={5} sm={12} className="text-center d-flex flex-column justify-content-center align-items-center ticket-left">
-            <p className="">Mã lấy vé:</p>
+          {/* <Col lg={4} md={5} sm={12} className="text-center d-flex flex-column justify-content-center align-items-center ticket-left">
+            <p>Mã lấy vé:</p>
             <p className="ticket-code">WW8RKNR</p>
-          </Col>
-
-          {/* Phần phải - Thông tin phim */}
+          </Col> */}
           <Col lg={8} md={7} sm={12} className="d-flex align-items-center ticket-right">
             <Row className="w-100">
               <Col xs={12} md={4} className="text-center mb-md-0">
@@ -36,7 +29,7 @@ function Ticket() {
               <Col xs={12} md={8}>
                 <Card.Body>
                   <Card.Title className="movie-title-ticket">
-                    {movieTitle} {/* Hiển thị tên phim */}
+                    {movieTitle}
                   </Card.Title>
                   <Card.Text className="movie-details-ticket">
                     📅 <strong>Ngày:</strong> {new Date(showtimeDetails?.showtimeAt).toLocaleDateString('en-GB')}
@@ -50,7 +43,6 @@ function Ticket() {
                   <Card.Text className="movie-details-ticket">
                     💺 <strong>Ghế:</strong> {selectedSeats?.map(seat => seat.seatName).join(', ')}
                   </Card.Text>
-
                   <Card.Text className="movie-details-ticket">
                     🍿 <strong>Đồ ăn đã chọn:</strong>
                     <ul>
@@ -62,14 +54,11 @@ function Ticket() {
                     </ul>
                   </Card.Text>
 
-
-                  <Card.Text className="movie-details-ticket">
-                    📽️ <strong>Phòng chiếu:</strong> {showtimeDetails?.screen?.screenName}
-                  </Card.Text>
-                  <hr />
-                  <h4 className="total-price-ticket">
-                    Tổng tiền: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)} VNĐ
-                  </h4>
+                  {paymentSuccess ? (
+                    <h4 className="text-success">Thanh toán thành công!</h4>
+                  ) : (
+                    <h4 className="text-danger">Thanh toán thất bại!</h4>
+                  )}
                 </Card.Body>
               </Col>
             </Row>
@@ -81,3 +70,39 @@ function Ticket() {
 }
 
 export default Ticket;
+
+// import React from 'react';
+// import { Container, Row, Col, Card } from 'react-bootstrap';
+// import { useLocation } from 'react-router-dom';
+
+// function Ticket() {
+//   const { state } = useLocation();
+//   const { selectedSeats, showtimeDetails, movieTitle, snacks, moviePosterUrl, paymentSuccess } = state || {};
+
+//   return (
+//     <Container className="mt-4">
+//       {paymentSuccess ? (
+//         <Card>
+//           <Card.Body>
+//             <Row>
+//               <Col md={4}>
+//                 <img src={moviePosterUrl} alt={movieTitle} className="img-fluid" />
+//               </Col>
+//               <Col md={8}>
+//                 <h2>{movieTitle}</h2>
+//                 <p><strong>Rạp: </strong>{showtimeDetails.screen.cinema.cinemaName}</p>
+//                 <p><strong>Suất chiếu: </strong>{new Date(showtimeDetails.showtimeAt).toLocaleString()}</p>
+//                 <p><strong>Ghế: </strong>{selectedSeats.map(seat => seat.seatName).join(', ')}</p>
+//                 <h4>Thanh toán thành công!</h4>
+//               </Col>
+//             </Row>
+//           </Card.Body>
+//         </Card>
+//       ) : (
+//         <h3>Đã xảy ra lỗi, không thể hiển thị vé.</h3>
+//       )}
+//     </Container>
+//   );
+// }
+
+// export default Ticket;

@@ -1,17 +1,19 @@
 package com.company.project.vnpay.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
-import com.company.project.module.accounts.dto.response.AccountDto;
 import com.company.project.vnpay.dto.request.TransactionRequest;
 import com.company.project.vnpay.dto.response.TransactionResponse;
 import com.company.project.vnpay.service.VNPayService;
+
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -28,6 +30,7 @@ public class Controller {
                 .data(vnpayUrl)
                 .build());
     }
+
 
     @GetMapping("/vnpay-payment")
     public @ResponseBody ResponseEntity<ApiResponse<TransactionResponse>> getOrderReturn(HttpServletRequest request){

@@ -132,7 +132,7 @@ import { Button, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 import SendIcon from "@mui/icons-material/Send";
-import { fetchAllMovies } from "../../../components/services/UserService";
+import { fetchAllMovies } from "../../../../src/components/services/UserService";
 
 const BodySecond = () => {
   const buttonStyle = {
