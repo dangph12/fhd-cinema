@@ -62,4 +62,7 @@ public class Seat {
 
     @Column(name = "is_booked")
     boolean isBooked;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }

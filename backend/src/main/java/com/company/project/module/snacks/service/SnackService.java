@@ -1,6 +1,7 @@
 package com.company.project.module.snacks.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
@@ -8,119 +9,127 @@ import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.snacks.common.SnackStatusMessage;
 import com.company.project.module.snacks.dto.request.SnackCreationRequest;
+import com.company.project.module.snacks.dto.response.SnackDto;
 import com.company.project.module.snacks.entity.Snack;
 import com.company.project.module.snacks.exception.SnackException;
 import com.company.project.module.snacks.repository.SnackRepository;
 import com.company.project.utils.Utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SnackService {
-  
-  @Autowired
-  private SnackRepository snackRepository;
 
-  @Autowired
-  private BookingRepository bookingRepository;
+    private final SnackRepository snackRepository;
+    private final BookingRepository bookingRepository;
+    private final Utils utils;
+    private final ModelMapper modelMapper;
 
-  @Autowired
-  private Utils utils;
-
-  public List<Snack> getAllSnack() {
-    return snackRepository.findAll();
-  }
-  
-  public Snack getSnackById(String snackId) {
-    return snackRepository.findById(snackId)
-    .orElseThrow(() -> new SnackException(
-      Status.FAIL.getValue(), 
-      SnackStatusMessage.NOT_EXIST.getMessage()));
-  }
-
-  public Snack createSnack(SnackCreationRequest request) {
-
-    if(snackRepository.existsBySnackName(request.getSnackName())) {
-        throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.EXIST_SNACK.getMessage());
+    public SnackService(SnackRepository snackRepository, BookingRepository bookingRepository, Utils utils, ModelMapper modelMapper) {
+        this.snackRepository = snackRepository;
+        this.bookingRepository = bookingRepository;
+        this.utils = utils;
+        this.modelMapper = modelMapper;
     }
 
-    Snack snack = Snack.builder()
-      .snackName(request.getSnackName())
-      .snackPrice(request.getSnackPrice())
-      .build();
-
-    return snackRepository.save(snack);
-  }
-
-  public Snack updateSnack(String snackId, SnackCreationRequest request) {
-    if (!snackRepository.existsById(snackId)) {
-      throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.NOT_EXIST.getMessage());
+    private SnackDto convertToSnackDto(Snack snack) {
+        return modelMapper.map(snack, SnackDto.class);
     }
 
-    Snack existedSnack = this.getSnackById(snackId);
-
-    if (!existedSnack.getSnackName().equals(request.getSnackName()) 
-        && snackRepository.existsBySnackName(request.getSnackName())) {
-        throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.EXIST_SNACK.getMessage());
+    public List<SnackDto> getAllSnacks() {
+        List<Snack> snacks = snackRepository.findAllByIsDeletedFalse();
+        return snacks.stream()
+                     .map(this::convertToSnackDto)
+                     .collect(Collectors.toList());
     }
 
-    existedSnack.setSnackName(request.getSnackName());
-
-    if (!existedSnack.getSnackName().equals(request.getSnackName())) {
-      existedSnack.setSnackName(request.getSnackName());
+    public Snack getSnackById(String snackId) {
+        Snack snack = snackRepository.findBySnackIdAndIsDeletedFalse(snackId);
+        if (snack == null) {
+            throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.NOT_EXIST.getMessage());
+        }
+        return snack;
     }
 
-    return snackRepository.save(existedSnack);
-  }
-
-  @Transactional
-  public void deleteSnackById(String snackId) {
-    if (!snackRepository.existsById(snackId)) {
-      throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.NOT_EXIST.getMessage());
+    public SnackDto getSnackDtoById(String snackId) {
+        Snack snack = this.getSnackById(snackId);
+        return this.convertToSnackDto(snack);
     }
 
-    Snack snack = this.getSnackById(snackId);
+    public ApiPagination<SnackDto> filterSnacks(String snackName, int page, int pageSize,
+                                                String sortBy, String sortDirection) {
+        if (page < 1 || pageSize < 1) {
+            throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.LESS_THAN_ZERO.getMessage());
+        }
 
-    List<Booking> bookingsWithSnack = bookingRepository.findBySnacksContaining(snack);
-    for (Booking booking : bookingsWithSnack) {
-        booking.getSnacks().remove(snack);
-        bookingRepository.save(booking);
+        List<String> snackFieldNames = utils.getEntityFields(Snack.class);
+        if (!snackFieldNames.contains(sortBy)) {
+            throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+        }
+
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+        Page<Snack> snackPages = snackRepository.findBySnackNameContainingIgnoreCaseAndIsDeletedFalse(snackName, pageable);
+        long count = snackRepository.countBySnackNameContainingIgnoreCaseAndIsDeletedFalse(snackName);
+
+        List<SnackDto> snackDtos = snackPages.getContent().stream()
+                                             .map(this::convertToSnackDto)
+                                             .collect(Collectors.toList());
+
+        return ApiPagination.<SnackDto>builder()
+                            .result(snackDtos)
+                            .count(count)
+                            .build();
     }
 
-    snackRepository.deleteById(snackId);
-  }
+    public SnackDto createSnack(SnackCreationRequest request) {
+        if (snackRepository.existsBySnackNameAndIsDeletedFalse(request.getSnackName())) {
+            throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.EXIST_SNACK.getMessage());
+        }
 
-  public ApiPagination<Snack> filterSnacks(String snackName, int page, int pageSize,
-        String sortBy, String sortDirection) {
-    if (page < 1 || pageSize < 1) {
-      throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.LESS_THAN_ZERO.getMessage());
+        Snack snack = Snack.builder()
+                           .snackName(request.getSnackName())
+                           .snackPrice(request.getSnackPrice())
+                           .build();
+
+        snackRepository.save(snack);
+        return this.convertToSnackDto(snack);
     }
 
-    List<String> accountFieldNames = utils.getEntityFields(Snack.class);
+    public SnackDto updateSnack(String snackId, SnackCreationRequest request) {
+        Snack existedSnack = this.getSnackById(snackId);
 
-    if (!accountFieldNames.contains(sortBy)) {
-      throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+        if (!existedSnack.getSnackName().equals(request.getSnackName()) &&
+            snackRepository.existsBySnackNameAndIsDeletedFalse(request.getSnackName())) {
+            throw new SnackException(Status.FAIL.getValue(), SnackStatusMessage.EXIST_SNACK.getMessage());
+        }
+
+        existedSnack.setSnackPrice(request.getSnackPrice());
+
+        if (!existedSnack.getSnackName().equals(request.getSnackName())) {
+            existedSnack.setSnackName(request.getSnackName());
+        }
+
+        snackRepository.save(existedSnack);
+        return this.convertToSnackDto(existedSnack);
     }
 
-    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+    public void deleteSnackById(String snackId) {
+        Snack existedSnack = this.getSnackById(snackId);
 
-    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+        List<Booking> bookingsWithSnack = bookingRepository.findBySnacksContaining(existedSnack);
+        for (Booking booking : bookingsWithSnack) {
+            booking.getSnacks().remove(existedSnack);
+            bookingRepository.save(booking);
+        }
 
-    Page<Snack> snackPages = snackRepository.findBySnackNameContainingIgnoreCase(snackName, pageable);
-    long count = snackRepository.countBySnackNameContainingIgnoreCase(snackName);
-
-    ApiPagination<Snack> snackPagination = ApiPagination.<Snack>builder()
-        .result(snackPages.getContent())
-        .count(count)
-        .build();
-    
-    return snackPagination;
-  }
-
+        existedSnack.setDeleted(true);
+        snackRepository.save(existedSnack);
+    }
 }

@@ -45,7 +45,7 @@ public class CustomerController {
       .build());
   }
 
-  @GetMapping("/id/{customerId}")
+  @GetMapping("/{customerId}")
   ResponseEntity<ApiResponse<Customer>> getCustomerById(@PathVariable(name = "customerId") String customerId) {
     Customer customer = customerService.getCustomerById(customerId);
 
@@ -70,7 +70,7 @@ public class CustomerController {
       .build());
   }
 
-  @PutMapping("/id/{customerId}")
+  @PutMapping("/{customerId}")
   ResponseEntity<ApiResponse<Customer>> updateCustomer(
     @PathVariable(name = "customerId") String customerId,
     @Valid @RequestBody CustomerUpdateRequest request) {
@@ -84,7 +84,7 @@ public class CustomerController {
         .build());
   }
 
-  @DeleteMapping("/id/{customerId}")
+  @DeleteMapping("/{customerId}")
   ResponseEntity<ApiResponse<Void>> deleteCustomer(
     @PathVariable(name = "customerId") String customerId) {
     customerService.deleteCustomerById(customerId);

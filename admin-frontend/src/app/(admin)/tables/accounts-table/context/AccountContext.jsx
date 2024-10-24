@@ -8,7 +8,7 @@ const pageSize = 2;
 const initialState = {
   accounts: [],
   query: '',
-  filters: [],
+  filters: ["Admin", "Customer"],
   currentPage: 1,
   totalPages: 1,
 };
@@ -36,6 +36,15 @@ export const AccountProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const accountApiUrl = `http://localhost:8080/accounts?search=${state.query}&page=${state.currentPage}&filters=${state.filters.join(',')}`;
+  useEffect(() => {
+    fetchAccounts();
+  }, [state.currentPage, state.query, state.filters]);
+
+  // for debug
+  // const accountApiUrl = `http://localhost:8080/accounts`;
+  // useEffect(() => {
+  //   fetchAccounts();
+  // }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search || '');
@@ -48,15 +57,11 @@ export const AccountProvider = ({ children }) => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage });
   }, [location.search]);
 
-  useEffect(() => {
-    fetchAccounts();
-  }, [state.currentPage, state.query, state.filters]);
-
   const fetchAccounts = () => {
     fetch(accountApiUrl)
       .then((response) => response.json())
       .then((json) => {
-        dispatch({ type: 'SET_ACCOUNTS', payload: json.data.accountDtos });
+        dispatch({ type: 'SET_ACCOUNTS', payload: json.data.result });
         dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(json.data.count / pageSize) });
       })
       .catch((error) => console.error('Error fetching accounts:', error));

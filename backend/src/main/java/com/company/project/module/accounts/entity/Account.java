@@ -1,8 +1,16 @@
 package com.company.project.module.accounts.entity;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
 import com.company.project.module.customers.entity.Customer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,4 +44,6 @@ public class Account {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     Customer customer;
 
+    @Builder.Default
+    boolean isDeleted = false;
 }

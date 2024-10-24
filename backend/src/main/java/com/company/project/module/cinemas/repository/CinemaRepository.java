@@ -1,5 +1,7 @@
 package com.company.project.module.cinemas.repository;
 
+import java.util.List;
+
 import com.company.project.module.cinemas.entity.Cinema;
 
 import org.springframework.data.domain.Page;
@@ -9,8 +11,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CinemaRepository extends JpaRepository<Cinema, String> {
-    boolean existsByCinemaName(String cinemaName);
-    boolean existsByCinemaId(String cinemaId);
-    Page<Cinema> findByCinemaNameContainingIgnoreCase(String cinemaName, Pageable pageable);
-    long countByCinemaNameContainingIgnoreCase(String cinemaName);
+
+    boolean existsByCinemaNameAndIsDeletedFalse(String cinemaName);
+
+    List<Cinema> findAllByIsDeletedFalseAndLocation_IsDeletedFalse();
+
+    Cinema findByCinemaIdAndIsDeletedFalseAndLocation_IsDeletedFalse(String cinemaId);
+
+    Page<Cinema> findByCinemaNameContainingIgnoreCaseAndIsDeletedFalseAndLocation_IsDeletedFalse(String cinemaName, Pageable pageable);
+
+    long countByCinemaNameContainingIgnoreCaseAndIsDeletedFalseAndLocation_IsDeletedFalse(String cinemaName);
 }

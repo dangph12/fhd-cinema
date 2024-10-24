@@ -9,7 +9,7 @@ import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.news.common.NewsStatusMessage;
 import com.company.project.module.news.dto.request.NewsCreationRequest;
-import com.company.project.module.news.entity.News;
+import com.company.project.module.news.dto.response.NewsDto;
 import com.company.project.module.news.service.NewsService;
 
 import org.springframework.http.HttpStatus;
@@ -28,82 +28,83 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/news")
 public class NewsController {
 
-    private final NewsService newsService;
+  private final NewsService newsService;
 
-    public NewsController(NewsService newsService) {
-        this.newsService = newsService;
-    }
+  public NewsController(NewsService newsService) {
+    this.newsService = newsService;
+  }
 
-    @GetMapping
-    ResponseEntity<ApiResponse<List<News>>> getAllNews() {
-        return ResponseEntity.status(HttpStatus.OK.value())
-                .body(ApiResponse.<List<News>>builder()
-                        .status(Status.SUCCESS.getValue())
-                        .message(NewsStatusMessage.GET_SUCCESS.getMessage())
-                        .data(newsService.getAllNews())
-                        .build());
-    }
+  @GetMapping
+  ResponseEntity<ApiResponse<List<NewsDto>>> getAllNews() {
+    return ResponseEntity.status(HttpStatus.OK.value())
+        .body(ApiResponse.<List<NewsDto>>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(NewsStatusMessage.GET_SUCCESS.getMessage())
+            .data(newsService.getAllNews())
+            .build());
+  }
 
-    @GetMapping("/{newsId}")
-    ResponseEntity<ApiResponse<News>> getNewsById(@PathVariable String newsId) {
-        News news = newsService.getNewsById(newsId);
+  @GetMapping("/{newsId}")
+  ResponseEntity<ApiResponse<NewsDto>> getNewsById(@PathVariable String newsId) {
+    NewsDto news = newsService.getNewsDtoById(newsId);
 
-        return ResponseEntity.status(HttpStatus.OK.value())
-                .body(ApiResponse.<News>builder()
-                        .status(Status.SUCCESS.getValue())
-                        .message(NewsStatusMessage.GET_SUCCESS.getMessage())
-                        .data(news)
-                        .build());
-    }
+    return ResponseEntity.status(HttpStatus.OK.value())
+        .body(ApiResponse.<NewsDto>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(NewsStatusMessage.GET_SUCCESS.getMessage())
+            .data(news)
+            .build());
+  }
 
-    @PostMapping
-    ResponseEntity<ApiResponse<News>> addNews(@RequestBody @Valid NewsCreationRequest request) {
-        News news = newsService.createNews(request);
+  @PostMapping
+  ResponseEntity<ApiResponse<NewsDto>> addNews(@RequestBody @Valid NewsCreationRequest request) {
+    NewsDto news = newsService.createNews(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED.value())
-                .body(ApiResponse.<News>builder()
-                        .status(Status.SUCCESS.getValue())
-                        .message(NewsStatusMessage.CREATE_SUCCESS.getMessage())
-                        .data(news)
-                        .build());
-    }
+    return ResponseEntity.status(HttpStatus.CREATED.value())
+        .body(ApiResponse.<NewsDto>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(NewsStatusMessage.CREATE_SUCCESS.getMessage())
+            .data(news)
+            .build());
+  }
 
-    @PutMapping("/{newsId}")
-    ResponseEntity<ApiResponse<News>> updateNews(@PathVariable String newsId, @RequestBody @Valid NewsCreationRequest request) {
-        News news = newsService.updateNews(newsId, request);
+  @PutMapping("/{newsId}")
+  ResponseEntity<ApiResponse<NewsDto>> updateNews(@PathVariable String newsId,
+      @RequestBody @Valid NewsCreationRequest request) {
+    NewsDto news = newsService.updateNews(newsId, request);
 
-        return ResponseEntity.status(HttpStatus.OK.value())
-                .body(ApiResponse.<News>builder()
-                        .status(Status.SUCCESS.getValue())
-                        .message(NewsStatusMessage.UPDATE_SUCCESS.getMessage())
-                        .data(news)
-                        .build());
-    }
+    return ResponseEntity.status(HttpStatus.OK.value())
+        .body(ApiResponse.<NewsDto>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(NewsStatusMessage.UPDATE_SUCCESS.getMessage())
+            .data(news)
+            .build());
+  }
 
-    @DeleteMapping("/{newsId}")
-    ResponseEntity<ApiResponse<News>> deleteNews(@PathVariable String newsId) {
-        newsService.deleteNews(newsId);
+  @DeleteMapping("/{newsId}")
+  ResponseEntity<ApiResponse<Void>> deleteNews(@PathVariable String newsId) {
+    newsService.deleteNewsById(newsId);
 
-        return ResponseEntity.status(HttpStatus.OK.value())
-                .body(ApiResponse.<News>builder()
-                        .status(Status.SUCCESS.getValue())
-                        .message(NewsStatusMessage.DELETE_SUCCESS.getMessage())
-                        .build());
-    }
+    return ResponseEntity.status(HttpStatus.OK.value())
+        .body(ApiResponse.<Void>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(NewsStatusMessage.DELETE_SUCCESS.getMessage())
+            .build());
+  }
 
-    @GetMapping(params = "search")
-    ResponseEntity<ApiResponse<ApiPagination<News>>> filterNews(
-        @RequestParam(value = "search") String search,
-        @RequestParam(value = "page", defaultValue = "1") int page,
-        @RequestParam(value = "newsCategories", required = false) List<String> newsCategories,
-        @RequestParam(value = "sortBy", defaultValue = "accountName") String sortBy, 
-        @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
-        @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
-      return ResponseEntity.ok().body(ApiResponse.<ApiPagination<News>>builder()
-              .status(Status.SUCCESS.getValue())
-              .message(NewsStatusMessage.GET_SUCCESS.getMessage())
-              .data(newsService.filterNews(search, page, pageSize, newsCategories, sortBy, sortDirection))
-              .build());
-    }
+  @GetMapping(params = "search")
+  ResponseEntity<ApiResponse<ApiPagination<NewsDto>>> filterNews(
+      @RequestParam(value = "search") String search,
+      @RequestParam(value = "page", defaultValue = "1") int page,
+      @RequestParam(value = "newsCategories", required = false) List<String> newsCategories,
+      @RequestParam(value = "sortBy", defaultValue = "newsTitle") String sortBy,
+      @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
+      @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
+    return ResponseEntity.ok().body(ApiResponse.<ApiPagination<NewsDto>>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(NewsStatusMessage.GET_SUCCESS.getMessage())
+        .data(newsService.filterNews(search, page, pageSize, newsCategories, sortBy, sortDirection))
+        .build());
+  }
 
 }

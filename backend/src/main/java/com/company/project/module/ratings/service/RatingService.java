@@ -1,16 +1,20 @@
 package com.company.project.module.ratings.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.ratings.common.RatingStatusMessage;
 import com.company.project.module.ratings.dto.request.RatingCreationRequest;
+import com.company.project.module.ratings.dto.response.RatingDto;
 import com.company.project.module.ratings.entity.Rating;
 import com.company.project.module.ratings.exception.RatingException;
 import com.company.project.module.ratings.repository.RatingRepository;
 import com.company.project.utils.Utils;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,73 +24,122 @@ import org.springframework.stereotype.Service;
 @Service
 public class RatingService {
 
-    public final RatingRepository ratingRepository;
-    public final Utils utils;
+  private final RatingRepository ratingRepository;
+  private final ModelMapper modelMapper;
+  private final Utils utils;
 
-    public RatingService(RatingRepository ratingRepository, Utils utils) {
-        this.ratingRepository = ratingRepository;
-        this.utils = utils;
+  public RatingService(RatingRepository ratingRepository, Utils utils, ModelMapper modelMapper) {
+    this.ratingRepository = ratingRepository;
+    this.utils = utils;
+    this.modelMapper = modelMapper;
+  }
+
+  private RatingDto convertToRatingDto(Rating rating) {
+    return modelMapper.map(rating, RatingDto.class);
+  }
+
+  public List<RatingDto> getAllRatings() {
+    List<Rating> ratings = ratingRepository.findAllByIsDeletedFalse();
+
+    List<RatingDto> ratingDtos = new ArrayList<>();
+
+    for (Rating rating : ratings) {
+      RatingDto ratingDto = this.convertToRatingDto(rating);
+      ratingDtos.add(ratingDto);
     }
 
-    public List<Rating> getAllRatings() {
-        return ratingRepository.findAll();
+    return ratingDtos;
+  }
+
+  public Rating getRatingById(String ratingId) {
+    Rating rating = ratingRepository.findByRatingIdAndIsDeletedFalse(ratingId);
+
+    if (rating == null) {
+      throw new RatingException(
+          Status.FAIL.getValue(), RatingStatusMessage.NOT_EXIST.getMessage());
     }
 
-    public Rating getRatingById(String ratingId) {
-        return ratingRepository.findById(ratingId).orElseThrow(() -> new RatingException(Status.FAIL.getValue(), RatingStatusMessage.NOT_EXIST.getMessage()));
+    return rating;
+  }
+
+  public RatingDto getRatingDtoById(String ratingId) {
+    Rating rating = this.getRatingById(ratingId);
+    return this.convertToRatingDto(rating);
+  }
+
+  public ApiPagination<RatingDto> filterRatings(String ratingName, int page, int pageSize,
+      String sortBy, String sortDirection) {
+    if (page < 1 || pageSize < 1) {
+      throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.LESS_THAN_ZERO.getMessage());
     }
 
-    public ApiPagination<Rating> filterRatings(String ratingName, int page, int pageSize,
-          String sortBy, String sortDirection) {
-      if (page < 1 || pageSize < 1) {
-        throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.LESS_THAN_ZERO.getMessage());
-      }
+    List<String> ratingFieldNames = utils.getEntityFields(Rating.class);
 
-      List<String> ratingFieldNames = utils.getEntityFields(Rating.class);
-
-      if (!ratingFieldNames.contains(sortBy)) {
-        throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
-      }
-
-      Sort.Direction direction = Sort.Direction.fromString(sortDirection);
-
-      Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
-
-      Page<Rating> ratingPages = ratingRepository.findByRatingNameContainingIgnoreCase(ratingName, pageable);
-      long count = ratingRepository.countByRatingNameContainingIgnoreCase(ratingName);
-
-      ApiPagination<Rating> ratingPagination = ApiPagination.<Rating>builder()
-          .result(ratingPages.getContent())
-          .count(count)
-          .build();
-      
-      return ratingPagination;
+    if (!ratingFieldNames.contains(sortBy)) {
+      throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
     }
 
-    public Rating createRating(RatingCreationRequest request) {
-        Rating rating = Rating.builder()
-                .ratingName(request.getRatingName())
-                .ratingDescription(request.getRatingDescription())
-                .build();
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
 
-        return ratingRepository.save(rating);
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+    Page<Rating> ratingPages = ratingRepository.findByRatingNameContainingIgnoreCaseAndIsDeletedFalse(ratingName,
+        pageable);
+    long count = ratingRepository.countByRatingNameContainingIgnoreCaseAndIsDeletedFalse(ratingName);
+
+    List<RatingDto> ratingDtos = ratingPages.getContent().stream()
+        .map(this::convertToRatingDto)
+        .collect(Collectors.toList());
+
+    ApiPagination<RatingDto> ratingPagination = ApiPagination.<RatingDto>builder()
+        .result(ratingDtos)
+        .count(count)
+        .build();
+
+    return ratingPagination;
+  }
+
+  public RatingDto createRating(RatingCreationRequest request) {
+    if (ratingRepository.existsByRatingNameAndIsDeletedFalse(request.getRatingName())) {
+      throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.EXIST_NAME.getMessage());
+    }
+    Rating rating = Rating.builder()
+        .ratingName(request.getRatingName())
+        .ratingDescription(request.getRatingDescription())
+        .build();
+
+    ratingRepository.save(rating);
+    return this.convertToRatingDto(rating);
+  }
+
+  public RatingDto updateRating(String ratingId, RatingCreationRequest request) {
+    Rating existedRating = this.getRatingById(ratingId);
+
+    if (!existedRating.getRatingName().equals(request.getRatingName())
+        && ratingRepository.existsByRatingNameAndIsDeletedFalse(request.getRatingName())) {
+      throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.EXIST_NAME.getMessage());
     }
 
-    public Rating updateRating(String ratingId, RatingCreationRequest request) {
-        Rating existedRating = getRatingById(ratingId);
+    existedRating.setRatingDescription(request.getRatingDescription());
 
-        existedRating.setRatingName(request.getRatingName());
-        existedRating.setRatingDescription(request.getRatingDescription());
-
-        return ratingRepository.save(existedRating);
+    if (!existedRating.getRatingName().equals(request.getRatingName())) {
+      existedRating.setRatingName(request.getRatingName());
     }
 
-    public void deleteRating(String ratingId) {
-        if(!ratingRepository.existsByRatingId(ratingId)) {
-            throw new RatingException(Status.FAIL.getValue(), RatingStatusMessage.NOT_EXIST.getMessage());
-        }
+    ratingRepository.save(existedRating);
 
-        ratingRepository.deleteById(ratingId);
-    }
+    return this.convertToRatingDto(existedRating);
+  }
+
+  public void deleteRating(String ratingId) {
+    Rating existedRating = this.getRatingById(ratingId);
+
+    existedRating.getMovies().forEach(movie -> {
+      movie.setDeleted(true);
+    });
+    existedRating.setDeleted(true);
+
+    ratingRepository.save(existedRating);
+  }
 
 }
