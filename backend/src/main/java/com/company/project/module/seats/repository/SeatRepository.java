@@ -13,19 +13,27 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, String> {
-  boolean existsBySeatName(String seatName);
+  boolean existsBySeatIdAndIsDeletedFalse(String seatName);
+
+  boolean existsBySeatNameAndIsDeletedFalse(String seatName);
+
+  List<Seat> findAllByIsDeletedFalse();
+
+  Seat findBySeatIdAndIsDeletedFalse(String seatId);
 
   @Query("SELECT s FROM Seat s WHERE " +
-         "(:seatName IS NULL OR LOWER(s.seatName) LIKE LOWER(CONCAT('%', :seatName, '%'))) AND " +
-         "(:seatTypes IS NULL OR s.seatType.seatTypeName IN :seatTypes)")
+      "s.isDeleted = false AND " +
+      "(:seatName IS NULL OR LOWER(s.seatName) LIKE LOWER(CONCAT('%', :seatName, '%'))) AND " +
+      "(:seatTypes IS NULL OR (s.seatType.isDeleted = false AND s.seatType.seatTypeName IN :seatTypes))")
   Page<Seat> searchSeats(@Param("seatName") String seatName,
-                         @Param("seatTypes") List<String> seatTypes,
-                         Pageable pageable);
+      @Param("seatTypes") List<String> seatTypes,
+      Pageable pageable);
 
   @Query("SELECT COUNT(s) FROM Seat s WHERE " +
-         "(:seatName IS NULL OR LOWER(s.seatName) LIKE LOWER(CONCAT('%', :seatName, '%'))) AND " +
-         "(:seatTypes IS NULL OR s.seatType.seatTypeName IN :seatTypes)")
+      "s.isDeleted = false AND " +
+      "(:seatName IS NULL OR LOWER(s.seatName) LIKE LOWER(CONCAT('%', :seatName, '%'))) AND " +
+      "(:seatTypes IS NULL OR (s.seatType.isDeleted = false AND s.seatType.seatTypeName IN :seatTypes))")
   long countSeats(@Param("seatName") String seatName,
-                  @Param("seatTypes") List<String> seatTypes);
+      @Param("seatTypes") List<String> seatTypes);
 
 }

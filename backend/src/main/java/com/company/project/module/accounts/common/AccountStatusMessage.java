@@ -17,6 +17,9 @@ public enum AccountStatusMessage {
   GET_SUCCESS("Get all accounts successfully"),
   EMPTY_NAME("The account name must not be empty"),
   EMPTY_PASSWORD("The account password must not be empty"),
+  EMPTY_EMAIL("The email of customer must not be empty"),
+  EMPTY_PHONE("The phone of customer must not be empty"),
+  EMPTY_CUSTOMER_NAME("The name of customer must not be empty"),
   UNAUTHORIZED("Unauthorized"),
   TOKEN_SUCCESS("The token has been successfully"),
   TOKEN_VERIFY_SUCCESS("The token has been verified successfully");

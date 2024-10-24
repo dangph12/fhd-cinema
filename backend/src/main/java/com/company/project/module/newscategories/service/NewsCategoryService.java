@@ -1,112 +1,124 @@
 package com.company.project.module.newscategories.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.newscategories.common.NewsCategoryStatusMessage;
 import com.company.project.module.newscategories.dto.request.NewsCategoryCreationRequest;
+import com.company.project.module.newscategories.dto.response.NewsCategoryDto;
 import com.company.project.module.newscategories.entity.NewsCategory;
 import com.company.project.module.newscategories.exception.NewsCategoryException;
 import com.company.project.module.newscategories.repository.NewsCategoryRepository;
 import com.company.project.utils.Utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NewsCategoryService {
-  
-  @Autowired
-  private NewsCategoryRepository newsCategoryRepository;
 
-  @Autowired
-  private Utils utils;
+    private final NewsCategoryRepository newsCategoryRepository;
+    private final Utils utils;
+    private final ModelMapper modelMapper;
 
-  public List<NewsCategory> getAllNewsCategory() {
-    return newsCategoryRepository.findAll();
-  }
-  
-  public NewsCategory getNewsCategoryById(String newsCategoryId) {
-    return newsCategoryRepository.findById(newsCategoryId)
-    .orElseThrow(() -> new NewsCategoryException(
-      Status.FAIL.getValue(), 
-      NewsCategoryStatusMessage.NOT_EXIST.getMessage()));
-  }
-
-  public ApiPagination<NewsCategory> filterNewsCategories(String newsCategoryName, int page, int pageSize,
-        String sortBy, String sortDirection) {
-    if (page < 1 || pageSize < 1) {
-      throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.LESS_THAN_ZERO.getMessage());
+    public NewsCategoryService(NewsCategoryRepository newsCategoryRepository, Utils utils, ModelMapper modelMapper) {
+        this.newsCategoryRepository = newsCategoryRepository;
+        this.utils = utils;
+        this.modelMapper = modelMapper;
     }
 
-    List<String> newsCategoryFieldNames = utils.getEntityFields(NewsCategory.class);
-
-    if (!newsCategoryFieldNames.contains(sortBy)) {
-      throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+    private NewsCategoryDto convertToNewsCategoryDto(NewsCategory newsCategory) {
+        return modelMapper.map(newsCategory, NewsCategoryDto.class);
     }
 
-    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
-
-    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
-
-    Page<NewsCategory> newsCategoryPages = newsCategoryRepository.findByNewsCategoryNameContainingIgnoreCase(newsCategoryName, pageable);
-    long count = newsCategoryRepository.countByNewsCategoryNameContainingIgnoreCase(newsCategoryName);
-
-    ApiPagination<NewsCategory> newsCategoryPagination = ApiPagination.<NewsCategory>builder()
-        .result(newsCategoryPages.getContent())
-        .count(count)
-        .build();
-    
-    return newsCategoryPagination;
-  }
-
-  public NewsCategory createNewsCategory(NewsCategoryCreationRequest request) {
-
-    if(newsCategoryRepository.existsByNewsCategoryName(request.getNewsCategoryName())) {
-        throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.EXIST_NEWSCATEGORY.getMessage());
+    public List<NewsCategoryDto> getAllNewsCategories() {
+        List<NewsCategory> newsCategories = newsCategoryRepository.findAllByIsDeletedFalse();
+        return newsCategories.stream()
+                             .map(this::convertToNewsCategoryDto)
+                             .collect(Collectors.toList());
     }
 
-    NewsCategory newsCategory = NewsCategory.builder()
-      .newsCategoryName(request.getNewsCategoryName())
-      .build();
-
-    return newsCategoryRepository.save(newsCategory);
-  }
-
-  public NewsCategory updateNewsCategory(String newsCategoryId, NewsCategoryCreationRequest request) {
-    if (!newsCategoryRepository.existsById(newsCategoryId)) {
-      throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.NOT_EXIST.getMessage());
+    public NewsCategory getNewsCategoryById(String newsCategoryId) {
+        NewsCategory newsCategory = newsCategoryRepository.findByNewsCategoryIdAndIsDeletedFalse(newsCategoryId);
+        if (newsCategory == null) {
+            throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.NOT_EXIST.getMessage());
+        }
+        return newsCategory;
     }
 
-    NewsCategory existedNewsCategory = this.getNewsCategoryById(newsCategoryId);
-
-    if (!existedNewsCategory.getNewsCategoryName().equals(request.getNewsCategoryName()) 
-        && newsCategoryRepository.existsByNewsCategoryName(request.getNewsCategoryName())) {
-        throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.EXIST_NEWSCATEGORY.getMessage());
+    public NewsCategoryDto getNewsCategoryDtoById(String newsCategoryId) {
+        NewsCategory newsCategory = this.getNewsCategoryById(newsCategoryId);
+        return this.convertToNewsCategoryDto(newsCategory);
     }
 
-    existedNewsCategory.setNewsCategoryName(request.getNewsCategoryName());
+    public ApiPagination<NewsCategoryDto> filterNewsCategories(String newsCategoryName, int page, int pageSize,
+                                                               String sortBy, String sortDirection) {
+        if (page < 1 || pageSize < 1) {
+            throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.LESS_THAN_ZERO.getMessage());
+        }
 
-    if (!existedNewsCategory.getNewsCategoryName().equals(request.getNewsCategoryName())) {
-      existedNewsCategory.setNewsCategoryName(request.getNewsCategoryName());
+        List<String> newsCategoryFieldNames = utils.getEntityFields(NewsCategory.class);
+        if (!newsCategoryFieldNames.contains(sortBy)) {
+            throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+        }
+
+        Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+        Page<NewsCategory> newsCategoryPages = newsCategoryRepository.findByNewsCategoryNameContainingIgnoreCaseAndIsDeletedFalse(newsCategoryName, pageable);
+        long count = newsCategoryRepository.countByNewsCategoryNameContainingIgnoreCaseAndIsDeletedFalse(newsCategoryName);
+
+        List<NewsCategoryDto> newsCategoryDtos = newsCategoryPages.getContent().stream()
+                                                                  .map(this::convertToNewsCategoryDto)
+                                                                  .collect(Collectors.toList());
+
+        return ApiPagination.<NewsCategoryDto>builder()
+                            .result(newsCategoryDtos)
+                            .count(count)
+                            .build();
     }
 
-    return newsCategoryRepository.save(existedNewsCategory);
-  }
+    public NewsCategoryDto createNewsCategory(NewsCategoryCreationRequest request) {
+        if (newsCategoryRepository.existsByNewsCategoryNameAndIsDeletedFalse(request.getNewsCategoryName())) {
+            throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.EXIST_NEWSCATEGORY.getMessage());
+        }
 
-  @Transactional
-  public void deleteNewsCategoryById(String newsCategoryId) {
-    if (!newsCategoryRepository.existsById(newsCategoryId)) {
-      throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.NOT_EXIST.getMessage());
+        NewsCategory newsCategory = NewsCategory.builder()
+                                                .newsCategoryName(request.getNewsCategoryName())
+                                                .build();
+
+        newsCategoryRepository.save(newsCategory);
+        return this.convertToNewsCategoryDto(newsCategory);
     }
 
-    newsCategoryRepository.deleteById(newsCategoryId);
-  }
+    public NewsCategoryDto updateNewsCategory(String newsCategoryId, NewsCategoryCreationRequest request) {
+        NewsCategory existedNewsCategory = this.getNewsCategoryById(newsCategoryId);
 
+        if (!existedNewsCategory.getNewsCategoryName().equals(request.getNewsCategoryName()) &&
+            newsCategoryRepository.existsByNewsCategoryNameAndIsDeletedFalse(request.getNewsCategoryName())) {
+            throw new NewsCategoryException(Status.FAIL.getValue(), NewsCategoryStatusMessage.EXIST_NEWSCATEGORY.getMessage());
+        }
+
+        existedNewsCategory.setNewsCategoryName(request.getNewsCategoryName());
+
+        newsCategoryRepository.save(existedNewsCategory);
+        return this.convertToNewsCategoryDto(existedNewsCategory);
+    }
+
+    public void deleteNewsCategoryById(String newsCategoryId) {
+        NewsCategory existedNewsCategory = this.getNewsCategoryById(newsCategoryId);
+
+        existedNewsCategory.getNews().forEach(news -> {
+            news.setDeleted(true);  
+        });
+
+        existedNewsCategory.setDeleted(true);  
+        newsCategoryRepository.save(existedNewsCategory);  
+    }
 }

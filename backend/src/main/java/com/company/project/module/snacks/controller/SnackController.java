@@ -9,7 +9,7 @@ import com.company.project.common.ApiResponse;
 import com.company.project.common.Status;
 import com.company.project.module.snacks.common.SnackStatusMessage;
 import com.company.project.module.snacks.dto.request.SnackCreationRequest;
-import com.company.project.module.snacks.entity.Snack;
+import com.company.project.module.snacks.dto.response.SnackDto;
 import com.company.project.module.snacks.service.SnackService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,51 +33,51 @@ public class SnackController {
   private SnackService snackService;
 
   @GetMapping()
-  ResponseEntity<ApiResponse<List<Snack>>> getAllSnack() {
+  ResponseEntity<ApiResponse<List<SnackDto>>> getAllSnacks() {
     return ResponseEntity.status(HttpStatus.OK.value())
-    .body(ApiResponse.<List<Snack>>builder()
+    .body(ApiResponse.<List<SnackDto>>builder()
       .status(Status.SUCCESS.getValue())
       .message(SnackStatusMessage.GET_SUCCESS.getMessage())
-      .data(snackService.getAllSnack())
+      .data(snackService.getAllSnacks())  
       .build());
   }
 
   @GetMapping("/{snackId}")
-  ResponseEntity<ApiResponse<Snack>> getSnackById(@PathVariable(name = "snackId") String snackId) {
-    Snack snack = snackService.getSnackById(snackId);
+  ResponseEntity<ApiResponse<SnackDto>> getSnackById(@PathVariable(name = "snackId") String snackId) {
+    SnackDto snackDto = snackService.getSnackDtoById(snackId);
 
     return ResponseEntity.status(HttpStatus.OK.value())
-    .body(ApiResponse.<Snack>builder()
+    .body(ApiResponse.<SnackDto>builder()
       .status(Status.SUCCESS.getValue())
       .message(SnackStatusMessage.GET_SUCCESS.getMessage())
-      .data(snack)
+      .data(snackDto)
       .build());
   }
   
   @PostMapping
-  ResponseEntity<ApiResponse<Snack>> addSnack(
+  ResponseEntity<ApiResponse<SnackDto>> addSnack(
     @RequestBody @Valid SnackCreationRequest request) {
-    Snack snack =  snackService.createSnack(request);
+    SnackDto snackDto = snackService.createSnack(request);
 
     return ResponseEntity.status(HttpStatus.CREATED.value())
-    .body(ApiResponse.<Snack>builder()
+    .body(ApiResponse.<SnackDto>builder()
       .status(Status.SUCCESS.getValue())
       .message(SnackStatusMessage.CREATE_SUCCESS.getMessage())
-      .data(snack)
+      .data(snackDto)
       .build());
   }
 
   @PutMapping("/{snackId}")
-  ResponseEntity<ApiResponse<Snack>> updateSnack(
+  ResponseEntity<ApiResponse<SnackDto>> updateSnack(
     @PathVariable(name = "snackId") String snackId,
     @Valid @RequestBody SnackCreationRequest request) {
-    Snack snack = snackService.updateSnack(snackId, request);
+    SnackDto snackDto = snackService.updateSnack(snackId, request);
 
     return ResponseEntity.status(HttpStatus.OK.value())
-      .body(ApiResponse.<Snack>builder()
+      .body(ApiResponse.<SnackDto>builder()
         .status(Status.SUCCESS.getValue())
         .message(SnackStatusMessage.UPDATE_SUCCESS.getMessage())
-        .data(snack)
+        .data(snackDto)
         .build());
   }
 
@@ -94,16 +94,18 @@ public class SnackController {
   }
 
   @GetMapping(params = "search")
-  ResponseEntity<ApiResponse<ApiPagination<Snack>>> filterSnacks(
+  ResponseEntity<ApiResponse<ApiPagination<SnackDto>>> filterSnacks(
       @RequestParam(value = "search") String search,
       @RequestParam(value = "page", defaultValue = "1") int page,
       @RequestParam(value = "sortBy", defaultValue = "snackName") String sortBy, 
       @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
       @RequestParam(value = "pageSize", defaultValue = "2") int pageSize) {
-    return ResponseEntity.ok().body(ApiResponse.<ApiPagination<Snack>>builder()
+    ApiPagination<SnackDto> snackPagination = snackService.filterSnacks(search, page, pageSize, sortBy, sortDirection);
+
+    return ResponseEntity.ok().body(ApiResponse.<ApiPagination<SnackDto>>builder()
             .status(Status.SUCCESS.getValue())
             .message(SnackStatusMessage.GET_SUCCESS.getMessage())
-            .data(snackService.filterSnacks(search, page, pageSize, sortBy, sortDirection))
+            .data(snackPagination)  
             .build());
   }
 

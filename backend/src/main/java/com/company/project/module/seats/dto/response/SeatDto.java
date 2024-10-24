@@ -1,7 +1,8 @@
-package com.company.project.module.seats.dto.request;
+package com.company.project.module.seats.dto.response;
 
 import com.company.project.module.screens.entity.Screen;
 import com.company.project.module.seatstypes.entity.SeatType;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,14 +14,14 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SeatDTO {
-  
-  String seatId;
-  SeatType seatType;
-  Screen screen;
-  String seatName;
-  boolean isBooked;
-
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class SeatDto {
+    String seatId;
+    String seatName;
+    int price;
+    SeatType seatType;
+    Screen screen;
+    boolean isBooked;
 }

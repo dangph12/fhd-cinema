@@ -12,7 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice(basePackages = "com.company.project.module.newscategories")
+@ControllerAdvice
 public class NewsCategoryExceptionHandler {
   
   @ExceptionHandler(value = MethodArgumentNotValidException.class)

@@ -12,12 +12,27 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, String> {
-  boolean existsByAccountId(String accountId);
-  boolean existsByAccountName(String accountName);
   Optional<Account> findByAccountName(String accountName);
-  Page<Account> findByAccountNameContainingIgnoreCase(String accountName, Pageable pageable);
-  Page<Account> findByAccountNameContainingIgnoreCaseAndAccountTypeIn(String accountName, List<String> filters, Pageable pageable);
-  long countByAccountNameContainingIgnoreCase(String accountName);
-  long countByAccountNameContainingIgnoreCaseAndAccountTypeIn(String accountName, List<String> filters);
+
   Optional<Account> findByAccountId(String accountId);
+
+  boolean existsByAccountIdAndIsDeletedFalse(String accountId);
+
+  boolean existsByAccountNameAndIsDeletedFalse(String accountName);
+
+  List<Account> findAllByIsDeletedFalse();
+
+  Account findByAccountIdAndIsDeletedFalse(String accountId);
+
+  Page<Account> findByAccountNameContainingIgnoreCaseAndIsDeletedFalse(String accountName, Pageable pageable);
+
+  Page<Account> findByAccountNameContainingIgnoreCaseAndAccountTypeInAndIsDeletedFalse(String accountName,
+      List<String> filters,
+      Pageable pageable);
+
+  long countByAccountNameContainingIgnoreCaseAndIsDeletedFalse(String accountName);
+
+  long countByAccountNameContainingIgnoreCaseAndAccountTypeInAndIsDeletedFalse(String accountName,
+      List<String> filters);
+
 }

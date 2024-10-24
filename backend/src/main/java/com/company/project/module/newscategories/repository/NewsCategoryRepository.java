@@ -1,5 +1,7 @@
 package com.company.project.module.newscategories.repository;
 
+import java.util.List;
+
 import com.company.project.module.newscategories.entity.NewsCategory;
 
 import org.springframework.data.domain.Page;
@@ -9,7 +11,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface NewsCategoryRepository extends JpaRepository<NewsCategory, String> {
-  boolean existsByNewsCategoryName(String newsCateogryName);
-  Page<NewsCategory> findByNewsCategoryNameContainingIgnoreCase(String newsCategoryName, Pageable pageable);
-  long countByNewsCategoryNameContainingIgnoreCase(String newsCategoryName);
+  boolean existsByNewsCategoryNameAndIsDeletedFalse(String newsCategoryName);
+
+  List<NewsCategory> findAllByIsDeletedFalse();
+
+  NewsCategory findByNewsCategoryIdAndIsDeletedFalse(String newsCategoryId);
+
+  Page<NewsCategory> findByNewsCategoryNameContainingIgnoreCaseAndIsDeletedFalse(String newsCategoryName,
+      Pageable pageable);
+
+  long countByNewsCategoryNameContainingIgnoreCaseAndIsDeletedFalse(String newsCategoryName);
 }

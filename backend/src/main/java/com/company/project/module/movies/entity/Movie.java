@@ -1,14 +1,27 @@
 package com.company.project.module.movies.entity;
 
-import com.company.project.module.ratings.entity.Rating;
-import com.company.project.module.showtimes.entity.Showtime;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.*;
-import lombok.experimental.FieldDefaults;
-
 import java.util.Date;
 import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
+import com.company.project.module.ratings.entity.Rating;
+import com.company.project.module.showtimes.entity.Showtime;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Data
@@ -42,4 +55,7 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie")
     List<Showtime> showtimes;
+    
+    @Builder.Default
+    boolean isDeleted = false;
 }
