@@ -6,13 +6,13 @@ import FilmTime from "./components/FilmTime";
 import {
   fetchMovieById,
   fetchShowTime,
-} from "../../components/services/UserService";
+} from "../../../src/components/services/UserService";
 import VisaBanner from "../home/components/VisaBanner";
 import Youtube from "./Youtube";
 
 // import YouTube from 'react-youtube';
 
-const OrderTicket = (props) => {
+const OrderTicket = () => {
   const navigate = useNavigate();
 
   function handleButtonClick() {
@@ -34,7 +34,7 @@ const OrderTicket = (props) => {
     }
   };
 
-  console.log(movieDetails);
+  // console.log(movieDetails);
 
   return (
     <div>
@@ -86,7 +86,7 @@ const OrderTicket = (props) => {
 
         <Youtube />
 
-        <FilmTime />
+        <FilmTime movieDetails={movieDetails} />
 
         <VisaBanner />
       </div>

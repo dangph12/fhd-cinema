@@ -36,7 +36,10 @@
     padding: 15px;
     border-radius: 10px;
     display: flex;
+    flex-wrap: nowrap;
+    flex-grow: 1;
     flex-direction: column;
+    justify-content: center;
   }
 
   
@@ -70,11 +73,175 @@
   .seat:hover {
     transform: scale(1.1);
   }
+
   
-  .seat-legend {
+  .seat-box {
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   }
-   
+
+
+
+.text-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+
+.film-title{
+  color: #72be43;
+  font-weight: bold;
+  font-size: 1.9rem;
+
+}
+
+
+.cinema-title{
+  color: Black;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+ */
+
+
+
+ .fixed-height-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between rows (regular, VIP, couple) */
+}
+
+.regular-seats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  overflow-x: auto;
+  gap: 10px;
+}
+
+.vip-seats {
+  display: flex;
+  justify-content: center; /* Center the VIP seats */
+  flex-wrap: wrap; /* Allow VIP seats to wrap */
+  gap: 10px; /* Space between the VIP seats */
+}
+
+.couple-seats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap; /* Prevent wrapping */
+  overflow-x: auto;
+  gap: 10px;
+}
+
+
+
+.seat-selection-container {
+  padding: 20px;
+
+  border-radius: 10px;
+}
+
+.seat-selection-column {
+
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.pricing-column {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  height: max-content;
+  
+}
+
+.seat-row {
+  margin: 5px 0;
+}
+
+.seat {
+  width: auto;
+  height: auto;
+  margin: 10px;
+
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+
+
+}
+
+.seat:hover {
+  transform: scale(1.1);
+}
+
+
+.seat-box {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.text-title {
+text-align: center;
+font-weight: bold;
+font-size: 1.5rem;
+}
+
+
+.film-title-price{
+color: #72be43;
+font-weight: bold;
+font-size: 1.9rem;
+text-align: left;
+}
+
+
+.cinema-title{
+color: Black;
+font-weight: bold;
+font-size: 1.5rem;
+text-align: left;
+}
+
+
+.seats-pricing{
+  color: Black;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: left;
+  }
+
+
+.screen-title{
+  color: #5DBB63;
+   font-size: 1.3rem;
+}
+
+.total-price{
+  color: black;
+  font-size: 1.5rem;
+}
+
+.time-title-price{
+font-size: 1.2rem;
+text-align: left;
+color:black;
+}
+
+
