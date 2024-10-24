@@ -8,7 +8,13 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
     setCreateShow(show)
   }, [show])
 
-  const [form, setForm] = useState({ accountName: '', accountPassword:'', accountType: '' })
+  const [form, setForm] = useState({
+    accountName: '',
+    accountType: '',
+    customerEmail: '',
+    customerName: '',
+    customerPhone: '',
+  })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -22,7 +28,13 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
   const closeCreateShow = () => {
     onHide()
     setCreateShow(false)
-    setForm({ accountName: '', accountPassword: '', accountType: '' })
+    setForm({
+      accountName: '',
+      accountType: '',
+      customerEmail: '',
+      customerName: '',
+      customerPhone: '',
+    })
     setValidated(false)
     setErrors({})
   }
@@ -31,7 +43,39 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
     const newErrors = {}
     if (!form.accountName) newErrors.accountName = 'Account name is required'
     if (!form.accountType) newErrors.accountType = 'Account type is required'
+    if (form.accountType === 'Customer') {
+      if (!form.customerName) newErrors.customerName = 'Customer name is required'
+      if (!form.customerEmail) newErrors.customerEmail = 'Customer email is required'
+      if (!form.customerPhone) newErrors.customerPhone = 'Customer phone is required'
+    }
+    if (form.accountType === 'Admin') {
+      if (!form.customerEmail) newErrors.customerEmail = 'Admin email is required'
+    }
     return newErrors
+  }
+
+  const createAccount = async () => {
+
+    console.log(form)
+    debugger
+
+    fetch('http://localhost:8080/accounts/admin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    })
+      .then((response) => {
+        if (response.ok) {
+          fetchAccounts()
+        } else {
+          console.error('Failed to create the account')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
 
   const handleCreate = (e) => {
@@ -42,29 +86,9 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
       setErrors(newErrors)
       e.stopPropagation()
     } else {
-      fetch('http://localhost:8080/accounts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      })
-        .then((response) => {
-          if (response.ok) {
-            fetchAccounts()
-          } else {
-            console.error('Failed to create the account')
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error)
-        })
-      setCreateShow(false)
-      onHide()
-      setForm({ accountName: '', accountPassword: '', accountType: '' })
-      setErrors({})
+      createAccount()
+      closeCreateShow()
     }
-    setValidated(true)
   }
   return (
     <Modal show={createShow} onHide={() => closeCreateShow()}>
@@ -141,6 +165,23 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
                   isInvalid={!!errors.customerPhone}
                 />
                 <Form.Control.Feedback type="invalid">{errors.customerPhone}</Form.Control.Feedback>
+              </Form.Group>
+            </>
+          ) : null}
+          {form.accountType == 'Admin' ? (
+            <>
+              <Form.Group className="m-2">
+                <Form.Label>Admin Email</Form.Label>
+                <Form.Control
+                  required
+                  type="email"
+                  onChange={(e) => setField('customerEmail', e.target.value)}
+                  placeholder="Email"
+                  name="email"
+                  value={form.customerEmail}
+                  isInvalid={!!errors.email}
+                />
+                <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
               </Form.Group>
             </>
           ) : null}
