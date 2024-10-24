@@ -95,6 +95,9 @@ import Checkout from "./components/payment-infor/Checkout";
 import ResetForgetPassword from "../src/modules/auth/RequestForgetPassword";
 import VNPayPaymentResult from "./components/VNPay/VNPayPaymentResult";
 import PaymentResult from "./components/VNPay/PaymentResult";
+import ConfirmEmail from "./modules/auth/ConfirmEmail";
+
+
 function App() {
   // login
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
@@ -133,6 +136,7 @@ function App() {
         && <Users/>} */}
           <Route path="/reset" element={<ResetForgetPassword />} />
           {/* <Route path="/reset-password/:token" element={<ResetPassword />} /> */}
+          <Route path="/confirm-nofication" element={<ConfirmEmail />} />
       </Routes>
 
       <ToastContainer
