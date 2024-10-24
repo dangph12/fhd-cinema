@@ -1,5 +1,8 @@
 package com.company.project.module.movies.service;
 
+import java.util.List;
+
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.movies.common.MovieStatusMessage;
 import com.company.project.module.movies.dto.request.MovieCreationRequest;
@@ -9,23 +12,25 @@ import com.company.project.module.movies.exception.MovieException;
 import com.company.project.module.movies.repository.MovieRepository;
 import com.company.project.module.ratings.entity.Rating;
 import com.company.project.module.ratings.repository.RatingRepository;
-import org.springframework.stereotype.Service;
+import com.company.project.utils.Utils;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MovieService {
 
     private final MovieRepository movieRepository;
     private final RatingRepository ratingRepository;
+    private final Utils utils;
 
-//    public MovieService(MovieRepository movieRepository) {
-//        this.movieRepository = movieRepository;
-//    }
-
-    public MovieService(MovieRepository movieRepository, RatingRepository ratingRepository) {
+    public MovieService(MovieRepository movieRepository, RatingRepository ratingRepository, Utils utils) {
         this.movieRepository = movieRepository;
         this.ratingRepository = ratingRepository;
+        this.utils = utils;
     }
 
     public List<Movie> getAllMovies(){
@@ -33,7 +38,35 @@ public class MovieService {
     }
 
     public Movie getMovieById(String movieId){
-        return movieRepository.findById(movieId).orElseThrow(() -> new MovieException(Status.FAIL.getValue(), MovieStatusMessage.NOT_EXIST.getMessage()));
+        return movieRepository.findById(movieId)
+            .orElseThrow(() -> new MovieException(Status.FAIL.getValue(), MovieStatusMessage.NOT_EXIST.getMessage()));
+    }
+
+    public ApiPagination<Movie> filterMovies(String movieTitle, int page, int pageSize,
+          List<String> ratings, String sortBy, String sortDirection) {
+      if (page < 1 || pageSize < 1) {
+        throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.LESS_THAN_ZERO.getMessage());
+      }
+
+      List<String> movieFieldNames = utils.getEntityFields(Movie.class);
+
+      if (!movieFieldNames.contains(sortBy)) {
+        throw new MovieException(Status.FAIL.getValue(), MovieStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+      }
+
+      Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+      Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+      Page<Movie> moviePages = movieRepository.searchMovies(movieTitle, ratings, pageable);
+      long count = movieRepository.countMovies(movieTitle, ratings);
+
+      ApiPagination<Movie> moviePagination = ApiPagination.<Movie>builder()
+          .result(moviePages.getContent())
+          .count(count)
+          .build();
+      
+      return moviePagination;
     }
 
     public Movie createMovie(MovieCreationRequest request){
@@ -99,5 +132,4 @@ public class MovieService {
         movieRepository.deleteById(movieId);
 
     }
-
 }

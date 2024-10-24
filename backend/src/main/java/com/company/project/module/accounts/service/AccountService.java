@@ -5,19 +5,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
-import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
-
 import com.company.project.module.customers.dto.request.CustomerCreationRequest;
 import com.company.project.module.customers.entity.Customer;
 import com.company.project.module.customers.service.CustomerService;
+import com.company.project.utils.Utils;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,14 +33,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountService {
 
   private final ModelMapper modelMapper;
-
   private final AccountRepository accountRepository;
   private final CustomerService customerService;
+  private final Utils utils;
 
-  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository, CustomerService customerService) {
+  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository, CustomerService customerService, Utils utils) {
     this.modelMapper = modelMapper;
     this.accountRepository = accountRepository;
     this.customerService = customerService;
+    this.utils = utils;
   }
 
   public List<AccountDto> getAllAccounts() {
@@ -64,15 +66,26 @@ public class AccountService {
     return this.convertToAccountDto(account);
   }
 
-  public AccountPagination searchAccountsByName(String accountName, int page, List<String> filters, String sortBy) {
-    int pageSize = 2;
+  public ApiPagination<AccountDto> searchAccountsByName(String accountName, int page, List<String> filters, 
+        String sortBy, String sortDirection, int pageSize) {
+    if (page < 1 || pageSize < 1) {
+      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
 
-    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
+    List<String> accountFieldNames = utils.getEntityFields(Account.class);
+
+    if (!accountFieldNames.contains(sortBy)) {
+      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+    }
+
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
 
     Page<Account> accountPage;
     long count;
 
-    if (!filters.isEmpty()) {
+    if (filters != null) {
       accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
           accountName, filters, pageable);
       count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, filters);
@@ -85,8 +98,8 @@ public class AccountService {
         .map(this::convertToAccountDto)
         .collect(Collectors.toList());
 
-    AccountPagination accountPagination = AccountPagination.builder()
-        .accountDtos(accountDtos)
+    ApiPagination<AccountDto> accountPagination = ApiPagination.<AccountDto>builder()
+        .result(accountDtos)
         .count(count)
         .build();
 

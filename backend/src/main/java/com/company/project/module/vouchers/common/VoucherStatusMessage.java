@@ -10,6 +10,8 @@ public enum VoucherStatusMessage {
   EMPTY_DESCCRIPTION("The description of voucher must not be empty"),
   NEGATIVE_VALUE("The variable must be greater than 0"),
   NOT_EXIST("The voucher does not exist"),
+  UNKNOWN_ATTRIBUTE("The attribute does not exist"),
+  LESS_THAN_ZERO("The index must not be less than 0"),
   EXIST_NAME("The name of voucher have been existed"),
   EXIST_CODE("The code of voucher have been existed"),
   GET_SUCCESS("Get voucher successfully"),

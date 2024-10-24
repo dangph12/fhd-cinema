@@ -2,11 +2,20 @@ package com.company.project.module.customers.entity;
 
 import java.util.List;
 
-import com.company.project.module.accounts.entity.Account;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
+import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.bookings.entity.Booking;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,7 +41,6 @@ public class Customer {
     String customerPhone;
     String customerEmail;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<Booking> bookings;
 
