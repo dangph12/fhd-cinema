@@ -16,27 +16,41 @@ const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, sn
         <Col xs={12} md={8}>
           <Card.Body>
             <Card.Title className="film-title-price h4">{movieTitle}</Card.Title>
-            <h6 className="cinema-title">{showtimeDetails.screen.cinema.cinemaName}</h6>
-            <p className="time-title-price">
-              <strong>{showtimeDetails.screen.screenName}</strong> -{' '}
-              {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
-                hour: '2-digit',
-                minute: '2-digit',
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-              })}
-            </p>
-            <p className="time-title-price">
-              {selectedSeats.map((seat) => seat.seatName).join(', ')}
-            </p>
-            <div>
-              {snacks.map((snack) => (
-                <p key={snack.snackId} className="time-title-price">
-                  {snack.quantity} x {snack.snackName}:{' '}
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(snack.quantity * snack.snackPrice)}
+            {showtimeDetails && showtimeDetails.screen && showtimeDetails.screen.cinema && (
+              <>
+                <h6 className="cinema-title">{showtimeDetails.screen.cinema.cinemaName}</h6>
+                <p className="time-title-price">
+                  <strong>{showtimeDetails.screen.screenName}</strong> -{' '}
+                  {new Date(showtimeDetails.showtimeAt).toLocaleString('en-GB', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                  })}
                 </p>
-              ))}
+              </>
+            )}
+            
+            {selectedSeats && selectedSeats.length > 0 ? (
+              <p className="time-title-price">
+                Ghế ngồi: {selectedSeats.map((seat) => seat.seatName).join(', ')}
+              </p>
+            ) : (
+              <p className="time-title-price">Không có ghế ngồi nào được chọn</p>
+            )}
+
+            <div>
+              {snacks && snacks.length > 0 ? (
+                snacks.map((snack) => (
+                  <p key={snack.snackId} className="time-title-price">
+                    {snack.quantity} x {snack.snackName}:{' '}
+                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(snack.quantity * snack.snackPrice)}
+                  </p>
+                ))
+              ) : (
+                <p className="time-title-price">Không có đồ ăn nào được chọn</p>
+              )}
             </div>
 
             <hr />

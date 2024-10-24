@@ -78,7 +78,7 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "../src/modules/auth/LoginPage";
 import FilmDetails from "../src/modules/film-details/FilmDetails";
 import OrderTicket from "../src/modules/orders/OrderTicket";
-import TicketInfor from "./components/payment-infor/TicketInfor";
+import Ticket from "./components/payment-infor/Ticket";
 import OrderFood from "../src/modules/orders/components/OrderSnack/OrderFood";
 
 import Home from "./components/Home";
@@ -91,8 +91,9 @@ import Stores from "../src/modules/stores/Stores";
 import ForgetPassword from "../src/modules/auth/ForgetPassword";
 import SeatSelection from "./components/Seats/SeatSelection";
 import Checkout from "./components/payment-infor/Checkout";
-
+// import Bill from "./components/payment-infor/Bill";
 import ResetForgetPassword from "../src/modules/auth/RequestForgetPassword";
+// import VNPayPaymentResult from "./components/VNPay/VNPayPaymentResult ";
 function App() {
   // login
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
@@ -118,7 +119,9 @@ function App() {
         <Route path="/seat-selection" element={<SeatSelection />} />
         <Route path="/order-snacks" element={<OrderFood />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/ticketInfor" element={<TicketInfor />} />
+        {/* <Route path="/bill" element={<Bill />} /> */}
+        <Route path="/ticket" element={<Ticket />} />
+        {/* <Route path="/vnpay-payment" element={<VNPayPaymentResult />} />  */}
         <Route path="/users" element={<Users />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:newsId" element={<NewsDeatils />} />
