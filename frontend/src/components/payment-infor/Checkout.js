@@ -59,6 +59,17 @@ const Checkout = () => {
     }
   };
 
+  
+    // Điều hướng tới trang ticket với thông tin đã nhận
+    sessionStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+    sessionStorage.setItem('showtimeDetails', JSON.stringify(showtimeDetails));
+    sessionStorage.setItem('movieTitle', movieTitle);
+    sessionStorage.setItem('totalPrice', totalPrice);
+    sessionStorage.setItem('snacks', JSON.stringify(snacks));
+    sessionStorage.setItem('moviePosterUrl', moviePosterUrl);
+  
+  
+
   return (
     <Container fluid className="mt-4">
       <h2 className="text-center mb-4" style={{ fontSize: '1.9rem', fontWeight: 'bold' }}>
@@ -155,31 +166,31 @@ export default Checkout;
 //     }
 //   };
 
-//   useEffect(() => {
-//     const fetchPaymentDetails = async () => {
-//       try {
-//         const response = await axios.get(`http://localhost:8080/vnpay-payment${window.location.search}`);
-//         console.log('Response from /vnpay-payment:', response.data);
-//         debugger
-//         if (response.data.status === 'SUCCESS') {
-//           // Điều hướng tới trang ticket với thông tin đã nhận
-//           navigate('/ticket', {
-//             state: {
-//               selectedSeats,
-//               showtimeDetails,
-//               movieTitle,
-//               snacks,
-//               moviePosterUrl,
-//               paymentSuccess: true
-//             }
-//           });
-//         } else {
-//           alert("Thanh toán thất bại, vui lòng thử lại!");
-//         }
-//       } catch (error) {
-//         console.error('Error fetching payment details:', error);
-//       }
-//     };
+  // useEffect(() => {
+  //   const fetchPaymentDetails = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:8080/vnpay-payment${window.location.search}`);
+  //       console.log('Response from /vnpay-payment:', response.data);
+  //       debugger
+  //       if (response.data.status === 'SUCCESS') {
+  //         // Điều hướng tới trang ticket với thông tin đã nhận
+  //         navigate('/ticket', {
+  //           state: {
+  //             selectedSeats,
+  //             showtimeDetails,
+  //             movieTitle,
+  //             snacks,
+  //             moviePosterUrl,
+  //             paymentSuccess: true
+  //           }
+  //         });
+  //       } else {
+  //         alert("Thanh toán thất bại, vui lòng thử lại!");
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching payment details:', error);
+  //     }
+  //   };
   
 //     fetchPaymentDetails();
 //   }, [navigate]);

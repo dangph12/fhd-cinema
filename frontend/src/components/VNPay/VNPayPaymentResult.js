@@ -5,11 +5,18 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 
 const VNPayPaymentResult = () => {
     const location = useLocation();
-    const { state } = useLocation();  // Nhận dữ liệu từ trang trước đó
-    const { selectedSeats, showtimeDetails, movieTitle, totalPrice, snacks, moviePosterUrl } = state || {};
+    // const { state } = useLocation();  
+    // const { selectedSeats, showtimeDetails, movieTitle, totalPrice, snacks, moviePosterUrl } = state || {};
   const navigate = useNavigate();
   const [paymentDetails, setPaymentDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const selectedSeats = JSON.parse(sessionStorage.getItem('selectedSeats'));
+  const showtimeDetails = JSON.parse(sessionStorage.getItem('showtimeDetails'));
+  const movieTitle = sessionStorage.getItem('movieTitle');
+  const totalPrice = sessionStorage.getItem('totalPrice');
+  const snacks = JSON.parse(sessionStorage.getItem('snacks'));
+  const moviePosterUrl = sessionStorage.getItem('moviePosterUrl');
 
   useEffect(() => {
     const checkPaymentStatus = async () => {
@@ -41,7 +48,8 @@ const VNPayPaymentResult = () => {
          movieTitle, 
          totalPrice,
          snacks, 
-         moviePosterUrl
+         moviePosterUrl,
+         paymentSuccess: true
          } });
     }
   };
