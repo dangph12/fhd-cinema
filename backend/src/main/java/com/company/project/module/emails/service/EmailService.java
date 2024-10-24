@@ -72,7 +72,7 @@ public class EmailService {
 
     Customer customer = customerRepository.findByCustomerEmail(request.getCustomerEmail());
 
-    String customerId = customer.getCustomerId();
+    String accountId = customer.getAccount().getAccountId();
     String email = request.getCustomerEmail();
     String customerName = customer.getCustomerName();
 
@@ -81,7 +81,7 @@ public class EmailService {
       helper.setSubject("Đặt lại mật khẩu tài khoản của bạn");
 
       Context context = new Context();
-      context.setVariable("customerId", customerId);
+      context.setVariable("accountId", accountId);
       context.setVariable("customerName", customerName);
 
       String htmlContent = templateEngine.process("email-reset-password", context);
