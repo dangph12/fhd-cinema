@@ -1,15 +1,24 @@
 package com.company.project.vnpay.service;
 
-import com.company.project.vnpay.config.VNPayConfig;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.company.project.vnpay.config.VNPayConfig;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class VNPayService {
@@ -35,6 +44,7 @@ public class VNPayService {
         vnpParams.put("vnp_TxnRef", vnpTxnRef);
         vnpParams.put("vnp_OrderInfo", orderInfo);
         vnpParams.put("vnp_OrderType", orderType);
+        
 
         String locale = "vn";
         vnpParams.put("vnp_Locale", locale);

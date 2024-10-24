@@ -93,7 +93,8 @@ import SeatSelection from "./components/Seats/SeatSelection";
 import Checkout from "./components/payment-infor/Checkout";
 // import Bill from "./components/payment-infor/Bill";
 import ResetForgetPassword from "../src/modules/auth/RequestForgetPassword";
-// import VNPayPaymentResult from "./components/VNPay/VNPayPaymentResult ";
+import VNPayPaymentResult from "./components/VNPay/VNPayPaymentResult";
+import PaymentResult from "./components/VNPay/PaymentResult";
 function App() {
   // login
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
@@ -121,7 +122,8 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         {/* <Route path="/bill" element={<Bill />} /> */}
         <Route path="/ticket" element={<Ticket />} />
-        {/* <Route path="/vnpay-payment" element={<VNPayPaymentResult />} />  */}
+        <Route path="/payment-result" element={<PaymentResult />} />
+        <Route path="/vnpay-payment/vnpay-payment" element={<VNPayPaymentResult />} /> 
         <Route path="/users" element={<Users />} />
         <Route path="/news" element={<News />} />
         <Route path="/news/:newsId" element={<NewsDeatils />} />
