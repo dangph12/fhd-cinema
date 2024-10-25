@@ -70,7 +70,7 @@ public class EmailService {
           EmailStatusMessage.TEMPLATE_INVALID.getMessage());
     }
 
-    Customer customer = customerRepository.findByCustomerEmail(request.getCustomerEmail());
+    Customer customer = customerRepository.findByCustomerEmailAndIsDeletedFalse(request.getCustomerEmail());
 
     String customerId = customer.getCustomerId();
     String email = request.getCustomerEmail();

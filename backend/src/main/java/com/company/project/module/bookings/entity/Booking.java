@@ -72,4 +72,7 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name="showtime_id", nullable=false)
     Showtime showtime;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }
