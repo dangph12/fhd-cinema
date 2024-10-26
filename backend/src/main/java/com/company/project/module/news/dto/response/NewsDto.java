@@ -2,7 +2,7 @@ package com.company.project.module.news.dto.response;
 
 import java.time.LocalDateTime;
 
-import com.company.project.module.newscategories.entity.NewsCategory;
+import com.company.project.module.newscategories.dto.response.NewsCategoryDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
@@ -24,5 +24,5 @@ public class NewsDto {
   String newsDescription;
   LocalDateTime newsCreateAt;
   String newsImageUrl;
-  NewsCategory newsCategory;
+  NewsCategoryDto newsCategoryDto;
 }

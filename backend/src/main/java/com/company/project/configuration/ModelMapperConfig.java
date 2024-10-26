@@ -5,6 +5,10 @@ import java.util.stream.Collectors;
 
 import com.company.project.module.movies.dto.response.MovieDto;
 import com.company.project.module.movies.entity.Movie;
+import com.company.project.module.news.dto.response.NewsDto;
+import com.company.project.module.news.entity.News;
+import com.company.project.module.newscategories.dto.response.NewsCategoryDto;
+import com.company.project.module.newscategories.entity.NewsCategory;
 import com.company.project.module.showtimes.dto.response.ShowtimeDto;
 import com.company.project.module.showtimes.entity.Showtime;
 
@@ -32,6 +36,22 @@ public class ModelMapperConfig {
                             .map(showtime -> modelMapper.map(showtime, ShowtimeDto.class))
                             .collect(Collectors.toList());
                 }).map(source, destination.getShowtimes());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<News, NewsDto>() {
+            @Override
+            protected void configure() {
+                map().setNewsId(source.getNewsId());
+                map().setNewsTitle(source.getNewsTitle());
+                map().setNewsDescription(source.getNewsDescription());
+                map().setNewsCreateAt(source.getNewsCreateAt());
+                map().setNewsImageUrl(source.getNewsImageUrl());
+
+                using(context -> {
+                    NewsCategory newsCategory = ((News) context.getSource()).getNewsCategory();
+                    return modelMapper.map(newsCategory, NewsCategoryDto.class);
+                }).map(source, destination.getNewsCategoryDto());
             }
         });
 
