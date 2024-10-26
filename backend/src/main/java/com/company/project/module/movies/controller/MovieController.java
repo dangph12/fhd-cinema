@@ -116,4 +116,17 @@ public class MovieController {
                 .data(pagination)
                 .build());
     }
+
+    @GetMapping(params = "movieTitle")
+    ResponseEntity<ApiResponse<List<MovieDto>>> searchMovieByTitle(
+            @RequestParam(value = "movieTitle") String movieTitle) {
+
+        List<MovieDto> movieDtos = movieService.getMovieByTitle(movieTitle);
+        return ResponseEntity.ok().body(ApiResponse.<List<MovieDto>>builder()
+                .status(Status.SUCCESS.getValue())
+                .message(MovieStatusMessage.GET_SUCCESS.getMessage())
+                .data(movieDtos)
+                .build());
+    }
+
 }

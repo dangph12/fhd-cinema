@@ -63,6 +63,13 @@ public class MovieService {
     return this.convertToMovieDto(movie);
   }
 
+  public List<MovieDto> getMovieByTitle(String movieTitle) {
+    List<Movie> movies = movieRepository.findByMovieTitleContainingIgnoreCaseAndIsDeletedFalse(movieTitle);
+    return movies.stream()
+        .map(this::convertToMovieDto)
+        .collect(Collectors.toList());
+  }
+
   public ApiPagination<MovieDto> filterMovies(String movieTitle, int page, int pageSize,
       List<String> ratings, List<String> status, String sortBy, String sortDirection) {
 
