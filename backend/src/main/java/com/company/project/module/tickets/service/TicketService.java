@@ -51,6 +51,7 @@ public class TicketService {
 
   public List<TicketDto> getAllTickets() {
     List<Ticket> tickets = ticketRepository.findAllByIsDeletedFalse();
+    tickets.forEach(this::calculateTotalBookingPrice);
     return tickets.stream()
         .map(this::convertToTicketDto)
         .collect(Collectors.toList());
@@ -61,6 +62,7 @@ public class TicketService {
     if (ticket == null) {
       throw new TicketException(Status.FAIL.getValue(), TicketStatusMessage.NOT_EXIST.getMessage());
     }
+    this.calculateTotalBookingPrice(ticket);
     return ticket;
   }
 
@@ -80,8 +82,9 @@ public class TicketService {
     Ticket ticket = Ticket.builder()
         .seat(seat)
         .booking(booking)
-        .ticketPrice(request.getTicketPrice())
         .build();
+
+    this.calculateTotalBookingPrice(ticket);
 
     seat.setBooked(true);
 
@@ -102,9 +105,10 @@ public class TicketService {
 
     existingTicket.setBooking(booking);
     existingTicket.setSeat(seat);
-    existingTicket.setTicketPrice(request.getTicketPrice());
 
     existingTicket.getSeat().setBooked(true);
+
+    this.calculateTotalBookingPrice(existingTicket);
 
     ticketRepository.save(existingTicket);
     return this.convertToTicketDto(existingTicket);
@@ -146,5 +150,15 @@ public class TicketService {
         .result(ticketDtos)
         .count(count)
         .build();
+  }
+
+  public void calculateTotalBookingPrice(Ticket ticket) {
+    int seatPrice = ticket.getSeat().getSeatType().getSeatTypePrice();
+
+    int showtimePrice = ticket.getBooking().getShowtime().getShowtimePrice();
+
+    int totalTicketPrice = seatPrice + showtimePrice;
+
+    ticket.setTicketPrice(totalTicketPrice);
   }
 }
