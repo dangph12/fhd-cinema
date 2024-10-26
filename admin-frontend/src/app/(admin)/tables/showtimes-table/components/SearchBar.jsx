@@ -38,13 +38,13 @@ const SearchBar = () => {
             className="p-3 mb-3 rounded"
             size="lg"
             type="text"
-            placeholder="Search by showtime name"
+            placeholder="Search by name"
             value={state.query}
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
           />
         </Col>
-        <Col md={4} className="d-flex flex-column align-items-start fs-4">
+        {/* <Col md={4} className="d-flex flex-column align-items-start fs-4">
           <Form.Check
             label="Admin"
             name="filter"
@@ -59,7 +59,7 @@ const SearchBar = () => {
             checked={state.filters.includes('Customer')}
             onChange={(e) => handleFilters(e)}
           />
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );
