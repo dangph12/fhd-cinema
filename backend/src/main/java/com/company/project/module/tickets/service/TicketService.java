@@ -8,6 +8,7 @@ import com.company.project.common.Status;
 import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.service.BookingService;
 import com.company.project.module.seats.entity.Seat;
+import com.company.project.module.seats.repository.SeatRepository;
 import com.company.project.module.seats.service.SeatService;
 import com.company.project.module.tickets.common.TicketStatusMessage;
 import com.company.project.module.tickets.dto.request.TicketCreationRequest;
@@ -32,14 +33,16 @@ public class TicketService {
   private final BookingService bookingService;
   private final Utils utils;
   private final ModelMapper modelMapper;
+  private final SeatRepository seatRepository;
 
   public TicketService(TicketRepository ticketRepository, SeatService seatService,
-      BookingService bookingService, Utils utils, ModelMapper modelMapper) {
+      BookingService bookingService, Utils utils, ModelMapper modelMapper, SeatRepository seatRepository) {
     this.ticketRepository = ticketRepository;
     this.seatService = seatService;
     this.bookingService = bookingService;
     this.utils = utils;
     this.modelMapper = modelMapper;
+    this.seatRepository = seatRepository;
   }
 
   private TicketDto convertToTicketDto(Ticket ticket) {
@@ -80,6 +83,8 @@ public class TicketService {
         .ticketPrice(request.getTicketPrice())
         .build();
 
+    seat.setBooked(true);
+
     ticketRepository.save(ticket);
     return convertToTicketDto(ticket);
   }
@@ -90,6 +95,7 @@ public class TicketService {
         ticketRepository.existsBySeat_SeatIdAndIsDeletedFalse(request.getSeatId())) {
       throw new TicketException(Status.FAIL.getValue(), TicketStatusMessage.SEAT_ALREADY_BOOKED.getMessage());
     }
+    existingTicket.getSeat().setBooked(false);
 
     Booking booking = bookingService.getBookingById(request.getBookingId());
     Seat seat = seatService.getSeatById(request.getSeatId());
@@ -98,14 +104,20 @@ public class TicketService {
     existingTicket.setSeat(seat);
     existingTicket.setTicketPrice(request.getTicketPrice());
 
+    existingTicket.getSeat().setBooked(true);
+
     ticketRepository.save(existingTicket);
     return this.convertToTicketDto(existingTicket);
   }
 
   public void deleteTicketById(String ticketId) {
     Ticket existingTicket = this.getTicketById(ticketId);
-
     existingTicket.setDeleted(true);
+
+    Seat seat = existingTicket.getSeat();
+    seat.setBooked(false);
+    seatRepository.save(seat);
+
     ticketRepository.save(existingTicket);
   }
 

@@ -46,7 +46,9 @@ public class Booking {
     @Column(name = "booking_id")
     String bookingId;
 
-    int bookingPrice;
+    @Builder.Default
+    int bookingPrice = 0;
+
     @CreationTimestamp
     LocalDateTime bookingCreateAt;
 

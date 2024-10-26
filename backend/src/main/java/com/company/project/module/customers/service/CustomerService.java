@@ -175,7 +175,7 @@ public class CustomerService {
       throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_EXIST.getMessage());
     }
 
-    List<Booking> bookings = bookingRepository.findByCustomer(customer);
+    List<Booking> bookings = bookingRepository.findByCustomerAndIsDeletedFalse(customer);
 
     return CustomerDto.builder()
         .customerId(customer.getCustomerId())
