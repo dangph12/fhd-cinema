@@ -107,6 +107,7 @@ public class BookingService {
     existingBooking.getTickets().forEach(ticket -> {
       ticketService.deleteTicketById(ticket.getTicketId());
     });
+    existingBooking.getBill().setDeleted(true);
     existingBooking.setDeleted(true);
     bookingRepository.save(existingBooking);
   }
