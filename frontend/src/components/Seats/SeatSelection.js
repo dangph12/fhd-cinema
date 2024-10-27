@@ -25,23 +25,28 @@ const SeatSelection = () => {
     useEffect(() => {
         const fetchSeatsAndShowtimeDetails = async () => {
             try {
-                const seatResponse = await axios.get(`http://localhost:8080/seats`);
-                const seatData = seatResponse.data;
-                if (seatData?.data) {
-                    const allSeats = seatData.data.slice(0, 60);
-                    const seatNormal = allSeats.filter(seat => seat.seatType.seatTypeName === 'Ghế thường');
-                    const seatVIP = allSeats.filter(seat => seat.seatType.seatTypeName === 'VIP');
-                    const seatCouple = allSeats.filter(seat => seat.seatType.seatTypeName === 'Couple');
-                    setSeatLayout([...seatNormal, ...seatVIP, ...seatCouple]);
-                } else {
-                    setSeatLayout([]);
-                    console.error("No seat data found");
-                }
-
+                // Lấy chi tiết showtime trước
                 const showtimeResponse = await axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
                 const showtimeData = showtimeResponse.data;
                 if (showtimeData?.data) {
                     setShowtimeDetails(showtimeData.data);
+                    
+                    // Lấy screenId từ showtimeDetails
+                    const screenId = showtimeData.data.screen.screenId;
+    
+                    // Sau đó lấy danh sách ghế dựa trên screenId
+                    const seatResponse = await axios.get(`http://localhost:8080/seats?screenId=${screenId}`);
+                    const seatData = seatResponse.data;
+                    if (seatData?.data) {
+                        const allSeats = seatData.data.slice(0, 60);
+                        const seatNormal = allSeats.filter(seat => seat.seatType.seatTypeName === 'Ghế thường');
+                        const seatVIP = allSeats.filter(seat => seat.seatType.seatTypeName === 'VIP');
+                        const seatCouple = allSeats.filter(seat => seat.seatType.seatTypeName === 'Couple');
+                        setSeatLayout([...seatNormal, ...seatVIP, ...seatCouple]);
+                    } else {
+                        setSeatLayout([]);
+                        console.error("No seat data found");
+                    }
                 } else {
                     setShowtimeDetails(null);
                     console.error("No showtime data found");
@@ -55,6 +60,7 @@ const SeatSelection = () => {
         };
         fetchSeatsAndShowtimeDetails();
     }, [showtimeId]);
+    
 
     const handleSeatClick = (seat) => {
         if (seat.booked) {
