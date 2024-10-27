@@ -116,12 +116,14 @@ public class TicketService {
 
   public void deleteTicketById(String ticketId) {
     Ticket existingTicket = this.getTicketById(ticketId);
-    existingTicket.setDeleted(true);
 
     Seat seat = existingTicket.getSeat();
     seat.setBooked(false);
     seatRepository.save(seat);
 
+    existingTicket.setSeat(null);
+    existingTicket.setBooking(null);
+    existingTicket.setDeleted(true);
     ticketRepository.save(existingTicket);
   }
 

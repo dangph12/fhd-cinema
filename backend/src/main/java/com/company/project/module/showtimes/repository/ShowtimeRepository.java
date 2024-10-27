@@ -1,5 +1,6 @@
 package com.company.project.module.showtimes.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.company.project.module.showtimes.entity.Showtime;
@@ -25,20 +26,25 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
 
   @Query("SELECT s FROM Showtime s WHERE " +
       "s.isDeleted = false AND " +
-      "(:showtimeId IS NULL OR LOWER(s.showtimeId) LIKE LOWER(CONCAT('%', :showtimeId, '%'))) AND " +
-      "(:movieTitles IS NULL OR (s.movie.isDeleted = false AND s.movie.movieTitle IN :movieTitles)) AND " +
-      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames))")
-  Page<Showtime> searchShowtimes(@Param("showtimeId") String showtimeId,
-      @Param("movieTitles") List<String> movieTitles,
+      "(:movieTitle IS NULL OR LOWER(s.movie.movieTitle) LIKE LOWER(CONCAT('%', :movieTitle, '%'))) AND " +
+      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames)) AND " +
+      "(:startDate IS NULL OR s.showtimeAt >= :startDate) AND " +
+      "(:endDate IS NULL OR s.showtimeAt <= :endDate)")
+  Page<Showtime> searchShowtimes(
+      @Param("movieTitle") String movieTitle,
       @Param("cinemaNames") List<String> cinemaNames,
+      @Param("startDate") LocalDateTime startDate,
+      @Param("endDate") LocalDateTime endDate,
       Pageable pageable);
 
   @Query("SELECT COUNT(s) FROM Showtime s WHERE " +
       "s.isDeleted = false AND " +
-      "(:showtimeId IS NULL OR LOWER(s.showtimeId) LIKE LOWER(CONCAT('%', :showtimeId, '%'))) AND " +
-      "(:movieTitles IS NULL OR (s.movie.isDeleted = false AND s.movie.movieTitle IN :movieTitles)) AND " +
-      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames))")
-  long countShowtimes(@Param("showtimeId") String showtimeId,
-      @Param("movieTitles") List<String> movieTitles,
-      @Param("cinemaNames") List<String> cinemaNames);
+      "(:movieTitle IS NULL OR LOWER(s.movie.movieTitle) LIKE LOWER(CONCAT('%', :movieTitle, '%'))) AND " +
+      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames)) AND " +
+      "(:startDate IS NULL OR s.showtimeAt >= :startDate) AND " +
+      "(:endDate IS NULL OR s.showtimeAt <= :endDate)")
+  long countShowtimes(@Param("movieTitle") String movieTitle,
+      @Param("cinemaNames") List<String> cinemaNames,
+      @Param("startDate") LocalDateTime startDate,
+      @Param("endDate") LocalDateTime endDate);
 }
