@@ -22,4 +22,6 @@ public class AuthenticationRequest {
     @NotEmpty(message = "EMPTY_PASSWORD")
     String accountPassword;
 
+    boolean rememberMe;
+
 }

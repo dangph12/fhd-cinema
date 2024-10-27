@@ -1,6 +1,5 @@
 package com.company.project.module.accounts.service;
 
-import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -9,10 +8,8 @@ import java.util.List;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.AuthenticationRequest;
-import com.company.project.module.accounts.dto.request.IntrospectRequest;
 import com.company.project.module.accounts.dto.request.SignInRequest;
 import com.company.project.module.accounts.dto.response.AuthenticationResponse;
-import com.company.project.module.accounts.dto.response.IntrospectResponse;
 import com.company.project.module.accounts.dto.response.SignInResponse;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
@@ -26,12 +23,9 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
 import com.nimbusds.jose.JWSObject;
-import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.Payload;
 import com.nimbusds.jose.crypto.MACSigner;
-import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
-import com.nimbusds.jwt.SignedJWT;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -57,22 +51,6 @@ public class AuthenticationService {
     @Value("${jwt.signerKey}")
     protected String SIGNER_KEY;
 
-    public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
-        var token = request.getToken();
-
-        JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
-
-        SignedJWT signedJWT = SignedJWT.parse(token);
-
-        Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
-
-        var verified = signedJWT.verify(verifier);
-
-        return IntrospectResponse.builder()
-                .valid(verified && expirationTime.after(new Date()))
-                .build();
-    }
-
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var account = accountRepository.findByAccountName(request.getAccountName())
                 .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
@@ -85,7 +63,7 @@ public class AuthenticationService {
             throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.UNAUTHORIZED.getMessage());
         }
 
-        var token = generateToken(request.getAccountName());
+        var token = generateToken(request.getAccountName(), request.isRememberMe());
 
         return AuthenticationResponse.builder()
                 .token(token)
@@ -94,18 +72,29 @@ public class AuthenticationService {
 
     }
 
-    private String generateToken(String accountName) {
+    private String generateToken(String accountName, boolean rememberMe) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
-        JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(accountName)
-                .issuer("test.com")
-                .issueTime(new Date())
-                .expirationTime(new Date(
-                        Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
-                ))
-                .claim("customClaim", "custom")
-                .build();
+        JWTClaimsSet jwtClaimsSet;
+        if(!rememberMe) {
+            jwtClaimsSet = new JWTClaimsSet.Builder()
+                    .subject(accountName)
+                    .issuer("test.com")
+                    .issueTime(new Date())
+                    .expirationTime(new Date(
+                            Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
+                    ))
+                    .build();
+        } else {
+            jwtClaimsSet = new JWTClaimsSet.Builder()
+                    .subject(accountName)
+                    .issuer("test.com")
+                    .issueTime(new Date())
+                    .expirationTime(new Date(
+                            Instant.now().plus(7, ChronoUnit.DAYS).toEpochMilli()
+                    ))
+                    .build();
+        }
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
 
@@ -139,7 +128,7 @@ public class AuthenticationService {
         }
 
         // Generate and return token
-        String token = generateToken(account.getAccountName());
+        String token = generateToken(account.getAccountName(), request.isRememberMe());
 
         return SignInResponse.builder()
                 .token(token)
