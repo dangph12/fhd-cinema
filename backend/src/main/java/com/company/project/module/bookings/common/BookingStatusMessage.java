@@ -7,6 +7,7 @@ public enum BookingStatusMessage {
 
   EMPTY_NAME("The name of booking must not be empty"),
   EMPTY_SHOWTIME("The Showtime Id must not be empty"),
+  EMPTY_TICKET("The ticket Id must not be empty"),
   EMPTY_CUSTOMER("The Customer Id must not be empty"),
   NULL_BOOKED("The isBooked must not be empty"),
   NOT_EXIST("The booking does not exist"),

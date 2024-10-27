@@ -52,4 +52,7 @@ public class Ticket {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "seat_id", referencedColumnName = "seat_id")
     Seat seat;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }

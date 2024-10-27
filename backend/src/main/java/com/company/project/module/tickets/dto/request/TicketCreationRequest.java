@@ -1,6 +1,5 @@
 package com.company.project.module.tickets.dto.request;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
 import lombok.AccessLevel;
@@ -22,8 +21,5 @@ public class TicketCreationRequest {
 
     @NotEmpty(message = "EMPTY_BOOKING")
     String bookingId;
-
-    @Min(value = 0, message = "NEGATIVE_VALUE")
-    int ticketPrice;  
 
 }

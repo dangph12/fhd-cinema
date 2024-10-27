@@ -38,8 +38,11 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.UUID)
     String billId;
 
-    int billAmount;
-    boolean isPaid;
+    @Builder.Default
+    int billAmount = 0;
+
+    @Builder.Default
+    boolean isPaid = false;
     
     @CreationTimestamp
     LocalDateTime billCreatedAt;
@@ -54,4 +57,7 @@ public class Bill {
             inverseJoinColumns = @JoinColumn(name = "voucher_id"))
     @ManyToMany
     List<Voucher> vouchers;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }
