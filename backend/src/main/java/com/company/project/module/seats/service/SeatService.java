@@ -15,6 +15,7 @@ import com.company.project.module.seats.exception.SeatException;
 import com.company.project.module.seats.repository.SeatRepository;
 import com.company.project.module.seatstypes.entity.SeatType;
 import com.company.project.module.seatstypes.service.SeatTypeService;
+import com.company.project.module.tickets.entity.Ticket;
 import com.company.project.module.tickets.service.TicketService;
 import com.company.project.utils.Utils;
 
@@ -146,7 +147,10 @@ public class SeatService {
     Seat existedSeat = this.getSeatById(seatId);
     existedSeat.setDeleted(true);
 
-    ticketService.deleteTicketById(existedSeat.getTicket().getTicketId());
+    Ticket ticket = existedSeat.getTicket();
+    if (ticket != null) {
+      ticketService.deleteTicketById(ticket.getTicketId());
+    }
     seatRepository.save(existedSeat);
   }
 }
