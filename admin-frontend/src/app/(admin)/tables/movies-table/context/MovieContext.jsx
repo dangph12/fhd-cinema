@@ -277,7 +277,9 @@ const reducer = (state, action) => {
     case 'SET_MOVIES':
       if (Array.isArray(action.payload)) {
         action.payload.forEach((movie) => {
-          movie.movieReleaseDate = new Date(movie.movieReleaseDate).toISOString().split('T')[0];
+          // movie.movieReleaseDate = movie.movieReleaseDate.split("T")[0].split("-").reverse().join("/");
+          // movie.movieReleaseDate = new Date(movie.movieReleaseDate).toISOString().split('T')[0];
+          movie.movieReleaseDate = movie.movieReleaseDate.split("T")[0];
         });
       } else {
         console.error('Expected payload to be an array, but received:', action.payload);

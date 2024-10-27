@@ -168,6 +168,10 @@ const MovieDetailTable = () => {
       accessorKey: 'rating.ratingName',
     },
     {
+      header: 'Movie Release Date',
+      accessorKey: 'movieReleaseDate',
+    },
+    {
       id: 'update',
       header: 'Update',
       cell: ({ row: { original: { movieId } } }) => (

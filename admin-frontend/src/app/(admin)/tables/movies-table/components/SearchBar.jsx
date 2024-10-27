@@ -183,6 +183,76 @@
 // export default SearchBar;
 
 
+import React, { useContext } from 'react';
+import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
+import { MovieContext } from '../context/MovieContext';
+
+const SearchBar = () => {
+  const { state, dispatch, updateQueryParams } = useContext(MovieContext);
+
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    dispatch({ type: 'SET_QUERY', payload: query });
+    updateQueryParams({ query, page: 1 });
+  };
+
+  const handleFilters = (event) => {
+    const filter = event.target.value;
+    let newFilters;
+    if (state.filters.includes(filter)) {
+      newFilters = state.filters.filter(f => f !== filter);
+    } else {
+      newFilters = [...state.filters, filter];
+    }
+    dispatch({ type: 'SET_FILTERS', payload: newFilters });
+    updateQueryParams({ filters: newFilters.join(','), page: 1 });
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSearch(event);
+    }
+  };
+
+  return (
+    <Container className="pt-3">
+      <Row>
+        <Col md={8}>
+          <FormControl
+            className="p-3 mb-3 rounded"
+            size="lg"
+            type="text"
+            placeholder="Search by movie title"
+            value={state.query}
+            onChange={handleSearch}
+            onKeyDown={handleKeyDown}
+          />
+        </Col>
+        <Col md={4} className="d-flex flex-column align-items-start fs-4">
+          <Form.Check
+            label="Now Showing"
+            name="filter"
+            value="Now Showing"
+            checked={state.filters.includes('Now Showing')}
+            onChange={(e) => handleFilters(e)}
+          />
+          <Form.Check
+            label="Coming Soon"
+            name="filter"
+            value="Coming Soon"
+            checked={state.filters.includes('Coming Soon')}
+            onChange={(e) => handleFilters(e)}
+          />
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default SearchBar;
+
+
 // import React, { useContext, useState, useEffect } from 'react';
 // import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
 // import { MovieContext } from '../context/MovieContext';
@@ -197,14 +267,14 @@
 //     if (!state.filters.length) {
 //       const defaultFilters = ['Now Showing', 'Coming Soon'];
 //       dispatch({ type: 'SET_FILTERS', payload: defaultFilters });
-//       updateQueryParams({ search: searchInput, ratings: defaultFilters.join(','), page: 1 });
+//       updateQueryParams({ search: searchInput, filters: defaultFilters.join(','), page: 1 });
 //       fetchMovies(); // Fetch movies with default filters
 //     }
 //   }, []); // Empty array ensures this only runs on the first render
 
 //   // Debounce function for search input
 //   const debouncedSearch = debounce((query, filters) => {
-//     updateQueryParams({ search: query, ratings: filters.join(','), page: 1 });
+//     updateQueryParams({ search: query, filters: filters.join(','), page: 1 }); // Resets page to 1
 //     fetchMovies(); // Fetch with updated query and filters
 //   }, 500);
 
@@ -278,100 +348,3 @@
 // };
 
 // export default SearchBar;
-
-
-import React, { useContext, useState, useEffect } from 'react';
-import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
-import { MovieContext } from '../context/MovieContext';
-import debounce from 'lodash/debounce';
-
-const SearchBar = () => {
-  const { state, dispatch, updateQueryParams, fetchMovies } = useContext(MovieContext);
-  const [searchInput, setSearchInput] = useState(state.query || '');
-
-  // Set default filters (both "Now Showing" and "Coming Soon")
-  useEffect(() => {
-    if (!state.filters.length) {
-      const defaultFilters = ['Now Showing', 'Coming Soon'];
-      dispatch({ type: 'SET_FILTERS', payload: defaultFilters });
-      updateQueryParams({ search: searchInput, filters: defaultFilters.join(','), page: 1 });
-      fetchMovies(); // Fetch movies with default filters
-    }
-  }, []); // Empty array ensures this only runs on the first render
-
-  // Debounce function for search input
-  const debouncedSearch = debounce((query, filters) => {
-    updateQueryParams({ search: query, filters: filters.join(','), page: 1 }); // Resets page to 1
-    fetchMovies(); // Fetch with updated query and filters
-  }, 500);
-
-  // Handle search input changes
-  const handleSearchInput = (event) => {
-    const query = event.target.value;
-    setSearchInput(query); // Update local input state
-    dispatch({ type: 'SET_QUERY', payload: query }); // Update global state query
-
-    // Call debounce search with both search input and filters
-    debouncedSearch(query, state.filters);
-  };
-
-  // Handle filter changes
-  const handleFilters = (event) => {
-    const filter = event.target.value;
-    let updatedFilters;
-
-    if (state.filters.includes(filter)) {
-      updatedFilters = state.filters.filter(f => f !== filter); // Remove filter
-    } else {
-      updatedFilters = [...state.filters, filter]; // Add filter
-    }
-
-    dispatch({ type: 'SET_FILTERS', payload: updatedFilters }); // Update global state filters
-
-    // Fetch movies with updated filters and search input
-    debouncedSearch(searchInput, updatedFilters);
-  };
-
-  // Handle Enter key press to prevent form submission
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  };
-
-  return (
-    <Container className="pt-3">
-      <Row>
-        <Col md={8}>
-          <FormControl
-            className="p-3 mb-3 rounded"
-            size="lg"
-            type="text"
-            placeholder="Search by movie title"
-            value={searchInput}
-            onChange={handleSearchInput}
-            onKeyDown={handleKeyDown}
-          />
-        </Col>
-        <Col md={4} className="d-flex flex-column align-items-start fs-4">
-          <Form.Check
-            label="Now Showing"
-            name="filter"
-            value="Now Showing"
-            checked={state.filters.includes('Now Showing')}
-            onChange={handleFilters}
-          />
-          <Form.Check
-            label="Coming Soon"
-            name="filter"
-            value="Coming Soon"
-            checked={state.filters.includes('Coming Soon')}
-            onChange={handleFilters}
-          />
-        </Col>
-      </Row>
-    </Container>
-  );
-};
-
-export default SearchBar;

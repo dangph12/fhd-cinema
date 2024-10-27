@@ -152,6 +152,76 @@
 // export default SearchBar;
 
 
+import React, { useContext } from 'react';
+import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
+import { ShowtimeContext } from '../context/ShowtimeContext';
+
+const SearchBar = () => {
+  const { state, dispatch, updateQueryParams } = useContext(ShowtimeContext);
+
+  const handleSearch = (event) => {
+    const query = event.target.value;
+    dispatch({ type: 'SET_QUERY', payload: query });
+    updateQueryParams({ query, page: 1 });
+  };
+
+  // const handleFilters = (event) => {
+  //   const filter = event.target.value;
+  //   let newFilters;
+  //   if (state.filters.includes(filter)) {
+  //     newFilters = state.filters.filter(f => f !== filter);
+  //   } else {
+  //     newFilters = [...state.filters, filter];
+  //   }
+  //   dispatch({ type: 'SET_FILTERS', payload: newFilters });
+  //   updateQueryParams({ filters: newFilters.join(','), page: 1 });
+  // };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSearch(event);
+    }
+  };
+
+  return (
+    <Container className="pt-3">
+      <Row>
+        <Col md={8}>
+          <FormControl
+            className="p-3 mb-3 rounded"
+            size="lg"
+            type="text"
+            placeholder="Search by showtime id"
+            value={state.query}
+            onChange={handleSearch}
+            onKeyDown={handleKeyDown}
+          />
+        </Col>
+        {/* <Col md={4} className="d-flex flex-column align-items-start fs-4">
+          <Form.Check
+            label="Now Showing"
+            name="filter"
+            value="Now Showing"
+            checked={state.filters.includes('Now Showing')}
+            onChange={(e) => handleFilters(e)}
+          />
+          <Form.Check
+            label="Coming Soon"
+            name="filter"
+            value="Coming Soon"
+            checked={state.filters.includes('Coming Soon')}
+            onChange={(e) => handleFilters(e)}
+          />
+        </Col> */}
+      </Row>
+    </Container>
+  );
+};
+
+export default SearchBar;
+
+
 // import React, { useContext } from 'react';
 // import { FormControl, Container, Row, Col } from 'react-bootstrap';
 // import { ShowtimeContext } from '../context/ShowtimeContext';
@@ -163,39 +233,10 @@
 //   const handleSearch = (event) => {
 //     const query = event.target.value;
 
-//     // Update the query state
+//     // Update query in state and trigger fetch
 //     dispatch({ type: 'SET_QUERY', payload: query });
-
-//     // Update the URL and trigger a search immediately for movieTitle
 //     updateQueryParams({ search: query, page: 1 });
-//     fetchShowtimes({ search: query, page: 1, pageSize: 10, sortBy: 'showtimePrice', sortDirection: 'DESC' });
-//   };
-
-//   // Handle filters (optional)
-//   const handleFilters = (event) => {
-//     const filter = event.target.value;
-//     let newFilters = [...state.filters];
-
-//     if (event.target.checked) {
-//       newFilters.push(filter);
-//     } else {
-//       newFilters = newFilters.filter((f) => f !== filter);
-//     }
-
-//     // Update the filters state
-//     dispatch({ type: 'SET_FILTERS', payload: newFilters });
-
-//     // Update the URL and fetch with new filters
-//     updateQueryParams({ filters: newFilters.join(','), page: 1 });
 //     fetchShowtimes();
-//   };
-
-//   // Handle Enter key for search
-//   const handleKeyDown = (event) => {
-//     if (event.key === 'Enter') {
-//       event.preventDefault();
-//       handleSearch(event);
-//     }
 //   };
 
 //   return (
@@ -209,66 +250,11 @@
 //             placeholder="Search by movie title"
 //             value={state.query}
 //             onChange={handleSearch}
-//             onKeyDown={handleKeyDown}
 //           />
 //         </Col>
-//         {/* <Col md={4} className="d-flex flex-column align-items-start fs-4">
-//           <Form.Check
-//             label="Admin"
-//             name="filter"
-//             value="Admin"
-//             checked={state.filters.includes('Admin')}
-//             onChange={handleFilters}
-//           />
-//           <Form.Check
-//             label="Customer"
-//             name="filter"
-//             value="Customer"
-//             checked={state.filters.includes('Customer')}
-//             onChange={handleFilters}
-//           />
-//         </Col> */}
 //       </Row>
 //     </Container>
 //   );
 // };
 
 // export default SearchBar;
-
-
-import React, { useContext } from 'react';
-import { FormControl, Container, Row, Col } from 'react-bootstrap';
-import { ShowtimeContext } from '../context/ShowtimeContext';
-
-const SearchBar = () => {
-  const { state, dispatch, updateQueryParams, fetchShowtimes } = useContext(ShowtimeContext);
-
-  // Handle search input
-  const handleSearch = (event) => {
-    const query = event.target.value;
-
-    // Update query in state and trigger fetch
-    dispatch({ type: 'SET_QUERY', payload: query });
-    updateQueryParams({ search: query, page: 1 });
-    fetchShowtimes();
-  };
-
-  return (
-    <Container className="pt-3">
-      <Row>
-        <Col md={8}>
-          <FormControl
-            className="p-3 mb-3 rounded"
-            size="lg"
-            type="text"
-            placeholder="Search by movie title"
-            value={state.query}
-            onChange={handleSearch}
-          />
-        </Col>
-      </Row>
-    </Container>
-  );
-};
-
-export default SearchBar;
