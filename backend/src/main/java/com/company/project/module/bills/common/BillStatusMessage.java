@@ -14,9 +14,12 @@ public enum BillStatusMessage {
   UNKNOWN_ATTRIBUTE("The attribute does not exist"),
   LESS_THAN_ZERO("The index must not be less than 0"),
   EXIST_BOOKING("The booking of bill have been existed"),
+  EXIST_VOUCHER("The voucher of bill have been existed"),
   GET_SUCCESS("Get bill successfully"),
   CREATE_SUCCESS("The bill has been created successfully"),
   DELETE_SUCCESS("The bill deleted successfully"),
+  INVALID_VOUCHER("Voucher not associated with this Bill"),
+  PAY_SUCCESS("The bill have paid successfully"),
   UPDATE_SUCCESS("The bill updated successfully");
 
   private final String message;

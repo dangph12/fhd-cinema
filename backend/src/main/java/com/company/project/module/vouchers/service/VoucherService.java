@@ -18,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class VoucherService {
@@ -100,18 +99,13 @@ public class VoucherService {
     return voucherRepository.save(existedVoucher);
   }
 
-  @Transactional
   public void deleteVoucherById(String voucherId) {
     if (!voucherRepository.existsById(voucherId)) {
       throw new VoucherException(Status.FAIL.getValue(),
           VoucherStatusMessage.NOT_EXIST.getMessage());
     }
 
-    Voucher voucher = this.getVoucherById(voucherId);
-
-    billService.removeVoucherInBill(voucher);
-
-    voucherRepository.delete(voucher);
+    voucherRepository.deleteById(voucherId);
   }
 
   public ApiPagination<Voucher> filterVouchers(String voucherName, int page, int pageSize,

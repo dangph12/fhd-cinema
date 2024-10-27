@@ -15,7 +15,9 @@ public enum ShowtimeStatusMessage {
     SHOWTIME_EXIST("The showtime is already exist"),
     STRING_VALUE("The showtime price must be a valid number"),
     NEGATIVE_VALUE("The variable must be greater than 0"),
-    EMPTY_SHOWTIME("The showtime attribute must not be empty");
+    EMPTY_SHOWTIME("The showtime attribute must not be empty"),
+    EMPTY_MOVIE("The movie attribute must not be empty"),
+    EMPTY_SCREEN("The screen attribute must not be empty");
 
     private final String message;
 

@@ -14,22 +14,26 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BillRepository extends JpaRepository<Bill, String>{
-  boolean existsByBooking_BookingId(String bookingId);
-  List<Bill> findByVouchersContaining(Voucher voucher);
+boolean existsByBooking_BookingId(String bookingId);
+
+  List<Bill> findByVouchersContainingAndIsDeletedFalse(Voucher voucher);
+
+  List<Bill> findAllByIsDeletedFalse();
+
+  Bill findByBillIdAndIsDeletedFalse(String billId);
 
   @Query("SELECT b FROM Bill b WHERE " +
+         "b.isDeleted = false AND " +
          "(:billId IS NULL OR LOWER(b.billId) LIKE LOWER(CONCAT('%', :billId, '%'))) AND " +
-         "(:isPaids IS NULL OR b.isPaid IN (:isPaids))")  
+         "(:isPaids IS NULL OR b.isPaid IN :isPaids)")
   Page<Bill> searchBills(@Param("billId") String billId,
                          @Param("isPaids") List<Boolean> isPaids,
                          Pageable pageable);
 
   @Query("SELECT COUNT(b) FROM Bill b WHERE " +
+         "b.isDeleted = false AND " +
          "(:billId IS NULL OR LOWER(b.billId) LIKE LOWER(CONCAT('%', :billId, '%'))) AND " +
          "(:isPaids IS NULL OR b.isPaid IN :isPaids)")
   long countBills(@Param("billId") String billId,
                   @Param("isPaids") List<Boolean> isPaids);
-
-  Page<Bill> findByBillIdContainingIgnoreCase(String billId, Pageable pageable);
-
 }

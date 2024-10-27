@@ -19,6 +19,8 @@ public interface MovieRepository extends JpaRepository<Movie, String> {
 
   List<Movie> findAllByIsDeletedFalse();
 
+  List<Movie> findByMovieTitleContainingIgnoreCaseAndIsDeletedFalse(String movieTitle);
+
   Movie findByMovieIdAndIsDeletedFalse(String movieId);
 
   @Query("SELECT m FROM Movie m WHERE " +
