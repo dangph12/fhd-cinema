@@ -123,6 +123,7 @@ public class TicketService {
     seatRepository.save(seat);
 
     existingTicket.setSeat(null);
+    existingTicket.setBooking(null);
     ticketRepository.save(existingTicket);
   }
 

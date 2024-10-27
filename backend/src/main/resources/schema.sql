@@ -362,7 +362,7 @@ COLLATE = utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `fhd_cinema`.`tickets` (
   `ticket_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL DEFAULT (UUID()),
   `seat_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NULL,
-  `booking_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NOT NULL,
+  `booking_id` VARCHAR(36) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci' NULL,
   `ticket_price` INT UNSIGNED NOT NULL,
   `ticket_create_at` DATETIME NOT NULL,
   `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
@@ -371,7 +371,8 @@ CREATE TABLE IF NOT EXISTS `fhd_cinema`.`tickets` (
   INDEX `fk_tickets_seats_idx` (`seat_id` ASC) VISIBLE,
   CONSTRAINT `fk_tickets_bookings`
     FOREIGN KEY (`booking_id`)
-    REFERENCES `fhd_cinema`.`bookings` (`booking_id`),
+    REFERENCES `fhd_cinema`.`bookings` (`booking_id`)
+    ON DELETE SET NULL,
   CONSTRAINT `fk_tickets_seats`
     FOREIGN KEY (`seat_id`)
     REFERENCES `fhd_cinema`.`seats` (`seat_id`))
