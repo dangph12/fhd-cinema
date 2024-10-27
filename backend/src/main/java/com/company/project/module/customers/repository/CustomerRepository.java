@@ -26,6 +26,8 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 
   Customer findByCustomerEmailAndIsDeletedFalse(String customerEmail);
 
+  List<Customer> findByCustomerNameContainingIgnoreCaseAndIsDeletedFalse(String customerName);
+
   List<Customer> findAllByIsDeletedFalse();
 
   @Query("SELECT c FROM Customer c WHERE " +

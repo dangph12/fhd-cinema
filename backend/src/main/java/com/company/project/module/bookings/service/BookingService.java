@@ -17,6 +17,7 @@ import com.company.project.module.customers.service.CustomerService;
 import com.company.project.module.showtimes.entity.Showtime;
 import com.company.project.module.showtimes.service.ShowtimeService;
 import com.company.project.module.snacks.entity.Snack;
+import com.company.project.module.snacks.service.SnackService;
 import com.company.project.module.tickets.entity.Ticket;
 import com.company.project.module.tickets.service.TicketService;
 import com.company.project.utils.Utils;
@@ -38,15 +39,17 @@ public class BookingService {
   private final Utils utils;
   private final ModelMapper modelMapper;
   private final TicketService ticketService;
+  private final SnackService snackService;
 
   public BookingService(BookingRepository bookingRepository, ShowtimeService showtimeService,
-      CustomerService customerService, Utils utils, ModelMapper modelMapper, @Lazy TicketService ticketService) {
+      CustomerService customerService, Utils utils, ModelMapper modelMapper, @Lazy TicketService ticketService, SnackService snackService) {
     this.bookingRepository = bookingRepository;
     this.showtimeService = showtimeService;
     this.customerService = customerService;
     this.utils = utils;
     this.modelMapper = modelMapper;
     this.ticketService = ticketService;
+    this.snackService = snackService;
   }
 
   private BookingDto convertToBookingDto(Booking booking) {
@@ -160,5 +163,30 @@ public class BookingService {
     int totalBookingPrice = totalTicketPrice + totalSnackPrice;
 
     booking.setBookingPrice(totalBookingPrice);
+  }
+  public BookingDto addSnackToBooking(String bookingId, String snackId) {
+    Booking booking = getBookingById(bookingId);
+    Snack snack = snackService.getSnackById(snackId);
+
+    booking.getSnacks().add(snack);
+    bookingRepository.save(booking);
+    calculateTotalBookingPrice(booking);
+
+    return convertToBookingDto(booking);
+  }
+
+  public BookingDto removeSnackFromBooking(String bookingId, String snackId) {
+    Booking booking = getBookingById(bookingId);
+    Snack snack = snackService.getSnackById(snackId);
+
+    if (!booking.getSnacks().contains(snack)) {
+      throw new BookingException(Status.FAIL.getValue(), BookingStatusMessage.NOT_SNACK_EXIST.getMessage());
+    }
+
+    booking.getSnacks().remove(snack);
+    bookingRepository.save(booking);
+    calculateTotalBookingPrice(booking);
+
+    return convertToBookingDto(booking);
   }
 }
