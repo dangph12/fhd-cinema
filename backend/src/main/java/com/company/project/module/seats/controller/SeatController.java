@@ -58,6 +58,17 @@ public class SeatController {
                                  .build());
     }
 
+    @GetMapping("/screen/{screenId}")
+    ResponseEntity<ApiResponse<List<SeatDto>>> getSeatsByScreenId(@PathVariable(name = "screenId") String screenId) {
+        List<SeatDto> seats = seatService.getSeatsByScreenId(screenId);
+        return ResponseEntity.status(HttpStatus.OK.value())
+                             .body(ApiResponse.<List<SeatDto>>builder()
+                                 .status(Status.SUCCESS.getValue())
+                                 .message(SeatStatusMessage.GET_SUCCESS.getMessage())
+                                 .data(seats)
+                                 .build());
+    }
+
     @PostMapping
     ResponseEntity<ApiResponse<SeatDto>> addSeat(@RequestBody @Valid SeatCreationRequest request) {
         SeatDto seat = seatService.createSeat(request);

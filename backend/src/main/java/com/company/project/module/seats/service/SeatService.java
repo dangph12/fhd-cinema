@@ -66,6 +66,13 @@ public class SeatService {
     return this.convertToSeatDto(seat);
   }
 
+  public List<SeatDto> getSeatsByScreenId(String screenId) {
+    List<Seat> seats = seatRepository.findAllByScreenIdAndIsDeletedFalse(screenId);
+    return seats.stream()
+        .map(this::convertToSeatDto)
+        .collect(Collectors.toList());
+  }
+
   public ApiPagination<SeatDto> filterSeats(String seatName, int page, int pageSize,
       List<String> seatTypes, String sortBy, String sortDirection) {
     if (page < 1 || pageSize < 1) {

@@ -21,6 +21,9 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
 
   Seat findBySeatIdAndIsDeletedFalse(String seatId);
 
+  @Query("SELECT s FROM Seat s WHERE s.screen.screenId = :screenId AND s.isDeleted = false")
+  List<Seat> findAllByScreenIdAndIsDeletedFalse(@Param("screenId") String screenId);
+
   @Query("SELECT s FROM Seat s WHERE " +
       "s.isDeleted = false AND " +
       "(:seatName IS NULL OR LOWER(s.seatName) LIKE LOWER(CONCAT('%', :seatName, '%'))) AND " +
