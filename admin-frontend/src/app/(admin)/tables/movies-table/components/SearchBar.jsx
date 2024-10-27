@@ -229,7 +229,7 @@ const SearchBar = () => {
             onKeyDown={handleKeyDown}
           />
         </Col>
-        <Col md={4} className="d-flex flex-column align-items-start fs-4">
+        {/* <Col md={4} className="d-flex flex-column align-items-start fs-4">
           <Form.Check
             label="Now Showing"
             name="filter"
@@ -244,7 +244,7 @@ const SearchBar = () => {
             checked={state.filters.includes('Coming Soon')}
             onChange={(e) => handleFilters(e)}
           />
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );
