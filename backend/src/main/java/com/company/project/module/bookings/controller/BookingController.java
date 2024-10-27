@@ -113,4 +113,32 @@ public class BookingController {
         .data(bookings)
         .build());
   }
+
+  @PostMapping("/{bookingId}/snacks/{snackId}/add")
+  public ResponseEntity<ApiResponse<BookingDto>> addSnackToBooking(
+      @PathVariable("bookingId") String bookingId,
+      @PathVariable("snackId") String snackId) {
+
+    BookingDto updatedBooking = bookingService.addSnackToBooking(bookingId, snackId);
+    return ResponseEntity.ok(
+        ApiResponse.<BookingDto>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(BookingStatusMessage.ADD_SNACK_SUCCESS.getMessage())
+            .data(updatedBooking)
+            .build());
+  }
+
+  @DeleteMapping("/{bookingId}/snacks/{snackId}/remove")
+  public ResponseEntity<ApiResponse<BookingDto>> removeSnackFromBooking(
+      @PathVariable("bookingId") String bookingId,
+      @PathVariable("snackId") String snackId) {
+
+    BookingDto updatedBooking = bookingService.removeSnackFromBooking(bookingId, snackId);
+    return ResponseEntity.ok(
+        ApiResponse.<BookingDto>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(BookingStatusMessage.DELETE_SNACK_SUCCESS.getMessage())
+            .data(updatedBooking)
+            .build());
+  }
 }

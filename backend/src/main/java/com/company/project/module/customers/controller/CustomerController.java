@@ -52,6 +52,20 @@ public class CustomerController {
         .build());
   }
 
+  @GetMapping("/search")
+  public ResponseEntity<ApiResponse<List<CustomerDto>>> getCustomersByCustomerName(
+      @RequestParam("customerName") String customerName) {
+
+    List<CustomerDto> customers = customerService.getCustomersByCustomerName(customerName);
+
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(ApiResponse.<List<CustomerDto>>builder()
+            .status(Status.SUCCESS.getValue())
+            .message(CustomerStatusMessage.GET_SUCCESS.getMessage())
+            .data(customers)
+            .build());
+  }
+
   @PutMapping("/{customerId}")
   public ResponseEntity<ApiResponse<CustomerDto>> updateCustomer(
       @PathVariable String customerId,

@@ -14,6 +14,7 @@ public enum CustomerStatusMessage {
   PHONE_INVALID("The phone number is not valid"),
   NULL_BOOKED("The isBooked must not be empty"),
   NULL_VOUCHER("The voucher must not be empty"),
+  NOT_FOUND("Customer not found"),
   NOT_EXIST("The customer's Id does not exist"),
   NOT_EMAIL_EXIST("The customer's email does not exist"),
   UNKNOWN_ATTRIBUTE("The attribute does not exist"),

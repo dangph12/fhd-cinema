@@ -79,6 +79,18 @@ public class CustomerService {
     return this.convertToCustomerDto(customer);
   }
 
+  public List<CustomerDto> getCustomersByCustomerName(String customerName) {
+      List<Customer> customers = customerRepository.findByCustomerNameContainingIgnoreCaseAndIsDeletedFalse(customerName);
+      
+      if (customers.isEmpty()) {
+          throw new CustomerException(Status.FAIL.getValue(), CustomerStatusMessage.NOT_FOUND.getMessage());
+      }
+
+      return customers.stream()
+              .map(this::convertToCustomerDto)
+              .collect(Collectors.toList());
+  }
+
   public CustomerDto updateCustomer(String customerId, CustomerUpdateRequest request) {
     Customer existingCustomer = getCustomerById(customerId);
 
