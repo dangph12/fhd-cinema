@@ -116,7 +116,6 @@ public class TicketService {
 
   public void deleteTicketById(String ticketId) {
     Ticket existingTicket = this.getTicketById(ticketId);
-    existingTicket.setDeleted(true);
 
     Seat seat = existingTicket.getSeat();
     seat.setBooked(false);
@@ -124,6 +123,7 @@ public class TicketService {
 
     existingTicket.setSeat(null);
     existingTicket.setBooking(null);
+    existingTicket.setDeleted(true);
     ticketRepository.save(existingTicket);
   }
 

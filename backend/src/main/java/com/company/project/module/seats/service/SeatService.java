@@ -15,9 +15,11 @@ import com.company.project.module.seats.exception.SeatException;
 import com.company.project.module.seats.repository.SeatRepository;
 import com.company.project.module.seatstypes.entity.SeatType;
 import com.company.project.module.seatstypes.service.SeatTypeService;
+import com.company.project.module.tickets.service.TicketService;
 import com.company.project.utils.Utils;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,14 +34,16 @@ public class SeatService {
   private final SeatTypeService seatTypeService;
   private final Utils utils;
   private final ModelMapper modelMapper;
+  private final TicketService ticketService;
 
   public SeatService(SeatRepository seatRepository, ScreenService screenService,
-      SeatTypeService seatTypeService, Utils utils, ModelMapper modelMapper) {
+      SeatTypeService seatTypeService, Utils utils, ModelMapper modelMapper, @Lazy TicketService ticketService) {
     this.seatRepository = seatRepository;
     this.screenService = screenService;
     this.seatTypeService = seatTypeService;
     this.utils = utils;
     this.modelMapper = modelMapper;
+    this.ticketService = ticketService;
   }
 
   private SeatDto convertToSeatDto(Seat seat) {
@@ -141,6 +145,8 @@ public class SeatService {
   public void deleteSeatById(String seatId) {
     Seat existedSeat = this.getSeatById(seatId);
     existedSeat.setDeleted(true);
+
+    ticketService.deleteTicketById(existedSeat.getTicket().getTicketId());
     seatRepository.save(existedSeat);
   }
 }
