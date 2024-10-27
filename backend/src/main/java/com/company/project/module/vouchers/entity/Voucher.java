@@ -34,4 +34,6 @@ public class Voucher {
     LocalDateTime voucherStartedAt;
     LocalDateTime voucherEndedAt;
 
+    @Builder.Default
+    boolean isDeleted = false;
 }

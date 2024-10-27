@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
-import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.snacks.common.SnackStatusMessage;
 import com.company.project.module.snacks.dto.request.SnackCreationRequest;
@@ -122,12 +121,6 @@ public class SnackService {
 
     public void deleteSnackById(String snackId) {
         Snack existedSnack = this.getSnackById(snackId);
-
-        List<Booking> bookingsWithSnack = bookingRepository.findBySnacksContaining(existedSnack);
-        for (Booking booking : bookingsWithSnack) {
-            booking.getSnacks().remove(existedSnack);
-            bookingRepository.save(booking);
-        }
 
         existedSnack.setDeleted(true);
         snackRepository.save(existedSnack);

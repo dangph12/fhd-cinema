@@ -1,8 +1,8 @@
-package com.company.project.module.news.dto.response;
+package com.company.project.module.showtimes.dto.response;
 
 import java.time.LocalDateTime;
 
-import com.company.project.module.newscategories.dto.response.NewsCategoryDto;
+import com.company.project.module.screens.entity.Screen;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
@@ -18,11 +18,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NewsDto {
-  String newsId;
-  String newsTitle;
-  String newsDescription;
-  LocalDateTime newsCreateAt;
-  String newsImageUrl;
-  NewsCategoryDto newsCategoryDto;
+public class ShowtimeDto {
+    String showtimeId;
+    int showtimePrice;
+    LocalDateTime showtimeAt;
+    String movieId;
+    Screen screen;
 }

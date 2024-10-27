@@ -13,18 +13,32 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
-    boolean existsByShowtimeId(String showtimeId);
+  boolean existsByShowtimeIdAndIsDeletedFalse(String showtimeId);
 
-    @Query("SELECT s FROM Showtime s WHERE " +
-           "(:showtimeId IS NULL OR LOWER(s.showtimeId) LIKE LOWER(CONCAT('%', :showtimeId, '%'))) AND " +
-           "(:cinemaNames IS NULL OR s.screen.cinema.cinemaName IN :cinemaNames)")
-    Page<Showtime> searchShowtimes(@Param("showtimeId") String showtimeId,
-                                   @Param("cinemaNames") List<String> cinemaNames,
-                                   Pageable pageable);
+  boolean existsByMovie_MovieIdAndIsDeletedFalse(String movieId);
 
-    @Query("SELECT COUNT(s) FROM Showtime s WHERE " +
-           "(:showtimeId IS NULL OR LOWER(s.showtimeId) LIKE LOWER(CONCAT('%', :showtimeId, '%'))) AND " +
-           "(:cinemaNames IS NULL OR s.screen.cinema.cinemaName IN :cinemaNames)")
-    long countMovies(@Param("showtimeId") String movieTitle,
-                     @Param("cinemaNames") List<String> ratings);
+  boolean existsByScreen_ScreenIdAndIsDeletedFalse(String screenId);
+
+  List<Showtime> findAllByIsDeletedFalse();
+
+  Showtime findByShowtimeIdAndIsDeletedFalse(String newsId);
+
+  @Query("SELECT s FROM Showtime s WHERE " +
+      "s.isDeleted = false AND " +
+      "(:showtimeId IS NULL OR LOWER(s.showtimeId) LIKE LOWER(CONCAT('%', :showtimeId, '%'))) AND " +
+      "(:movieTitles IS NULL OR (s.movie.isDeleted = false AND s.movie.movieTitle IN :movieTitles)) AND " +
+      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames))")
+  Page<Showtime> searchShowtimes(@Param("showtimeId") String showtimeId,
+      @Param("movieTitles") List<String> movieTitles,
+      @Param("cinemaNames") List<String> cinemaNames,
+      Pageable pageable);
+
+  @Query("SELECT COUNT(s) FROM Showtime s WHERE " +
+      "s.isDeleted = false AND " +
+      "(:showtimeId IS NULL OR LOWER(s.showtimeId) LIKE LOWER(CONCAT('%', :showtimeId, '%'))) AND " +
+      "(:movieTitles IS NULL OR (s.movie.isDeleted = false AND s.movie.movieTitle IN :movieTitles)) AND " +
+      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames))")
+  long countShowtimes(@Param("showtimeId") String showtimeId,
+      @Param("movieTitles") List<String> movieTitles,
+      @Param("cinemaNames") List<String> cinemaNames);
 }

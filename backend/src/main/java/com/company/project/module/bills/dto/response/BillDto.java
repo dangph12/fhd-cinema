@@ -1,8 +1,10 @@
-package com.company.project.module.news.dto.response;
+package com.company.project.module.bills.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import com.company.project.module.newscategories.dto.response.NewsCategoryDto;
+import com.company.project.module.bookings.dto.response.BookingDto;
+import com.company.project.module.vouchers.dto.response.VoucherDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AccessLevel;
@@ -18,11 +20,11 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class NewsDto {
-  String newsId;
-  String newsTitle;
-  String newsDescription;
-  LocalDateTime newsCreateAt;
-  String newsImageUrl;
-  NewsCategoryDto newsCategoryDto;
+public class BillDto {
+    String billId;
+    int billAmount;
+    boolean isPaid;
+    LocalDateTime billCreatedAt;
+    BookingDto bookingDto;
+    List<VoucherDto> voucherDtos;
 }
