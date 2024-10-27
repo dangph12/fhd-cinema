@@ -84,6 +84,7 @@ public class BillService {
         .booking(booking)
         .build();
 
+    this.calculateTotalBillPrice(bill);
     billRepository.save(bill);
     return convertToBillDto(bill);
   }
@@ -95,6 +96,7 @@ public class BillService {
 
     existedBill.setBooking(booking);
 
+    this.calculateTotalBillPrice(existedBill);
     billRepository.save(existedBill);
     return convertToBillDto(existedBill);
   }
@@ -163,11 +165,15 @@ public class BillService {
   public void calculateTotalBillPrice(Bill bill) {
     int bookingPrice = bill.getBooking().getBookingPrice();
 
-    int totalDiscountPercent = bill.getVouchers().stream()
-        .mapToInt(Voucher::getVoucherDiscountPercent)
-        .sum();
+    int totalDiscountPercent = 0;
 
-    totalDiscountPercent = Math.min(totalDiscountPercent, 100);
+    if (bill.getVouchers() != null) {
+      totalDiscountPercent = bill.getVouchers().stream()
+          .mapToInt(Voucher::getVoucherDiscountPercent)
+          .sum();
+
+      totalDiscountPercent = Math.min(totalDiscountPercent, 100);
+    }
 
     int totalAmount = bookingPrice * (100 - totalDiscountPercent) / 100;
 

@@ -122,6 +122,7 @@ public class TicketService {
     seat.setBooked(false);
     seatRepository.save(seat);
 
+    existingTicket.setSeat(null);
     ticketRepository.save(existingTicket);
   }
 
