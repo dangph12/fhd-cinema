@@ -109,6 +109,13 @@ function App() {
     if (session) {
       setAccounts(JSON.parse(session));
     }
+
+
+    let local = localStorage.getItem("account");
+    if (local) {
+      setAccounts(JSON.parse(local));
+    }
+
   }, []);
 
   return (
