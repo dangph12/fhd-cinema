@@ -1,5 +1,6 @@
 package com.company.project.module.showtimes.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.validation.Valid;
@@ -85,18 +86,19 @@ public class ShowtimeController {
                 .build());
     }
 
-    @GetMapping(params = "search")
+    @GetMapping(params = "movieTitle")
     public ResponseEntity<ApiResponse<ApiPagination<ShowtimeDto>>> filterShowtimes(
-            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "movieTitle", required = false) String movieTitle,
             @RequestParam(value = "page", defaultValue = "1") int page,
-            @RequestParam(value = "movies", required = false) List<String> movies,
             @RequestParam(value = "cinemas", required = false) List<String> cinemas,
+            @RequestParam(value = "startDate", required = false) LocalDateTime startDate,
+            @RequestParam(value = "endDate", required = false) LocalDateTime endDate,
             @RequestParam(value = "sortBy", defaultValue = "showtimeAt") String sortBy,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") String sortDirection,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         ApiPagination<ShowtimeDto> pagination = showtimeService.filterShowtimes(
-                search, page, pageSize, movies, cinemas, sortBy, sortDirection);
+                page, pageSize, movieTitle, cinemas, startDate, endDate, sortBy, sortDirection);
 
         return ResponseEntity.ok(ApiResponse.<ApiPagination<ShowtimeDto>>builder()
                 .status(Status.SUCCESS.getValue())
