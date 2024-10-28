@@ -202,6 +202,342 @@
 
 // export default News;
 
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import BannerSecond from "../home/components/BannerSecond";
+// import { NavLink } from "react-router-dom";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// const News = () => {
+//   const [newsList, setNewsList] = useState([]); 
+//   const [categories, setCategories] = useState([]); 
+//   const [selectedCategoryId, setSelectedCategoryId] = useState("all"); 
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+  
+//   const fetchCategories = async () => {
+//     try {
+//       const response = await axios.get("http://localhost:8080/newscategories");
+//       setCategories(response.data.data); 
+//     } catch (err) {
+//       console.error("Lỗi khi lấy dữ liệu danh mục:", err);
+//       setError("Không thể tải danh mục.");
+//     }
+//   };
+
+  
+//   const fetchNews = async () => {
+//     try {
+//       const response = await axios.get("http://localhost:8080/news");
+//       const newsData = response.data.data;
+
+      
+//       if (selectedCategoryId === "all") {
+//         setNewsList(newsData);
+//       } else {
+        
+//         const filteredNews = newsData.filter(
+//           (news) => news.newsCategory.newsCategoryId === selectedCategoryId
+//         );
+//         setNewsList(filteredNews);
+//       }
+//     } catch (err) {
+//       console.error("Lỗi khi lấy dữ liệu tin tức:", err);
+//       setError("Không thể tải tin tức.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+  
+//   useEffect(() => {
+//     fetchCategories();
+//     fetchNews(); 
+//   }, []);
+
+  
+//   useEffect(() => {
+//     if (selectedCategoryId) {
+//       fetchNews();
+//     }
+//   }, [selectedCategoryId]);
+
+//   if (loading) {
+//     return <div>Đang tải...</div>;
+//   }
+
+//   if (error) {
+//     return <div>{error}</div>;
+//   }
+
+//   return (
+//     <div>
+//       <BannerSecond />
+
+      
+//       <div style={{ textAlign: "center", margin: "20px 0" }}>
+//         <select
+//           value={selectedCategoryId}
+//           onChange={(e) => setSelectedCategoryId(e.target.value)}
+//           style={{
+//             padding: "10px",
+//             fontSize: "16px",
+//             borderRadius: "10px",
+//             border: "1px solid #ccc",
+//             marginBottom: "20px",
+//           }}
+//         >
+          
+//           <option value="all">Tất cả</option>
+//           {categories.map((category) => (
+//             <option key={category.newsCategoryId} value={category.newsCategoryId}>
+//               {category.newsCategoryName}
+//             </option>
+//           ))}
+//         </select>
+//       </div>
+
+//       <section className="value-combo">
+//         <h2 className="">
+//           <button
+//             style={{
+//               border: "2px solid #8bc34a",
+//               borderRadius: "15px",
+//               padding: "10px 20px",
+//               color: "#8bc34a",
+//               fontWeight: "bold",
+//               fontFamily: "Arial, sans-serif",
+//               backgroundColor: "transparent",
+//               display: "inline-block",
+//               marginBottom: "20px",
+//             }}
+//           >
+//             FHD NEWS COMBO
+//           </button>
+//         </h2>
+
+//         <div className="combo-container">
+//           {newsList.length > 0 ? (
+//             newsList.map((items) => (
+//               <div className="combo-item1 shadow" key={items.newsId}>
+//                 <NavLink className="nav-link" to={`/news/${items.newsId}`}>
+//                   <img
+//                     style={{ width: "100%" }}
+//                     src={items.newsImageUrl}
+//                     alt={items.newsTitle}
+//                   />
+//                 </NavLink>
+//                 <h3
+//                   style={{
+//                     textAlign: "center",
+//                     fontSize: "20px",
+//                     color: "#3b8d00",
+//                     marginTop: "30px",
+//                   }}
+//                 >
+//                   <h4
+//                     style={{
+//                       borderRadius: "15px",
+//                       color: "#8bc34a",
+//                       fontWeight: "bold",
+//                       fontFamily: "Arial, sans-serif",
+//                       backgroundColor: "transparent",
+//                       display: "inline-block",
+//                     }}
+//                   >
+//                     {items.newsTitle}
+//                   </h4>
+//                 </h3>
+//                 <p>
+//                   {items.newsDescription.length > 100
+//                     ? `${items.newsDescription.substring(0, 100)}...`
+//                     : items.newsDescription}
+//                 </p>
+//               </div>
+//             ))
+//           ) : (
+//             <p>Không có tin tức nào.</p>
+//           )}
+//         </div>
+//       </section>
+
+//       <VisaBanner />
+//     </div>
+//   );
+// };
+
+// export default News;
+
+
+// import React, { useEffect, useState } from "react";
+// import axios from "axios";
+// import BannerSecond from "../home/components/BannerSecond";
+// import { NavLink } from "react-router-dom";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// const News = () => {
+//   const [newsList, setNewsList] = useState([]); 
+//   const [categories, setCategories] = useState([]); 
+//   const [selectedCategoryId, setSelectedCategoryId] = useState("all"); 
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+  
+//   const fetchCategories = async () => {
+//     try {
+//       const response = await axios.get("http://localhost:8080/newscategories");
+//       setCategories(response.data.data); 
+//     } catch (err) {
+//       console.error("Lỗi khi lấy dữ liệu danh mục:", err);
+//       setError("Không thể tải danh mục.");
+//     }
+//   };
+
+  
+//   const fetchNews = async () => {
+//     try {
+//       const response = await axios.get("http://localhost:8080/news");
+//       const newsData = response.data.data;
+
+      
+//       if (selectedCategoryId === "all") {
+//         setNewsList(newsData);
+//       } else {
+        
+//         const filteredNews = newsData.filter(
+//           (news) => news.newsCategory.newsCategoryId === selectedCategoryId
+//         );
+//         setNewsList(filteredNews);
+//       }
+//     } catch (err) {
+//       console.error("Lỗi khi lấy dữ liệu tin tức:", err);
+//       setError("Không thể tải tin tức.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+  
+//   useEffect(() => {
+//     fetchCategories();
+//     fetchNews(); 
+//   }, []);
+
+  
+//   useEffect(() => {
+//     if (selectedCategoryId) {
+//       fetchNews();
+//     }
+//   }, [selectedCategoryId]);
+
+//   if (loading) {
+//     return <div>Đang tải...</div>;
+//   }
+
+//   if (error) {
+//     return <div>{error}</div>;
+//   }
+
+//   return (
+//     <div>
+//       <BannerSecond />
+
+      
+//       <div style={{ textAlign: "center", margin: "20px 0" }}>
+//         <select
+//           value={selectedCategoryId}
+//           onChange={(e) => setSelectedCategoryId(e.target.value)}
+//           style={{
+//             padding: "10px",
+//             fontSize: "16px",
+//             borderRadius: "10px",
+//             border: "1px solid #ccc",
+//             marginBottom: "20px",
+//           }}
+//         >
+          
+//           <option value="all">Tất cả</option>
+//           {categories.map((category) => (
+//             <option key={category.newsCategoryId} value={category.newsCategoryId}>
+//               {category.newsCategoryName}
+//             </option>
+//           ))}
+//         </select>
+//       </div>
+
+//       <section className="value-combo">
+//         <h2 className="">
+//           <button
+//             style={{
+//               border: "2px solid #8bc34a",
+//               borderRadius: "15px",
+//               padding: "10px 20px",
+//               color: "#8bc34a",
+//               fontWeight: "bold",
+//               fontFamily: "Arial, sans-serif",
+//               backgroundColor: "transparent",
+//               display: "inline-block",
+//               marginBottom: "20px",
+//             }}
+//           >
+//             FHD NEWS COMBO
+//           </button>
+//         </h2>
+
+//         <div className="combo-container">
+//           {newsList.length > 0 ? (
+//             newsList.map((items) => (
+//               <div className="combo-item1 shadow" key={items.newsId}>
+//                 <NavLink className="nav-link" to={`/news/${items.newsId}`}>
+//                   <img
+//                     style={{ width: "100%" }}
+//                     src={items.newsImageUrl}
+//                     alt={items.newsTitle}
+//                   />
+//                 </NavLink>
+//                 <h3
+//                   style={{
+//                     textAlign: "center",
+//                     fontSize: "20px",
+//                     color: "#3b8d00",
+//                     marginTop: "30px",
+//                   }}
+//                 >
+//                   <h4
+//                     style={{
+//                       borderRadius: "15px",
+//                       color: "#8bc34a",
+//                       fontWeight: "bold",
+//                       fontFamily: "Arial, sans-serif",
+//                       backgroundColor: "transparent",
+//                       display: "inline-block",
+//                     }}
+//                   >
+//                     {items.newsTitle}
+//                   </h4>
+//                 </h3>
+//                 <p>
+//                   {items.newsDescription.length > 100
+//                     ? `${items.newsDescription.substring(0, 100)}...`
+//                     : items.newsDescription}
+//                 </p>
+//               </div>
+//             ))
+//           ) : (
+//             <p>Không có tin tức nào.</p>
+//           )}
+//         </div>
+//       </section>
+
+//       <VisaBanner />
+//     </div>
+//   );
+// };
+
+// export default News;
+
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BannerSecond from "../home/components/BannerSecond";
@@ -209,36 +545,33 @@ import { NavLink } from "react-router-dom";
 import VisaBanner from "../home/components/VisaBanner";
 
 const News = () => {
-  const [newsList, setNewsList] = useState([]); 
-  const [categories, setCategories] = useState([]); 
-  const [selectedCategoryId, setSelectedCategoryId] = useState("all"); 
+  const [newsList, setNewsList] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("all");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
   const fetchCategories = async () => {
     try {
       const response = await axios.get("http://localhost:8080/newscategories");
-      setCategories(response.data.data); 
+      setCategories(response.data.data);
     } catch (err) {
       console.error("Lỗi khi lấy dữ liệu danh mục:", err);
       setError("Không thể tải danh mục.");
     }
   };
 
-  
   const fetchNews = async () => {
+    setLoading(true);
     try {
       const response = await axios.get("http://localhost:8080/news");
       const newsData = response.data.data;
 
-      
       if (selectedCategoryId === "all") {
         setNewsList(newsData);
       } else {
-        
         const filteredNews = newsData.filter(
-          (news) => news.newsCategory.newsCategoryId === selectedCategoryId
+          (news) => news.newsCategoryDto.newsCategoryId === selectedCategoryId
         );
         setNewsList(filteredNews);
       }
@@ -250,17 +583,13 @@ const News = () => {
     }
   };
 
-  
   useEffect(() => {
     fetchCategories();
-    fetchNews(); 
+    fetchNews();
   }, []);
 
-  
   useEffect(() => {
-    if (selectedCategoryId) {
-      fetchNews();
-    }
+    fetchNews();
   }, [selectedCategoryId]);
 
   if (loading) {
@@ -274,8 +603,6 @@ const News = () => {
   return (
     <div>
       <BannerSecond />
-
-      
       <div style={{ textAlign: "center", margin: "20px 0" }}>
         <select
           value={selectedCategoryId}
@@ -288,7 +615,6 @@ const News = () => {
             marginBottom: "20px",
           }}
         >
-          
           <option value="all">Tất cả</option>
           {categories.map((category) => (
             <option key={category.newsCategoryId} value={category.newsCategoryId}>
@@ -299,7 +625,7 @@ const News = () => {
       </div>
 
       <section className="value-combo">
-        <h2 className="">
+        <h2>
           <button
             style={{
               border: "2px solid #8bc34a",
