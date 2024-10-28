@@ -16,6 +16,13 @@ const FilmTime = ({ movieDetails }) => {
   };
 
   useEffect(() => {
+    let session = sessionStorage.getItem("account");
+
+    if (session) {
+      const accountData = JSON.parse(session);
+    } else {
+      navigate("/login")
+    }
     const getShowTimes = async () => {
       try {
         const res = await fetchShowTime(movieId); 
