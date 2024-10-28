@@ -16,7 +16,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -42,6 +44,8 @@ public class Account {
 
     @JsonIgnore
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude // Exclude to prevent infinite hashCode recursion
+    @ToString.Exclude // Exclude to prevent infinite toString recursion
     Customer customer;
 
     @Builder.Default
