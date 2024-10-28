@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 
-const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, snacks, totalPrice, discount, finalPrice, moviePosterUrl }) => {
+const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, snacks, totalPrice, finalPrice, moviePosterUrl }) => {
   return (
     <Card className="p-3 shadow-sm">
       <Row>
@@ -57,9 +57,7 @@ const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, sn
             <h5>
               Tổng tiền gốc: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice)} VND
             </h5>
-            <h5>
-              Giảm giá: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discount)} VND
-            </h5>
+
             <h5>
               Tổng tiền thanh toán: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalPrice)} VND
             </h5>
