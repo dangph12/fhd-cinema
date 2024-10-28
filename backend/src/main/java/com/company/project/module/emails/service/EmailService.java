@@ -124,7 +124,9 @@ public class EmailService {
     MimeMessage mimeMessage = javaMailSender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
-    String templatePath = "classpath:/templates/" + request.getTemplate() + ".html";
+    String template = "email-bill";
+
+    String templatePath = "classpath:/templates/" + template + ".html";
     Resource resource = resourceLoader.getResource(templatePath);
 
     if (!resource.exists() || !resource.isReadable()) {
@@ -144,6 +146,9 @@ public class EmailService {
     String screenName = bill.getBooking().getShowtime().getScreen().getScreenName();
     String location = bill.getBooking().getShowtime().getScreen().getCinema().getLocation().getLocationName();
     String bookingCode = bill.getBooking().getBookingId();
+    int totalPrice = bill.getBillAmount();
+
+    String subject = "Xác nhận đặt vé " + movieTitle + " tại " + cinemaName + " thành công!";
 
     List<Ticket> tickets = bill.getBooking().getTickets();
     List<Snack> snacks = bill.getBooking().getSnacks();
@@ -157,15 +162,6 @@ public class EmailService {
       }
     });
 
-    int ticketPrice = tickets.stream()
-        .mapToInt(Ticket::getTicketPrice)
-        .sum();
-
-    int ticketSnack = snacks.stream()
-        .mapToInt(Snack::getSnackPrice)
-        .sum();
-
-    int totalPrice = ticketPrice + ticketSnack;
 
     LocalDateTime showTimeAt = bill.getBooking().getShowtime().getShowtimeAt();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
@@ -181,7 +177,7 @@ public class EmailService {
 
     try {
       helper.setTo(email);
-      helper.setSubject(request.getSubject());
+      helper.setSubject(subject);
 
       Context context = new Context();
       context.setVariable("customerName", customerName);
@@ -197,7 +193,7 @@ public class EmailService {
       context.setVariable("bookingCode", bookingCode);
       context.setVariable("snackList", snackList.toString());
 
-      String htmlContent = templateEngine.process(request.getTemplate(), context);
+      String htmlContent = templateEngine.process(template, context);
       helper.setText(htmlContent, true);
       javaMailSender.send(mimeMessage);
     } catch (MessagingException e) {

@@ -1,7 +1,10 @@
 package com.company.project.module.bookings.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.company.project.common.ApiPagination;
@@ -42,7 +45,8 @@ public class BookingService {
   private final SnackService snackService;
 
   public BookingService(BookingRepository bookingRepository, ShowtimeService showtimeService,
-      CustomerService customerService, Utils utils, ModelMapper modelMapper, @Lazy TicketService ticketService, SnackService snackService) {
+      CustomerService customerService, Utils utils, ModelMapper modelMapper, @Lazy TicketService ticketService,
+      SnackService snackService) {
     this.bookingRepository = bookingRepository;
     this.showtimeService = showtimeService;
     this.customerService = customerService;
@@ -91,6 +95,18 @@ public class BookingService {
     return this.convertToBookingDto(booking);
   }
 
+  public Booking createBooking(String showtimeId, String customerId) {
+    Showtime showtime = showtimeService.getShowtimeById(showtimeId);
+    Customer customer = customerService.getCustomerById(customerId);
+
+    Booking booking = Booking.builder()
+        .showtime(showtime)
+        .customer(customer)
+        .build();
+
+    return bookingRepository.save(booking);
+  }
+
   public BookingDto updateBooking(String bookingId, BookingCreationRequest request) {
     Booking existingBooking = this.getBookingById(bookingId);
 
@@ -106,7 +122,7 @@ public class BookingService {
 
   public void deleteBookingById(String bookingId) {
     Booking existingBooking = this.getBookingById(bookingId);
-    
+
     existingBooking.getTickets().forEach(ticket -> {
       ticketService.deleteTicketById(ticket.getTicketId());
     });
@@ -150,12 +166,16 @@ public class BookingService {
   }
 
   public void calculateTotalBookingPrice(Booking booking) {
-    int totalTicketPrice = booking.getTickets().stream()
+    int totalTicketPrice = Optional.ofNullable(booking.getTickets())
+        .orElse(Collections.emptyList())
+        .stream()
         .filter(ticket -> !ticket.isDeleted())
         .mapToInt(Ticket::getTicketPrice)
         .sum();
 
-    int totalSnackPrice = booking.getSnacks().stream()
+    int totalSnackPrice = Optional.ofNullable(booking.getSnacks())
+        .orElse(Collections.emptyList())
+        .stream()
         .filter(snack -> !snack.isDeleted())
         .mapToInt(Snack::getSnackPrice)
         .sum();
@@ -164,13 +184,18 @@ public class BookingService {
 
     booking.setBookingPrice(totalBookingPrice);
   }
+
   public BookingDto addSnackToBooking(String bookingId, String snackId) {
     Booking booking = getBookingById(bookingId);
     Snack snack = snackService.getSnackById(snackId);
 
+    if (booking.getSnacks() == null) {
+        booking.setSnacks(new ArrayList<>());
+    }
+
     booking.getSnacks().add(snack);
-    bookingRepository.save(booking);
     calculateTotalBookingPrice(booking);
+    bookingRepository.save(booking);
 
     return convertToBookingDto(booking);
   }
@@ -184,8 +209,8 @@ public class BookingService {
     }
 
     booking.getSnacks().remove(snack);
-    bookingRepository.save(booking);
     calculateTotalBookingPrice(booking);
+    bookingRepository.save(booking);
 
     return convertToBookingDto(booking);
   }

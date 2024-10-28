@@ -21,7 +21,9 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -47,6 +49,8 @@ public class Customer {
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     Account account;
 
     @Builder.Default

@@ -12,7 +12,6 @@ import com.company.project.module.emails.service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +24,7 @@ public class EmailController{
   @Autowired
   private EmailService emailService;
 
-  @GetMapping("/bill")
+  @PostMapping("/bill")
   ResponseEntity<ApiResponse<Void>> sendBillInformationEmail(@Valid @RequestBody EmailBillRequest request) {
     emailService.sendEmailBill(request);
 
