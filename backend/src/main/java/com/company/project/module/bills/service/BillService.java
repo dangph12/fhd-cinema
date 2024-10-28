@@ -1,6 +1,10 @@
 package com.company.project.module.bills.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.company.project.common.ApiPagination;
@@ -13,7 +17,12 @@ import com.company.project.module.bills.exception.BillException;
 import com.company.project.module.bills.repository.BillRepository;
 import com.company.project.module.bookings.dto.response.BookingDto;
 import com.company.project.module.bookings.entity.Booking;
+import com.company.project.module.bookings.repository.BookingRepository;
 import com.company.project.module.bookings.service.BookingService;
+import com.company.project.module.seats.dto.response.SeatDto;
+import com.company.project.module.seats.service.SeatService;
+import com.company.project.module.tickets.entity.Ticket;
+import com.company.project.module.tickets.service.TicketService;
 import com.company.project.module.vouchers.entity.Voucher;
 import com.company.project.module.vouchers.service.VoucherService;
 import com.company.project.utils.Utils;
@@ -25,6 +34,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BillService {
@@ -34,14 +44,21 @@ public class BillService {
   private final Utils utils;
   private final ModelMapper modelMapper;
   private final VoucherService voucherService;
+  private final TicketService ticketService;
+  private final SeatService seatService;
+  private final BookingRepository bookingRepository;
 
   public BillService(BillRepository billRepository, BookingService bookingService,
-      Utils utils, ModelMapper modelMapper, @Lazy VoucherService voucherService) {
+      Utils utils, ModelMapper modelMapper, @Lazy VoucherService voucherService,
+      TicketService ticketService, SeatService seatService, BookingRepository bookingRepository) {
     this.billRepository = billRepository;
     this.bookingService = bookingService;
     this.utils = utils;
     this.modelMapper = modelMapper;
     this.voucherService = voucherService;
+    this.ticketService = ticketService;
+    this.seatService = seatService;
+    this.bookingRepository = bookingRepository;
   }
 
   private BillDto convertToBillDto(Bill bill) {
@@ -73,32 +90,59 @@ public class BillService {
     return this.convertToBillDto(bill);
   }
 
+  @Transactional(rollbackFor = Exception.class)
   public BillDto createBill(BillCreationRequest request) {
-    if (billRepository.existsByBooking_BookingId(request.getBookingId())) {
-      throw new BillException(Status.FAIL.getValue(), BillStatusMessage.BOOKING_HAS_BILL.getMessage());
+    Booking booking = bookingService.createBooking(request.getShowtimeId(), request.getCustomerId());
+
+    Set<String> validSeatIds = seatService.getSeatsByScreenId(booking.getShowtime().getScreen().getScreenId())
+        .stream()
+        .map(SeatDto::getSeatId)
+        .collect(Collectors.toSet());
+
+    Set<String> requestedSeatIds = new HashSet<>(request.getSeatIds());
+    if (requestedSeatIds.size() != request.getSeatIds().size()) {
+        throw new BillException(Status.FAIL.getValue(), BillStatusMessage.DUPLICATE_SEAT.getMessage());
     }
 
-    Booking booking = bookingService.getBookingById(request.getBookingId());
+    List<Ticket> tickets = new ArrayList<>();
+
+    if (request.getSeatIds() != null) {
+      for (String seatId : requestedSeatIds) {
+        if (validSeatIds.contains(seatId)) {
+          Ticket ticket = ticketService.createTicket(booking.getBookingId(), seatId);
+          tickets.add(ticket);
+        } else {
+          throw new BillException(Status.FAIL.getValue(), BillStatusMessage.INVALID_SEAT.getMessage());
+        }
+      }
+    }
+
+    booking.setTickets(tickets);
+
+    if (request.getSnackIds() != null) {
+      for (String snackId : request.getSnackIds()) {
+        bookingService.addSnackToBooking(booking.getBookingId(), snackId);
+      }
+    }
+
+    bookingService.calculateTotalBookingPrice(booking);
+    bookingRepository.save(booking);
 
     Bill bill = Bill.builder()
         .booking(booking)
+        .billCreatedAt(LocalDateTime.now())
         .build();
+    billRepository.save(bill);
+
+    if (request.getVoucherIds() != null) {
+      for (String voucherId : request.getVoucherIds()) {
+        addVoucherToBill(bill.getBillId(), voucherId);
+      }
+    }
 
     this.calculateTotalBillPrice(bill);
     billRepository.save(bill);
     return convertToBillDto(bill);
-  }
-
-  public BillDto updateBill(String billId, BillCreationRequest request) {
-    Bill existedBill = this.getBillById(billId);
-
-    Booking booking = bookingService.getBookingById(request.getBookingId());
-
-    existedBill.setBooking(booking);
-
-    this.calculateTotalBillPrice(existedBill);
-    billRepository.save(existedBill);
-    return convertToBillDto(existedBill);
   }
 
   public void deleteBillById(String billId) {
@@ -187,4 +231,5 @@ public class BillService {
 
     billRepository.save(bill);
   }
+
 }

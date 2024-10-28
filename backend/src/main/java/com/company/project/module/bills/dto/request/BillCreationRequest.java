@@ -1,5 +1,7 @@
 package com.company.project.module.bills.dto.request;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotEmpty;
 
 import lombok.AccessLevel;
@@ -16,7 +18,16 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BillCreationRequest {
 
-  @NotEmpty(message = "EMPTY_BOOKING")
-  String bookingId;
+  @NotEmpty(message = "EMPTY_CUSTOMER")
+  String customerId;
 
+  @NotEmpty(message = "EMPTY_SHOWTIME")
+  String showtimeId;
+
+  @NotEmpty(message = "EMPTY_SEAT")
+  List<String> seatIds;
+
+  List<String> snackIds;
+
+  List<String> voucherIds;
 }
