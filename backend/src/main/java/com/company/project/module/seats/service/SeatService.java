@@ -106,6 +106,9 @@ public class SeatService {
   }
 
   public SeatDto createSeat(SeatCreationRequest request) {
+    if (seatRepository.existsBySeatNameAndIsDeletedFalse(request.getSeatName())) {
+      throw new SeatException(Status.FAIL.getValue(), SeatStatusMessage.EXIST_SEAT.getMessage());
+    }
     SeatType seatType = seatTypeService.getSeatTypeById(request.getSeatTypeId());
     Screen screen = screenService.getScreenById(request.getScreenId());
 
@@ -113,7 +116,6 @@ public class SeatService {
         .seatName(request.getSeatName())
         .seatType(seatType)
         .screen(screen)
-        .isBooked(request.isBooked())
         .build();
 
     seatRepository.save(seat);
@@ -133,7 +135,6 @@ public class SeatService {
 
     existedSeat.setSeatType(seatType);
     existedSeat.setScreen(screen);
-    existedSeat.setBooked(request.isBooked());
 
     if (!existedSeat.getSeatName().equals(request.getSeatName())) {
       existedSeat.setSeatName(request.getSeatName());

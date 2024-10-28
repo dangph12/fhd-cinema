@@ -69,19 +69,6 @@ public class BillController {
             .build());
   }
 
-  @PutMapping("/{billId}")
-  public ResponseEntity<ApiResponse<BillDto>> updateBill(
-      @PathVariable(name = "billId") String billId,
-      @Valid @RequestBody BillCreationRequest request) {
-    BillDto bill = billService.updateBill(billId, request);
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(ApiResponse.<BillDto>builder()
-            .status(Status.SUCCESS.getValue())
-            .message(BillStatusMessage.UPDATE_SUCCESS.getMessage())
-            .data(bill)
-            .build());
-  }
-
   @DeleteMapping("/{billId}")
   public ResponseEntity<ApiResponse<Void>> deleteBill(@PathVariable(name = "billId") String billId) {
     billService.deleteBillById(billId);

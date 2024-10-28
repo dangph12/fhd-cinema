@@ -92,6 +92,26 @@ public class TicketService {
     return convertToTicketDto(ticket);
   }
 
+  public Ticket createTicket(String bookingId, String seatId) {
+    if (ticketRepository.existsBySeat_SeatIdAndIsDeletedFalse(seatId)) {
+      throw new TicketException(Status.FAIL.getValue(), TicketStatusMessage.SEAT_ALREADY_BOOKED.getMessage());
+    }
+
+    Booking booking = bookingService.getBookingById(bookingId);
+    Seat seat = seatService.getSeatById(seatId);
+
+    Ticket ticket = Ticket.builder()
+        .seat(seat)
+        .booking(booking)
+        .build();
+
+    this.calculateTotalBookingPrice(ticket);
+
+    seat.setBooked(true);
+
+    return ticketRepository.save(ticket);
+  }
+
   public TicketDto updateTicket(String ticketId, TicketCreationRequest request) {
     Ticket existingTicket = this.getTicketById(ticketId);
     if (!existingTicket.getSeat().getSeatId().equals(request.getSeatId()) &&
