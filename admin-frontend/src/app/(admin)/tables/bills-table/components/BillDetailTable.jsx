@@ -43,7 +43,7 @@ const BillDetailTable = () => {
     },
     {
       header: 'Booking Id',
-      accessorKey: 'booking.bookingId',
+      accessorKey: 'bookingDto.bookingId',
     },
     {
       header: 'Is Paid',

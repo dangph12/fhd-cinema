@@ -24,7 +24,7 @@ function BillDetailModal({ billId, show, onHide }) {
         billId: bill.billId,
         billAmount: bill.billAmount,
         billCreatedAt: bill.billCreatedAt,
-        bookingId: bill.booking.bookingId,
+        bookingId: bill.bookingDto.bookingId,
         vouchers: bill.vouchers,
       })
     }
@@ -64,15 +64,6 @@ function BillDetailModal({ billId, show, onHide }) {
           <Form.Group className="m-2">
             <Form.Label>Booking Id</Form.Label>
             <Form.Control readOnly type="text" value={selectedBill.bookingId} />
-          </Form.Group>
-          <Form.Group className="m-2">
-            <Form.Label>Vouchers</Form.Label>
-            <Form.Control
-              readOnly
-              as="textarea"
-              rows={3}
-              value={selectedBill.vouchers.map((voucher) => voucher.voucherCode).join(', ')}
-            />
           </Form.Group>
         </Form>
       </Modal.Body>
