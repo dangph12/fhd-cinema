@@ -17,9 +17,11 @@ const FilmTime = ({ movieDetails }) => {
 
   useEffect(() => {
     let session = sessionStorage.getItem("account");
+    let local = localStorage.getItem("account");
 
-    if (session) {
+    if (session && local) {
       const accountData = JSON.parse(session);
+      const account = JSON.parse(local);
     } else {
       navigate("/login")
     }
