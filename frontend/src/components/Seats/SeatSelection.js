@@ -277,3 +277,48 @@ const SeatSelection = () => {
 
 export default SeatSelection;
 
+
+
+
+
+// SeatSelection.js
+// import React, { useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import axios from 'axios';
+// import { useCheckout } from '../payment-infor/CheckoutContext';
+// import SeatLayout from './SeatLayout';
+
+// const SeatSelection = () => {
+//     const { selectedSeats, setSelectedSeats, showtimeDetails, setShowtimeDetails } = useCheckout();
+//     const navigate = useNavigate();
+//     const [seatLayout, setSeatLayout] = useState([]);
+//     const showtimeId = showtimeDetails?.showtimeId;
+
+//     useEffect(() => {
+//         const fetchSeatsAndShowtimeDetails = async () => {
+//             const response = await axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
+//             setShowtimeDetails(response.data.data);
+//             const seatResponse = await axios.get(`http://localhost:8080/seats/screen/${response.data.data.screen.screenId}`);
+//             setSeatLayout(seatResponse.data.data);
+//         };
+
+//         fetchSeatsAndShowtimeDetails();
+//     }, [showtimeId, setShowtimeDetails]);
+
+//     const handleSeatClick = (seat) => {
+//         setSelectedSeats(prev => prev.some(s => s.seatId === seat.seatId) ? prev.filter(s => s.seatId !== seat.seatId) : [...prev, seat]);
+//     };
+
+//     const goToOrderFood = () => {
+//         navigate('/order-food');
+//     };
+
+//     return (
+//         <div>
+//             <SeatLayout seatLayout={seatLayout} selectedSeats={selectedSeats} onSeatClick={handleSeatClick} />
+//             <button onClick={goToOrderFood}>Chọn đồ ăn</button>
+//         </div>
+//     );
+// };
+
+// export default SeatSelection;
