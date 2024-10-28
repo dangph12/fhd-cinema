@@ -1,5 +1,6 @@
 package com.company.project.module.showtimes.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,8 +68,9 @@ public class ShowtimeService {
     return this.convertToShowtimeDto(showtime);
   }
 
-  public ApiPagination<ShowtimeDto> filterShowtimes(String showtimeId, int page, int pageSize,
-      List<String> movieTitles, List<String> cinemaNames, String sortBy, String sortDirection) {
+  public ApiPagination<ShowtimeDto> filterShowtimes(int page, int pageSize,
+      String movieTitles, List<String> cinemaNames, LocalDateTime startDate,
+      LocalDateTime endDate, String sortBy, String sortDirection) {
     if (page < 1 || pageSize < 1) {
       throw new ShowtimeException(Status.FAIL.getValue(), ShowtimeStatusMessage.LESS_THAN_ZERO.getMessage());
     }
@@ -81,8 +83,8 @@ public class ShowtimeService {
     Sort.Direction direction = Sort.Direction.fromString(sortDirection);
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
 
-    Page<Showtime> showtimePages = showtimeRepository.searchShowtimes(showtimeId, movieTitles, cinemaNames, pageable);
-    long count = showtimeRepository.countShowtimes(showtimeId, movieTitles, cinemaNames);
+    Page<Showtime> showtimePages = showtimeRepository.searchShowtimes(movieTitles, cinemaNames, startDate, endDate, pageable);
+    long count = showtimeRepository.countShowtimes(movieTitles, cinemaNames, startDate, endDate);
 
     List<ShowtimeDto> showtimeDtos = showtimePages.getContent().stream()
         .map(this::convertToShowtimeDto)
