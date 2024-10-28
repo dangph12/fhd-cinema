@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import SnackList from './SnackList';
 import PricingSummary from './PricingSummary';
+import { useCheckout } from '../../../../components/payment-infor/CheckoutContext';
 
 import './OrderFood.css'; 
 
@@ -27,6 +28,7 @@ const OrderFood = () => {
   const [moviePosterUrl] = useState(movieDetails?.moviePosterUrl || '');
   const [snacks, setSnacks] = useState([]);
   const [quantity, setQuantity] = useState({});
+  const { setCheckoutData } = useCheckout();
 
   useEffect(() => {
     const fetchSnacks = async () => {
@@ -72,17 +74,17 @@ const OrderFood = () => {
       ...snack,
       quantity: quantity[snack.snackId] || 0,
     })).filter(snack => snack.quantity > 0);
-  
-    navigate("/checkout", {
-      state: {
-        selectedSeats,
-        showtimeDetails,
-        movieTitle,
-        totalPrice,
-        snacks: selectedSnacks,
-        moviePosterUrl
-      }
+
+    setCheckoutData({
+      selectedSeats,
+      showtimeDetails,
+      movieTitle,
+      totalPrice,
+      snacks: selectedSnacks,
+      moviePosterUrl,
     });
+    
+    navigate('/checkout');
   };
 
   return (
