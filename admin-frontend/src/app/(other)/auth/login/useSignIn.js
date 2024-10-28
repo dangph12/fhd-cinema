@@ -17,7 +17,7 @@ const useSignIn = () => {
     showNotification
   } = useNotificationContext();
   const loginFormSchema = yup.object({
-    email: yup.string().email('Please enter a valid email').required('Please enter your email'),
+    email: yup.string().required('Please enter your email'),
     password: yup.string().required('Please enter your password')
   });
   const {
@@ -26,7 +26,7 @@ const useSignIn = () => {
   } = useForm({
     resolver: yupResolver(loginFormSchema),
     defaultValues: {
-      email: 'user@demo.com',
+      email: 'demo_user',
       password: '123456'
     }
   });
