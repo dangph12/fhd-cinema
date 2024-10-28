@@ -35,16 +35,21 @@ export const AccountProvider = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const accountApiUrl = `http://localhost:8080/accounts?search=${state.query}&page=${state.currentPage}&filters=${state.filters.join(',')}`;
+  const buildApiUrl = () => {
+    const params = new URLSearchParams({
+      search: state.query || '',
+      page: state.currentPage || 1,
+      pageSize: pageSize,
+      filters: state.filters.join(','),
+    });
+    return `http://localhost:8080/accounts?${params.toString()}`;
+  };
+
+  const accountApiUrl = buildApiUrl();
+
   useEffect(() => {
     fetchAccounts();
   }, [state.currentPage, state.query, state.filters]);
-
-  // for debug
-  // const accountApiUrl = `http://localhost:8080/accounts`;
-  // useEffect(() => {
-  //   fetchAccounts();
-  // }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search || '');
