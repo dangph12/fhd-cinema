@@ -7,6 +7,8 @@ import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
 import com.company.project.module.accounts.dto.request.UpdatePasswordRequest;
+import com.company.project.module.accounts.dto.response.AccountDto;
+
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
@@ -24,14 +26,20 @@ import com.company.project.utils.Utils;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
+import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Lazy;
 
 @Service
 public class CustomerService {

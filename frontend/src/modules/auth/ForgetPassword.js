@@ -449,7 +449,7 @@ const ResetPasswordForm = () => {
 
    
         setTimeout(() => {
-          navigate("/reset"); 
+          navigate("/confirm-nofication"); 
         }, 2000); 
       } else {
         setToastMessage("Có lỗi xảy ra, vui lòng thử lại.");

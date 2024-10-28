@@ -236,6 +236,23 @@ const initialState = {
   totalPages: 1,
 };
 
+const convertTime = (time) => {
+  if (!time) return ''; // Return an empty string if time is undefined or null
+
+  const [datePart, timePart] = time.split("T");
+
+  if (!datePart || !timePart) {
+    console.error("Invalid datetime format:", time);
+    return time; // Return original time if splitting fails
+  }
+
+  const formattedDate = datePart.split("-").reverse().join("/");
+  const formattedTime = timePart.slice(0, 8); // "HH:mm"
+
+  return `${formattedDate} ${formattedTime}`;
+};
+
+
 // Reducer to handle state updates
 const reducer = (state, action) => {
   switch (action.type) {
@@ -243,7 +260,8 @@ const reducer = (state, action) => {
       // Make ticketCreateAt readable
       if (Array.isArray(action.payload)) {
         action.payload.forEach((ticket) => {
-          ticket.ticketCreateAt = new Date(ticket.ticketCreateAt).toLocaleString();
+          // ticket.ticketCreateAt = new Date(ticket.ticketCreateAt).toLocaleString();
+          ticket.ticketCreateAt = convertTime(ticket.ticketCreateAt)
         });
       } else {
         console.error('Expected payload to be an array, but received:', action.payload);
