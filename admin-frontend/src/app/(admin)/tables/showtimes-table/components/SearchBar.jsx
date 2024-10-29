@@ -165,18 +165,6 @@ const SearchBar = () => {
     updateQueryParams({ query, page: 1 });
   };
 
-  // const handleFilters = (event) => {
-  //   const filter = event.target.value;
-  //   let newFilters;
-  //   if (state.filters.includes(filter)) {
-  //     newFilters = state.filters.filter(f => f !== filter);
-  //   } else {
-  //     newFilters = [...state.filters, filter];
-  //   }
-  //   dispatch({ type: 'SET_FILTERS', payload: newFilters });
-  //   updateQueryParams({ filters: newFilters.join(','), page: 1 });
-  // };
-
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -192,28 +180,12 @@ const SearchBar = () => {
             className="p-3 mb-3 rounded"
             size="lg"
             type="text"
-            placeholder="Search by showtime id"
+            placeholder="Search by movie title"
             value={state.query}
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
           />
         </Col>
-        {/* <Col md={4} className="d-flex flex-column align-items-start fs-4">
-          <Form.Check
-            label="Now Showing"
-            name="filter"
-            value="Now Showing"
-            checked={state.filters.includes('Now Showing')}
-            onChange={(e) => handleFilters(e)}
-          />
-          <Form.Check
-            label="Coming Soon"
-            name="filter"
-            value="Coming Soon"
-            checked={state.filters.includes('Coming Soon')}
-            onChange={(e) => handleFilters(e)}
-          />
-        </Col> */}
       </Row>
     </Container>
   );
