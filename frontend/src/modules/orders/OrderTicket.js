@@ -121,12 +121,11 @@ const OrderTicket = () => {
   const [movieDetails, setMovieDetails] = useState(null); // State to store movie details
 
   useEffect(() => {
-    // Check if account exists in sessionStorage or localStorage
+    
     const sessionAccount = sessionStorage.getItem("account");
     const localAccount = localStorage.getItem("account");
 
     if (!sessionAccount && !localAccount) {
-      // Redirect to login if neither sessionStorage nor localStorage has account
       navigate("/login");
       return;
     }
