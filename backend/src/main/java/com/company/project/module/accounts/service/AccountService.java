@@ -219,8 +219,9 @@ public class AccountService {
 
   public void deleteAccountById(String accountId) {
     Account existingAccount = this.getAccountById(accountId);
-
-    existingAccount.getCustomer().setDeleted(true);
+    if (existingAccount.getAccountType().equalsIgnoreCase("Customer")) {
+      existingAccount.getCustomer().setDeleted(true);
+    }
     existingAccount.setDeleted(true);
     accountRepository.save(existingAccount);
   }
