@@ -16,15 +16,7 @@ const FilmTime = ({ movieDetails }) => {
   };
 
   useEffect(() => {
-    let session = sessionStorage.getItem("account");
-    let local = localStorage.getItem("account");
-
-    if (session && local) {
-      const accountData = JSON.parse(session);
-      const account = JSON.parse(local);
-    } else {
-      navigate("/login")
-    }
+  
     const getShowTimes = async () => {
       try {
         const res = await fetchShowTime(movieId); 
