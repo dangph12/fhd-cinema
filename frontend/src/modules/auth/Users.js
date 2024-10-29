@@ -2161,26 +2161,687 @@
 
 // export default Users;
 
+// import React, { useEffect, useState } from "react";
+// import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios"; // Import axios for API calls
+// import BannerSecond from "../home/components/BannerSecond"; // Thêm BannerSecond để giống giao diện cũ
+// import VisaBanner from "../home/components/VisaBanner"; // Thêm VisaBanner
+
+// function Users() {
+//   const [customerId, setCustomerId] = useState(""); // Add customer ID state
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+//   const [bookings, setBookings] = useState([]); // State for bookings
+//   const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+//   const [updatedInfo, setUpdatedInfo] = useState({
+//     customerName: "",
+//     customerEmail: "",
+//     customerPhone: "",
+//   });
+//   const [profileImage, setProfileImage] = useState(null); // State to store the profile image URL
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     sessionStorage.removeItem("account");
+//     localStorage.removeItem("account");
+//     navigate("/login");
+//   };
+
+//   useEffect(() => {
+//     const session = sessionStorage.getItem("account");
+//     const local = localStorage.getItem("account");
+
+//     console.log("Session:", session); // Kiểm tra giá trị của session
+//     console.log("Local:", local); // Kiểm tra giá trị của local storage
+
+//     // Nếu cả `sessionStorage` và `localStorage` đều không có dữ liệu, chuyển hướng đến `/login`
+//     if (!session && !local) {
+//       console.log("Navigating to login");
+//       navigate("/login");
+//     } else {
+//       // Nếu có thông tin trong session hoặc local, lấy thông tin từ nơi có dữ liệu
+//       const accountData = JSON.parse(session || local);
+//       if (accountData && accountData.customer) {
+//         // Set customer details and ID
+//         setCustomerId(accountData.customer.customerId);
+//         setCustomerName(accountData.customer.customerName);
+//         setCustomerEmail(accountData.customer.customerEmail);
+//         setCustomerPhone(accountData.customer.customerPhone);
+
+//         setUpdatedInfo({
+//           customerName: accountData.customer.customerName,
+//           customerEmail: accountData.customer.customerEmail,
+//           customerPhone: accountData.customer.customerPhone,
+//         });
+
+//         // Set bookings
+//         if (accountData.booking) {
+//           setBookings(accountData.booking);
+//         }
+
+//         // Load profile image from localStorage
+//         const storedProfileImage = localStorage.getItem("profileImage");
+//         if (storedProfileImage) {
+//           setProfileImage(storedProfileImage); // Set the profile image from localStorage
+//         }
+//       } else {
+//         navigate("/login");
+//       }
+//     }
+//   }, [navigate]);
+
+//   // Handle image file selection and convert it to Base64
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+
+//     // Check if file is .jpg
+//     if (file && file.type !== "image/jpeg") {
+//       alert("Please upload a .jpg image.");
+//       return;
+//     }
+
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onloadend = () => {
+//         const base64String = reader.result;
+//         localStorage.setItem("profileImage", base64String); // Save Base64 image to localStorage
+//         setProfileImage(base64String); // Update the state to display the image
+//       };
+//       reader.readAsDataURL(file); // Convert the file to Base64
+//     }
+//   };
+
+//   const handleEdit = () => {
+//     setIsEditing(true); // Enable editing mode
+//   };
+
+//   const handleCancelEdit = () => {
+//     setIsEditing(false); // Disable editing mode
+//     // Reset the updatedInfo to the original customer info
+//     setUpdatedInfo({
+//       customerName,
+//       customerEmail,
+//       customerPhone,
+//     });
+//   };
+
+//   const handleSave = async () => {
+//     try {
+//       // Send the PUT request to update the customer info
+//       const response = await axios.put(
+//         `http://localhost:8080/customers/${customerId}`, // API endpoint
+//         {
+//           customerName: updatedInfo.customerName,
+//           customerPhone: updatedInfo.customerPhone,
+//           customerEmail: updatedInfo.customerEmail,
+//         }
+//       );
+
+//       if (response.status === 200) {
+//         const updatedCustomer = response.data.data;
+
+//         // Update session storage with the new data
+//         let session = sessionStorage.getItem("account");
+//         if (session) {
+//           const accountData = JSON.parse(session);
+//           accountData.customer = updatedCustomer;
+//           sessionStorage.setItem("account", JSON.stringify(accountData));
+
+//           // Update the displayed customer info
+//           setCustomerName(updatedCustomer.customerName);
+//           setCustomerEmail(updatedCustomer.customerEmail);
+//           setCustomerPhone(updatedCustomer.customerPhone);
+//         }
+
+//         setIsEditing(false); // Exit editing mode
+//       }
+//     } catch (error) {
+//       console.error("Error updating customer info:", error);
+//     }
+//   };
+
+//   const tittle = {
+//     borderRadius: "15px",
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//     backgroundColor: "transparent",
+//     display: "inline-block",
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <Container className="mt-5">
+//         <h2 className="text-center mb-1" style={tittle}>
+//           Tài khoản
+//         </h2>
+//         <Row>
+//           <Col md={8} className="border p-4 rounded shadow">
+//             <div className="d-flex">
+//               <div className="mr-3">
+//                 <img
+//                   style={{ width: "100%", borderRadius: "50%" }}
+//                   src={
+//                     profileImage ||
+//                     "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"
+//                   }
+//                   alt="User Avatar"
+//                 />
+//               </div>
+//               <div className="container">
+//                 <h5 style={tittle}>{customerName || "Không có tên"}</h5>
+//                 <p className="text-muted">
+//                   Email: {customerEmail || "Không có email"}
+//                 </p>
+//                 <p className="text-muted">
+//                   Số điện thoại: {customerPhone || "Không có số điện thoại"}
+//                 </p>
+//                 <Form.Group controlId="formFile" className="mt-3">
+//                   <Form.Label>Upload Profile Image (.jpg only)</Form.Label>
+//                   <Form.Control type="file" onChange={handleImageChange} />
+//                 </Form.Group>
+//               </div>
+//             </div>
+
+//             <hr />
+
+//             <Form>
+//               <Form.Group
+//                 style={{
+//                   textAlign: "left",
+//                   marginTop: "20px",
+//                   color: "#8bc34a",
+//                 }}
+//                 as={Col}
+//                 controlId="formLastName"
+//               >
+//                 <Form.Label>Tên đệm và tên *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={updatedInfo.customerName}
+//                   onChange={(e) =>
+//                     setUpdatedInfo({
+//                       ...updatedInfo,
+//                       customerName: e.target.value,
+//                     })
+//                   }
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               <Form.Group
+//                 style={{
+//                   textAlign: "left",
+//                   marginTop: "20px",
+//                   color: "#8bc34a",
+//                 }}
+//                 controlId="formEmail"
+//               >
+//                 <Form.Label>Email *</Form.Label>
+//                 <Form.Control
+//                   type="email"
+//                   value={updatedInfo.customerEmail}
+//                   onChange={(e) =>
+//                     setUpdatedInfo({
+//                       ...updatedInfo,
+//                       customerEmail: e.target.value,
+//                     })
+//                   }
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               <Form.Group
+//                 style={{
+//                   textAlign: "left",
+//                   marginTop: "20px",
+//                   color: "#8bc34a",
+//                 }}
+//                 controlId="formPhoneNumber"
+//               >
+//                 <Form.Label>Số điện thoại *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={updatedInfo.customerPhone}
+//                   onChange={(e) =>
+//                     setUpdatedInfo({
+//                       ...updatedInfo,
+//                       customerPhone: e.target.value,
+//                     })
+//                   }
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               {isEditing ? (
+//                 <div className="d-flex justify-content-between mt-5">
+//                   <Button variant="danger" onClick={handleCancelEdit}>
+//                     Hủy
+//                   </Button>
+//                   <Button variant="success" onClick={handleSave}>
+//                     Lưu
+//                   </Button>
+//                 </div>
+//               ) : (
+//                 <Button
+//                   variant="primary"
+//                   className="w-100 mt-5"
+//                   onClick={handleEdit}
+//                 >
+//                   Chỉnh sửa
+//                 </Button>
+//               )}
+//             </Form>
+//           </Col>
+
+//           <Col md={4} className="border p-4 rounded shadow">
+//             <div className="text-center mb-4">
+//               <img
+//                 style={{ width: "30%" }}
+//                 src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png"
+//                 alt="logo"
+//                 className="img-fluid"
+//               />
+//             </div>
+//             <p style={tittle}>
+//               Tên đăng nhập: {customerName ? customerName : "Không có email"}
+//             </p>
+//             <Button
+//               variant="success"
+//               className="w-100 mb-2"
+//               onClick={handleLogout}
+//             >
+//               Đăng xuất
+//             </Button>
+//           </Col>
+//         </Row>
+
+//         <h5 className="mt-5" style={tittle}>
+//           Lịch sử giao dịch
+//         </h5>
+//         <Table striped bordered hover className="mt-3 mb-5">
+//           <thead>
+//             <tr>
+//               <th>STT</th>
+//               <th>Thời gian giao dịch</th>
+//               <th>Mã lấy vé</th>
+//               <th>Thông tin vé</th>
+//               <th>Tổng tiền</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {bookings.length > 0 ? (
+//               bookings.map((booking, index) => (
+//                 <tr key={booking.bookingId}>
+//                   <td>{index + 1}</td>
+//                   <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
+//                   <td>{booking.bookingId}</td>
+//                   <td>
+//                     {booking.tickets
+//                       ? booking.tickets
+//                           .map((ticket) => ticket.ticketId)
+//                           .join(", ")
+//                       : "Không có vé"}
+//                   </td>
+//                   <td>{booking.bookingPrice} VND</td>
+//                 </tr>
+//               ))
+//             ) : (
+//               <tr>
+//                 <td colSpan="5" className="text-center">
+//                   Không có giao dịch
+//                 </td>
+//               </tr>
+//             )}
+//           </tbody>
+//           <tfoot>
+//             <tr>
+//               <td colSpan="4" className="text-right">
+//                 Tổng cộng
+//               </td>
+//               <td>
+//                 {bookings.reduce(
+//                   (sum, booking) => sum + booking.bookingPrice,
+//                   0
+//                 )}{" "}
+//                 VND
+//               </td>
+//             </tr>
+//           </tfoot>
+//         </Table>
+//       </Container>
+
+//       <VisaBanner />
+//     </div>
+//   );
+// }
+
+// export default Users;
+
+// import React, { useEffect, useState } from "react";
+// import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// function Users() {
+//   const [customerId, setCustomerId] = useState(""); 
+//   const [customerName, setCustomerName] = useState("John Doe");
+//   const [customerEmail, setCustomerEmail] = useState("dubo01689@gmail.com");
+//   const [customerPhone, setCustomerPhone] = useState("0123456781");
+//   const [profileImage, setProfileImage] = useState(null); 
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     sessionStorage.removeItem("account");
+//     localStorage.removeItem("account");
+//     navigate("/login");
+//   };
+
+//   useEffect(() => {
+//     const session = sessionStorage.getItem("account");
+//     const local = localStorage.getItem("account");
+
+//     // Load profile image based on customer ID
+//     if (session || local) {
+//       const accountData = JSON.parse(session || local);
+//       if (accountData && accountData.customer) {
+//         setCustomerId(accountData.customer.customerId);
+//         setCustomerName(accountData.customer.customerName);
+//         setCustomerEmail(accountData.customer.customerEmail);
+//         setCustomerPhone(accountData.customer.customerPhone);
+
+//         // Load profile image specific to this customer
+//         const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
+//         if (storedProfileImage) {
+//           setProfileImage(storedProfileImage);
+//         }
+//       } else {
+//         navigate("/login");
+//       }
+//     } else {
+//       navigate("/login");
+//     }
+//   }, [navigate]);
+
+//   // Handle image file selection and convert it to Base64
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+
+//     // Check if the file is a .jpg
+//     if (file && file.type !== "image/jpeg") {
+//       alert("Please upload a .jpg image.");
+//       return;
+//     }
+
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onloadend = () => {
+//         const base64String = reader.result;
+//         // Save Base64 image to localStorage with unique key per customer
+//         localStorage.setItem(`profileImage-${customerId}`, base64String);
+//         setProfileImage(base64String);
+//       };
+//       reader.readAsDataURL(file); // Convert the file to Base64
+//     }
+//   };
+
+//   const profileTextStyle = {
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <Container className="mt-5">
+//         <Row className="justify-content-center">
+//           <Col md={8} className="border p-4 rounded shadow text-center">
+//             {/* Upload Section */}
+//             <Form.Group controlId="formFile" className="mb-3">
+//               <Form.Label style={profileTextStyle}>Upload Profile Image (.jpg only)</Form.Label>
+//               <Form.Control type="file" onChange={handleImageChange} />
+//             </Form.Group>
+
+//             {/* Profile Image */}
+//             <img
+//               style={{ width: "100px", borderRadius: "50%" }}
+//               src={profileImage || "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"}
+//               alt="User Avatar"
+//               className="mb-3"
+//             />
+            
+//             {/* Profile Information */}
+//             <h5 style={profileTextStyle}>{customerName || "Không có tên"}</h5>
+//             <p className="text-muted">Email: {customerEmail || "Không có email"}</p>
+//             <p className="text-muted">Số điện thoại: {customerPhone || "Không có số điện thoại"}</p>
+
+//             {/* Logout Button */}
+//             <Button variant="success" className="w-100 mt-4" onClick={handleLogout}>
+//               Đăng xuất
+//             </Button>
+//           </Col>
+//         </Row>
+//       </Container>
+//       <VisaBanner />
+//     </div>
+//   );
+// }
+
+// export default Users;
+
+// import React, { useEffect, useState } from "react";
+// import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// function Users() {
+//   const [customerId, setCustomerId] = useState("");
+//   const [customerName, setCustomerName] = useState("John Doe");
+//   const [customerEmail, setCustomerEmail] = useState("dubo01689@gmail.com");
+//   const [customerPhone, setCustomerPhone] = useState("0123456781");
+//   const [profileImage, setProfileImage] = useState(null);
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     sessionStorage.removeItem("account");
+//     localStorage.removeItem("account");
+//     navigate("/login");
+//   };
+
+//   useEffect(() => {
+//     const session = sessionStorage.getItem("account");
+//     const local = localStorage.getItem("account");
+
+//     // Load profile image based on customer ID
+//     if (session || local) {
+//       const accountData = JSON.parse(session || local);
+//       if (accountData && accountData.customer) {
+//         setCustomerId(accountData.customer.customerId);
+//         setCustomerName(accountData.customer.customerName);
+//         setCustomerEmail(accountData.customer.customerEmail);
+//         setCustomerPhone(accountData.customer.customerPhone);
+
+//         // Load profile image specific to this customer
+//         const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
+//         if (storedProfileImage) {
+//           setProfileImage(storedProfileImage);
+//         }
+//       } else {
+//         navigate("/login");
+//       }
+//     } else {
+//       navigate("/login");
+//     }
+//   }, [navigate]);
+
+//   // Handle image file selection and convert it to Base64
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+
+//     // Check if the file is a .jpg
+//     if (file && file.type !== "image/jpeg") {
+//       alert("Please upload a .jpg image.");
+//       return;
+//     }
+
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onloadend = () => {
+//         const base64String = reader.result;
+//         // Save Base64 image to localStorage with unique key per customer
+//         localStorage.setItem(`profileImage-${customerId}`, base64String);
+//         setProfileImage(base64String);
+//       };
+//       reader.readAsDataURL(file); // Convert the file to Base64
+//     }
+//   };
+
+//   const profileTextStyle = {
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <Container className="mt-5">
+//         <h2 className="text-center mb-1" style={profileTextStyle}>
+//           Tài khoản
+//         </h2>
+//         <Row>
+//           <Col md={8} className="border p-4 rounded shadow">
+//             <div className="d-flex">
+//               {/* Profile Image and Upload */}
+//               <div className="mr-3">
+//                 <img
+//                   style={{ width: "100%", borderRadius: "50%" }}
+//                   src={
+//                     profileImage ||
+//                     "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"
+//                   }
+//                   alt="User Avatar"
+//                 />
+//                 <Form.Group controlId="formFile" className="mt-3">
+//                   <Form.Label>Upload Profile Image (.jpg only)</Form.Label>
+//                   <Form.Control type="file" onChange={handleImageChange} />
+//                 </Form.Group>
+//               </div>
+              
+//               {/* Profile Information */}
+//               <div className="container">
+//                 <h5 style={profileTextStyle}>{customerName || "Không có tên"}</h5>
+//                 <p className="text-muted">Email: {customerEmail || "Không có email"}</p>
+//                 <p className="text-muted">Số điện thoại: {customerPhone || "Không có số điện thoại"}</p>
+//               </div>
+//             </div>
+
+//             <hr />
+
+//             {/* Edit Profile Form */}
+//             <Form>
+//               <Form.Group
+//                 style={{
+//                   textAlign: "left",
+//                   marginTop: "20px",
+//                   color: "#8bc34a",
+//                 }}
+//                 as={Col}
+//                 controlId="formLastName"
+//               >
+//                 <Form.Label>Tên đệm và tên *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={customerName}
+//                   readOnly
+//                 />
+//               </Form.Group>
+
+//               <Form.Group
+//                 style={{
+//                   textAlign: "left",
+//                   marginTop: "20px",
+//                   color: "#8bc34a",
+//                 }}
+//                 controlId="formEmail"
+//               >
+//                 <Form.Label>Email *</Form.Label>
+//                 <Form.Control
+//                   type="email"
+//                   value={customerEmail}
+//                   readOnly
+//                 />
+//               </Form.Group>
+
+//               <Form.Group
+//                 style={{
+//                   textAlign: "left",
+//                   marginTop: "20px",
+//                   color: "#8bc34a",
+//                 }}
+//                 controlId="formPhoneNumber"
+//               >
+//                 <Form.Label>Số điện thoại *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={customerPhone}
+//                   readOnly
+//                 />
+//               </Form.Group>
+//             </Form>
+//           </Col>
+
+//           {/* Logout Section */}
+//           <Col md={4} className="border p-4 rounded shadow text-center">
+//             <div className="mb-4">
+//               <img
+//                 style={{ width: "30%" }}
+//                 src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png"
+//                 alt="logo"
+//                 className="img-fluid"
+//               />
+//             </div>
+//             <p style={profileTextStyle}>
+//               Tên đăng nhập: {customerName || "Không có email"}
+//             </p>
+//             <Button variant="success" className="w-100 mb-2" onClick={handleLogout}>
+//               Đăng xuất
+//             </Button>
+//           </Col>
+//         </Row>
+//       </Container>
+//       <VisaBanner />
+//     </div>
+//   );
+// }
+
+// export default Users;
+
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Import axios for API calls
-import BannerSecond from "../home/components/BannerSecond"; // Thêm BannerSecond để giống giao diện cũ
-import VisaBanner from "../home/components/VisaBanner"; // Thêm VisaBanner
+import BannerSecond from "../home/components/BannerSecond";
+import VisaBanner from "../home/components/VisaBanner";
 
 function Users() {
-  const [customerId, setCustomerId] = useState(""); // Add customer ID state
+  const [customerId, setCustomerId] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
-  const [bookings, setBookings] = useState([]); // State for bookings
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+  const [profileImage, setProfileImage] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [updatedInfo, setUpdatedInfo] = useState({
     customerName: "",
     customerEmail: "",
     customerPhone: "",
   });
-  const [profileImage, setProfileImage] = useState(null); // State to store the profile image URL
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -2193,73 +2854,54 @@ function Users() {
     const session = sessionStorage.getItem("account");
     const local = localStorage.getItem("account");
 
-    console.log("Session:", session); // Kiểm tra giá trị của session
-    console.log("Local:", local); // Kiểm tra giá trị của local storage
-
-    // Nếu cả `sessionStorage` và `localStorage` đều không có dữ liệu, chuyển hướng đến `/login`
-    if (!session && !local) {
-      console.log("Navigating to login");
-      navigate("/login");
-    } else {
-      // Nếu có thông tin trong session hoặc local, lấy thông tin từ nơi có dữ liệu
+    if (session || local) {
       const accountData = JSON.parse(session || local);
       if (accountData && accountData.customer) {
-        // Set customer details and ID
         setCustomerId(accountData.customer.customerId);
         setCustomerName(accountData.customer.customerName);
         setCustomerEmail(accountData.customer.customerEmail);
         setCustomerPhone(accountData.customer.customerPhone);
-
         setUpdatedInfo({
           customerName: accountData.customer.customerName,
           customerEmail: accountData.customer.customerEmail,
           customerPhone: accountData.customer.customerPhone,
         });
 
-        // Set bookings
-        if (accountData.booking) {
-          setBookings(accountData.booking);
-        }
-
-        // Load profile image from localStorage
-        const storedProfileImage = localStorage.getItem("profileImage");
+        const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
         if (storedProfileImage) {
-          setProfileImage(storedProfileImage); // Set the profile image from localStorage
+          setProfileImage(storedProfileImage);
         }
       } else {
         navigate("/login");
       }
+    } else {
+      navigate("/login");
     }
   }, [navigate]);
 
-  // Handle image file selection and convert it to Base64
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-
-    // Check if file is .jpg
     if (file && file.type !== "image/jpeg") {
       alert("Please upload a .jpg image.");
       return;
     }
-
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64String = reader.result;
-        localStorage.setItem("profileImage", base64String); // Save Base64 image to localStorage
-        setProfileImage(base64String); // Update the state to display the image
+        localStorage.setItem(`profileImage-${customerId}`, base64String);
+        setProfileImage(base64String);
       };
-      reader.readAsDataURL(file); // Convert the file to Base64
+      reader.readAsDataURL(file);
     }
   };
 
   const handleEdit = () => {
-    setIsEditing(true); // Enable editing mode
+    setIsEditing(true);
   };
 
   const handleCancelEdit = () => {
-    setIsEditing(false); // Disable editing mode
-    // Reset the updatedInfo to the original customer info
+    setIsEditing(false);
     setUpdatedInfo({
       customerName,
       customerEmail,
@@ -2269,15 +2911,11 @@ function Users() {
 
   const handleSave = async () => {
     try {
-      // Send the PUT request to update the customer info
-      const response = await axios.put(
-        `http://localhost:8080/customers/${customerId}`, // API endpoint
-        {
-          customerName: updatedInfo.customerName,
-          customerPhone: updatedInfo.customerPhone,
-          customerEmail: updatedInfo.customerEmail,
-        }
-      );
+      const response = await axios.put(`http://localhost:8080/customers/${customerId}`, {
+        customerName: updatedInfo.customerName,
+        customerEmail: updatedInfo.customerEmail,
+        customerPhone: updatedInfo.customerPhone,
+      });
 
       if (response.status === 200) {
         const updatedCustomer = response.data.data;
@@ -2302,20 +2940,17 @@ function Users() {
     }
   };
 
-  const tittle = {
-    borderRadius: "15px",
+  const profileTextStyle = {
     color: "#8bc34a",
     fontWeight: "bold",
     fontFamily: "Arial, sans-serif",
-    backgroundColor: "transparent",
-    display: "inline-block",
   };
 
   return (
     <div>
       <BannerSecond />
       <Container className="mt-5">
-        <h2 className="text-center mb-1" style={tittle}>
+        <h2 className="text-center mb-1" style={profileTextStyle}>
           Tài khoản
         </h2>
         <Row>
@@ -2323,197 +2958,75 @@ function Users() {
             <div className="d-flex">
               <div className="mr-3">
                 <img
-                  style={{ width: "100%", borderRadius: "50%" }}
-                  src={
-                    profileImage ||
-                    "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"
-                  }
+                  style={{ width: "100px", borderRadius: "50%" }}
+                  src={profileImage || "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"}
                   alt="User Avatar"
                 />
-              </div>
-              <div className="container">
-                <h5 style={tittle}>{customerName || "Không có tên"}</h5>
-                <p className="text-muted">
-                  Email: {customerEmail || "Không có email"}
-                </p>
-                <p className="text-muted">
-                  Số điện thoại: {customerPhone || "Không có số điện thoại"}
-                </p>
                 <Form.Group controlId="formFile" className="mt-3">
                   <Form.Label>Upload Profile Image (.jpg only)</Form.Label>
                   <Form.Control type="file" onChange={handleImageChange} />
                 </Form.Group>
+              </div>
+              <div className="container">
+                <h5 style={profileTextStyle}>{customerName || "Không có tên"}</h5>
+                <p className="text-muted">Email: {customerEmail || "Không có email"}</p>
+                <p className="text-muted">Số điện thoại: {customerPhone || "Không có số điện thoại"}</p>
               </div>
             </div>
 
             <hr />
 
             <Form>
-              <Form.Group
-                style={{
-                  textAlign: "left",
-                  marginTop: "20px",
-                  color: "#8bc34a",
-                }}
-                as={Col}
-                controlId="formLastName"
-              >
+              <Form.Group controlId="formLastName" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
                 <Form.Label>Tên đệm và tên *</Form.Label>
                 <Form.Control
                   type="text"
                   value={updatedInfo.customerName}
-                  onChange={(e) =>
-                    setUpdatedInfo({
-                      ...updatedInfo,
-                      customerName: e.target.value,
-                    })
-                  }
+                  onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerName: e.target.value })}
                   readOnly={!isEditing}
                 />
               </Form.Group>
 
-              <Form.Group
-                style={{
-                  textAlign: "left",
-                  marginTop: "20px",
-                  color: "#8bc34a",
-                }}
-                controlId="formEmail"
-              >
+              <Form.Group controlId="formEmail" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
                 <Form.Label>Email *</Form.Label>
                 <Form.Control
                   type="email"
                   value={updatedInfo.customerEmail}
-                  onChange={(e) =>
-                    setUpdatedInfo({
-                      ...updatedInfo,
-                      customerEmail: e.target.value,
-                    })
-                  }
+                  onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerEmail: e.target.value })}
                   readOnly={!isEditing}
                 />
               </Form.Group>
 
-              <Form.Group
-                style={{
-                  textAlign: "left",
-                  marginTop: "20px",
-                  color: "#8bc34a",
-                }}
-                controlId="formPhoneNumber"
-              >
+              <Form.Group controlId="formPhoneNumber" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
                 <Form.Label>Số điện thoại *</Form.Label>
                 <Form.Control
                   type="text"
                   value={updatedInfo.customerPhone}
-                  onChange={(e) =>
-                    setUpdatedInfo({
-                      ...updatedInfo,
-                      customerPhone: e.target.value,
-                    })
-                  }
+                  onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerPhone: e.target.value })}
                   readOnly={!isEditing}
                 />
               </Form.Group>
 
               {isEditing ? (
                 <div className="d-flex justify-content-between mt-5">
-                  <Button variant="danger" onClick={handleCancelEdit}>
-                    Hủy
-                  </Button>
-                  <Button variant="success" onClick={handleSave}>
-                    Lưu
-                  </Button>
+                  <Button variant="danger" onClick={handleCancelEdit}>Hủy</Button>
+                  <Button variant="success" onClick={handleSave}>Lưu</Button>
                 </div>
               ) : (
-                <Button
-                  variant="primary"
-                  className="w-100 mt-5"
-                  onClick={handleEdit}
-                >
-                  Chỉnh sửa
-                </Button>
+                <Button variant="primary" className="w-100 mt-5" onClick={handleEdit}>Chỉnh sửa</Button>
               )}
             </Form>
           </Col>
 
-          <Col md={4} className="border p-4 rounded shadow">
-            <div className="text-center mb-4">
-              <img
-                style={{ width: "30%" }}
-                src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png"
-                alt="logo"
-                className="img-fluid"
-              />
+          <Col md={4} className="border p-4 rounded shadow text-center">
+            <div className="mb-4">
+              <img style={{ width: "30%" }} src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="logo" className="img-fluid" />
             </div>
-            <p style={tittle}>
-              Tên đăng nhập: {customerName ? customerName : "Không có email"}
-            </p>
-            <Button
-              variant="success"
-              className="w-100 mb-2"
-              onClick={handleLogout}
-            >
-              Đăng xuất
-            </Button>
+            <p style={profileTextStyle}>Tên đăng nhập: {customerName || "Không có email"}</p>
+            <Button variant="success" className="w-100 mb-2" onClick={handleLogout}>Đăng xuất</Button>
           </Col>
         </Row>
-
-        <h5 className="mt-5" style={tittle}>
-          Lịch sử giao dịch
-        </h5>
-        <Table striped bordered hover className="mt-3 mb-5">
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Thời gian giao dịch</th>
-              <th>Mã lấy vé</th>
-              <th>Thông tin vé</th>
-              <th>Tổng tiền</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.length > 0 ? (
-              bookings.map((booking, index) => (
-                <tr key={booking.bookingId}>
-                  <td>{index + 1}</td>
-                  <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
-                  <td>{booking.bookingId}</td>
-                  <td>
-                    {booking.tickets
-                      ? booking.tickets
-                          .map((ticket) => ticket.ticketId)
-                          .join(", ")
-                      : "Không có vé"}
-                  </td>
-                  <td>{booking.bookingPrice} VND</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center">
-                  Không có giao dịch
-                </td>
-              </tr>
-            )}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colSpan="4" className="text-right">
-                Tổng cộng
-              </td>
-              <td>
-                {bookings.reduce(
-                  (sum, booking) => sum + booking.bookingPrice,
-                  0
-                )}{" "}
-                VND
-              </td>
-            </tr>
-          </tfoot>
-        </Table>
       </Container>
-
       <VisaBanner />
     </div>
   );
