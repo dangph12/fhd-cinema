@@ -69,7 +69,7 @@ export const ShowtimeProvider = ({ children }) => {
 
   const buildApiUrl = () => {
     const params = new URLSearchParams({
-      search: state.query || '',
+      movieTitle: state.query || '',
       page: state.currentPage || 1,
       pageSize: pageSize,
       filters: state.filters.join(','),
@@ -128,12 +128,12 @@ export const ShowtimeProvider = ({ children }) => {
     try {
       const response = await fetch(apiUrl);
       const json = await response.json();
-      if (json && json.data && Array.isArray(json.data.result)) {
+      if (json && json.data.result && Array.isArray(json.data.result)) {
         const showtimesWithMovie = await updateShowtimesWithMovie(json.data.result);
         dispatch({ type: 'SET_SHOWTIMES', payload: showtimesWithMovie });
         dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(json.data.count / pageSize) });
       } else {
-        console.error('Expected json.data.result to be an array, but received:', json.data);
+        console.error('Expected json.data to be an array, but received:', json.data.result);
       }
     } catch (error) {
       console.error('Error fetching showtimes:', error);

@@ -262,6 +262,10 @@ const ShowtimeDetailTable = () => {
   const [showDetailModal, setShowDetailModal] = useState({ showtimeId: null, show: false });
   const [showCreateModal, setShowCreateModal] = useState({ show: false });
 
+  useEffect(() => {
+    fetchShowtimes();
+  }, [state.currentPage]);
+
   const columns = [
     {
       id: 'detail',
