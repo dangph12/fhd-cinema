@@ -1,13 +1,15 @@
+// 
+
 import React, { createContext, useReducer, useEffect } from 'react';
 import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
+// Tạo context cho Seat
 export const SeatContext = createContext();
 
-const pageSize = 2;
+const pageSize = 5; // Số ghế trên mỗi trang (có thể điều chỉnh theo nhu cầu)
 
 const initialState = {
   seats: [],
-  seatTypes: [],
   query: '',
   filters: [],
   currentPage: 1,
@@ -18,8 +20,6 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_SEATS':
       return { ...state, seats: action.payload };
-    case 'SET_SEAT_TYPES':
-      return { ...state, seatTypes: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
     case 'SET_FILTERS':
@@ -38,41 +38,24 @@ export const SeatProvider = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // const seatApiUrl = `http://localhost:8080/seats?search=${state.query}&page=${state.currentPage}&filters=${state.filters.join(',')}`;
-  // useEffect(() => {
-  //   fetchSeats();
-  // }, [state.currentPage, state.query, state.filters]);
-
-  // for debug
+  // Địa chỉ API để lấy danh sách seats
   const seatApiUrl = `http://localhost:8080/seats`;
+
   useEffect(() => {
     fetchSeats();
-  }, []);
+  }, [state.currentPage, state.query, state.filters]);
 
-  const seatTypeApiUrl = `http://localhost:8080/seat-types`;
-  useEffect(() => {
-    fetch(seatTypeApiUrl)
-      .then((response) => response.json())
-      .then((json) => dispatch({ type: 'SET_SEAT_TYPES', payload: json.data }))
-      .catch((error) => console.error('Error fetching seat types:', error));
-  }, []);
+  const fetchSeats = (params = {}) => {
+    const { search = state.query, page = state.currentPage, pageSize = 50, sortBy = 'seatName', sortDirection = 'ASC' } = params;
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search || '');
-    const query = params.get('query') || '';
-    const filters = params.get('filters') ? params.get('filters').split(',') : [];
-    const currentPage = parseInt(params.get('page'), 10) || 1;
+    // Tạo URL với các tham số truy vấn
+    const url = `${seatApiUrl}?search=${search}&page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`;
 
-    dispatch({ type: 'SET_QUERY', payload: query });
-    dispatch({ type: 'SET_FILTERS', payload: filters });
-    dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage });
-  }, [location.search]);
-
-  const fetchSeats = () => {
-    fetch(seatApiUrl)
+    fetch(url)
       .then((response) => response.json())
       .then((json) => {
-        dispatch({ type: 'SET_SEATS', payload: json.data });
+        // Giả sử API trả về "data.result" cho danh sách seats và "data.count" cho tổng số mục
+        dispatch({ type: 'SET_SEATS', payload: json.data.result });
         dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(json.data.count / pageSize) });
       })
       .catch((error) => console.error('Error fetching seats:', error));

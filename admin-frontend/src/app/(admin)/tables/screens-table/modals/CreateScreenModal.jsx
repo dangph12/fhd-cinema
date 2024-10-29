@@ -20,6 +20,7 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
     })
   }
 
+  // Fetch danh sách các cinema khi component mount
   useEffect(() => {
     fetch('http://localhost:8080/cinemas')
       .then((response) => response.json())
@@ -27,7 +28,7 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
         setCinemas(json.data)
       })
       .catch((error) => {
-        console.error('Error:', error)
+        console.error('Error fetching cinemas:', error)
       })
   }, [])
 
@@ -42,7 +43,7 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
   const validateForm = () => {
     const newErrors = {}
     if (!form.screenName) newErrors.screenName = 'Screen name is required'
-    if (!form.cinemaId) newErrors.screenType = 'Cinema is required'
+    if (!form.cinemaId) newErrors.cinemaId = 'Cinema is required'
     return newErrors
   }
 
@@ -64,6 +65,7 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
         .then((response) => {
           if (response.ok) {
             fetchScreens()
+            closeCreateShow() // Đóng modal sau khi tạo thành công
           } else {
             console.error('Failed to create the screen')
           }
@@ -71,17 +73,14 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
         .catch((error) => {
           console.error('Error:', error)
         })
-      setCreateShow(false)
-      onHide()
-      setForm({ screenName: '', cinemaId: '' })
-      setErrors({})
     }
     setValidated(true)
   }
+
   return (
     <Modal show={createShow} onHide={() => closeCreateShow()}>
       <Modal.Header closeButton>
-        <Modal.Title>Create Modal</Modal.Title>
+        <Modal.Title>Create Screen</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
@@ -95,7 +94,6 @@ function CreateScreenModal({ show, fetchScreens, onHide }) {
               name="screenName"
               value={form.screenName}
               isInvalid={!!errors.screenName}
-              
             />
             <Form.Control.Feedback type="invalid">{errors.screenName}</Form.Control.Feedback>
           </Form.Group>
