@@ -45,32 +45,32 @@ const BookingDetailTable = () => {
       header: 'Booking Created At',
       accessorKey: 'bookingCreateAt',
     },
-    {
-      id: 'update',
-      header: 'Update',
-      cell: ({
-        row: {
-          original: { bookingId },
-        },
-      }) => (
-        <Button variant="warning" onClick={() => setShowUpdateModal({ bookingId, show: true })}>
-          Update
-        </Button>
-      ),
-    },
-    {
-      id: 'delete',
-      header: 'Delete',
-      cell: ({
-        row: {
-          original: { bookingId },
-        },
-      }) => (
-        <Button variant="danger" onClick={() => setShowDeleteModal({ bookingId, show: true })}>
-          Delete
-        </Button>
-      ),
-    },
+    // {
+    //   id: 'update',
+    //   header: 'Update',
+    //   cell: ({
+    //     row: {
+    //       original: { bookingId },
+    //     },
+    //   }) => (
+    //     <Button variant="warning" onClick={() => setShowUpdateModal({ bookingId, show: true })}>
+    //       Update
+    //     </Button>
+    //   ),
+    // },
+    // {
+    //   id: 'delete',
+    //   header: 'Delete',
+    //   cell: ({
+    //     row: {
+    //       original: { bookingId },
+    //     },
+    //   }) => (
+    //     <Button variant="danger" onClick={() => setShowDeleteModal({ bookingId, show: true })}>
+    //       Delete
+    //     </Button>
+    //   ),
+    // },
   ]
 
   if (!state || !state.bookings) {
