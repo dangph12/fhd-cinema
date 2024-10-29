@@ -30,20 +30,20 @@ const SeatDetailTable = () => {
       ),
     },
     {
+      header: 'Cinema Name',
+      accessorKey: 'screen.cinema.cinemaName',
+    },
+    {
+      header: 'Screen Name',
+      accessorKey: 'screen.screenName',
+    },
+    {
       header: 'Seat Name',
       accessorKey: 'seatName',
     },
     {
       header: 'Seat Type',
       accessorKey: 'seatType.seatTypeName',
-    },
-    {
-      header: 'Seat Type',
-      accessorKey: 'seatType.seatTypePrice',
-    },
-    {
-      header: 'Booked',
-      accessorKey: 'booked',
     },
     {
       id: 'update',

@@ -251,43 +251,37 @@
 // };
 
 // export default SeatsSearchBar;
-import React, { useContext, useState } from 'react';
-import { FormControl, Container, Row, Col, Form } from 'react-bootstrap';
+
+
+import React, { useContext } from 'react';
+import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
 import { SeatContext } from '../context/SeatContext';
+const SearchBar = () => {
+  const { state, dispatch, updateQueryParams } = useContext(SeatContext);
 
-const SeatsSearchBar = () => {
-  const { dispatch, updateQueryParams, fetchSeats } = useContext(SeatContext);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterBooked, setFilterBooked] = useState(null);
-
-  // Handle search input changes
   const handleSearch = (event) => {
     const query = event.target.value;
-    setSearchQuery(query);
-
-    // Update query parameters and fetch results
     dispatch({ type: 'SET_QUERY', payload: query });
-    updateQueryParams({ search: query, page: 1 });
-    fetchSeats({ search: query, page: 1, booked: filterBooked });
+    updateQueryParams({ query, page: 1 });
   };
 
-  // Handle filter for "True" and "False" checkboxes
-  const handleCheckboxChange = (event) => {
-    const { checked, name } = event.target;
-    let bookedStatus = null;
-
-    if (name === 'true' && checked) {
-      bookedStatus = true;
-    } else if (name === 'false' && checked) {
-      bookedStatus = false;
+  const handleFilters = (event) => {
+    const filter = event.target.value;
+    let newFilters;
+    if (state.filters.includes(filter)) {
+      newFilters = state.filters.filter(f => f !== filter);
+    } else {
+      newFilters = [...state.filters, filter];
     }
+    dispatch({ type: 'SET_FILTERS', payload: newFilters });
+    updateQueryParams({ filters: newFilters.join(','), page: 1 });
+  };
 
-    setFilterBooked(bookedStatus);
-    dispatch({ type: 'SET_FILTERS', payload: { booked: bookedStatus } });
-
-    // Update query params and fetch filtered data
-    updateQueryParams({ booked: bookedStatus, page: 1 });
-    fetchSeats({ search: searchQuery, booked: bookedStatus, page: 1 });
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSearch(event);
+    }
   };
 
   return (
@@ -298,30 +292,31 @@ const SeatsSearchBar = () => {
             className="p-3 mb-3 rounded"
             size="lg"
             type="text"
-            placeholder="Search by seat name"
-            value={searchQuery}
+            placeholder="Search by seat id"
+            value={state.query}
             onChange={handleSearch}
+            onKeyDown={handleKeyDown}
           />
         </Col>
-        <Col md={4} className="d-flex flex-column align-items-start fs-4">
+        {/* <Col md={4} className="d-flex flex-column align-items-start fs-4">
           <Form.Check
-            label="True"
-            name="true"
-            checked={filterBooked === true}
-            onChange={handleCheckboxChange}
-            onClick={() => setFilterBooked(filterBooked === true ? null : true)} // Toggle logic for True
+            label="true"
+            name="filter"
+            value="true"
+            checked={state.filters.includes('true')}
+            onChange={(e) => handleFilters(e)}
           />
           <Form.Check
-            label="False"
-            name="false"
-            checked={filterBooked === false}
-            onChange={handleCheckboxChange}
-            onClick={() => setFilterBooked(filterBooked === false ? null : false)} // Toggle logic for False
+            label="false"
+            name="filter"
+            value="false"
+            checked={state.filters.includes('false')}
+            onChange={(e) => handleFilters(e)}
           />
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   );
 };
 
-export default SeatsSearchBar;
+export default SearchBar;
