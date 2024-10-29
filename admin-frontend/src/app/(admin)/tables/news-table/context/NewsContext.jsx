@@ -264,13 +264,30 @@
     totalPages: 1,
   };
 
+  const convertTime = (time) => {
+    if (!time) return ''; // Return an empty string if time is undefined or null
+  
+    const [datePart, timePart] = time.split("T");
+  
+    if (!datePart || !timePart) {
+      console.error("Invalid datetime format:", time);
+      return time; // Return original time if splitting fails
+    }
+  
+    const formattedDate = datePart.split("-").reverse().join("/");
+    const formattedTime = timePart.slice(0, 5); // "HH:mm"
+  
+    return `${formattedDate} ${formattedTime}`;
+  };
+
   const reducer = (state, action) => {
     switch (action.type) {
       case 'SET_NEWS':
         // Kiểm tra nếu action.payload là một mảng
         if (Array.isArray(action.payload)) {
           action.payload.forEach((news) => {
-            news.newsCreateAt = new Date(news.newsCreateAt).toLocaleDateString();
+            // news.newsCreateAt = new Date(news.newsCreateAt).toLocaleDateString();
+            news.newsCreateAt = convertTime(news.newsCreateAt)
           });
         } else {
           console.error('Expected payload to be an array, but received:', action.payload);

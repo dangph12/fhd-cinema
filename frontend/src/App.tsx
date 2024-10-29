@@ -96,6 +96,7 @@ import ResetForgetPassword from "../src/modules/auth/RequestForgetPassword";
 import VNPayPaymentResult from "./components/VNPay/VNPayPaymentResult";
 import PaymentResult from "./components/VNPay/PaymentResult";
 import { CheckoutProvider } from "./components/payment-infor/CheckoutContext";
+import ConfirmEmail from "./modules/auth/ConfirmEmail";
 function App() {
   // login
   const [account, setAccounts] = useState<{ isAuthentiaction: boolean } | null>(
@@ -107,6 +108,13 @@ function App() {
     if (session) {
       setAccounts(JSON.parse(session));
     }
+
+
+    let local = localStorage.getItem("account");
+    if (local) {
+      setAccounts(JSON.parse(local));
+    }
+
   }, []);
 
   return (
@@ -135,6 +143,7 @@ function App() {
         && <Users/>} */}
           <Route path="/reset" element={<ResetForgetPassword />} />
           {/* <Route path="/reset-password/:token" element={<ResetPassword />} /> */}
+          <Route path="/confirm-nofication" element={<ConfirmEmail />} />
       </Routes>
       </CheckoutProvider>
       <ToastContainer

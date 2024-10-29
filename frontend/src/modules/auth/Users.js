@@ -1501,18 +1501,58 @@ function Users() {
 
   const handleLogout = () => {
     sessionStorage.removeItem("account");
+    localStorage.removeItem("account");
     navigate("/login");
   };
 
+  // useEffect(() => {
+  //   let session = sessionStorage.getItem("account");
+
+  //   if (session) {
+  //     const accountData = JSON.parse(session);
+
+  //     if (accountData && accountData.customer) {
+  //       // Set customer details and ID
+  //       setCustomerId(accountData.customer.customerId); // Store customerId
+  //       setCustomerName(accountData.customer.customerName);
+  //       setCustomerEmail(accountData.customer.customerEmail);
+  //       setCustomerPhone(accountData.customer.customerPhone);
+
+  //       setUpdatedInfo({
+  //         customerName: accountData.customer.customerName,
+  //         customerEmail: accountData.customer.customerEmail,
+  //         customerPhone: accountData.customer.customerPhone,
+  //       });
+
+  //       // Set bookings
+  //       if (accountData.booking) {
+  //         setBookings(accountData.booking);
+  //       }
+  //     } else {
+  //       navigate("/login");
+  //     }
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // }, [navigate]);
+
   useEffect(() => {
-    let session = sessionStorage.getItem("account");
+    const session = sessionStorage.getItem("account");
+    const local = localStorage.getItem("account");
 
-    if (session) {
-      const accountData = JSON.parse(session);
+    console.log("Session:", session); // Kiểm tra giá trị của session
+    console.log("Local:", local); // Kiểm tra giá trị của local storage
 
+    // Nếu cả `sessionStorage` và `localStorage` đều không có dữ liệu, chuyển hướng đến `/login`
+    if (!session && !local) {
+      console.log("Navigating to login");
+      navigate("/login");
+    } else {
+      // Nếu có thông tin trong session hoặc local, lấy thông tin từ nơi có dữ liệu
+      const accountData = JSON.parse(session || local);
       if (accountData && accountData.customer) {
         // Set customer details and ID
-        setCustomerId(accountData.customer.customerId); // Store customerId
+        setCustomerId(accountData.customer.customerId);
         setCustomerName(accountData.customer.customerName);
         setCustomerEmail(accountData.customer.customerEmail);
         setCustomerPhone(accountData.customer.customerPhone);
@@ -1530,10 +1570,9 @@ function Users() {
       } else {
         navigate("/login");
       }
-    } else {
-      navigate("/login");
     }
-  }, [navigate]);
+}, [navigate]);
+
 
   const handleEdit = () => {
     setIsEditing(true); // Enable editing mode

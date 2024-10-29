@@ -11,4 +11,5 @@ import lombok.experimental.FieldDefaults;
 public class SignInRequest {
     String accountName;
     String accountPassword;
+    boolean rememberMe;
 }
