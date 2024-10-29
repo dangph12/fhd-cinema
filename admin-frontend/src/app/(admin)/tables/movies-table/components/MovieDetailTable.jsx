@@ -125,6 +125,7 @@ import CreateMovieModal from '../modals/CreateMovieModal';
 import UpdateMovieModal from '../modals/UpdateMovieModal';
 import MovieDetailModal from '../modals/MovieDetailModal';
 import MoviePagination from '../components/MoviePagination';
+import TablePagination from '../../common/TablePagination';
 
 const MovieDetailTable = () => {
   const { state, dispatch, fetchMovies, updateQueryParams } = useContext(MovieContext);
@@ -216,7 +217,7 @@ const MovieDetailTable = () => {
               {/* Movie Table */}
               <ReactTable columns={columns} data={state.movies} />
               {/* Pagination Controls */}
-              {/* <MoviePagination
+              {/* <TablePagination
                 state={state}
                 dispatch={dispatch}
                 fetch={fetchMovies}
