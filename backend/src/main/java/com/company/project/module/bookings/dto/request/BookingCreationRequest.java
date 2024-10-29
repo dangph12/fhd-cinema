@@ -22,3 +22,4 @@ public class BookingCreationRequest {
   String customerId;
 
 }
+
