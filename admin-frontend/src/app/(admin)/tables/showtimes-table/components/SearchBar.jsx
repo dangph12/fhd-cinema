@@ -180,7 +180,7 @@ const SearchBar = () => {
             className="p-3 mb-3 rounded"
             size="lg"
             type="text"
-            placeholder="Search by showtime id"
+            placeholder="Search by movie title"
             value={state.query}
             onChange={handleSearch}
             onKeyDown={handleKeyDown}
