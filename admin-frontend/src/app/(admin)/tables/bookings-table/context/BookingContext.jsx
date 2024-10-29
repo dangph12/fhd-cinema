@@ -3,7 +3,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export const BookingContext = createContext();
 
-const pageSize = 2;
+const pageSize = 10;
 
 const initialState = {
   bookings: [],
@@ -40,9 +40,18 @@ export const BookingProvider = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // const bookingApiUrl = `http://localhost:8080/bookings?search=${state.query}&page=${state.currentPage}&filters=${state.filters.join(',')}`;
+  const buildApiUrl = () => {
+    const params = new URLSearchParams({
+      search: '',
+      bookingId: state.query || '',
+      page: state.currentPage || 1,
+      pageSize: pageSize,
+      filters: state.filters.join(','),
+    });
+    return `http://localhost:8080/bookings?${params.toString()}`;
+  };
 
-  const bookingApiUrl = `http://localhost:8080/bookings`;
+  const bookingApiUrl = buildApiUrl();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search || '');
@@ -75,7 +84,7 @@ export const BookingProvider = ({ children }) => {
     fetch(bookingApiUrl)
       .then((response) => response.json())
       .then(async (json) => {
-        const bookingsWithMovies = await fetchMoviesForBookings(json.data);
+        const bookingsWithMovies = await fetchMoviesForBookings(json.data.result);
         dispatch({ type: 'SET_BOOKINGS', payload: bookingsWithMovies });
         dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(json.data.count / pageSize) });
       })
