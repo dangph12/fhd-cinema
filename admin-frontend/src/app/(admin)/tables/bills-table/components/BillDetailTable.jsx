@@ -49,19 +49,19 @@ const BillDetailTable = () => {
       header: 'Is Paid',
       accessorKey: 'paid',
     },
-    {
-      id: 'delete',
-      header: 'Delete',
-      cell: ({
-        row: {
-          original: { billId },
-        },
-      }) => (
-        <Button variant="danger" onClick={() => setShowDeleteModal({ billId, show: true })}>
-          Delete
-        </Button>
-      ),
-    },
+    // {
+    //   id: 'delete',
+    //   header: 'Delete',
+    //   cell: ({
+    //     row: {
+    //       original: { billId },
+    //     },
+    //   }) => (
+    //     <Button variant="danger" onClick={() => setShowDeleteModal({ billId, show: true })}>
+    //       Delete
+    //     </Button>
+    //   ),
+    // },
   ]
 
   if (!state || !state.bills) {
@@ -88,12 +88,12 @@ const BillDetailTable = () => {
           </Card>
         </Col>
       </Row>
-      <DeleteBillModal
+      {/* <DeleteBillModal
         billId={showDeleteModal.billId}
         show={showDeleteModal.show}
         fetchBills={fetchBills}
         onHide={() => setShowDeleteModal({ billId: null, show: false })}
-      />
+      /> */}
       <CreateBillModal show={showCreateModal.show} fetchBills={fetchBills} onHide={() => setShowCreateModal({ show: false })} />
       <UpdateBillModal
         billId={showUpdateModal.billId}
