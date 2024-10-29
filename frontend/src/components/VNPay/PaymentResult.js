@@ -14,7 +14,7 @@ const PaymentResult = () => {
       }, 3000); 
     } else {
       setTimeout(() => {
-        navigate('/', { state: { paymentSuccess: false } });
+        navigate('/');
       }, 3000); 
     }
   }, [status, navigate, location.state]);

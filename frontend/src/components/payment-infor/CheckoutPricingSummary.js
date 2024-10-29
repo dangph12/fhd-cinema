@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 
-const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, snacks, totalPrice, finalPrice, moviePosterUrl }) => {
+const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, snacks, totalPrice, moviePosterUrl }) => {
   return (
     <Card className="p-3 shadow-sm">
       <Row>
