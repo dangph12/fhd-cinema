@@ -6,6 +6,7 @@ import DeleteBookingModal from '../modals/DeleteBookingModal'
 import CreateBookingModal from '../modals/CreateBookingModal'
 import UpdateBookingModal from '../modals/UpdateBookingModal'
 import BookingDetailModal from '../modals/BookingDetailModal'
+import BookingMessageModal from '../modals/BookingMessageModal'
 import TablePagination from '../../common/TablePagination'
 
 const BookingDetailTable = () => {
@@ -14,6 +15,7 @@ const BookingDetailTable = () => {
   const [showUpdateModal, setShowUpdateModal] = useState({ bookingId: null, show: false })
   const [showDetailModal, setShowDetailModal] = useState({ bookingId: null, show: false })
   const [showCreateModal, setShowCreateModal] = useState({ show: false })
+  const [showMessageModal, setShowMessageModal] = useState({ show: false })
 
   const columns = [
     {
@@ -58,24 +60,28 @@ const BookingDetailTable = () => {
     //     </Button>
     //   ),
     // },
-    // {
-    //   id: 'delete',
-    //   header: 'Delete',
-    //   cell: ({
-    //     row: {
-    //       original: { bookingId },
-    //     },
-    //   }) => (
-    //     <Button variant="danger" onClick={() => setShowDeleteModal({ bookingId, show: true })}>
-    //       Delete
-    //     </Button>
-    //   ),
-    // },
+    {
+      id: 'delete',
+      header: 'Delete',
+      cell: ({
+        row: {
+          original: { bookingId },
+        },
+      }) => (
+        <Button variant="danger" onClick={() => setShowDeleteModal({ bookingId, show: true })}>
+          Delete
+        </Button>
+      ),
+    },
   ]
 
   if (!state || !state.bookings) {
     return <div>Loading...</div>
   }
+
+  useEffect(() => {
+    setShowMessageModal({ show: state.message !== '' })
+  }, [state.message])
 
   return (
     <Container>
@@ -120,6 +126,7 @@ const BookingDetailTable = () => {
         show={showDetailModal.show}
         onHide={() => setShowDetailModal({ bookingId: null, show: false })}
       />
+      <BookingMessageModal show={showMessageModal.show} onHide={() => setShowMessageModal({ show: false })} />
     </Container>
   )
 }
