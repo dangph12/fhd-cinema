@@ -3,7 +3,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export const BookingContext = createContext();
 
-const pageSize = 10;
+const pageSize = 3;
 
 const initialState = {
   bookings: [],
@@ -13,13 +13,31 @@ const initialState = {
   totalPages: 1,
 };
 
+const convertTime = (time) => {
+  if (!time) return ''; // Return an empty string if time is undefined or null
+
+  const [datePart, timePart] = time.split("T");
+
+  if (!datePart || !timePart) {
+    console.error("Invalid datetime format:", time);
+    return time; // Return original time if splitting fails
+  }
+
+  const formattedDate = datePart.split("-").reverse().join("/");
+  const formattedTime = timePart.slice(0, 5); // "HH:mm"
+
+  return `${formattedDate} ${formattedTime}`;
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_BOOKINGS':
       // make showtime.showtimeAt readable
       action.payload.forEach((booking) => {
-        booking.showtime.showtimeAt = new Date(booking.showtime.showtimeAt).toLocaleString();
-        booking.bookingCreateAt = new Date(booking.bookingCreateAt).toLocaleString();
+        // booking.showtime.showtimeAt = new Date(booking.showtime.showtimeAt).toLocaleString();
+        // booking.bookingCreateAt = new Date(booking.bookingCreateAt).toLocaleString();
+        booking.showtime.showtimeAt = convertTime(booking.showtime.showtimeAt);
+        booking.bookingCreateAt = convertTime(booking.bookingCreateAt);
       });
       return { ...state, bookings: action.payload };
     case 'SET_QUERY':

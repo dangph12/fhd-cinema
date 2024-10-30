@@ -117,17 +117,25 @@
 // export default CreateSeatModal
 
 
-import React, { useState, useEffect } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
+import React, { useState, useEffect, useContext } from 'react'
+import { Modal, Form, Button, Container, Row, Col } from 'react-bootstrap'
+import { SeatContext } from '../context/SeatContext'
 
-function CreateSeatModal({ show, fetchSeats, onHide }) {
+function CreateSeatModal({ show, onHide }) {
+  const { state, fetchSeats } = useContext(SeatContext)
+
   const [createShow, setCreateShow] = useState(false)
 
   useEffect(() => {
     setCreateShow(show)
   }, [show])
 
-  const [form, setForm] = useState({ seatName: '', seatType: '' })
+  const [form, setForm] = useState({
+    seatTypeId: '',
+    screenId: '',
+    seatName: '',
+  })
+
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -141,55 +149,101 @@ function CreateSeatModal({ show, fetchSeats, onHide }) {
   const closeCreateShow = () => {
     onHide()
     setCreateShow(false)
-    setForm({ seatName: '', seatType: '' })
+    setForm({
+      seatTypeId: '',
+      screenId: '',
+      seatName: '',
+    })
     setValidated(false)
     setErrors({})
+    setPosterFile(null)
   }
 
   const validateForm = () => {
     const newErrors = {}
+    if (!form.seatTypeId) newErrors.seatTypeId = 'Seat type is required'
+    if (!form.screenId) newErrors.screenId = 'Screen is required'
     if (!form.seatName) newErrors.seatName = 'Seat name is required'
-    if (!form.seatType) newErrors.seatType = 'Seat type is required'
     return newErrors
   }
 
-  const handleCreate = (e) => {
+  const createSeat = async () => {
+    fetch('http://localhost:8080/seats', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    })
+      .then((response) => {
+        if (response.ok) {
+          fetchSeats()
+        } else {
+          console.error('Failed to create the seat')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }
+
+  const handleCreate = async (e) => {
     e.preventDefault()
 
     const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
-      e.stopPropagation()
     } else {
-      fetch('http://localhost:8080/seats', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      })
-        .then((response) => {
-          if (response.ok) {
-            fetchSeats()
-            closeCreateShow()
-          } else {
-            console.error('Failed to create the seat')
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error)
-        })
+      await createSeat()
+      closeCreateShow()
     }
-    setValidated(true)
   }
 
   return (
     <Modal show={createShow} onHide={() => closeCreateShow()}>
       <Modal.Header closeButton>
-        <Modal.Title>Create Seat</Modal.Title>
+        <Modal.Title>Create Modal</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
+          <Form.Group className="m-2">
+            <Form.Label>Seat Type</Form.Label>
+            <Form.Select
+              required
+              name="seatTypeId"
+              onChange={(e) => setField('seatTypeId', e.target.value)}
+              className="bg-body text-dark border-secondary"
+              value={form.seatTypeId}
+              isInvalid={!!errors.seatTypeId}>
+              <option value="">Select seat type</option>
+              {state.seatsTypes.map((seatType) => (
+                <option key={seatType.seatTypeId} value={seatType.seatTypeId}>
+                  {seatType.seatTypeName}
+                </option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">{errors.seatTypeId}</Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group className="m-2">
+            <Form.Label>Screen</Form.Label>
+            <Form.Select
+              required
+              name="screenId"
+              onChange={(e) => setField('screenId', e.target.value)}
+              className="bg-body text-dark border-secondary"
+              value={form.screenId}
+              isInvalid={!!errors.screenId}>
+              <option value="">Select screen</option>
+              {state.screens.map((screen) => (
+                <option key={screen.screenId} value={screen.screenId}>
+                  {screen.screenName} - {screen.cinema.cinemaName} - {screen.cinema.location.locationName}
+                </option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type="invalid">{errors.screenId}</Form.Control.Feedback>
+          </Form.Group>
+
           <Form.Group className="m-2">
             <Form.Label>Seat Name</Form.Label>
             <Form.Control
@@ -203,22 +257,7 @@ function CreateSeatModal({ show, fetchSeats, onHide }) {
             />
             <Form.Control.Feedback type="invalid">{errors.seatName}</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group className="m-2">
-            <Form.Label>Seat Type</Form.Label>
-            <Form.Select
-              required
-              onChange={(e) => setField('seatType', e.target.value)}
-              value={form.seatType}
-              isInvalid={!!errors.seatType}
-              className="bg-body text-dark border-secondary"
-            >
-              <option value="">Select seat type</option>
-              <option value="standard">Ghế thường</option>
-              <option value="vip">VIP</option>
-              <option value="couple">Couple</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.seatType}</Form.Control.Feedback>
-          </Form.Group>
+
         </Form>
       </Modal.Body>
       <Modal.Footer>

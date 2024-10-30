@@ -25,7 +25,6 @@ function BillDetailModal({ billId, show, onHide }) {
         billAmount: bill.billAmount,
         billCreatedAt: bill.billCreatedAt,
         bookingId: bill.bookingDto.bookingId,
-        vouchers: bill.vouchers,
       })
     }
   }, [billId])
@@ -38,7 +37,6 @@ function BillDetailModal({ billId, show, onHide }) {
       billAmount: '',
       billCreatedAt: '',
       bookingId: '',
-      vouchers: [],
     })
   }
 

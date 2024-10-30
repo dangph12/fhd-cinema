@@ -1,15 +1,15 @@
-// 
-
 import React, { createContext, useReducer, useEffect } from 'react';
 import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
-// Tạo context cho Seat
 export const SeatContext = createContext();
 
-const pageSize = 5; // Số ghế trên mỗi trang (có thể điều chỉnh theo nhu cầu)
+const pageSize = 20; // Số lượng phần tử trên mỗi trang
 
 const initialState = {
   seats: [],
+  tickets: [],
+  seatsTypes: [],
+  screens: [],
   query: '',
   filters: [],
   currentPage: 1,
@@ -20,6 +20,12 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_SEATS':
       return { ...state, seats: action.payload };
+    case 'SET_TICKETS':
+      return { ...state, tickets: action.payload };
+    case 'SET_SEATS_TYPES':
+      return { ...state, seatsTypes: action.payload };
+    case 'SET_SCREENS':
+      return { ...state, screens: action.payload };
     case 'SET_QUERY':
       return { ...state, query: action.payload };
     case 'SET_FILTERS':
@@ -33,36 +39,85 @@ const reducer = (state, action) => {
   }
 };
 
+// Component Provider để cung cấp dữ liệu và hành động tới các component con
 export const SeatProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Địa chỉ API để lấy danh sách seats
-  const seatApiUrl = `http://localhost:8080/seats`;
+  const buildApiUrl = () => {
+    const params = new URLSearchParams({
+      search: state.query || '',
+      page: state.currentPage || 1,
+      pageSize: pageSize,
+      filters: state.filters.join(','),
+      sortBy: 'seatName',
+      sortDirection: 'DESC',
+    });
+    return `http://localhost:8080/seats?${params.toString()}`;
+  };
 
-  useEffect(() => {
-    fetchSeats();
-  }, [state.currentPage, state.query, state.filters]);
+  const fetchScreens = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/screens');
+      const json = await response.json();
+      if (json && json.data) {
+        dispatch({ type: 'SET_SCREENS', payload: json.data }); // Cập nhật screens vào state
+      } else {
+        console.error('Expected json.data to be an array, but received:', json);
+      }
+    } catch (error) {
+      console.error('Error fetching screens:', error);
+    }
+  };
 
-  const fetchSeats = (params = {}) => {
-    const { search = state.query, page = state.currentPage, pageSize = 50, sortBy = 'seatName', sortDirection = 'ASC' } = params;
+  const fetchSeatsTypes = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/seats-types');
+      const json = await response.json();
+      if (json && json.data) {
+        dispatch({ type: 'SET_SEATS_TYPES', payload: json.data }); // Cập nhật seatsTypes trong state
+      } else {
+        console.error('Expected json.data to be an array, but received:', json);
+      }
+    } catch (error) {
+      console.error('Error fetching seatsTypes:', error);
+    }
+  };
 
-    // Tạo URL với các tham số truy vấn
-    const url = `${seatApiUrl}?search=${search}&page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`;
+  const fetchTickets = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/tickets');
+      const json = await response.json();
+      if (json && json.data) {
+        dispatch({ type: 'SET_TICKETS', payload: json.data }); // Cập nhật tickets trong state
+      } else {
+        console.error('Expected json.data to be an array, but received:', json);
+      }
+    } catch (error) {
+      console.error('Error fetching tickets:', error);
+    }
+  };
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        // Giả sử API trả về "data.result" cho danh sách seats và "data.count" cho tổng số mục
+  const fetchSeats = async () => {
+    const apiUrl = buildApiUrl();
+    try {
+      const response = await fetch(apiUrl);
+      const json = await response.json();
+      if (json && json.data.result && Array.isArray(json.data.result)) {
         dispatch({ type: 'SET_SEATS', payload: json.data.result });
         dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil(json.data.count / pageSize) });
-      })
-      .catch((error) => console.error('Error fetching seats:', error));
+      } else {
+        console.error('Expected json.data to be an array, but received:', json.data.result);
+      }
+    } catch (error) {
+      console.error('Error fetching seats:', error);
+    }
   };
 
   const updateQueryParams = (params) => {
     const searchParams = new URLSearchParams(location.search);
+
     Object.keys(params).forEach((key) => {
       if (params[key] !== undefined) {
         searchParams.set(key, params[key]);
@@ -70,8 +125,27 @@ export const SeatProvider = ({ children }) => {
         searchParams.delete(key);
       }
     });
+
     navigate({ search: searchParams.toString() });
   };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search || '');
+    const query = params.get('query') || '';
+    const filters = params.get('filters') ? params.get('filters').split(',') : [];
+    const currentPage = parseInt(params.get('page'), 10) || 1;
+
+    dispatch({ type: 'SET_QUERY', payload: query });
+    dispatch({ type: 'SET_FILTERS', payload: filters });
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: currentPage });
+  }, [location.search]);
+
+  useEffect(() => {
+    fetchSeats();
+    fetchScreens();
+    fetchSeatsTypes();
+    fetchTickets();
+  }, [state.currentPage, state.query, state.filters]);
 
   return (
     <SeatContext.Provider value={{ state, dispatch, fetchSeats, updateQueryParams }}>

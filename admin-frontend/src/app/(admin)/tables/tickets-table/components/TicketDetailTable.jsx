@@ -16,19 +16,19 @@ const TicketDetailTable = () => {
   const [showCreateModal, setShowCreateModal] = useState({ show: false });
 
   const columns = [
-    {
-      id: 'detail',
-      header: 'Detail',
-      cell: ({
-        row: {
-          original: { ticketId },
-        },
-      }) => (
-        <Button variant="info" onClick={() => setShowDetailModal({ ticketId, show: true })}>
-          Detail
-        </Button>
-      ),
-    },
+    // {
+    //   id: 'detail',
+    //   header: 'Detail',
+    //   cell: ({
+    //     row: {
+    //       original: { ticketId },
+    //     },
+    //   }) => (
+    //     <Button variant="info" onClick={() => setShowDetailModal({ ticketId, show: true })}>
+    //       Detail
+    //     </Button>
+    //   ),
+    // },
     {
       header: 'Ticket Name',
       accessorKey: 'ticketId',
@@ -41,32 +41,32 @@ const TicketDetailTable = () => {
       header: 'Ticket Type',
       accessorKey: 'ticketCreateAt',
     },
-    {
-      id: 'update',
-      header: 'Update',
-      cell: ({
-        row: {
-          original: { ticketId },
-        },
-      }) => (
-        <Button variant="warning" onClick={() => setShowUpdateModal({ ticketId, show: true })}>
-          Update
-        </Button>
-      ),
-    },
-    {
-      id: 'delete',
-      header: 'Delete',
-      cell: ({
-        row: {
-          original: { ticketId },
-        },
-      }) => (
-        <Button variant="danger" onClick={() => setShowDeleteModal({ ticketId, show: true })}>
-          Delete
-        </Button>
-      ),
-    },
+    // {
+    //   id: 'update',
+    //   header: 'Update',
+    //   cell: ({
+    //     row: {
+    //       original: { ticketId },
+    //     },
+    //   }) => (
+    //     <Button variant="warning" onClick={() => setShowUpdateModal({ ticketId, show: true })}>
+    //       Update
+    //     </Button>
+    //   ),
+    // },
+    // {
+    //   id: 'delete',
+    //   header: 'Delete',
+    //   cell: ({
+    //     row: {
+    //       original: { ticketId },
+    //     },
+    //   }) => (
+    //     <Button variant="danger" onClick={() => setShowDeleteModal({ ticketId, show: true })}>
+    //       Delete
+    //     </Button>
+    //   ),
+    // },
   ];
 
   if (!state || !state.tickets) {
@@ -83,11 +83,11 @@ const TicketDetailTable = () => {
                 <Col>
                   <CardTitle as="h4">Tickets Details</CardTitle>
                 </Col>
-                <Col className="text-end">
+                {/* <Col className="text-end">
                   <Button className="btn btn-primary" onClick={() => setShowCreateModal({ show: true })}>
                     Create ticket
                   </Button>
-                </Col>
+                </Col> */}
               </Row>
             </CardHeader>
             <CardBody className="pt-0">

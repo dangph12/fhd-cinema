@@ -130,6 +130,7 @@ import DeleteCustomerModal from '../modals/DeleteCustomerModal';
 import CreateCustomerModal from '../modals/CreateCustomerModal';
 import UpdateCustomerModal from '../modals/UpdateCustomerModal';
 import CustomerDetailModal from '../modals/CustomerDetailModal';
+import TablePagination from '../../common/TablePagination';
 
 const CustomerDetailTable = () => {
   const { state, dispatch, fetchCustomers, updateQueryParams } = useContext(CustomerContext);
@@ -155,15 +156,15 @@ const CustomerDetailTable = () => {
   };
 
   const columns = [
-    {
-      id: 'detail',
-      header: 'Detail',
-      cell: ({ row: { original: { customerId } } }) => (
-        <Button variant="info" onClick={() => setShowDetailModal({ customerId, show: true })}>
-          Detail
-        </Button>
-      ),
-    },
+    // {
+    //   id: 'detail',
+    //   header: 'Detail',
+    //   cell: ({ row: { original: { customerId } } }) => (
+    //     <Button variant="info" onClick={() => setShowDetailModal({ customerId, show: true })}>
+    //       Detail
+    //     </Button>
+    //   ),
+    // },
     {
       header: 'Customer Name',
       accessorKey: 'customerName',
@@ -185,15 +186,15 @@ const CustomerDetailTable = () => {
         </Button>
       ),
     },
-    {
-      id: 'delete',
-      header: 'Delete',
-      cell: ({ row: { original: { customerId } } }) => (
-        <Button variant="danger" onClick={() => setShowDeleteModal({ customerId, show: true })}>
-          Delete
-        </Button>
-      ),
-    },
+    // {
+    //   id: 'delete',
+    //   header: 'Delete',
+    //   cell: ({ row: { original: { customerId } } }) => (
+    //     <Button variant="danger" onClick={() => setShowDeleteModal({ customerId, show: true })}>
+    //       Delete
+    //     </Button>
+    //   ),
+    // },
   ];
 
   if (!state.customers || state.customers.length === 0) {
@@ -210,18 +211,19 @@ const CustomerDetailTable = () => {
                 <Col>
                   <CardTitle as="h4">Customers Details</CardTitle>
                 </Col>
-                <Col className="text-end">
+                {/* <Col className="text-end">
                   <Button className="btn btn-primary" onClick={() => setShowCreateModal({ show: true })}>
                     Create customer
                   </Button>
-                </Col>
+                </Col> */}
               </Row>
             </CardHeader>
             <CardBody className="pt-0">
               {/* Customers Table */}
               <ReactTable columns={columns} data={state.customers} />
               {/* Pagination Controls */}
-              <div className="d-flex justify-content-between align-items-center mt-3">
+              <TablePagination state={state} dispatch={dispatch} fetch={fetchCustomers} updateQueryParams={updateQueryParams} />
+              {/* <div className="d-flex justify-content-between align-items-center mt-3">
                 <Button
                   variant="secondary"
                   disabled={state.currentPage <= 1}
@@ -237,7 +239,7 @@ const CustomerDetailTable = () => {
                 >
                   Next
                 </Button>
-              </div>
+              </div> */}
             </CardBody>
           </Card>
         </Col>
