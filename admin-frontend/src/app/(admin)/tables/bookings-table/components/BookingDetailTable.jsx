@@ -75,13 +75,18 @@ const BookingDetailTable = () => {
     },
   ]
 
+  useEffect(() => {
+    setShowMessageModal({ show: Object.keys(state.message).length > 0 })
+  }, [state.message])
+
+  const onHide = () => {
+    setShowMessageModal({ show: false })
+    dispatch({ type: 'SET_MESSAGE', payload: {} })
+  }
+
   if (!state || !state.bookings) {
     return <div>Loading...</div>
   }
-
-  useEffect(() => {
-    setShowMessageModal({ show: state.message !== '' })
-  }, [state.message])
 
   return (
     <Container>
@@ -126,7 +131,7 @@ const BookingDetailTable = () => {
         show={showDetailModal.show}
         onHide={() => setShowDetailModal({ bookingId: null, show: false })}
       />
-      <BookingMessageModal show={showMessageModal.show} onHide={() => setShowMessageModal({ show: false })} />
+      <BookingMessageModal show={showMessageModal.show} onHide={onHide} />
     </Container>
   )
 }

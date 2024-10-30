@@ -8,7 +8,7 @@ import { BookingContext } from '../context/BookingContext'
 
 function CreateBookingModal({ show, fetchBookings, onHide }) {
   const [createShow, setCreateShow] = useState(false)
-  const {state, dispatch} = useContext(BookingContext)
+  const { dispatch } = useContext(BookingContext)
 
   useEffect(() => {
     setCreateShow(show)
@@ -70,10 +70,6 @@ function CreateBookingModal({ show, fetchBookings, onHide }) {
     })
   }
 
-  const setMessage = (message) => {
-    dispatch({ type: 'SET_MESSAGE', payload: message })
-  }
-
   const createBooking = async () => {
     try {
       const response = await fetch('http://localhost:8080/bills', {
@@ -86,7 +82,8 @@ function CreateBookingModal({ show, fetchBookings, onHide }) {
     
       if (response.ok) {
         const bookingMessage = await response.json();
-        setMessage(bookingMessage.data);
+        console.log(bookingMessage.data);
+        dispatch({ type: 'SET_MESSAGE', payload: bookingMessage.data })
         fetchBookings();
       } else {
         console.error('Failed to create the booking');
