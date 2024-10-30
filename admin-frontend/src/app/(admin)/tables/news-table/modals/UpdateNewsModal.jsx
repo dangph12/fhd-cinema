@@ -132,6 +132,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { NewsContext } from '../context/NewsContext';
+import TextEditor from '../../common/TextEditor';
 
 function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
   const { state } = useContext(NewsContext);
@@ -275,15 +276,11 @@ function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
           {/* News Description */}
           <Form.Group className="m-2">
             <Form.Label>News Description</Form.Label>
-            <Form.Control
-              required
-              as="textarea"
-              rows={3}
-              onChange={(e) => setField('newsDescription', e.target.value)}
-              placeholder="News description"
-              name="newsDescription"
-              value={form.newsDescription}
-              isInvalid={!!errors.newsDescription}
+            <TextEditor
+              object="news"
+              description={form.newsDescription}
+              field="newsDescription"
+              setField={setField}
             />
             <Form.Control.Feedback type="invalid">{errors.newsDescription}</Form.Control.Feedback>
           </Form.Group>
