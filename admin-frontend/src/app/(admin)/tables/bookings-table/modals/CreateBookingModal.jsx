@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import ChooseCustomer from './ChooseCustomer'
 import ChooseShowtime from './ChooseShowtime'
 import ChooseSeats from './ChooseSeats'
 import ChooseSnacks from './ChooseSnacks'
+import { BookingContext } from '../context/BookingContext'
 
 function CreateBookingModal({ show, fetchBookings, onHide }) {
   const [createShow, setCreateShow] = useState(false)
+  const { dispatch } = useContext(BookingContext)
 
   useEffect(() => {
     setCreateShow(show)
@@ -69,23 +71,26 @@ function CreateBookingModal({ show, fetchBookings, onHide }) {
   }
 
   const createBooking = async () => {
-    fetch('http://localhost:8080/bills', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    })
-      .then((response) => {
-        if (response.ok) {
-          fetchBookings()
-        } else {
-          console.error('Failed to create the booking')
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+    try {
+      const response = await fetch('http://localhost:8080/bills', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+    
+      if (response.ok) {
+        const bookingMessage = await response.json();
+        console.log(bookingMessage.data);
+        dispatch({ type: 'SET_MESSAGE', payload: bookingMessage.data })
+        fetchBookings();
+      } else {
+        console.error('Failed to create the booking');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }
 
   const handleCreate = (e) => {
@@ -110,7 +115,7 @@ function CreateBookingModal({ show, fetchBookings, onHide }) {
         <Form noValidate validated={validated} onSubmit={handleCreate} id="createForm">
           <ChooseCustomer errors={errors} form={form} setField={setField} />
           <ChooseShowtime errors={errors} form={form} setField={setField} setSelectedScreenId={setSelectedScreenId} />
-          <ChooseSeats errors={errors} form={form} setField={setField} selectedScreenId={selectedScreenId} />
+          <ChooseSeats errors={errors} form={form} setField={setField} selectedScreenId={selectedScreenId}  setErrors={setErrors} />
           <ChooseSnacks errors={errors} selectedSnacks={selectedSnacks} setSelectedSnacks={setSelectedSnacks} />
         </Form>
       </Modal.Body>

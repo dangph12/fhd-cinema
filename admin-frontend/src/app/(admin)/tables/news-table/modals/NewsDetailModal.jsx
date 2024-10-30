@@ -107,7 +107,7 @@ function NewsDetailModal({ newsId, show, onHide }) {
           newsDescription: news.newsDescription || 'No description available',
           newsCreateAt: news.newsCreateAt || 'No creation date available',
           newsImageUrl: news.newsImageUrl || 'https://via.placeholder.com/150',
-          newsCategoryName: news.newsCategory?.newsCategoryName || 'No category available',
+          newsCategoryName: news.newsCategoryDto?.newsCategoryName || 'No category available',
         });
       } else {
         // Nếu không tìm thấy bản tin

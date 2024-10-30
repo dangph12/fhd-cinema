@@ -132,6 +132,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { NewsContext } from '../context/NewsContext';
+import TextEditor from '../../common/TextEditor';
 
 function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
   const { state } = useContext(NewsContext);
@@ -151,6 +152,18 @@ function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
     setUpdateShow(show);
   }, [show]);
 
+    // Hàm chuyển đổi từ dd/MM/yyyy HH:mm sang định dạng datetime-local (YYYY-MM-DDTHH:MM)
+    const toDatetimeLocal = (time) => {
+      if (!time) return '';
+  
+      const [datePart, timePart] = time.split(" ");
+      const [day, month, year] = datePart.split("/").map(Number);
+      const [hours, minutes] = timePart.split(":").map(Number);
+  
+      const date = new Date(year, month - 1, day, hours, minutes);
+      return date.toISOString().slice(0, 16); // Định dạng YYYY-MM-DDTHH:MM
+    };
+
   // Populate form with the selected news item details based on newsId
   useEffect(() => {
     if (newsId) {
@@ -159,9 +172,9 @@ function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
         setForm({
           newsTitle: news.newsTitle,
           newsDescription: news.newsDescription,
-          newsCreateAt: news.newsCreateAt,
+          newsCreateAt: toDatetimeLocal(news.newsCreateAt),
           newsImageUrl: news.newsImageUrl,
-          newsCategoryId: news.newsCategory?.newsCategoryId || ''
+          newsCategoryId: news.newsCategoryDto?.newsCategoryId || ''
         });
       }
     }
@@ -263,15 +276,11 @@ function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
           {/* News Description */}
           <Form.Group className="m-2">
             <Form.Label>News Description</Form.Label>
-            <Form.Control
-              required
-              as="textarea"
-              rows={3}
-              onChange={(e) => setField('newsDescription', e.target.value)}
-              placeholder="News description"
-              name="newsDescription"
-              value={form.newsDescription}
-              isInvalid={!!errors.newsDescription}
+            <TextEditor
+              object="news"
+              description={form.newsDescription}
+              field="newsDescription"
+              setField={setField}
             />
             <Form.Control.Feedback type="invalid">{errors.newsDescription}</Form.Control.Feedback>
           </Form.Group>
@@ -312,8 +321,11 @@ function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
               isInvalid={!!errors.newsCategoryId}
             >
               <option value="">Select news category</option>
-              <option value="111e4567-e89b-12d3-a456-426614174000">Khuyến mãi</option>
-              <option value="another-category-id">Another Category</option>
+              {state.newsCategories.map((newsCategory) => (
+                <option key={newsCategory.newsCategoryId} value={newsCategory.newsCategoryId}>
+                  {newsCategory.newsCategoryName}
+                </option>
+              ))}
             </Form.Select>
             <Form.Control.Feedback type="invalid">{errors.newsCategoryId}</Form.Control.Feedback>
           </Form.Group>

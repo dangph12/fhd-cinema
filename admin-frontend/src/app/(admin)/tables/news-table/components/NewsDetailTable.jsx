@@ -306,7 +306,7 @@ const NewsDetailTable = () => {
     },
     {
       header: 'Category',
-      accessorKey: 'newsCategory.newsCategoryName',
+      accessorKey: 'newsCategoryDto.newsCategoryName',
     },
     {
       id: 'update',

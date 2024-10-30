@@ -20,6 +20,10 @@ const uploadToS3 = async (folder: any, file: any) => {
       Key: folder + "/" + file.name,
       Body: file,
     });
+
+    if (!file.type.includes("image")) {
+      return "Invalid file type";
+    }
   
     try {
       const response = await client.send(command);
