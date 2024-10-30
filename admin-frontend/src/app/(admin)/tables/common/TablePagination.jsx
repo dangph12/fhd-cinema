@@ -17,11 +17,11 @@ function TablePagination({ state, dispatch, fetch, updateQueryParams }) {
   };
 
   const handlePreviousClick = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    setCurrentPage(state.currentPage - 1);
   };
 
   const handleNextClick = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, state.totalPages));
+    setCurrentPage(state.currentPage + 1);
   };
 
   const handleFirstClick = () => {

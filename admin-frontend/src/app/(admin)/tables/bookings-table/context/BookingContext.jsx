@@ -11,6 +11,7 @@ const initialState = {
   filters: [],
   currentPage: 1,
   totalPages: 1,
+  message: {},
 };
 
 const convertTime = (time) => {
@@ -48,6 +49,8 @@ const reducer = (state, action) => {
       return { ...state, currentPage: action.payload };
     case 'SET_TOTAL_PAGES':
       return { ...state, totalPages: action.payload };
+    case 'SET_MESSAGE':
+      return { ...state, message: action.payload };
     default:
       return state;
   }

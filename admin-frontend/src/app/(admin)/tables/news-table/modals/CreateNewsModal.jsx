@@ -826,6 +826,21 @@ function CreateNewsModal({ show, fetchNews, onHide }) {
     setImageFile(null);
   };
 
+  const handleSetImageFile = (file) => {
+    if (!file) {
+      setErrors({ ...errors, newsImageUrl: 'Image is required' });
+      return;
+    } 
+    if (!file.type.startsWith('image/')) {
+      setErrors({ ...errors, newsImageUrl: 'Invalid image file' });
+      console.log(imageFile)
+      return;
+    }
+    setImageFile(file);
+    setErrors({ ...errors, newsImageUrl: '' });
+    console.log(imageFile)
+  };
+
   // Form validation
   const validateForm = () => {
     const newErrors = {};
@@ -942,7 +957,7 @@ function CreateNewsModal({ show, fetchNews, onHide }) {
             <Form.Control
               type="file"
               accept="image/*"
-              onChange={(e) => setImageFile(e.target.files[0])}
+              onChange={(e) => handleSetImageFile(e.target.files[0])}
               isInvalid={!!errors.newsImageUrl}
             />
             <Form.Control.Feedback type="invalid">{errors.newsImageUrl}</Form.Control.Feedback>

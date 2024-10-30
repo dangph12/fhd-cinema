@@ -81,6 +81,19 @@ function CreateMovieModal({ show, onHide }) {
     return newErrors
   }
 
+  const handleSetImageFile = (file) => {
+    if (!file) {
+      setErrors({ ...errors, moviePosterUrl: 'Image is required' });
+      return;
+    } 
+    if (!file.type.startsWith('image/')) {
+      setErrors({ ...errors, moviePosterUrl: 'Invalid image file' });
+      return;
+    }
+    setPosterFile(file);
+    setErrors({ ...errors, moviePosterUrl: '' });
+  };
+
   const createMovie = async () => {
     const posterUrl = await uploadToS3('movies', posterFile)
 
@@ -308,7 +321,7 @@ function CreateMovieModal({ show, onHide }) {
               <Col>
                 <Form.Group className="m-2">
                   <Form.Label>Movie Poster</Form.Label>
-                  <Form.Control type="file" accept="image/*" onChange={(e) => setPosterFile(e.target.files[0])} isInvalid={!!errors.moviePosterUrl} />
+                  <Form.Control type="file" accept="image/*" onChange={(e) => handleSetImageFile(e.target.files[0])} isInvalid={!!errors.moviePosterUrl} />
                   <Form.Control.Feedback type="invalid">{errors.moviePosterUrl}</Form.Control.Feedback>
                 </Form.Group>
               </Col>
