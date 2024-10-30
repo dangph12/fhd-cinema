@@ -103,6 +103,7 @@ function App() {
     null
   );
 
+
   useEffect(() => {
     let session = sessionStorage.getItem("account");
     if (session) {
@@ -126,6 +127,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/description/:movieId" element={<FilmDetails />} />
         <Route path="/orderTicket/:movieId" element={<OrderTicket />} />
+
         {/* <Route path="/film/:movieId/showtimes" element={<FilmTime />} /> */}
         <Route path="/seat-selection" element={<SeatSelection />} />
         <Route path="/order-snacks" element={<OrderFood />} />
