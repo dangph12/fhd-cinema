@@ -13,6 +13,9 @@ import Youtube from "./Youtube";
 // import YouTube from 'react-youtube';
 
 const OrderTicket = () => {
+
+  sessionStorage.removeItem("billId");
+
   const navigate = useNavigate();
 
   function handleButtonClick() {

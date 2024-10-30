@@ -26,7 +26,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import axios from 'axios';
 
-const CheckoutContext = createContext();
+export const CheckoutContext = createContext();
 
 export const CheckoutProvider = ({ children }) => {
     
