@@ -20,7 +20,7 @@ function ChooseShowtime({ errors, form, setField, setSelectedScreenId }) {
       .then((json) => {
         json.data = json.data.filter((showtime) => showtime.movieId === selectedMovieId)
         json.data.forEach((showtime) => {
-            showtime.showtimeAt = new Date(showtime.showtimeAt).toLocaleString()
+          showtime.showtimeAt = new Date(showtime.showtimeAt).toLocaleString()
         })
         setShowtimes(json.data)
       })
@@ -53,28 +53,28 @@ function ChooseShowtime({ errors, form, setField, setSelectedScreenId }) {
           ))}
         </Form.Select>
       </Form.Group>
-      {selectedMovieId && (
-        <Form.Group className="m-2">
-          <Form.Label>Showtime</Form.Label>
-          <Form.Select
-            required
-            name="showtimeId"
-            onChange={(e) => handleChange(e)}
-            className="bg-body text-dark border-secondary"
-            value={form.showtimeId}
-            style={{ maxHeight: '150px', overflowY: 'auto' }}>
-            <option key="default" value="">
-              Select showtime
+      <Form.Group className="m-2">
+        <Form.Label>Showtime</Form.Label>
+        <Form.Select
+          required
+          name="showtimeId"
+          onChange={(e) => handleChange(e)}
+          className="bg-body text-dark border-secondary"
+          value={form.showtimeId}
+          isInvalid={!!errors.showtimeId}
+          style={{ maxHeight: '150px', overflowY: 'auto' }}>
+          <option key="default" value="">
+            Select showtime
+          </option>
+          {showtimes.map((showtime, index) => (
+            <option key={index} value={showtime.showtimeId}>
+              {showtime.showtimeAt} - {showtime.screen.screenName} - {showtime.screen.cinema.cinemaName} -{' '}
+              {showtime.screen.cinema.location.locationName}
             </option>
-            {showtimes.map((showtime, index) => (
-              <option key={index} value={showtime.showtimeId}>
-                {showtime.showtimeAt} - {showtime.screen.screenName} - {showtime.screen.cinema.cinemaName} - {showtime.screen.cinema.location.locationName}
-              </option>
-            ))}
-          </Form.Select>
-          <Form.Control.Feedback type="invalid">{errors.showtimeId}</Form.Control.Feedback>
-        </Form.Group>
-      )}
+          ))}
+        </Form.Select>
+        <Form.Control.Feedback type="invalid">{errors.showtimeId}</Form.Control.Feedback>
+      </Form.Group>
     </>
   )
 }
