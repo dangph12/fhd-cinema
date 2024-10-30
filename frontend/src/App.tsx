@@ -104,6 +104,7 @@ function App() {
     null
   );
 
+
   useEffect(() => {
     let session = sessionStorage.getItem("account");
     if (session) {

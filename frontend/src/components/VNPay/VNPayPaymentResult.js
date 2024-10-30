@@ -18,31 +18,53 @@ const VNPayPaymentResult = () => {
   const snacks = JSON.parse(sessionStorage.getItem('snacks'));
   const moviePosterUrl = sessionStorage.getItem('moviePosterUrl');
 
-  useEffect(() => {
-    const checkPaymentStatus = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080/vnpay-payment${location.search}`);
+  // useEffect(() => {
+  //   const checkPaymentStatus = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:8080/vnpay-payment${location.search}`);
         
-        if (response.data.status) {
-          setPaymentDetails(response.data.data); // Lưu chi tiết thanh toán vào state
-        } else {
-          setPaymentDetails(null); // Thanh toán thất bại
-        }
-      } catch (error) {
-        console.error('Error checking payment status:', error);
-        setPaymentDetails(null); // Đặt trạng thái thanh toán là null khi lỗi
-      } finally {
-        setLoading(false); // Dừng trạng thái loading sau khi dữ liệu đã được xử lý
-      }
-    };
+  //       if (response.data.status) {
+  //         setPaymentDetails(response.data.data); // Lưu chi tiết thanh toán vào state
+  //       } else {
+  //         setPaymentDetails(null); // Thanh toán thất bại
+  //       }
+  //     } catch (error) {
+  //       console.error('Error checking payment status:', error);
+  //       setPaymentDetails(null); // Đặt trạng thái thanh toán là null khi lỗi
+  //     } finally {
+  //       setLoading(false); // Dừng trạng thái loading sau khi dữ liệu đã được xử lý
+  //     }
+  //   };
 
-    checkPaymentStatus();
+  //   checkPaymentStatus();
+  // }, [location.search]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+  
+    // Decode orderInfo and other parameters if needed
+    const orderInfo = decodeURIComponent(params.get('vnp_OrderInfo') || "No Order Info");
+  
+    const paymentData = {
+      transactionId: params.get('vnp_TransactionNo'),
+      orderInfo: orderInfo,
+      paymentTime: params.get('vnp_PayDate'),
+      totalPrice: params.get('vnp_Amount'),
+      responseCode: params.get('vnp_ResponseCode')
+    };
+  
+    if (paymentData.responseCode === '00') {
+      setPaymentDetails(paymentData);
+    } else {
+      setPaymentDetails(null);
+    }
+    setLoading(false);
   }, [location.search]);
+  
 
   const handleNavigateToTicket = () => {
     if (paymentDetails) {
       navigate('/ticket', { state: { 
-        
         selectedSeats, 
         showtimeDetails,
          movieTitle, 
