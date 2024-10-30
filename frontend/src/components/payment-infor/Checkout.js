@@ -235,19 +235,15 @@ const Checkout = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
-
     sessionStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
     sessionStorage.setItem('showtimeDetails', JSON.stringify(showtimeDetails));
     sessionStorage.setItem('movieTitle', movieTitle);
     sessionStorage.setItem('totalPrice', totalPrice);
     sessionStorage.setItem('snacks', JSON.stringify(snacks));
     sessionStorage.setItem('moviePosterUrl', moviePosterUrl);
-   
-    const handlePayment = async () => {
-        setIsSubmitting(true);
-        
+
+    const createBill = async () => {
         try {
-            // Step 1: Create the bill
             const billResponse = await axios.post('http://localhost:8080/bills', {
                 showtimeId: showtimeDetails.showtimeId,
                 customerId: customerId,
@@ -257,13 +253,25 @@ const Checkout = () => {
 
             if (billResponse.data.status === 'fail') {
                 alert(billResponse.data.message || "Failed to create bill.");
-                setIsSubmitting(false);
                 return;
             }
 
-            
             const billId = billResponse.data.data?.billId;
             console.log("Created bill with ID:", billId);
+            sessionStorage.setItem('billId', billId);
+        } catch (error) {
+            console.error('Error creating bill:', error);
+            alert('Đã xảy ra lỗi khi tạo hóa đơn, vui lòng thử lại sau.');
+        }
+    }
+   
+    const handlePayment = async () => {
+        setIsSubmitting(true);
+        
+        try {
+            if (sessionStorage.getItem('billId') === null) {
+                await createBill();
+            }
 
             // Step 2: Proceed with VNPay payment
             const urlReturn = `${window.location.origin}/vnpay-payment`;
