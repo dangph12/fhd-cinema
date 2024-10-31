@@ -9,19 +9,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.bookings.entity.Booking;
-import com.company.project.module.vouchers.entity.Voucher;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -41,14 +43,16 @@ public class Customer {
     String customerPhone;
     String customerEmail;
 
-    @JoinTable(
-            name = "customers_vouchers",
-            joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "voucher_id"))
-    @ManyToMany
-    List<Voucher> vouchers;
-
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<Booking> bookings;
 
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "account_id", referencedColumnName = "account_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    Account account;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }

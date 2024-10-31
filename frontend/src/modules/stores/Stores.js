@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchSnacks } from "../../components/services/UserService";
+import { fetchSnacks } from "../../../src/components/services/UserService";
 import BannerSecond from "../home/components/BannerSecond";
 import { NavLink } from "react-router-dom";
 import VisaBanner from "../home/components/VisaBanner";

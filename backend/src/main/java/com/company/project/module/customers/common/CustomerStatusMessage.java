@@ -9,11 +9,16 @@ public enum CustomerStatusMessage {
   EMPTY_NAME("The name of customer must not be empty"),
   EMPTY_PHONE("The phone number of customer must not be empty"),
   EMPTY_EMAIL("The email of customer must not be empty"),
+  EMPTY_ACCOUNT_ID("The accountId of customer must not be empty"),
   EMAIL_INVALID("The email of customer is not valid"),
   PHONE_INVALID("The phone number is not valid"),
   NULL_BOOKED("The isBooked must not be empty"),
   NULL_VOUCHER("The voucher must not be empty"),
-  NOT_EXIST("The account's Id does not exist"),
+  NOT_FOUND("Customer not found"),
+  NOT_EXIST("The customer's Id does not exist"),
+  NOT_EMAIL_EXIST("The customer's email does not exist"),
+  UNKNOWN_ATTRIBUTE("The attribute does not exist"),
+  LESS_THAN_ZERO("The index must not be less than 0"),
   EXIST_NAME("The customer's name have been existed"),
   EXIST_VOUCHER("The customer had this voucher"),
   EXIST_PHONE("The customer's phone have been existed"),
@@ -22,6 +27,7 @@ public enum CustomerStatusMessage {
   CREATE_SUCCESS("The customer has been created successfully"),
   DELETE_SUCCESS("The customer deleted successfully"),
   UPDATE_SUCCESS("The customer updated successfully"),
+  UPDATE_PASSWORD_SUCCESS("The customer password has been updated successfully"),
   REMOVE_VOUCHER_SUCCESS("The voucher of customer removed successfully");
 
   private final String message;

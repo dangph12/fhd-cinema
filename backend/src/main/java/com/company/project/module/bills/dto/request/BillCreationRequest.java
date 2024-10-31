@@ -1,8 +1,8 @@
 package com.company.project.module.bills.dto.request;
 
-import jakarta.validation.constraints.Min;
+import java.util.List;
+
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -18,13 +18,16 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BillCreationRequest {
 
-  @NotEmpty(message = "EMPTY_BOOKING")
-  String bookingId;
+  @NotEmpty(message = "EMPTY_CUSTOMER")
+  String customerId;
 
-  @Min(value = 0, message = "NEGATIVE_VALUE")
-  int billAmount;  
+  @NotEmpty(message = "EMPTY_SHOWTIME")
+  String showtimeId;
 
-  @NotNull(message = "EMPTY_ISPAID")
-  boolean isPaid;
+  @NotEmpty(message = "EMPTY_SEAT")
+  List<String> seatIds;
 
+  List<String> snackIds;
+
+  List<String> voucherIds;
 }

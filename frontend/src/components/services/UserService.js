@@ -9,6 +9,10 @@ const fetchMovieById = (movieId) => {
   return axios.get(`http://localhost:8080/movies/${movieId}`);
 };
 
+const fetchAllMovies = () => {
+  return axios.get(`http://localhost:8080/movies`);
+};
+
 // const fetchShowTime = (showtimeId) =>{
 //     return axios.get(`http://localhost:8080/showtimes`);
 // }
@@ -26,8 +30,21 @@ const fetchShowTimeById = (showtimeId) => {
   return axios.get(`http://localhost:8080/showtimes/${showtimeId}`);
 };
 
-const loginApi = (accountName, accountPassword) => {
-  return axiosFormat.post("/accounts", { accountName, accountPassword });
+// const loginApi = (accountName, accountPassword) => {
+//   return axiosFormat.post("/auth/sign-in", { accountName, accountPassword });
+// };
+
+const loginApi = async (accountName, accountPassword) => {
+  try {
+    const response = await axiosFormat.post("/auth/sign-in", {
+      accountName,
+      accountPassword,
+    });
+    return response;
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+    throw error;
+  }
 };
 
 const fetchNews = () => {
@@ -38,13 +55,15 @@ const fetchSnacks = () => {
   return axios.get("http://localhost:8080/snacks");
 };
 
-const fetchNewsById = (newsId) => {
-  return axios.get(`http://localhost:8080/news/${newsId}`);
+// news details
+const fetchNewsById = (news_category_id) => {
+  return axios.get(`http://localhost:8080/news/${news_category_id}`);
 };
 
-// const loginApi = (accountName) => {
-//     return axiosFormat.post("/accounts", { accountName })
-// }
+ const fetchShowTime2= async (movieId) => {
+  return await axios.get(`http://localhost:8080/movies/${movieId}/showtimes`);
+};
+
 
 export {
   fetchAllUser,
@@ -55,4 +74,6 @@ export {
   fetchNews,
   fetchNewsById,
   fetchSnacks,
+  fetchAllMovies,
+  fetchShowTime2
 };

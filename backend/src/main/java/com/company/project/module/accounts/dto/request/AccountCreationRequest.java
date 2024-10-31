@@ -1,6 +1,5 @@
 package com.company.project.module.accounts.dto.request;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
 import lombok.AccessLevel;
@@ -20,6 +19,10 @@ public class AccountCreationRequest {
     String accountName;
     @NotEmpty(message = "EMPTY_PASSWORD")
     String accountPassword;
-    @Min(value = 0, message = "NEGATIVE_VALUE")
-    int accountType;
+    @NotEmpty(message = "EMPTY_TYPE")
+    String accountType;
+
+    String customerName;
+    String customerEmail;
+    String customerPhone;
 }

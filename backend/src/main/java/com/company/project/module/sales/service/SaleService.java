@@ -31,7 +31,7 @@ public class SaleService {
     int totalRevenue = 0;
 
     for (Showtime showtime : showtimes) {
-      List<Booking> bookings = bookingRepository.findByShowtime(showtime);
+      List<Booking> bookings = bookingRepository.findByShowtimeAndIsDeletedFalse(showtime);
        System.out.println("Showtime: " + showtime.getShowtimeId() + ", Bookings: " + bookings.size());
       for (Booking booking : bookings) {
         List<Ticket> tickets = booking.getTickets();

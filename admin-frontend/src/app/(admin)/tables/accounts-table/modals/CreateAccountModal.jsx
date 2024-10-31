@@ -8,7 +8,13 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
     setCreateShow(show)
   }, [show])
 
-  const [form, setForm] = useState({ accountName: '', accountPassword: '', accountType: '' })
+  const [form, setForm] = useState({
+    accountName: '',
+    accountType: '',
+    customerEmail: '',
+    customerName: '',
+    customerPhone: '',
+  })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -22,7 +28,13 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
   const closeCreateShow = () => {
     onHide()
     setCreateShow(false)
-    setForm({ accountName: '', accountPassword: '', accountType: '' })
+    setForm({
+      accountName: '',
+      accountType: '',
+      customerEmail: '',
+      customerName: '',
+      customerPhone: '',
+    })
     setValidated(false)
     setErrors({})
   }
@@ -31,8 +43,39 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
     const newErrors = {}
     if (!form.accountName) newErrors.accountName = 'Account name is required'
     if (!form.accountType) newErrors.accountType = 'Account type is required'
-    if (!form.accountPassword && !form.accountId) newErrors.accountPassword = 'Account password is required'
+    if (form.accountType === 'Customer') {
+      if (!form.customerName) newErrors.customerName = 'Customer name is required'
+      if (!form.customerEmail) newErrors.customerEmail = 'Customer email is required'
+      if (!form.customerPhone) newErrors.customerPhone = 'Customer phone is required'
+    }
+    if (form.accountType === 'Admin') {
+      if (!form.customerEmail) newErrors.customerEmail = 'Admin email is required'
+    }
     return newErrors
+  }
+
+  const createAccount = async () => {
+
+    console.log(form)
+    debugger
+
+    fetch('http://localhost:8080/accounts/admin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    })
+      .then((response) => {
+        if (response.ok) {
+          fetchAccounts()
+        } else {
+          console.error('Failed to create the account')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
 
   const handleCreate = (e) => {
@@ -43,29 +86,9 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
       setErrors(newErrors)
       e.stopPropagation()
     } else {
-      fetch('http://localhost:8080/accounts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      })
-        .then((response) => {
-          if (response.ok) {
-            fetchAccounts()
-          } else {
-            console.error('Failed to create the account')
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error)
-        })
-      setCreateShow(false)
-      onHide()
-      setForm({ accountName: '', accountPassword: '', accountType: '' })
-      setErrors({})
+      createAccount()
+      closeCreateShow()
     }
-    setValidated(true)
   }
   return (
     <Modal show={createShow} onHide={() => closeCreateShow()}>
@@ -88,33 +111,80 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
             <Form.Control.Feedback type="invalid">{errors.accountName}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="m-2">
-            <Form.Label>Account password</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('accountPassword', e.target.value)}
-              placeholder="Account password"
-              name="accountPassword"
-              value={form.accountPassword}
-              isInvalid={!!errors.accountPassword}
-            />
-            <Form.Control.Feedback type="invalid">{errors.accountPassword}</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="m-2">
             <Form.Label>Account type</Form.Label>
             <Form.Select
               required
               name="accountType"
-              onChange={(e) => setField('accountType', Number(e.target.value))}
+              onChange={(e) => setField('accountType', e.target.value)}
               className="bg-body text-dark border-secondary"
               value={form.accountType}
               isInvalid={!!errors.accountType}>
               <option value="">Select account type</option>
-              <option value={1}>Customer</option>
-              <option value={2}>Staff</option>
+              <option value={'Admin'}>Admin</option>
+              <option value={'Customer'}>Customer</option>
             </Form.Select>
             <Form.Control.Feedback type="invalid">{errors.accountType}</Form.Control.Feedback>
           </Form.Group>
+          {form.accountType == 'Customer' ? (
+            <>
+              <Form.Group className="m-2">
+                <Form.Label>Customer name</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  onChange={(e) => setField('customerName', e.target.value)}
+                  placeholder="Customer name"
+                  name="accountPassword"
+                  value={form.accountPassword}
+                  isInvalid={!!errors.accountPassword}
+                />
+                <Form.Control.Feedback type="invalid">{errors.accountPassword}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="m-2">
+                <Form.Label>Customer Email</Form.Label>
+                <Form.Control
+                  required
+                  type="email"
+                  onChange={(e) => setField('customerEmail', e.target.value)}
+                  placeholder="Customer email"
+                  name="customerEmail"
+                  value={form.customerEmail}
+                  isInvalid={!!errors.customerEmail}
+                />
+                <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group className="m-2">
+                <Form.Label>Customer Phone</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  onChange={(e) => setField('customerPhone', e.target.value)}
+                  placeholder="Customer phone"
+                  name="customerPhone"
+                  value={form.customerPhone}
+                  isInvalid={!!errors.customerPhone}
+                />
+                <Form.Control.Feedback type="invalid">{errors.customerPhone}</Form.Control.Feedback>
+              </Form.Group>
+            </>
+          ) : null}
+          {form.accountType == 'Admin' ? (
+            <>
+              <Form.Group className="m-2">
+                <Form.Label>Admin Email</Form.Label>
+                <Form.Control
+                  required
+                  type="email"
+                  onChange={(e) => setField('customerEmail', e.target.value)}
+                  placeholder="Email"
+                  name="email"
+                  value={form.customerEmail}
+                  isInvalid={!!errors.email}
+                />
+                <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
+              </Form.Group>
+            </>
+          ) : null}
         </Form>
       </Modal.Body>
       <Modal.Footer>

@@ -13,17 +13,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmailBillRequest {
-
-  @NotEmpty(message = "EMPTY_SUBJECT")
-  String subject;
-
   @NotEmpty(message = "EMPTY_CUSTOMER")
   String customerId;
-
   @NotEmpty(message = "EMPTY_BILL")
   String billId;
-
-  @NotEmpty(message = "EMPTY_TEMPLATE")
-  String template;
-
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice(basePackages = "com.company.project.module.tickets")
+@ControllerAdvice
 public class TicketExceptionHandler {
   
   @ExceptionHandler(value = MethodArgumentNotValidException.class)

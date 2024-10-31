@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { fetchAllUser } from "../../../components/services/UserService";
+import { fetchAllUser } from "../../../../src/components/services/UserService";
 
 function SlideBar() {
   const responsive = {

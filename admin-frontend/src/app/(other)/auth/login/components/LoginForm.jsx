@@ -11,7 +11,7 @@ const LoginForm = () => {
     control
   } = useSignIn();
   return <form onSubmit={login} className="my-4">
-      <TextFormInput control={control} name="email" label="Username" containerClassName="form-group mb-2" placeholder="Enter your username" />
+      <TextFormInput control={control} name="text" label="Username" containerClassName="form-group mb-2" placeholder="Enter your username" />
 
       <PasswordFormInput control={control} name="password" label="Password" containerClassName="form-group" placeholder="Enter your password" />
 

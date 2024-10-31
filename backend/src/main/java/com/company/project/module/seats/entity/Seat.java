@@ -61,5 +61,9 @@ public class Seat {
     Screen screen;
 
     @Column(name = "is_booked")
-    boolean isBooked;
+    @Builder.Default
+    boolean isBooked = false;
+
+    @Builder.Default
+    boolean isDeleted = false;
 }

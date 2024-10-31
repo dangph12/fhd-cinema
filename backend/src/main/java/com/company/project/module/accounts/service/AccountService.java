@@ -1,26 +1,26 @@
 package com.company.project.module.accounts.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.accounts.common.AccountStatusMessage;
+import com.company.project.module.accounts.dto.request.AccountCreationByAdminRequest;
 import com.company.project.module.accounts.dto.request.AccountCreationRequest;
 import com.company.project.module.accounts.dto.request.AccountUpdateRequest;
 import com.company.project.module.accounts.dto.response.AccountDto;
-import com.company.project.module.accounts.dto.response.AccountPagination;
 import com.company.project.module.accounts.entity.Account;
 import com.company.project.module.accounts.exception.AccountException;
 import com.company.project.module.accounts.repository.AccountRepository;
-import com.company.project.module.snacks.exception.SnackException;
-import com.company.project.module.staffs.entity.Staff;
-import com.company.project.module.staffs.repository.StaffRepository;
+import com.company.project.module.customers.dto.request.CustomerCreationRequest;
+import com.company.project.module.customers.entity.Customer;
+import com.company.project.module.customers.service.CustomerService;
+import com.company.project.module.emails.service.EmailService;
+import com.company.project.utils.PasswordGenerator;
+import com.company.project.utils.Utils;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,153 +33,203 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AccountService {
 
-  @Autowired
-  private StaffRepository staffRepository;
-
   private final ModelMapper modelMapper;
-
   private final AccountRepository accountRepository;
+  private final CustomerService customerService;
+  private final Utils utils;
+  private final PasswordEncoder passwordEncoder;
+  private final EmailService emailService;
 
-  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository) {
+  public AccountService(ModelMapper modelMapper, AccountRepository accountRepository,
+      CustomerService customerService, Utils utils, EmailService emailService) {
     this.modelMapper = modelMapper;
     this.accountRepository = accountRepository;
+    this.customerService = customerService;
+    this.utils = utils;
+    this.emailService = emailService;
+    this.passwordEncoder = new BCryptPasswordEncoder(10); // Password encoder initialization
+  }
+
+  private AccountDto convertToAccountDto(Account account) {
+    return modelMapper.map(account, AccountDto.class);
   }
 
   public List<AccountDto> getAllAccounts() {
-    List<Account> accounts = accountRepository.findAll();
-
-    List<AccountDto> accountDtos = new ArrayList<>();
-
-    for (Account account : accounts) {
-      AccountDto accountDto = this.convertToAccountDto(account);
-      accountDtos.add(accountDto);
-    }
-
-    return accountDtos;
+    List<Account> accounts = accountRepository.findAllByIsDeletedFalse();
+    return accounts.stream()
+        .map(this::convertToAccountDto)
+        .collect(Collectors.toList());
   }
 
-  public AccountDto getAccountById(String accountId) {
-    Account account = accountRepository.findById(accountId)
-            .orElseThrow(() -> new AccountException(
-                    Status.FAIL.getValue(),
-                    AccountStatusMessage.NOT_EXIST.getMessage()));
+  public Account getAccountById(String accountId) {
+    Account account = accountRepository.findByAccountIdAndIsDeletedFalse(accountId);
+    if (account == null) {
+      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage());
+    }
+    return account;
+  }
 
+  public AccountDto getAccountDtoById(String accountId) {
+    Account account = this.getAccountById(accountId);
     return this.convertToAccountDto(account);
   }
 
-  public AccountPagination searchAccountsByName(String accountName, int page, List<String> filters, String sortBy) {
-    int pageSize = 2;
+  public ApiPagination<AccountDto> searchAccounts(String accountName, int page, int pageSize,
+      List<String> filters, String sortBy, String sortDirection) {
 
-    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
+    if (page < 1 || pageSize < 1) {
+      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
 
-    List<Integer> accountTypes = this.convertToAccountTypes(filters);
+    List<String> accountFieldNames = utils.getEntityFields(Account.class);
+    if (!accountFieldNames.contains(sortBy)) {
+      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.UNKNOWN_ATTRIBUTE.getMessage());
+    }
+
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
 
     Page<Account> accountPage;
     long count;
 
-    if (!accountTypes.isEmpty()) {
-      accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeIn(
-              accountName, accountTypes, pageable);
-      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeIn(accountName, accountTypes);
+    if (filters != null && !filters.isEmpty()) {
+      accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndAccountTypeInAndIsDeletedFalse(
+          accountName, filters, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCaseAndAccountTypeInAndIsDeletedFalse(accountName,
+          filters);
     } else {
-      accountPage = accountRepository.findByAccountNameContainingIgnoreCase(accountName, pageable);
-      count = accountRepository.countByAccountNameContainingIgnoreCase(accountName);
+      accountPage = accountRepository.findByAccountNameContainingIgnoreCaseAndIsDeletedFalse(accountName, pageable);
+      count = accountRepository.countByAccountNameContainingIgnoreCaseAndIsDeletedFalse(accountName);
     }
 
     List<AccountDto> accountDtos = accountPage.getContent().stream()
-            .map(this::convertToAccountDto)
-            .collect(Collectors.toList());
+        .map(this::convertToAccountDto)
+        .collect(Collectors.toList());
 
-    AccountPagination accountPagination = AccountPagination.builder()
-            .accountDtos(accountDtos)
-            .count(count)
-            .build();
-
-    return accountPagination;
+    return ApiPagination.<AccountDto>builder()
+        .result(accountDtos)
+        .count(count)
+        .build();
   }
 
-  private List<Integer> convertToAccountTypes(List<String> filters) {
-    List<Integer> accountTypes = filters != null ? filters.stream()
-            .map(filter -> {
-              if ("Customer".equalsIgnoreCase(filter))
-                return 1;
-              else if ("Staff".equalsIgnoreCase(filter))
-                return 2;
-              else
-                return null;
-            })
-            .filter(Objects::nonNull)
-            .collect(Collectors.toList()) : Collections.emptyList();
-    return accountTypes;
+  private String generatePassword(int length) {
+    PasswordGenerator passwordGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
+        .useDigits(true)
+        .useLower(true)
+        .useUpper(true)
+        .build();
+    String password = passwordGenerator.generate(length);
+    return password;
   }
 
-  private AccountDto convertToAccountDto(Account account) {
-    AccountDto accountDto = modelMapper.map(account, AccountDto.class);
-    if (account.getAccountType() == 1) {
-      accountDto.setAccountType("Customer");
-    } else {
-      accountDto.setAccountType("Staff");
+  @Transactional
+  public AccountDto createAccountByAdmin(AccountCreationByAdminRequest request) {
+    if (accountRepository.existsByAccountNameAndIsDeletedFalse(request.getAccountName())) {
+      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
+    String password = this.generatePassword(8);
+
+    Account account = Account.builder()
+        .accountName(request.getAccountName())
+        .accountPassword(encodePassword(password))
+        .accountType(request.getAccountType())
+        .build();
+
+    accountRepository.save(account);
+
+    Customer customer = null;
+    if (request.getAccountType().equalsIgnoreCase("Customer")) {
+      CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
+      customerCreationRequest.setCustomerName(request.getAccountName());
+      customerCreationRequest.setCustomerPhone(request.getCustomerPhone());
+      customerCreationRequest.setCustomerEmail(request.getCustomerEmail());
+      customerCreationRequest.setAccountId(account.getAccountId());
+
+      customer = customerService.createCustomer(customerCreationRequest);
+    }
+
+    AccountDto accountDto = this.convertToAccountDto(account);
+    if (customer != null) {
+      accountDto.setCustomerId(customer.getCustomerId());
+      accountDto.setCustomerName(customer.getCustomerName());
+      accountDto.setCustomerPhone(customer.getCustomerPhone());
+      accountDto.setCustomerEmail(customer.getCustomerEmail());
+    }
+
+    emailService.sendEmailProvideLoginInformation(
+        request.getCustomerEmail(), request.getAccountName(), password);
 
     return accountDto;
   }
 
+  @Transactional
   public AccountDto createAccount(AccountCreationRequest request) {
-    if (accountRepository.existsByAccountName(request.getAccountName())) {
+    if (accountRepository.existsByAccountNameAndIsDeletedFalse(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 
     Account account = Account.builder()
-            .accountName(request.getAccountName())
-            .accountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()))
-            .accountType(request.getAccountType())
-            .build();
+        .accountName(request.getAccountName())
+        .accountPassword(encodePassword(request.getAccountPassword()))
+        .accountType(request.getAccountType())
+        .build();
+
     accountRepository.save(account);
 
-    return this.convertToAccountDto(account);
+    Customer customer = createAssociatedCustomer(request, account.getAccountId());
+
+    AccountDto accountDto = this.convertToAccountDto(account);
+    accountDto.setCustomerId(customer.getCustomerId());
+    accountDto.setCustomerName(customer.getCustomerName());
+    accountDto.setCustomerPhone(customer.getCustomerPhone());
+    accountDto.setCustomerEmail(customer.getCustomerEmail());
+
+    return accountDto;
+  }
+
+  private Customer createAssociatedCustomer(AccountCreationRequest request, String accountId) {
+    CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
+    customerCreationRequest.setCustomerName(request.getAccountName());
+    customerCreationRequest.setCustomerPhone(request.getCustomerPhone());
+    customerCreationRequest.setCustomerEmail(request.getCustomerEmail());
+    customerCreationRequest.setAccountId(accountId);
+
+    return customerService.createCustomer(customerCreationRequest);
   }
 
   public AccountDto updateAccount(String accountId, AccountUpdateRequest request) {
-    Account existingAccount = accountRepository.findById(accountId)
-            .orElseThrow(() -> new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage()));
+    Account existingAccount = this.getAccountById(accountId);
 
-    if (!existingAccount.getAccountName().equals(request.getAccountName())
-            && accountRepository.existsByAccountName(request.getAccountName())) {
+    if (!existingAccount.getAccountName().equals(request.getAccountName()) &&
+        accountRepository.existsByAccountNameAndIsDeletedFalse(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 
+    existingAccount.setAccountName(request.getAccountName());
     existingAccount.setAccountType(request.getAccountType());
-    existingAccount.setAccountPassword(this.encodePassWordByBCryptPassword(request.getAccountPassword()));
+    existingAccount.setAccountPassword(encodePassword(request.getAccountPassword()));
 
-    if (!existingAccount.getAccountName().equals(request.getAccountName())) {
-      existingAccount.setAccountName(request.getAccountName());
-    }
     accountRepository.save(existingAccount);
-
     return this.convertToAccountDto(existingAccount);
   }
 
-  public String encodePassWordByBCryptPassword(String password) {
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+  private String encodePassword(String password) {
     return passwordEncoder.encode(password);
   }
 
-  @Transactional
   public void deleteAccountById(String accountId) {
-    if (!accountRepository.existsById(accountId)) {
-      throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.NOT_EXIST.getMessage());
+    Account existingAccount = this.getAccountById(accountId);
+    if (existingAccount.getAccountType().equalsIgnoreCase("Customer")) {
+      existingAccount.getCustomer().setDeleted(true);
     }
+    existingAccount.setDeleted(true);
+    accountRepository.save(existingAccount);
+  }
 
-    Account account = accountRepository.findById(accountId)
-            .orElseThrow(() -> new SnackException(
-                    Status.FAIL.getValue(),
-                    AccountStatusMessage.NOT_EXIST.getMessage()));
-
-    Staff staffsWithAccount = staffRepository.findByAccount(account);
-
-    staffRepository.delete(staffsWithAccount);
-
-    accountRepository.deleteById(accountId);
+  public void updateAccountPassword(String accountId, String newPassword) {
+    Account account = this.getAccountById(accountId);
+    account.setAccountPassword(encodePassword(newPassword));
+    accountRepository.save(account);
   }
 
 }
