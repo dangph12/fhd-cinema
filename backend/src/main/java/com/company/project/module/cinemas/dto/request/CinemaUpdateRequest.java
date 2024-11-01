@@ -10,10 +10,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CinemaCreationRequest {
+public class CinemaUpdateRequest {
 
-    @NotEmpty(message = "EMPTY_LOCATION_NAME")
-    String locationName;
+    @NotEmpty(message = "EMPTY_LOCATION_ID")
+    String locationId;
 
     @NotEmpty(message = "EMPTY_NAME")
     String cinemaName;

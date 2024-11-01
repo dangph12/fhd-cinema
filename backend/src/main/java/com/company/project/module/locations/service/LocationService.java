@@ -11,6 +11,7 @@ import com.company.project.module.locations.exception.LocationException;
 import com.company.project.module.locations.repository.LocationRepository;
 import com.company.project.utils.Utils;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +45,18 @@ public class LocationService {
 
         Location location = Location.builder()
                 .locationName(request.getLocationName())
+                .build();
+
+        return locationRepository.save(location);
+    }
+
+    public Location create(@NotNull String locationName) {
+        if(locationRepository.existsByLocationName(locationName)) {
+            throw new LocationException(Status.FAIL.getValue(), LocationStatusMessage.LOCATION_EXIST.getMessage());
+        }
+
+        Location location = Location.builder()
+                .locationName(locationName)
                 .build();
 
         return locationRepository.save(location);

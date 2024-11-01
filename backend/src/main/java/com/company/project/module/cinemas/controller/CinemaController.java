@@ -2,6 +2,7 @@ package com.company.project.module.cinemas.controller;
 
 import java.util.List;
 
+import com.company.project.module.cinemas.dto.request.CinemaUpdateRequest;
 import jakarta.validation.Valid;
 
 import com.company.project.common.ApiPagination;
@@ -69,7 +70,7 @@ public class CinemaController {
     }
 
     @PutMapping("/{cinemaId}")
-    ResponseEntity<ApiResponse<CinemaDto>> updateCinema(@PathVariable(name = "cinemaId") String cinemaId, @RequestBody @Valid CinemaCreationRequest request) {
+    ResponseEntity<ApiResponse<CinemaDto>> updateCinema(@PathVariable(name = "cinemaId") String cinemaId, @RequestBody @Valid CinemaUpdateRequest request) {
         CinemaDto cinemaDto = cinemaService.updateCinema(cinemaId, request);
 
         return ResponseEntity.status(HttpStatus.OK.value())

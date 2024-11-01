@@ -924,7 +924,7 @@ function CreateNewsModal({ show, fetchNews, onHide }) {
   };
 
   return (
-    <Modal show={createShow} onHide={closeCreateShow}>
+    <Modal fullscreen={true} show={createShow} onHide={closeCreateShow}>
       <Modal.Header closeButton>
         <Modal.Title>Create News</Modal.Title>
       </Modal.Header>
