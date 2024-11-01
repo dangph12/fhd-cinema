@@ -323,9 +323,9 @@ import SeatDescription from './SeatDescription';
 
 const SeatSelection = () => {
     const location = useLocation();
-    const { showtimeId, movieDetails, customerId: passedCustomerId } = location.state || {};
+    const { showtimeId, movieDetails } = location.state || {};
     const navigate = useNavigate();
-    const [customerId, setCustomerId] = useState(passedCustomerId || null); 
+    const [customerId, setCustomerId] = useState(null); 
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [seatLayout, setSeatLayout] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -338,7 +338,7 @@ const SeatSelection = () => {
     useEffect(() => {
         // Retrieve customerId from sessionStorage if not passed in location.state
         if (!customerId) {
-            const storedAccount = sessionStorage.getItem("account");
+            const storedAccount = localStorage.getItem("account");
             if (storedAccount) {
                 const account = JSON.parse(storedAccount); // Parse the account object
                 const storedCustomerId = account.customer?.customerId; // Access customerId from account object
@@ -348,12 +348,12 @@ const SeatSelection = () => {
         } else {
             console.log("Using passed customerId:", customerId);
         }
-    }, [customerId]);
+    }, []);
 
     useEffect(() => {
         // Log customerId whenever it changes
         console.log("Current customerId:", customerId);
-    }, [customerId]);
+    }, []);
 
     useEffect(() => {
         const fetchSeatsAndShowtimeDetails = async () => {
