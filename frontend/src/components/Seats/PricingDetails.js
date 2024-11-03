@@ -120,6 +120,7 @@ const PricingDetails = ({ movieTitle, showtimeDetails, selectedSeats, getTotalPr
                             <p>
                                 <strong>{seats.length} x {seatType}</strong>
                             </p>
+                           <p>{seatType.seatTypePrice}</p>
                             <p className="seat-names">{seats.map(seat => seat.seatName).join(', ')}</p>
                         </div>
                     ))}
