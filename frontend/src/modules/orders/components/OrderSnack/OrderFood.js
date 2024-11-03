@@ -23,7 +23,7 @@ const snackImages = {
 const OrderFood = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { selectedSeats, showtimeDetails, movieDetails,customerId} = state || {};
+  const { selectedSeats, showtimeDetails, movieDetails,customerId, getTotalPrice} = state || {};
   const [movieTitle] = useState(movieDetails?.movieTitle || 'Unknown Movie Title');
   const [moviePosterUrl] = useState(movieDetails?.moviePosterUrl || '');
   const [snacks, setSnacks] = useState([]);
@@ -82,7 +82,10 @@ const OrderFood = () => {
       totalPrice,
       snacks: selectedSnacks,
       moviePosterUrl,
-      customerId
+      customerId,
+      getTotalPrice,
+      totalTicketPrice
+      
     });
     
     navigate('/checkout');
