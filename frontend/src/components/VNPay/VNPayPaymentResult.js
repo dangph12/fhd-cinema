@@ -143,7 +143,8 @@ const VNPayPaymentResult = () => {
   const totalPrice = sessionStorage.getItem("totalPrice");
   const snacks = JSON.parse(sessionStorage.getItem("snacks"));
   const moviePosterUrl = sessionStorage.getItem("moviePosterUrl");
-
+  const billId = sessionStorage.getItem("billId");
+  const totalTicketPrice = sessionStorage.getItem("totalTicketPrice");
   useEffect(() => {
     const checkPaymentStatus = async () => {
       try {
@@ -153,11 +154,20 @@ const VNPayPaymentResult = () => {
 
         if (response.data.status === "success") {
           setPaymentDetails(response.data.data);
-          // put bill is paid is true
-          const billId = sessionStorage.getItem("billId");
-          axios.put(`http://localhost:8080/bills/${billId}/pay`, {
-            billId: billId,
+
+          navigate("/ticket", {
+            state: {
+              selectedSeats,
+              showtimeDetails,
+              movieTitle,
+              totalPrice,
+              snacks,
+              moviePosterUrl,
+              billId,
+              paymentSuccess: true
+            },
           });
+          
         } else if (response.data.status === "fail") {
           setErrorType("failed");
         } else if (response.data.status === "error") {
@@ -174,27 +184,14 @@ const VNPayPaymentResult = () => {
     checkPaymentStatus();
   }, [location.search]);
 
-  const handleNavigateToTicket = () => {
-    if (paymentDetails) {
-      navigate("/ticket", {
-        state: {
-          selectedSeats,
-          showtimeDetails,
-          movieTitle,
-          totalPrice,
-          snacks,
-          moviePosterUrl,
-          paymentSuccess: true,
-        },
-      });
-    }
-  };
+ 
 
   const handleNavigateToCheckout = () => {
     setCheckoutData({
       selectedSeats: selectedSeats,
       showtimeDetails: showtimeDetails,
       movieTitle: movieTitle,
+      totalTicketPrice: totalTicketPrice,
       totalPrice: totalPrice,
       snacks: snacks,
       moviePosterUrl: moviePosterUrl,
@@ -246,13 +243,7 @@ const VNPayPaymentResult = () => {
                 <p>
                   <strong>Total Price:</strong> {paymentDetails.totalPrice}
                 </p>
-                <Button
-                  variant="primary"
-                  className="mt-3"
-                  onClick={handleNavigateToTicket}
-                >
-                  View Ticket
-                </Button>
+ 
               </Card.Body>
             ) : (
               <Card.Body>
