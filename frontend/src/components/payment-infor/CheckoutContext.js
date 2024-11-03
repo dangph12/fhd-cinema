@@ -38,6 +38,7 @@ export const CheckoutProvider = ({ children }) => {
         snacks: [],
         moviePosterUrl: '',
         customerId: null,
+        totalTicketPrice: null
     });
 
 
