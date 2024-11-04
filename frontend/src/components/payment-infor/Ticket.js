@@ -18,7 +18,6 @@ function Ticket() {
   const { state } = useLocation();  
   // const { selectedSeats, showtimeDetails, movieTitle, snacks, moviePosterUrl, billId, customerId } = state || {}; 
 
-
   const selectedSeats = JSON.parse(sessionStorage.getItem("selectedSeats"));
   const showtimeDetails = JSON.parse(sessionStorage.getItem("showtimeDetails"));
   const movieTitle = sessionStorage.getItem("movieTitle");

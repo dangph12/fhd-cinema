@@ -187,6 +187,9 @@ const VNPayPaymentResult = () => {
  
 
   const handleNavigateToCheckout = () => {
+    sessionStorage.removeItem('selectedSeats');
+    sessionStorage.removeItem('billId');
+  
     setCheckoutData({
       selectedSeats: selectedSeats,
       showtimeDetails: showtimeDetails,
