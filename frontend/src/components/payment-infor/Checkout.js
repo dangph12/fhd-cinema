@@ -231,7 +231,7 @@ import { useCheckout } from './CheckoutContext';
 
 const Checkout = () => {
     const { checkoutData } = useCheckout();
-    const { selectedSeats, showtimeDetails, movieTitle, totalPrice, snacks, moviePosterUrl, customerId } = checkoutData;
+    const { selectedSeats, showtimeDetails, movieTitle, totalPrice, snacks, moviePosterUrl, customerId,totalTicketPrice } = checkoutData;
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
@@ -241,7 +241,7 @@ const Checkout = () => {
     sessionStorage.setItem('totalPrice', totalPrice);
     sessionStorage.setItem('snacks', JSON.stringify(snacks));
     sessionStorage.setItem('moviePosterUrl', moviePosterUrl);
-
+    sessionStorage.setItem('totalTicketPrice', totalTicketPrice);
     const createBill = async () => {
         try {
             const billResponse = await axios.post('http://localhost:8080/bills', {
@@ -250,7 +250,7 @@ const Checkout = () => {
                 seatIds: selectedSeats.map(seat => seat.seatId),
                 snackIds: snacks.map(snack => snack.snackId),
             });
-
+            sessionStorage.setItem('customerId',customerId);
             if (billResponse.data.status === 'fail') {
                 alert(billResponse.data.message || "Failed to create bill.");
                 return;
@@ -284,6 +284,7 @@ const Checkout = () => {
             // Redirect to VNPay if response contains the payment URL
             if (response.data && response.data.data) {
                 window.location.href = response.data.data;
+
             } else {
                 throw new Error("Invalid response from server");
             }
@@ -309,6 +310,7 @@ const Checkout = () => {
                         selectedSeats={selectedSeats}
                         snacks={snacks}
                         totalPrice={totalPrice}
+                        seatPrice = {totalTicketPrice}
                     />
                 </Col>
 

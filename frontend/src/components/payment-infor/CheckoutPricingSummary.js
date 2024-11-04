@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 
-const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, snacks, totalPrice, moviePosterUrl }) => {
+const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, snacks, totalPrice, moviePosterUrl, seatPrice }) => {
   return (
     <Card className="p-3 shadow-sm">
       <Row>
@@ -34,7 +34,8 @@ const CheckoutPricingSummary = ({ movieTitle, showtimeDetails, selectedSeats, sn
             
             {selectedSeats && selectedSeats.length > 0 ? (
               <p className="time-title-price">
-                Ghế ngồi: {selectedSeats.map((seat) => seat.seatName).join(', ')}
+                Ghế ngồi: {selectedSeats.map((seat) => seat.seatName).join(', ')}:{' '}
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(seatPrice)}
               </p>
             ) : (
               <p className="time-title-price">Không có ghế ngồi nào được chọn</p>

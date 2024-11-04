@@ -404,9 +404,9 @@ const SeatSelection = () => {
         });
     };
 
-    const goToOrderFood = () => {
-        navigate('/order-snacks', { state: { selectedSeats, showtimeDetails, movieDetails, customerId } });
-    };
+    // const goToOrderFood = () => {
+    //     navigate('/order-snacks', { state: { selectedSeats, showtimeDetails, movieDetails, customerId,getTotalPrice } });
+    // };
 
     const getTotalPrice = () => {
         if (!showtimeDetails) return 0;
@@ -425,6 +425,14 @@ const SeatSelection = () => {
     if (error) {
         return <div>{error}</div>;
     }
+
+    const goToOrderFood = () => {
+        if (selectedSeats.length === 0) {
+            alert('Bạn phải chọn ít nhất một ghế trước khi tiếp tục.');
+            return; 
+        }
+        navigate('/order-snacks', { state: { selectedSeats, showtimeDetails, movieDetails, customerId } });
+    };
 
     return (
         <Container fluid>
