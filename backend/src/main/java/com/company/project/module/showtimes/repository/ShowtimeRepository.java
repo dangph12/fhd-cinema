@@ -37,6 +37,18 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
       @Param("endDate") LocalDateTime endDate,
       Pageable pageable);
 
+  @Query("SELECT s FROM Showtime s WHERE " +
+      "s.isDeleted = false AND " +
+      "(:movieTitle IS NULL OR LOWER(s.movie.movieTitle) LIKE LOWER(CONCAT('%', :movieTitle, '%'))) AND " +
+      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames)) AND " +
+      "(:startDate IS NULL OR s.showtimeAt >= :startDate) AND " +
+      "(:endDate IS NULL OR s.showtimeAt <= :endDate)")
+  List<Showtime> searchShowtimesWithoutPagination(
+      @Param("movieTitle") String movieTitle,
+      @Param("cinemaNames") List<String> cinemaNames,
+      @Param("startDate") LocalDateTime startDate,
+      @Param("endDate") LocalDateTime endDate);
+
   @Query("SELECT COUNT(s) FROM Showtime s WHERE " +
       "s.isDeleted = false AND " +
       "(:movieTitle IS NULL OR LOWER(s.movie.movieTitle) LIKE LOWER(CONCAT('%', :movieTitle, '%'))) AND " +
@@ -44,6 +56,17 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, String> {
       "(:startDate IS NULL OR s.showtimeAt >= :startDate) AND " +
       "(:endDate IS NULL OR s.showtimeAt <= :endDate)")
   long countShowtimes(@Param("movieTitle") String movieTitle,
+      @Param("cinemaNames") List<String> cinemaNames,
+      @Param("startDate") LocalDateTime startDate,
+      @Param("endDate") LocalDateTime endDate);
+
+  @Query("SELECT COUNT(DISTINCT s.movie.movieTitle) FROM Showtime s WHERE " +
+      "s.isDeleted = false AND " +
+      "(:movieTitle IS NULL OR LOWER(s.movie.movieTitle) LIKE LOWER(CONCAT('%', :movieTitle, '%'))) AND " +
+      "(:cinemaNames IS NULL OR (s.screen.cinema.isDeleted = false AND s.screen.cinema.cinemaName IN :cinemaNames)) AND " +
+      "(:startDate IS NULL OR s.showtimeAt >= :startDate) AND " +
+      "(:endDate IS NULL OR s.showtimeAt <= :endDate)")
+  long countDistinctMovies(@Param("movieTitle") String movieTitle,
       @Param("cinemaNames") List<String> cinemaNames,
       @Param("startDate") LocalDateTime startDate,
       @Param("endDate") LocalDateTime endDate);
