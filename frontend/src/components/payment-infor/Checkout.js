@@ -242,6 +242,7 @@ const Checkout = () => {
     sessionStorage.setItem('snacks', JSON.stringify(snacks));
     sessionStorage.setItem('moviePosterUrl', moviePosterUrl);
     sessionStorage.setItem('totalTicketPrice', totalTicketPrice);
+    sessionStorage.setItem('customerId',customerId);
     const createBill = async () => {
         try {
             const billResponse = await axios.post('http://localhost:8080/bills', {
@@ -250,7 +251,7 @@ const Checkout = () => {
                 seatIds: selectedSeats.map(seat => seat.seatId),
                 snackIds: snacks.map(snack => snack.snackId),
             });
-            sessionStorage.setItem('customerId',customerId);
+            
             if (billResponse.data.status === 'fail') {
                 alert(billResponse.data.message || "Failed to create bill.");
                 return;
