@@ -1,14 +1,13 @@
 
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Container, Row, Col, Card, Image } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { CheckoutContext } from "../payment-infor/CheckoutContext";
-function Ticket() {
-  const { setCheckoutData } = useContext(CheckoutContext);
-  const { state } = useLocation();  
-  // const { selectedSeats, showtimeDetails, movieTitle, snacks, moviePosterUrl, billId, customerId } = state || {}; 
 
+function Ticket() {
+  
+  const [bookingId, setBookingId] = useState(null); 
   const selectedSeats = JSON.parse(sessionStorage.getItem("selectedSeats"));
   const showtimeDetails = JSON.parse(sessionStorage.getItem("showtimeDetails"));
   const movieTitle = sessionStorage.getItem("movieTitle");
@@ -18,6 +17,29 @@ function Ticket() {
   const billId = sessionStorage.getItem("billId");
   const totalTicketPrice = sessionStorage.getItem("totalTicketPrice");
   const customerId = sessionStorage.getItem("customerId");
+
+  useEffect(() => {
+    const fetchBookingId = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/bills/${billId}`);
+        if (response.data && response.data.data) {
+          const fetchedBookingId = response.data.data.bookingDto.bookingId;
+          setBookingId(fetchedBookingId);
+          sessionStorage.setItem("bookingId", fetchedBookingId); 
+        } else {
+          console.error("No booking found for the provided billId");
+        }
+      } catch (error) {
+        console.error("Error fetching bookingId:", error);
+      }
+    };
+
+   
+    if (billId) {
+      fetchBookingId();
+    }
+  }, [billId]);
+
   useEffect(() => {
     const sendEmail = async () => {
       try {
@@ -35,20 +57,16 @@ function Ticket() {
       }
     };
 
-    // Chỉ gửi email khi `billId` và `customerId` có giá trị
     if (billId && customerId) {
       sendEmail();
     }
   }, [billId, customerId]);
-
 
   useEffect(() => {
     axios.put(`http://localhost:8080/bills/${billId}/pay`, {
       billId: billId,
     });
   }, [billId]);
-
-  
 
   return (
     <Container className="d-flex justify-content-center" fluid>
@@ -68,9 +86,12 @@ function Ticket() {
                 <Card.Body>
                   <Card.Title className="movie-title-ticket">
                     {movieTitle}
-                  </Card.Title>          
+                  </Card.Title>
                   <Card.Text className="movie-details-ticket">
-                    <strong>Mã lấy vé:</strong> {billId}
+                    <strong>Mã thanh toán:</strong> {billId}
+                  </Card.Text>
+                  <Card.Text className="movie-details-ticket">
+                    <strong>Mã vé:</strong> {bookingId} 
                   </Card.Text>
                   <Card.Text className="movie-details-ticket">
                     📅 <strong>Ngày:</strong> {new Date(showtimeDetails?.showtimeAt).toLocaleDateString('en-GB')}
