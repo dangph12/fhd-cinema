@@ -48,8 +48,13 @@ public class SaleController {
             @RequestParam(value = "sortBy", defaultValue = "totalRevenue") String sortBy,
             @RequestParam(value = "sortDirection", defaultValue = "DESC") String sortDirection) {
 
+        List<String> cinemas = cinemaNames;
+        if(cinemaNames.isEmpty()) {
+          cinemas = null;
+        }
+
         ApiPagination<SaleMovieDto> pagination = saleService.viewSales(
-                movieTitle, page, pageSize, cinemaNames, startDate, endDate, sortBy, sortDirection);
+                movieTitle, page, pageSize, cinemas, startDate, endDate, sortBy, sortDirection);
 
         return ResponseEntity.ok(ApiResponse.<ApiPagination<SaleMovieDto>>builder()
                 .status(Status.SUCCESS.getValue())
