@@ -377,20 +377,20 @@ const Checkout = () => {
     sessionStorage.setItem('moviePosterUrl', moviePosterUrl);
     sessionStorage.setItem('totalTicketPrice', totalTicketPrice);
 
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            if (!window.location.pathname.includes("/checkout")) {
-                // Chỉ xóa nếu không phải đang ở trang Checkout
-                sessionStorage.removeItem('selectedSeats');
-            }
-        };
+    // useEffect(() => {
+    //     const handleBeforeUnload = () => {
+    //         if (!window.location.pathname.includes("/checkout")) {
+    //             // Chỉ xóa nếu không phải đang ở trang Checkout
+    //             sessionStorage.removeItem('selectedSeats');
+    //         }
+    //     };
     
-        window.addEventListener('beforeunload', handleBeforeUnload);
+    //     window.addEventListener('beforeunload', handleBeforeUnload);
     
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener('beforeunload', handleBeforeUnload);
+    //     };
+    // }, []);
 
     const createBill = async () => {
         try {
