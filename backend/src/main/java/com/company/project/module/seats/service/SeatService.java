@@ -106,7 +106,7 @@ public class SeatService {
   }
 
   public SeatDto createSeat(SeatCreationRequest request) {
-    if (seatRepository.existsBySeatNameAndIsDeletedFalse(request.getSeatName())) {
+    if (seatRepository.existsBySeatNameAndScreenScreenIdAndIsDeletedFalse(request.getSeatName(), request.getScreenId())) {
       throw new SeatException(Status.FAIL.getValue(), SeatStatusMessage.EXIST_SEAT.getMessage());
     }
     SeatType seatType = seatTypeService.getSeatTypeById(request.getSeatTypeId());

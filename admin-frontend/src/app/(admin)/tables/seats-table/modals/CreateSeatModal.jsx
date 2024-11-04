@@ -156,7 +156,6 @@ function CreateSeatModal({ show, onHide }) {
     })
     setValidated(false)
     setErrors({})
-    setPosterFile(null)
   }
 
   const validateForm = () => {

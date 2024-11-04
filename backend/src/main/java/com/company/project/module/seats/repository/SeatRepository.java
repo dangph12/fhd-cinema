@@ -17,6 +17,8 @@ public interface SeatRepository extends JpaRepository<Seat, String> {
 
   boolean existsBySeatNameAndIsDeletedFalse(String seatName);
 
+  boolean existsBySeatNameAndScreenScreenIdAndIsDeletedFalse(String seatName, String screenId);
+
   List<Seat> findAllByIsDeletedFalse();
 
   Seat findBySeatIdAndIsDeletedFalse(String seatId);
