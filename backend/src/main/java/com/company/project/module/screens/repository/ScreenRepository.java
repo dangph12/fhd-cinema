@@ -21,6 +21,8 @@ public interface ScreenRepository extends JpaRepository<Screen, String> {
 
   Screen findByScreenIdAndIsDeletedFalse(String screenId);
 
+  List<Screen> findByScreenNameContainingIgnoreCaseAndIsDeletedFalse(String newsCategoryName);
+
   @Query("SELECT s FROM Screen s WHERE " +
       "s.isDeleted = false AND " +
       "(:screenName IS NULL OR LOWER(s.screenName) LIKE LOWER(CONCAT('%', :screenName, '%'))) AND " +

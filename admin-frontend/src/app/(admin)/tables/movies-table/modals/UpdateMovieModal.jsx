@@ -181,7 +181,7 @@ function UpdateMovieModal({ movieId, show, fetchMovies, onHide }) {
         });
       }
     }
-  }, [movieId, state.movies]);
+  }, [movieId]);
 
   // Set individual form field values
   const setField = (field, value) => {
