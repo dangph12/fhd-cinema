@@ -1,13 +1,4 @@
 
-
-
-
-
-
-
-
-
-
 import React, { useEffect, useContext } from 'react';
 import { Container, Row, Col, Card, Image } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
@@ -50,11 +41,14 @@ function Ticket() {
     }
   }, [billId, customerId]);
 
+
   useEffect(() => {
     axios.put(`http://localhost:8080/bills/${billId}/pay`, {
       billId: billId,
     });
   }, [billId]);
+
+  
 
   return (
     <Container className="d-flex justify-content-center" fluid>
