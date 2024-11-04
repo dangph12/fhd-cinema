@@ -335,6 +335,7 @@ const SeatSelection = () => {
     const moviePosterUrl = movieDetails?.moviePosterUrl || '';
 
 
+
     useEffect(() => {
         // Retrieve customerId from sessionStorage if not passed in location.state
         if (!customerId) {
@@ -362,6 +363,8 @@ const SeatSelection = () => {
                 const showtimeData = showtimeResponse.data;
 
                 if (showtimeData?.data) {
+                    sessionStorage.removeItem('selectedSeats');
+                    setSelectedSeats([]);
                     setShowtimeDetails(showtimeData.data);
 
                     const screenId = showtimeData.data.screen.screenId;
