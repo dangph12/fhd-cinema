@@ -1,6 +1,7 @@
 package com.company.project.module.bookings.repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.company.project.module.bookings.entity.Booking;
@@ -45,4 +46,31 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
   long countBookings(@Param("bookingId") String bookingId,
       @Param("customerIds") List<String> customerIds,
       @Param("bookingCreateDates") List<LocalDate> bookingCreateDates);
+
+  @Query("SELECT b "
+      + "FROM Booking b "
+      + "JOIN b.customer c "
+      + "JOIN b.showtime sh "
+      + "JOIN sh.movie m "
+      + "JOIN sh.screen sc "
+      + "JOIN sc.cinema ci "
+      + "JOIN b.bill bill "
+      + "WHERE (:startDate IS NULL OR b.bookingCreateAt >= :startDate) "
+      + "AND (:endDate IS NULL OR b.bookingCreateAt <= :endDate) "
+      + "AND (:movieId IS NULL OR m.movieId = :movieId) "
+      + "AND (:customerPhone IS NULL OR c.customerPhone = :customerPhone) "
+      + "AND (:customerEmail IS NULL OR c.customerEmail = :customerEmail) "
+      + "AND (:cinemaId IS NULL OR ci.cinemaId = :cinemaId) "
+      + "AND (:bookingId IS NULL OR b.bookingId = :bookingId) "
+      + "AND bill.isPaid = true")
+  Page<Booking> searchBookings(
+      @Param("startDate") LocalDateTime startDate,
+      @Param("endDate") LocalDateTime endDate,
+      @Param("movieId") String movieId,
+      @Param("customerPhone") String customerPhone,
+      @Param("customerEmail") String customerEmail,
+      @Param("cinemaId") String cinemaId,
+      @Param("bookingId") String bookingId,
+      Pageable pageable);
+
 }
