@@ -42,7 +42,7 @@ public class SaleController {
             @RequestParam(value = "movieTitle", required = false) String movieTitle,
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-            @RequestParam(value = "cinemas", required = false) List<String> cinemaNames,
+            @RequestParam(value = "cinemas", defaultValue = "") List<String> cinemaNames,
             @RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             @RequestParam(value = "sortBy", defaultValue = "totalRevenue") String sortBy,
