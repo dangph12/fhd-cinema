@@ -1,20 +1,56 @@
-import React, { useContext, useEffect } from 'react'
-import { Container, Table, Button } from 'react-bootstrap'
+import React, { useContext, useEffect, useState } from 'react'
+import { Container, Table, Button, Dropdown } from 'react-bootstrap'
 import { SaleContext } from '../context/SaleContext'
 import TablePagination from '../../tables/common/TablePagination'
+import SaleDetailModal from '../modals/SaleDetailModal'
 
 const SaleDetailTable = () => {
   const { state, dispatch, fetchBookings } = useContext(SaleContext)
+  const [showModal, setShowModal] = useState(false)
+  const [selectedBooking, setSelectedBooking] = useState(null)
 
   const pageSize = 10 // hoặc giá trị số trang mong muốn
 
   useEffect(() => {
     fetchBookings(); // Fetch bookings khi component mount hoặc trang thay đổi
-  }, [state.currentPage]);
+  }, [state.currentPage, state.filters.sortBy, state.filters.sortDirection]); // Gọi lại khi sortBy hoặc sortDirection thay đổi
+
+  // Hàm xử lý thay đổi sắp xếp
+  const handleSortChange = (sortBy, sortDirection) => {
+    dispatch({ type: 'SET_FILTERS', payload: { sortBy, sortDirection } })
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 }) // Reset về trang đầu khi thay đổi sắp xếp
+    fetchBookings()
+  }
+
+  const handleShowDetails = (booking) => {
+    setSelectedBooking(booking)
+    setShowModal(true)
+  }
 
   return (
     <Container className="pt-3">
-      <h4>Total Revenue: {state.totalPrice.toLocaleString()} VND</h4>
+      <div className="d-flex justify-content-between align-items-center">
+        <h4>Total Revenue: {state.totalPrice.toLocaleString()} VND</h4>
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary" id="dropdown-sort">
+            Sort Options
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleSortChange('bookingCreateAt', 'DESC')}>
+              Hiển thị giảm dần theo Booking Date
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortChange('bookingCreateAt', 'ASC')}>
+              Hiển thị tăng dần theo Booking Date
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortChange('bookingPrice', 'DESC')}>
+              Hiển thị giảm dần theo Booking Price
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortChange('bookingPrice', 'ASC')}>
+              Hiển thị tăng dần theo Booking Price
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -43,13 +79,22 @@ const SaleDetailTable = () => {
               <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
               <td>{booking.bookingPrice.toLocaleString()} VND</td>
               <td>
-                <Button variant="primary">Details</Button>
+                  <Button variant="primary" onClick={() => handleShowDetails(booking)}>Details</Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
       <TablePagination state={state} dispatch={dispatch} fetch={fetchBookings} />
+
+      {/* Modal for Booking Details */}
+      {selectedBooking && (
+        <SaleDetailModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          booking={selectedBooking}
+        />
+      )}
     </Container>
   )
 }
