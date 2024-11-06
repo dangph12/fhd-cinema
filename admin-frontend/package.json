@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.670.0",
-    "@canvasjs/react-charts": "^1.0.2",
     "@fullcalendar/core": "^6.1.14",
     "@fullcalendar/daygrid": "^6.1.14",
     "@fullcalendar/interaction": "^6.1.14",
@@ -74,6 +73,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@canvasjs/react-charts": "^1.0.2",
     "@types/leaflet": "^1.9.12",
     "@types/node": "^20.14.8",
     "@types/react": "^18.3.3",
