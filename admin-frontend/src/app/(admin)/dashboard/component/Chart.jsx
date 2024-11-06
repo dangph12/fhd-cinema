@@ -90,7 +90,12 @@
 // export default App;
 
 import React, { Component } from 'react';
-import CanvasJSReact from '@canvasjs/react-charts';
+import CanvasJSReact from "@canvasjs/react-charts";
+
+ 
+var CanvasJS = CanvasJSReact.CanvasJS;
+var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+ 
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 

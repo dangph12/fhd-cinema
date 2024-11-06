@@ -209,34 +209,31 @@
 // import VisaBanner from "../home/components/VisaBanner";
 
 // const News = () => {
-//   const [newsList, setNewsList] = useState([]); 
-//   const [categories, setCategories] = useState([]); 
-//   const [selectedCategoryId, setSelectedCategoryId] = useState("all"); 
+//   const [newsList, setNewsList] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [selectedCategoryId, setSelectedCategoryId] = useState("all");
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
 
-  
 //   const fetchCategories = async () => {
 //     try {
 //       const response = await axios.get("http://localhost:8080/newscategories");
-//       setCategories(response.data.data); 
+//       setCategories(response.data.data);
 //     } catch (err) {
 //       console.error("Lỗi khi lấy dữ liệu danh mục:", err);
 //       setError("Không thể tải danh mục.");
 //     }
 //   };
 
-  
 //   const fetchNews = async () => {
 //     try {
 //       const response = await axios.get("http://localhost:8080/news");
 //       const newsData = response.data.data;
 
-      
 //       if (selectedCategoryId === "all") {
 //         setNewsList(newsData);
 //       } else {
-        
+
 //         const filteredNews = newsData.filter(
 //           (news) => news.newsCategory.newsCategoryId === selectedCategoryId
 //         );
@@ -250,13 +247,11 @@
 //     }
 //   };
 
-  
 //   useEffect(() => {
 //     fetchCategories();
-//     fetchNews(); 
+//     fetchNews();
 //   }, []);
 
-  
 //   useEffect(() => {
 //     if (selectedCategoryId) {
 //       fetchNews();
@@ -275,7 +270,6 @@
 //     <div>
 //       <BannerSecond />
 
-      
 //       <div style={{ textAlign: "center", margin: "20px 0" }}>
 //         <select
 //           value={selectedCategoryId}
@@ -288,7 +282,7 @@
 //             marginBottom: "20px",
 //           }}
 //         >
-          
+
 //           <option value="all">Tất cả</option>
 //           {categories.map((category) => (
 //             <option key={category.newsCategoryId} value={category.newsCategoryId}>
@@ -368,7 +362,6 @@
 // };
 
 // export default News;
-
 
 // import React, { useEffect, useState } from "react";
 // import axios from "axios";
@@ -377,34 +370,31 @@
 // import VisaBanner from "../home/components/VisaBanner";
 
 // const News = () => {
-//   const [newsList, setNewsList] = useState([]); 
-//   const [categories, setCategories] = useState([]); 
-//   const [selectedCategoryId, setSelectedCategoryId] = useState("all"); 
+//   const [newsList, setNewsList] = useState([]);
+//   const [categories, setCategories] = useState([]);
+//   const [selectedCategoryId, setSelectedCategoryId] = useState("all");
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
 
-  
 //   const fetchCategories = async () => {
 //     try {
 //       const response = await axios.get("http://localhost:8080/newscategories");
-//       setCategories(response.data.data); 
+//       setCategories(response.data.data);
 //     } catch (err) {
 //       console.error("Lỗi khi lấy dữ liệu danh mục:", err);
 //       setError("Không thể tải danh mục.");
 //     }
 //   };
 
-  
 //   const fetchNews = async () => {
 //     try {
 //       const response = await axios.get("http://localhost:8080/news");
 //       const newsData = response.data.data;
 
-      
 //       if (selectedCategoryId === "all") {
 //         setNewsList(newsData);
 //       } else {
-        
+
 //         const filteredNews = newsData.filter(
 //           (news) => news.newsCategory.newsCategoryId === selectedCategoryId
 //         );
@@ -418,13 +408,11 @@
 //     }
 //   };
 
-  
 //   useEffect(() => {
 //     fetchCategories();
-//     fetchNews(); 
+//     fetchNews();
 //   }, []);
 
-  
 //   useEffect(() => {
 //     if (selectedCategoryId) {
 //       fetchNews();
@@ -443,7 +431,6 @@
 //     <div>
 //       <BannerSecond />
 
-      
 //       <div style={{ textAlign: "center", margin: "20px 0" }}>
 //         <select
 //           value={selectedCategoryId}
@@ -456,7 +443,7 @@
 //             marginBottom: "20px",
 //           }}
 //         >
-          
+
 //           <option value="all">Tất cả</option>
 //           {categories.map((category) => (
 //             <option key={category.newsCategoryId} value={category.newsCategoryId}>
@@ -536,7 +523,6 @@
 // };
 
 // export default News;
-
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -617,7 +603,10 @@ const News = () => {
         >
           <option value="all">Tất cả</option>
           {categories.map((category) => (
-            <option key={category.newsCategoryId} value={category.newsCategoryId}>
+            <option
+              key={category.newsCategoryId}
+              value={category.newsCategoryId}
+            >
               {category.newsCategoryName}
             </option>
           ))}
