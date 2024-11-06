@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import { SaleProvider } from './../context/SaleContext';
 import SearchBar from './../component/SearchBar';
 import SaleDetailTable from './../component/SaleDetailTable';
-import  Chart from './../component/Chart';
 
 function App() {
   return (
@@ -11,8 +10,6 @@ function App() {
       <Routes>
         <Route path="/*" element={
           <>
-            
-            <Chart/>
             <SearchBar />
             <SaleDetailTable />
           </>
