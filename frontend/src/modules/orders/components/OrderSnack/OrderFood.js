@@ -95,7 +95,7 @@ const OrderFood = () => {
   return (
     <Container fluid>
       
-      <h2 className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold' }}>
+      <h2 className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold'}}>
         BƯỚC 3: CHỌN ĐỒ ĂN
       </h2>
       <div className="movie-card">
