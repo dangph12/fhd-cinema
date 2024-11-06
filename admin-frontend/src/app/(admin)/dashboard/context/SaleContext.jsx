@@ -1,13 +1,12 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { createContext, useReducer, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-export const SaleContext = createContext();
+export const SaleContext = createContext()
 
-const pageSize = 10;
+const pageSize = 10
 
 const initialState = {
   bookings: [],
-  movies: [],
   cinemas: [],
   filters: {
     cinemaId: '',
@@ -21,33 +20,31 @@ const initialState = {
   currentPage: 1,
   totalPages: 1,
   totalPrice: 0,
-};
+}
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_BOOKINGS':
-      return { ...state, bookings: action.payload };
-    case 'SET_MOVIES':
-      return { ...state, movies: action.payload };
+      return { ...state, bookings: action.payload }
     case 'SET_CINEMAS':
-      return { ...state, cinemas: action.payload };
+      return { ...state, cinemas: action.payload }
     case 'SET_FILTERS':
-      return { ...state, filters: { ...state.filters, ...action.payload } };
+      return { ...state, filters: { ...state.filters, ...action.payload } }
     case 'SET_CURRENT_PAGE':
-      return { ...state, currentPage: action.payload };
+      return { ...state, currentPage: action.payload }
     case 'SET_TOTAL_PAGES':
-      return { ...state, totalPages: action.payload };
+      return { ...state, totalPages: action.payload }
     case 'SET_TOTAL_PRICE':
-      return { ...state, totalPrice: action.payload };
+      return { ...state, totalPrice: action.payload }
     default:
-      return state;
+      return state
   }
-};
+}
 
 export const SaleProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [state, dispatch] = useReducer(reducer, initialState)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const buildApiUrl = () => {
     const params = new URLSearchParams({
@@ -60,34 +57,54 @@ export const SaleProvider = ({ children }) => {
       endDate: state.filters.endDate || '',
       page: state.currentPage || 1,
       pageSize: pageSize,
-    });
-    return `http://localhost:8080/bookings/view?${params.toString()}`;
-  };
+    })
+    return `http://localhost:8080/bookings/view?${params.toString()}`
+  }
 
   const fetchBookings = async () => {
-    const apiUrl = buildApiUrl();
+    const apiUrl = buildApiUrl()
     try {
-      const response = await fetch(apiUrl);
-      const json = await response.json();
-      if (json.status === "success" && json.data) {
-        dispatch({ type: 'SET_BOOKINGS', payload: json.data.result || [] });
-        dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil((json.data.count || 0) / pageSize) });
-        dispatch({ type: 'SET_TOTAL_PRICE', payload: json.data.totalPrice || 0 });
+      const response = await fetch(apiUrl)
+      const contentType = response.headers.get('content-type')
+      console.log(response)
+      if (contentType && contentType.includes('application/json')) {
+        const json = await response.json()
+        if (json.status === 'success' && json.data) {
+          dispatch({ type: 'SET_BOOKINGS', payload: json.data.result || [] })
+          dispatch({ type: 'SET_TOTAL_PAGES', payload: Math.ceil((json.data.count || 0) / pageSize) })
+          dispatch({ type: 'SET_TOTAL_PRICE', payload: json.data.totalPrice || 0 })
+        } else {
+          console.error('Unexpected API response:', json)
+        }
       } else {
-        console.error('Unexpected API response:', json);
+        console.error('Expected JSON response but received:', response)
       }
     } catch (error) {
-      console.error('Error fetching bookings:', error);
+      console.error('Error fetching bookings:', error)
     }
-  };
+  }
+
+  const fetchCinemas = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/cinemas')
+      const json = await response.json()
+      if (json.status === 'success' && json.data) {
+        dispatch({ type: 'SET_CINEMAS', payload: json.data })
+      } else {
+        console.error('Unexpected API response:', json)
+      }
+    } catch (error) {
+      console.error('Error fetching cinemas:', error)
+    }
+  }
 
   useEffect(() => {
-    fetchBookings();
-  }, [state.currentPage, state.filters]);
+    fetchBookings()
+  }, [state.currentPage, state.filters])
 
-  return (
-    <SaleContext.Provider value={{ state, dispatch, fetchBookings }}>
-      {children}
-    </SaleContext.Provider>
-  );
-};
+  useEffect(() => {
+    fetchCinemas()
+  }, [])
+
+  return <SaleContext.Provider value={{ state, dispatch, fetchBookings }}>{children}</SaleContext.Provider>
+}

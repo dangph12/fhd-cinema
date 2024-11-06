@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
-import { Container, Table } from 'react-bootstrap';
-import { SaleContext } from '../context/SaleContext';
+import React, { useContext } from 'react'
+import { Container, Table } from 'react-bootstrap'
+import { SaleContext } from '../context/SaleContext'
+import TablePagination from '../../tables/common/TablePagination'
 
 const SaleDetailTable = () => {
-  const { state } = useContext(SaleContext);
+  const { state, dispatch, fetchBookings } = useContext(SaleContext)
+
+  const pageSize = 10 // hoặc giá trị số trang mong muốn
 
   return (
     <Container className="pt-3">
@@ -24,28 +27,21 @@ const SaleDetailTable = () => {
         <tbody>
           {state.bookings.map((booking, index) => (
             <tr key={booking.bookingId}>
-              <td>{index + 1}</td>
+              <td>{index + 1 + (state.currentPage - 1) * pageSize}</td>
               <td>{booking.customerName}</td>
               <td>{booking.movieTitle}</td>
               <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
-              <td>
-                {booking.tickets.map(ticket => 
-                  `${ticket.seat.seatType.seatTypeName} (${ticket.seat.seatName})`
-                ).join(', ')}
-              </td>
-              <td>
-                {booking.snacks.map(snack => 
-                  `${snack.snackName}`
-                ).join(', ')}
-              </td>
+              <td>{booking.tickets.map((t) => t.seat.seatName).join(', ')}</td>
+              <td>{booking.snacks.map((s) => s.snackName).join(', ')}</td>
               <td>{booking.tickets.length}</td>
               <td>{booking.bookingPrice.toLocaleString()} VND</td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <TablePagination state={state} dispatch={dispatch} fetch={fetchBookings} />
     </Container>
-  );
-};
+  )
+}
 
-export default SaleDetailTable;
+export default SaleDetailTable
