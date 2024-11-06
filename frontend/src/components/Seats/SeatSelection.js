@@ -28,7 +28,7 @@ const SeatSelection = () => {
     useEffect(() => {
         // Retrieve customerId from sessionStorage if not passed in location.state
         if (!customerId) {
-            const storedAccount = localStorage.getItem("account");
+            const storedAccount = sessionStorage.getItem("account") || localStorage.getItem("account");
             if (storedAccount) {
                 const account = JSON.parse(storedAccount); // Parse the account object
                 const storedCustomerId = account.customer?.customerId; // Access customerId from account object
