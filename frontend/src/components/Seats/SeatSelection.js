@@ -128,6 +128,8 @@ const SeatSelection = () => {
 
     return (
         <Container fluid>
+ 
+            <Card.Title className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold',color: '#3b8d00'  }}>BƯỚC 2: CHỌN GHẾ</Card.Title>
             <div className="movie-card">
           <img
             src={movieDetails?.moviePosterUrl}
@@ -163,7 +165,6 @@ const SeatSelection = () => {
             </div>
           )}
         </div>
-            <Card.Title className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold' }}>BƯỚC 2: CHỌN GHẾ</Card.Title>
             <Row>
                 <Col xs={12} lg={8} className="seat-selection-column d-flex flex-column">
                     <Col xs={12} lg={12} className="mb-3">
