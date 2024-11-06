@@ -66,7 +66,7 @@ const SearchBar = () => {
 
   return (
     <Container className="pt-3">
-      <h1 style={{textAlign: "center"}}> Sale Table</h1>
+      <h1 style={{textAlign: "center"}}> Analytic Table</h1>
       <Row>
         <Col md={4}>
           <AsyncSelect
