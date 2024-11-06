@@ -63,6 +63,7 @@ export const SaleProvider = ({ children }) => {
 
   const fetchBookings = async () => {
     const apiUrl = buildApiUrl()
+    console.log(apiUrl)
     try {
       const response = await fetch(apiUrl)
       const contentType = response.headers.get('content-type')

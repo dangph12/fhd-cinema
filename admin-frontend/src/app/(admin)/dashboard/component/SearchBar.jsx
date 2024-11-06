@@ -8,10 +8,20 @@ const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
   const [selectedMovie, setSelectedMovie] = useState(null)
 
+  // Hàm format date thành LocalDateTime cho Spring Boot
+  const formatToLocalDateTime = (date) => {
+    if (!date) return '' // Nếu giá trị là chuỗi rỗng, trả về chuỗi rỗng
+    const d = new Date(date)
+    const offset = d.getTimezoneOffset()
+    const adjustedDate = new Date(d.getTime() - offset * 60 * 1000) // Adjust for timezone
+    return adjustedDate.toISOString().slice(0, 19) // format to "YYYY-MM-DDTHH:MM:SS"
+  }
+
   // Hàm cập nhật các trường khác
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    dispatch({ type: 'SET_FILTERS', payload: { [name]: value } })
+    const formattedValue = name === 'startDate' || name === 'endDate' ? formatToLocalDateTime(value) : value
+    dispatch({ type: 'SET_FILTERS', payload: { [name]: formattedValue } })
   }
 
   // Xóa dữ liệu cũ và lấy dữ liệu mới khi thay đổi Movie
@@ -74,10 +84,7 @@ const SearchBar = () => {
             type="date"
             name="startDate"
             placeholder="Start Date"
-            onChange={(e) => {
-              handleInputChange(e)
-              fetchBookings()
-            }}
+            onChange={(e) => handleInputChange(e)}
           />
         </Col>
         <Col md={4}>
@@ -85,10 +92,7 @@ const SearchBar = () => {
             type="date"
             name="endDate"
             placeholder="End Date"
-            onChange={(e) => {
-              handleInputChange(e)
-              fetchBookings()
-            }}
+            onChange={(e) => handleInputChange(e)}
           />
         </Col>
       </Row>
@@ -107,20 +111,14 @@ const SearchBar = () => {
           <FormControl
             placeholder="Enter booking ID"
             name="bookingId"
-            onChange={(e) => {
-              handleInputChange(e)
-              fetchBookings()
-            }}
+            onChange={(e) => handleInputChange(e)}
           />
         </Col>
         <Col md={4}>
           <FormControl
             placeholder="Customer Phone"
             name="customerPhone"
-            onChange={(e) => {
-              handleInputChange(e)
-              fetchBookings()
-            }}
+            onChange={(e) => handleInputChange(e)}
           />
         </Col>
       </Row>
@@ -129,10 +127,7 @@ const SearchBar = () => {
           <FormControl
             placeholder="Customer Email"
             name="customerEmail"
-            onChange={(e) => {
-              handleInputChange(e)
-              fetchBookings()
-            }}
+            onChange={(e) => handleInputChange(e)}
           />
         </Col>
       </Row>
