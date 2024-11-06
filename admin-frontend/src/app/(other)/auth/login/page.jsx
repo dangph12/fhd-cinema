@@ -21,7 +21,7 @@ const Login = () => {
           <CardBody className="pt-0">
             <LoginForm />
 
-            <div className="text-center  mb-2">
+            {/* <div className="text-center  mb-2">
               <p className="text-muted">
                 Don&apos;t have an account ?&nbsp;
                 <Link to="/auth/register" className="text-primary ms-2">
@@ -40,7 +40,7 @@ const Login = () => {
               <span role="button" className="d-flex justify-content-center align-items-center thumb-md bg-danger-subtle text-danger rounded-circle">
                 <IconifyIcon icon="fa6-brands:google" className="align-self-center" />
               </span>
-            </div>
+            </div> */}
           </CardBody>
         </Card>
       </Col>
