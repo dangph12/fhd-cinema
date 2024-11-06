@@ -1,10 +1,13 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container, Table, Button, Dropdown } from 'react-bootstrap'
 import { SaleContext } from '../context/SaleContext'
 import TablePagination from '../../tables/common/TablePagination'
+import SaleDetailModal from '../modals/SaleDetailModal'
 
 const SaleDetailTable = () => {
   const { state, dispatch, fetchBookings } = useContext(SaleContext)
+  const [showModal, setShowModal] = useState(false)
+  const [selectedBooking, setSelectedBooking] = useState(null)
 
   const pageSize = 10 // hoặc giá trị số trang mong muốn
 
@@ -17,6 +20,11 @@ const SaleDetailTable = () => {
     dispatch({ type: 'SET_FILTERS', payload: { sortBy, sortDirection } })
     dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 }) // Reset về trang đầu khi thay đổi sắp xếp
     fetchBookings()
+  }
+
+  const handleShowDetails = (booking) => {
+    setSelectedBooking(booking)
+    setShowModal(true)
   }
 
   return (
@@ -71,13 +79,22 @@ const SaleDetailTable = () => {
               <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
               <td>{booking.bookingPrice.toLocaleString()} VND</td>
               <td>
-                <Button variant="primary">Details</Button>
+                  <Button variant="primary" onClick={() => handleShowDetails(booking)}>Details</Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
       <TablePagination state={state} dispatch={dispatch} fetch={fetchBookings} />
+
+      {/* Modal for Booking Details */}
+      {selectedBooking && (
+        <SaleDetailModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          booking={selectedBooking}
+        />
+      )}
     </Container>
   )
 }
