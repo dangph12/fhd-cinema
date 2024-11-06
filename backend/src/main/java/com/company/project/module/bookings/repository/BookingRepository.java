@@ -58,10 +58,10 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
       + "WHERE (:startDate IS NULL OR b.bookingCreateAt >= :startDate) "
       + "AND (:endDate IS NULL OR b.bookingCreateAt <= :endDate) "
       + "AND (:movieId IS NULL OR m.movieId = :movieId) "
-      + "AND (:customerPhone IS NULL OR c.customerPhone = :customerPhone) "
-      + "AND (:customerEmail IS NULL OR c.customerEmail = :customerEmail) "
+      + "AND (:customerPhone IS NULL OR c.customerPhone LIKE CONCAT('%', :customerPhone, '%')) "
+      + "AND (:customerEmail IS NULL OR c.customerEmail LIKE CONCAT('%', :customerEmail, '%')) "
       + "AND (:cinemaId IS NULL OR ci.cinemaId = :cinemaId) "
-      + "AND (:bookingId IS NULL OR b.bookingId = :bookingId) "
+      + "AND (:bookingId IS NULL OR b.bookingId LIKE CONCAT('%', :bookingId, '%')) "
       + "AND bill.isPaid = true")
   Page<Booking> searchBookings(
       @Param("startDate") LocalDateTime startDate,
