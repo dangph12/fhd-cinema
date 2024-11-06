@@ -24,6 +24,8 @@ import lombok.experimental.FieldDefaults;
 public class BookingInfoDto {
     String bookingId;
     String customerName;
+    String customerPhone;
+    String customerEmail;
     String movieTitle;
     int bookingPrice;
     LocalDateTime bookingCreateAt;

@@ -72,6 +72,8 @@ public class BookingService {
         .snacks(booking.getSnacks())
         .showtime(booking.getShowtime())
         .customerName(booking.getCustomer().getCustomerName())
+        .customerPhone(booking.getCustomer().getCustomerPhone())
+        .customerEmail(booking.getCustomer().getCustomerEmail())
         .movieTitle(booking.getShowtime().getMovie().getMovieTitle())
         .build();
   }
