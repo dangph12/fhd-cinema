@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.670.0",
+    "@canvasjs/react-charts": "^1.0.2",
     "@fullcalendar/core": "^6.1.14",
     "@fullcalendar/daygrid": "^6.1.14",
     "@fullcalendar/interaction": "^6.1.14",
@@ -66,6 +67,7 @@
     "react-sweetalert2": "^0.6.0",
     "react-text-mask": "^5.5.0",
     "sass": "^1.77.6",
+    "save": "^2.9.0",
     "simplebar-react": "^3.2.6",
     "sonner": "^1.5.0",
     "sortablejs": "^1.15.2",
