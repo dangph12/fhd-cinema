@@ -115,6 +115,9 @@ import VisaBanner from "../home/components/VisaBanner";
 import Youtube from "./Youtube";
 
 const OrderTicket = () => {
+  window.scrollTo(0, 0);
+
+
   sessionStorage.removeItem("billId");
 
   const navigate = useNavigate();

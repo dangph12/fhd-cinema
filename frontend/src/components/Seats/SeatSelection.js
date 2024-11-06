@@ -22,6 +22,7 @@ const SeatSelection = () => {
     const movieTitle = movieDetails?.movieTitle || 'Unknown Movie Title';
     const moviePosterUrl = movieDetails?.moviePosterUrl || '';
 
+    window.scrollTo(0, 0);
 
 
     useEffect(() => {
@@ -127,6 +128,41 @@ const SeatSelection = () => {
 
     return (
         <Container fluid>
+            <div className="movie-card">
+          <img
+            src={movieDetails?.moviePosterUrl}
+            alt="Movie Poster"
+            className="movie-poster"
+          />
+
+          {movieDetails && (
+            <div className="movie-details">
+              <h3 className="movie-title">{movieDetails.movieTitle}</h3>
+              <p className="movie-description">{movieDetails.movieDescription}</p>
+              <p>
+                <strong>Đạo diễn:</strong>{" "}
+                <a href="#">{movieDetails.movieDirector}</a>
+              </p>
+              <p>
+                <strong>Diễn viên:</strong> <a href="#">Blake Lively</a>,{" "}
+                <a href="#">Justin Baldoni</a>
+              </p>
+              <p>
+                <strong>Thể loại:</strong> <a href="#">{movieDetails.movieGenre}</a>
+              </p>
+              <p>
+                <strong>Khởi chiếu:</strong> {movieDetails.movieReleaseDate} |{" "}
+                <strong>Thời lượng:</strong> 130 phút
+              </p>
+              <p>
+                <strong>Định Dạng:</strong> {movieDetails.movieFormat}
+              </p>
+              <button className="movie-button" onClick={() => navigate("/")}>
+                ← CHỌN PHIM KHÁC
+              </button>
+            </div>
+          )}
+        </div>
             <Card.Title className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold' }}>BƯỚC 2: CHỌN GHẾ</Card.Title>
             <Row>
                 <Col xs={12} lg={8} className="seat-selection-column d-flex flex-column">

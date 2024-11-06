@@ -17,7 +17,7 @@ function Ticket() {
   const billId = sessionStorage.getItem("billId");
   const totalTicketPrice = sessionStorage.getItem("totalTicketPrice");
   const customerId = sessionStorage.getItem("customerId");
-
+  window.scrollTo(0, 0);
   useEffect(() => {
     const fetchBookingId = async () => {
       try {

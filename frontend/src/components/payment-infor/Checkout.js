@@ -23,7 +23,7 @@ const Checkout = () => {
     sessionStorage.setItem('moviePosterUrl', moviePosterUrl);
     sessionStorage.setItem('totalTicketPrice', totalTicketPrice);
 
-
+    window.scrollTo(0, 0);
 
     const createBill = async () => {
         try {

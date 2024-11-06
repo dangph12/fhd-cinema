@@ -29,6 +29,7 @@ const OrderFood = () => {
   const [snacks, setSnacks] = useState([]);
   const [quantity, setQuantity] = useState({});
   const { setCheckoutData } = useCheckout();
+  window.scrollTo(0, 0);
 
   useEffect(() => {
     const fetchSnacks = async () => {
@@ -93,9 +94,45 @@ const OrderFood = () => {
 
   return (
     <Container fluid>
+      
       <h2 className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold' }}>
         BƯỚC 3: CHỌN ĐỒ ĂN
       </h2>
+      <div className="movie-card">
+          <img
+            src={movieDetails?.moviePosterUrl}
+            alt="Movie Poster"
+            className="movie-poster"
+          />
+
+          {movieDetails && (
+            <div className="movie-details">
+              <h3 className="movie-title">{movieDetails.movieTitle}</h3>
+              <p className="movie-description">{movieDetails.movieDescription}</p>
+              <p>
+                <strong>Đạo diễn:</strong>{" "}
+                <a href="#">{movieDetails.movieDirector}</a>
+              </p>
+              <p>
+                <strong>Diễn viên:</strong> <a href="#">Blake Lively</a>,{" "}
+                <a href="#">Justin Baldoni</a>
+              </p>
+              <p>
+                <strong>Thể loại:</strong> <a href="#">{movieDetails.movieGenre}</a>
+              </p>
+              <p>
+                <strong>Khởi chiếu:</strong> {movieDetails.movieReleaseDate} |{" "}
+                <strong>Thời lượng:</strong> 130 phút
+              </p>
+              <p>
+                <strong>Định Dạng:</strong> {movieDetails.movieFormat}
+              </p>
+              <button className="movie-button" onClick={() => navigate("/")}>
+                ← CHỌN PHIM KHÁC
+              </button>
+            </div>
+          )}
+        </div>
       <Row>
         <Col md={8}>
           <SnackList snacks={snacks} quantity={quantity} onQuantityChange={handleQuantityChange} />
