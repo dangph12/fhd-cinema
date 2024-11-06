@@ -519,7 +519,7 @@
 
 //       <VisaBanner />
 //     </div>
-//   );
+//   ); 
 // };
 
 // export default News;
