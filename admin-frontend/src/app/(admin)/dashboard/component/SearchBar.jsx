@@ -56,7 +56,7 @@ const SearchBar = () => {
 
   return (
     <Container className="pt-3">
-      <h1 style={{textAlign: "center"}}> Total Revenue By Cinema</h1>
+      <h1 style={{textAlign: "center"}}> Total Revenue</h1>
       <Row>
         <Col md={4}>
           <AsyncSelect
