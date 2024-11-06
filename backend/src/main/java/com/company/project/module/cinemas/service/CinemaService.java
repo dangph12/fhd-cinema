@@ -7,6 +7,7 @@ import com.company.project.common.ApiPagination;
 import com.company.project.common.Status;
 import com.company.project.module.cinemas.common.CinemaStatusMessage;
 import com.company.project.module.cinemas.dto.request.CinemaCreationRequest;
+import com.company.project.module.cinemas.dto.request.CinemaUpdateRequest;
 import com.company.project.module.cinemas.dto.response.CinemaDto;
 import com.company.project.module.cinemas.entity.Cinema;
 import com.company.project.module.cinemas.exception.CinemaException;
@@ -14,6 +15,7 @@ import com.company.project.module.cinemas.repository.CinemaRepository;
 import com.company.project.module.locations.common.LocationStatusMessage;
 import com.company.project.module.locations.entity.Location;
 import com.company.project.module.locations.repository.LocationRepository;
+import com.company.project.module.locations.service.LocationService;
 import com.company.project.utils.Utils;
 
 import org.modelmapper.ModelMapper;
@@ -31,13 +33,15 @@ public class CinemaService {
   private final LocationRepository locationRepository;
   private final Utils utils;
   private final ModelMapper modelMapper;
+  private final LocationService locationService;
 
   public CinemaService(CinemaRepository cinemaRepository, LocationRepository locationRepository, Utils utils,
-      ModelMapper modelMapper) {
+      ModelMapper modelMapper, LocationService locationService) {
     this.cinemaRepository = cinemaRepository;
     this.locationRepository = locationRepository;
     this.utils = utils;
     this.modelMapper = modelMapper;
+    this.locationService = locationService;
   }
 
   private CinemaDto convertToCinemaDto(Cinema cinema) {
@@ -97,8 +101,7 @@ public class CinemaService {
       throw new CinemaException(Status.FAIL.getValue(), CinemaStatusMessage.CINEMA_EXIST.getMessage());
     }
 
-    Location location = locationRepository.findById(request.getLocationId())
-        .orElseThrow(() -> new CinemaException(Status.FAIL.getValue(), "Invalid Location ID"));
+    Location location = locationService.create(request.getLocationName());
 
     Cinema cinema = Cinema.builder()
         .location(location)
@@ -109,7 +112,7 @@ public class CinemaService {
     return this.convertToCinemaDto(cinema);
   }
 
-  public CinemaDto updateCinema(String cinemaId, CinemaCreationRequest request) {
+  public CinemaDto updateCinema(String cinemaId, CinemaUpdateRequest request) {
     Cinema existedCinema = this.getCinemaById(cinemaId);
 
     if (!existedCinema.getCinemaName().equals(request.getCinemaName()) &&

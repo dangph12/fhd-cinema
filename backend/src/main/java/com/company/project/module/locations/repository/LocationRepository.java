@@ -13,4 +13,5 @@ public interface LocationRepository extends JpaRepository<Location, String> {
     boolean existsByLocationId(String locationId);
     Page<Location> findByLocationNameContainingIgnoreCase(String locationName, Pageable pageable);
     long countByLocationNameContainingIgnoreCase(String locationName);
+    Location findByLocationName(String locationName);
 }
