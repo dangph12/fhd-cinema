@@ -106,7 +106,6 @@
 
 // export default OrderTicket;
 
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactPlayer from "react-player/youtube";
@@ -116,6 +115,8 @@ import VisaBanner from "../home/components/VisaBanner";
 import Youtube from "./Youtube";
 
 const OrderTicket = () => {
+  window.scrollTo(0, 0);
+
 
   sessionStorage.removeItem("billId");
 
@@ -124,7 +125,6 @@ const OrderTicket = () => {
   const [movieDetails, setMovieDetails] = useState(null); // State to store movie details
 
   useEffect(() => {
-    
     const sessionAccount = sessionStorage.getItem("account");
     const localAccount = localStorage.getItem("account");
 
@@ -163,7 +163,12 @@ const OrderTicket = () => {
           {movieDetails && (
             <div className="movie-details">
               <h3 className="movie-title">{movieDetails.movieTitle}</h3>
-              <p className="movie-description">{movieDetails.movieDescription}</p>
+              <p
+                className="movie-description"
+                dangerouslySetInnerHTML={{
+                  __html: movieDetails.movieDescription,
+                }}
+              ></p>
               <p>
                 <strong>Đạo diễn:</strong>{" "}
                 <a href="#">{movieDetails.movieDirector}</a>
@@ -173,7 +178,8 @@ const OrderTicket = () => {
                 <a href="#">Justin Baldoni</a>
               </p>
               <p>
-                <strong>Thể loại:</strong> <a href="#">{movieDetails.movieGenre}</a>
+                <strong>Thể loại:</strong>{" "}
+                <a href="#">{movieDetails.movieGenre}</a>
               </p>
               <p>
                 <strong>Khởi chiếu:</strong> {movieDetails.movieReleaseDate} |{" "}

@@ -3176,7 +3176,7 @@ function Users() {
             <div className="d-flex">
               <div className="mr-3">
                 <img
-                  style={{ width: "100px", borderRadius: "50%" }}
+                  style={{ width: "35%", borderRadius: "50%" }}
                   src={profileImage || "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"}
                   alt="User Avatar"
                 />
