@@ -22,10 +22,11 @@ const SeatSelection = () => {
     const movieTitle = movieDetails?.movieTitle || 'Unknown Movie Title';
     const moviePosterUrl = movieDetails?.moviePosterUrl || '';
 
-    window.scrollTo(0, 0);
+    
 
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         // Retrieve customerId from sessionStorage if not passed in location.state
         if (!customerId) {
             const storedAccount = sessionStorage.getItem("account") || localStorage.getItem("account");

@@ -27,11 +27,17 @@ const Checkout = () => {
 
     const createBill = async () => {
         try {
+            // convert snacks to snackIds for number of snackId is quantity of snack in one array
+            // acc is store all snackIds
+            const snackIdsForBill = snacks.reduce((acc, snack) => {
+                const quantity = snack.quantity || 0;
+                return [...acc, ...Array(quantity).fill(snack.snackId)];
+            }, []);
             const billResponse = await axios.post('http://localhost:8080/bills', {
                 showtimeId: showtimeDetails.showtimeId,
                 customerId: customerId,
                 seatIds: selectedSeats.map(seat => seat.seatId),
-                snackIds: snacks.map(snack => snack.snackId),
+                snackIds: snackIdsForBill,
             });
             sessionStorage.setItem('customerId', customerId);
             if (billResponse.data.status === 'fail') {
