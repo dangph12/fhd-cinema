@@ -194,7 +194,8 @@ public class BookingService {
     Sort.Direction direction = Sort.Direction.fromString(sortDirection);
     Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
 
-    Page<Booking> bookingPages = bookingRepository.searchBookings(startDate, endDate, emptyToNull(movieId), emptyToNull(customerPhone),
+    Page<Booking> bookingPages = bookingRepository.searchBookings(startDate, endDate, emptyToNull(movieId),
+        emptyToNull(customerPhone),
         emptyToNull(customerEmail), emptyToNull(cinemaId), emptyToNull(bookingId), pageable);
     long count = bookingPages.getTotalElements();
 
@@ -206,6 +207,24 @@ public class BookingService {
         .result(bookingInfoDtos)
         .totalPrice(this.calculateTotalPayment(bookingInfoDtos))
         .count(count)
+        .build();
+  }
+
+  public ApiViewBooking<BookingInfoDto> getBookingsByCustomerId(String customerId) {
+    if (customerId == null || customerId.isEmpty()) {
+      throw new BookingException(Status.FAIL.getValue(), BookingStatusMessage.EMPTY_CUSTOMER.getMessage());
+    }
+
+    List<Booking> bookings = bookingRepository.searchBookingsByCustomerId(customerId);
+
+    List<BookingInfoDto> bookingInfoDtos = bookings.stream()
+        .map(this::convertToBookingInforDto)
+        .collect(Collectors.toList());
+
+    return ApiViewBooking.<BookingInfoDto>builder()
+        .result(bookingInfoDtos)
+        .totalPrice(this.calculateTotalPayment(bookingInfoDtos))
+        .count(bookingInfoDtos.size())
         .build();
   }
 
