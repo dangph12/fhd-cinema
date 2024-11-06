@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Container, Table } from 'react-bootstrap'
+import React, { useContext, useEffect } from 'react'
+import { Container, Table, Button } from 'react-bootstrap'
 import { SaleContext } from '../context/SaleContext'
 import TablePagination from '../../tables/common/TablePagination'
 
@@ -7,6 +7,10 @@ const SaleDetailTable = () => {
   const { state, dispatch, fetchBookings } = useContext(SaleContext)
 
   const pageSize = 10 // hoặc giá trị số trang mong muốn
+
+  useEffect(() => {
+    fetchBookings(); // Fetch bookings khi component mount hoặc trang thay đổi
+  }, [state.currentPage]);
 
   return (
     <Container className="pt-3">
@@ -17,11 +21,13 @@ const SaleDetailTable = () => {
             <th>No</th>
             <th>Customer Name</th>
             <th>Movie Title</th>
+            <th>Cinema</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Booking ID</th>
             <th>Booking Date</th>
-            <th>Ticket</th>
-            <th>Snacks</th>
-            <th>Ticket Quantity</th>
             <th>Booking Price</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -30,11 +36,15 @@ const SaleDetailTable = () => {
               <td>{index + 1 + (state.currentPage - 1) * pageSize}</td>
               <td>{booking.customerName}</td>
               <td>{booking.movieTitle}</td>
+              <td>{booking.showtime.screen.cinema.cinemaName}</td>
+              <td>{booking.customerPhone}</td>
+              <td>{booking.customerEmail}</td>
+              <td>{booking.bookingId}</td>
               <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
-              <td>{booking.tickets.map((t) => t.seat.seatName).join(', ')}</td>
-              <td>{booking.snacks.map((s) => s.snackName).join(', ')}</td>
-              <td>{booking.tickets.length}</td>
               <td>{booking.bookingPrice.toLocaleString()} VND</td>
+              <td>
+                <Button variant="primary">Details</Button>
+              </td>
             </tr>
           ))}
         </tbody>
