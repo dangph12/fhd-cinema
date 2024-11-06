@@ -1,58 +1,57 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Container, Row, Col, Card, CardHeader, CardBody, CardTitle } from 'react-bootstrap';
-import ReactTable from '@/components/Table';
-import { SaleContext } from '../context/SaleContext';
-import TablePagination from '../../tables/common/TablePagination';
+import React, { useContext, useEffect } from 'react'
+import { Container, Table, Button } from 'react-bootstrap'
+import { SaleContext } from '../context/SaleContext'
+import TablePagination from '../../tables/common/TablePagination'
 
 const SaleDetailTable = () => {
-  const { state, dispatch, fetchSales, updateQueryParams } = useContext(SaleContext);
-  const [showDetailModal, setShowDetailModal] = useState({ movieId: null, show: false });
+  const { state, dispatch, fetchBookings } = useContext(SaleContext)
+
+  const pageSize = 10 // hoặc giá trị số trang mong muốn
 
   useEffect(() => {
-    fetchSales();
+    fetchBookings(); // Fetch bookings khi component mount hoặc trang thay đổi
   }, [state.currentPage]);
 
-  const columns = [
-    {
-      header: 'Movie Title',
-      accessorKey: 'movie.movieTitle',
-    },
-    {
-      header: 'Total Revenue',
-      accessorKey: 'totalRevenue',
-    },
-  ];
-
-  if (!state || !state.sales) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <Container>
-      <Row className="justify-content-center">
-        <Col xs={12}>
-          <Card>
-            <CardHeader>
-              <Row className="align-items-center">
-                <Col>
-                  <CardTitle as="h4">Sale Details</CardTitle>
-                </Col>
-              </Row>
-            </CardHeader>
-            <CardBody className="pt-0">
-              <ReactTable columns={columns} data={state.sales} />
-              <TablePagination
-                state={state}
-                dispatch={dispatch}
-                fetch={fetchSales}
-                updateQueryParams={updateQueryParams}
-              />
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
+    <Container className="pt-3">
+      <h4>Total Revenue: {state.totalPrice.toLocaleString()} VND</h4>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Customer Name</th>
+            <th>Movie Title</th>
+            <th>Cinema</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Booking ID</th>
+            <th>Booking Date</th>
+            <th>Booking Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {state.bookings.map((booking, index) => (
+            <tr key={booking.bookingId}>
+              <td>{index + 1 + (state.currentPage - 1) * pageSize}</td>
+              <td>{booking.customerName}</td>
+              <td>{booking.movieTitle}</td>
+              <td>{booking.showtime.screen.cinema.cinemaName}</td>
+              <td>{booking.customerPhone}</td>
+              <td>{booking.customerEmail}</td>
+              <td>{booking.bookingId}</td>
+              <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
+              <td>{booking.bookingPrice.toLocaleString()} VND</td>
+              <td>
+                <Button variant="primary">Details</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <TablePagination state={state} dispatch={dispatch} fetch={fetchBookings} />
     </Container>
-  );
-};
+  )
+}
 
-export default SaleDetailTable;
+export default SaleDetailTable

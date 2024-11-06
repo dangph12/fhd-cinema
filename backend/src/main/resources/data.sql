@@ -688,10 +688,10 @@ INSERT INTO `fhd_cinema`.`customers`
 (`customer_id`, `account_id`, `customer_phone`, `customer_name`, `customer_email`)
 VALUES
 ('77aed232-74e0-11ef-bc52-0242ac110002', '77ad8674-74e0-11ef-bc52-0242ac110002', '0123456789', 'John Doe', 'dubo01689@gmail.com'),
-('77aee0db-74e0-11ef-bc52-0242ac110002', '77ad8fc8-74e0-11ef-bc52-0242ac110002', '0123456789', 'Jane Smith', 'jane.smith@example.com'),
-('77aee4c4-74e0-11ef-bc52-0242ac110002', '77ad9225-74e0-11ef-bc52-0242ac110002', '0123456789', 'Alice Walker', 'alice.walker@example.com'),
-('77aee6c1-74e0-11ef-bc52-0242ac110002', '77ad935a-74e0-11ef-bc52-0242ac110002', '0123456789', 'Bob Jones', 'bob.jones@example.com'),
-('77aee9ce-74e0-11ef-bc52-0242ac110002', '77ad9471-74e0-11ef-bc52-0242ac110002', '0123456789', 'Chris Evans', 'chris.evans@example.com');
+('77aee0db-74e0-11ef-bc52-0242ac110002', '77ad8fc8-74e0-11ef-bc52-0242ac110002', '0132456789', 'Jane Smith', 'jane.smith@example.com'),
+('77aee4c4-74e0-11ef-bc52-0242ac110002', '77ad9225-74e0-11ef-bc52-0242ac110002', '0321456789', 'Alice Walker', 'alice.walker@example.com'),
+('77aee6c1-74e0-11ef-bc52-0242ac110002', '77ad935a-74e0-11ef-bc52-0242ac110002', '0312456789', 'Bob Jones', 'bob.jones@example.com'),
+('77aee9ce-74e0-11ef-bc52-0242ac110002', '77ad9471-74e0-11ef-bc52-0242ac110002', '0133456789', 'Chris Evans', 'chris.evans@example.com');
 
 INSERT INTO `fhd_cinema`.`bookings`
 (`booking_id`, `showtime_id`, `customer_id`, `booking_price`, `booking_create_at`)
@@ -712,11 +712,11 @@ VALUES
 
 INSERT INTO `fhd_cinema`.`bills` (`bill_id`, `bill_amount`, `is_paid`, `bill_created_at`, `booking_id`)
 VALUES
-('f0bd5db8-7c1e-11ef-98e7-0242ac110002', 96000, 0, '2024-09-17 14:05:00', '77afbbd1-74e0-11ef-bc52-0242ac110002'),
-('f0bd63f3-7c1e-11ef-98e7-0242ac110002', 105000, 0, '2024-09-17 16:05:00', '77afc763-74e0-11ef-bc52-0242ac110002'),
-('f0bd65fa-7c1e-11ef-98e7-0242ac110002', 67500, 0, '2024-09-17 18:05:00', '77afcc45-74e0-11ef-bc52-0242ac110002'),
-('f0bd6771-7c1e-11ef-98e7-0242ac110002', 162000, 0, '2024-09-17 20:05:00', '77afced6-74e0-11ef-bc52-0242ac110002'),
-('f0bd68d8-7c1e-11ef-98e7-0242ac110002', 150500, 0, '2024-09-17 22:05:00', '77afd161-74e0-11ef-bc52-0242ac110002');
+('f0bd5db8-7c1e-11ef-98e7-0242ac110002', 96000, 1, '2024-09-17 14:05:00', '77afbbd1-74e0-11ef-bc52-0242ac110002'),
+('f0bd63f3-7c1e-11ef-98e7-0242ac110002', 105000, 1, '2024-09-17 16:05:00', '77afc763-74e0-11ef-bc52-0242ac110002'),
+('f0bd65fa-7c1e-11ef-98e7-0242ac110002', 67500, 1, '2024-09-17 18:05:00', '77afcc45-74e0-11ef-bc52-0242ac110002'),
+('f0bd6771-7c1e-11ef-98e7-0242ac110002', 162000, 1, '2024-09-17 20:05:00', '77afced6-74e0-11ef-bc52-0242ac110002'),
+('f0bd68d8-7c1e-11ef-98e7-0242ac110002', 150500, 1, '2024-09-17 22:05:00', '77afd161-74e0-11ef-bc52-0242ac110002');
 
 INSERT INTO `fhd_cinema`.`bills_vouchers`
 (`bill_id`, `voucher_id`)

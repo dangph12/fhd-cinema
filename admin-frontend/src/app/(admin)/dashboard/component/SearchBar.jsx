@@ -1,67 +1,143 @@
-import React, { useContext } from 'react';
-import { Form, FormControl, Container, Row, Col } from 'react-bootstrap';
-import { SaleContext } from '../context/SaleContext';
+import React, { useContext, useState } from 'react'
+import { Form, FormControl, Container, Row, Col } from 'react-bootstrap'
+import AsyncSelect from 'react-select/async'
+import { SaleContext } from '../context/SaleContext'
 
 const SearchBar = () => {
-  const { state, dispatch, updateQueryParams } = useContext(SaleContext);
+  const { state, dispatch, fetchBookings } = useContext(SaleContext)
+  const [inputValue, setInputValue] = useState('')
+  const [selectedMovie, setSelectedMovie] = useState(null)
 
-  const handleSearch = (event) => {
-    const query = event.target.value;
-    dispatch({ type: 'SET_QUERY', payload: query });
-    updateQueryParams({ query, page: 1 });
-  };
+  // Hàm cập nhật các trường khác
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    dispatch({ type: 'SET_FILTERS', payload: { [name]: value } })
+  }
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleSearch(event);
+  // Xóa dữ liệu cũ và lấy dữ liệu mới khi thay đổi Movie
+  const handleSelectMovie = (selectedOption) => {
+    setSelectedMovie(selectedOption || '')
+    dispatch({ type: 'SET_BOOKINGS', payload: [] }) // Xóa kết quả cũ
+    if (selectedOption) {
+      dispatch({ type: 'SET_FILTERS', payload: { movieId: selectedOption ? selectedOption.value : '' } })
+      console.log(selectedOption.value)
     }
-  };
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 }) // Reset trang về 1
+  }
 
-  const handleCinemaChange = (event) => {
-    const selectedCinema = event.target.value;
-    dispatch({ type: 'SET_FILTERS', payload: { cinema: selectedCinema } });
-    updateQueryParams({ cinema: selectedCinema, page: 1 });
-  };
+  // Xóa dữ liệu cũ và lấy dữ liệu mới khi thay đổi Cinema
+  const handleSelectCinema = (e) => {
+    const selectedCinemaId = e.target.value
+    dispatch({ type: 'SET_BOOKINGS', payload: [] }) // Xóa kết quả cũ
+    dispatch({ type: 'SET_FILTERS', payload: { cinemaId: selectedCinemaId } })
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 }) // Reset trang về 1
+  }
 
-  const handleDateChange = (event) => {
-    const { name, value } = event.target;
-    dispatch({ type: 'SET_FILTERS', payload: { [name]: value } });
-    updateQueryParams({ [name]: value, page: 1 });
-  };
+  const loadMovies = async (inputValue) => {
+    try {
+      const response = await fetch(`http://localhost:8080/movies?search=${inputValue}&pageSize=10`)
+      const json = await response.json()
+
+      if (json.data && Array.isArray(json.data.result)) {
+        const options = json.data.result.map((movie) => ({
+          label: movie.movieTitle,
+          value: movie.movieId,
+        }))
+        return [{ label: 'All Movies', value: '' }, ...options]
+      } else {
+        console.warn('Unexpected data format:', json)
+        return [{ label: 'All Movies', value: '' }]
+      }
+    } catch (error) {
+      console.error('Error fetching movies:', error)
+      return [{ label: 'All Movies', value: '' }]
+    }
+  }
 
   return (
     <Container className="pt-3">
       <h1 style={{textAlign: "center"}}> Total Revenue By Cinema</h1>
       <Row>
-        <Col md={6}>
-          <FormControl
-            className="p-3 mb-3 rounded"
-            size="lg"
-            type="text"
+        <Col md={4}>
+          <AsyncSelect
+            cacheOptions
+            loadOptions={loadMovies}
+            onChange={handleSelectMovie}
+            onInputChange={setInputValue}
+            value={selectedMovie}
             placeholder="Search by movie title"
-            value={state.query}
-            onChange={handleSearch}
-            onKeyDown={handleKeyDown}
+            isClearable
           />
         </Col>
-        <Col md={6}>
-          <Form.Select
-            className="p-3 mb-3 rounded bg-body text-dark border-secondary"
-            onChange={handleCinemaChange}
-            value={state.filters.cinema || ''}
-          >
-            <option value="">All Cinema</option>
+        <Col md={4}>
+          <FormControl
+            type="date"
+            name="startDate"
+            placeholder="Start Date"
+            onChange={(e) => {
+              handleInputChange(e)
+              fetchBookings()
+            }}
+          />
+        </Col>
+        <Col md={4}>
+          <FormControl
+            type="date"
+            name="endDate"
+            placeholder="End Date"
+            onChange={(e) => {
+              handleInputChange(e)
+              fetchBookings()
+            }}
+          />
+        </Col>
+      </Row>
+      <Row className="mt-3">
+        <Col md={4}>
+          <Form.Select name="cinemaId" onChange={handleSelectCinema} value={state.filters.cinemaId || ''}>
+            <option value="">All Cinemas</option>
             {state.cinemas.map((cinema) => (
-              <option key={cinema.cinemaId} value={cinema.cinemaName}>
+              <option key={cinema.cinemaId} value={cinema.cinemaId}>
                 {cinema.cinemaName}
               </option>
             ))}
           </Form.Select>
         </Col>
+        <Col md={4}>
+          <FormControl
+            placeholder="Enter booking ID"
+            name="bookingId"
+            onChange={(e) => {
+              handleInputChange(e)
+              fetchBookings()
+            }}
+          />
+        </Col>
+        <Col md={4}>
+          <FormControl
+            placeholder="Customer Phone"
+            name="customerPhone"
+            onChange={(e) => {
+              handleInputChange(e)
+              fetchBookings()
+            }}
+          />
+        </Col>
+      </Row>
+      <Row className="mt-3">
+        <Col md={4}>
+          <FormControl
+            placeholder="Customer Email"
+            name="customerEmail"
+            onChange={(e) => {
+              handleInputChange(e)
+              fetchBookings()
+            }}
+          />
+        </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default SearchBar;
+export default SearchBar
