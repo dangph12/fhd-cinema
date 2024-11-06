@@ -115,14 +115,18 @@ public class AuthenticationService {
                         Status.FAIL.getValue(),
                         AccountStatusMessage.NOT_EXIST.getMessage()));
 
-        if((!account.getAccountName().equals(request.getAccountName())) || !account.getAccountPassword().equals(request.getAccountPassword())) {
-            throw new AccountException(Status.FAIL.getValue(), "Invalid account or password");
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        if (!passwordEncoder.matches(request.getAccountPassword(), account.getAccountPassword())) {
+            throw new AccountException(Status.FAIL.getValue(), "Invalid credentials");
         }
 
         CustomerDto customerDto = customerService.getUserInformationByAccountName(account.getAccountName());
         Customer customer = customerService.convertToCustomer(customerDto);
 
         List<Booking> booking = bookingService.getAllBookingFromCustomer(customer.getCustomerId());
+
+        // Validate the password
+
 
         // Generate and return token
         String token = generateToken(account.getAccountName(), request.isRememberMe());
@@ -133,5 +137,4 @@ public class AuthenticationService {
                 .booking(booking)
                 .build();
     }
-
 }
