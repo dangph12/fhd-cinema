@@ -16,6 +16,8 @@ const initialState = {
     customerEmail: '',
     startDate: '',
     endDate: '',
+    sortBy: 'bookingCreateAt',
+    sortDirection: 'DESC',
   },
   currentPage: 1,
   totalPages: 1,
@@ -57,6 +59,8 @@ export const SaleProvider = ({ children }) => {
       endDate: state.filters.endDate || '',
       page: state.currentPage || 1,
       pageSize: pageSize,
+      sortBy: state.filters.sortBy || '',
+      sortDirection: state.filters.sortDirection || '',
     })
     return `http://localhost:8080/bookings/view?${params.toString()}`
   }

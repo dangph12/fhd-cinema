@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Container, Table, Button } from 'react-bootstrap'
+import { Container, Table, Button, Dropdown } from 'react-bootstrap'
 import { SaleContext } from '../context/SaleContext'
 import TablePagination from '../../tables/common/TablePagination'
 
@@ -10,11 +10,39 @@ const SaleDetailTable = () => {
 
   useEffect(() => {
     fetchBookings(); // Fetch bookings khi component mount hoặc trang thay đổi
-  }, [state.currentPage]);
+  }, [state.currentPage, state.filters.sortBy, state.filters.sortDirection]); // Gọi lại khi sortBy hoặc sortDirection thay đổi
+
+  // Hàm xử lý thay đổi sắp xếp
+  const handleSortChange = (sortBy, sortDirection) => {
+    dispatch({ type: 'SET_FILTERS', payload: { sortBy, sortDirection } })
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 }) // Reset về trang đầu khi thay đổi sắp xếp
+    fetchBookings()
+  }
 
   return (
     <Container className="pt-3">
-      <h4>Total Revenue: {state.totalPrice.toLocaleString()} VND</h4>
+      <div className="d-flex justify-content-between align-items-center">
+        <h4>Total Revenue: {state.totalPrice.toLocaleString()} VND</h4>
+        <Dropdown>
+          <Dropdown.Toggle variant="secondary" id="dropdown-sort">
+            Sort Options
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => handleSortChange('bookingCreateAt', 'DESC')}>
+              Hiển thị giảm dần theo Booking Date
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortChange('bookingCreateAt', 'ASC')}>
+              Hiển thị tăng dần theo Booking Date
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortChange('bookingPrice', 'DESC')}>
+              Hiển thị giảm dần theo Booking Price
+            </Dropdown.Item>
+            <Dropdown.Item onClick={() => handleSortChange('bookingPrice', 'ASC')}>
+              Hiển thị tăng dần theo Booking Price
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>
