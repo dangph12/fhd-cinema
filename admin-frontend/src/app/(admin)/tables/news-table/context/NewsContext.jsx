@@ -252,7 +252,7 @@
   // Tạo context cho News
   export const NewsContext = createContext();
 
-  const pageSize = 3; // Số lượng phần tử trên mỗi trang
+  const pageSize = 10; // Số lượng phần tử trên mỗi trang
 
 
   const initialState = {

@@ -261,7 +261,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export const MovieContext = createContext();
 
-const pageSize = 5; // Số lượng phần tử trên mỗi trang
+const pageSize = 10; // Số lượng phần tử trên mỗi trang
 
 const initialState = {
   movies: [],

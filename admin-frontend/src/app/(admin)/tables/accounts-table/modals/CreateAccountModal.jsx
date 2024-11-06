@@ -40,6 +40,8 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
   }
 
   const validateForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const phoneRegex = /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-9]|9[0-9])[0-9]{7}$/
     const newErrors = {}
     if (!form.accountName) newErrors.accountName = 'Account name is required'
     if (!form.accountType) newErrors.accountType = 'Account type is required'
@@ -47,15 +49,25 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
       if (!form.customerName) newErrors.customerName = 'Customer name is required'
       if (!form.customerEmail) newErrors.customerEmail = 'Customer email is required'
       if (!form.customerPhone) newErrors.customerPhone = 'Customer phone is required'
+      // create regex for email and vietnamese phone
+
+      if (form.customerEmail && !emailRegex.test(form.customerEmail)) {
+        newErrors.customerEmail = 'Invalid email format'
+      }
+      if (form.customerPhone && !phoneRegex.test(form.customerPhone)) {
+        newErrors.customerPhone = 'Invalid phone number format'
+      }
     }
     if (form.accountType === 'Admin') {
       if (!form.customerEmail) newErrors.customerEmail = 'Admin email is required'
+      if (form.customerEmail && !emailRegex.test(form.customerEmail)) {
+        newErrors.customerEmail = 'Invalid email format'
+      }
     }
     return newErrors
   }
 
   const createAccount = async () => {
-
     console.log(form)
     debugger
 
@@ -141,7 +153,7 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
                 <Form.Control.Feedback type="invalid">{errors.accountPassword}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="m-2">
-                <Form.Label>Customer Email</Form.Label>
+                <Form.Label>Customer email</Form.Label>
                 <Form.Control
                   required
                   type="email"
@@ -154,7 +166,7 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
                 <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="m-2">
-                <Form.Label>Customer Phone</Form.Label>
+                <Form.Label>Customer phone</Form.Label>
                 <Form.Control
                   required
                   type="text"
@@ -171,7 +183,7 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
           {form.accountType == 'Admin' ? (
             <>
               <Form.Group className="m-2">
-                <Form.Label>Admin Email</Form.Label>
+                <Form.Label>Admin email</Form.Label>
                 <Form.Control
                   required
                   type="email"
@@ -179,7 +191,7 @@ function CreateAccountModal({ show, fetchAccounts, onHide }) {
                   placeholder="Email"
                   name="email"
                   value={form.customerEmail}
-                  isInvalid={!!errors.email}
+                  isInvalid={!!errors.customerEmail}
                 />
                 <Form.Control.Feedback type="invalid">{errors.customerEmail}</Form.Control.Feedback>
               </Form.Group>

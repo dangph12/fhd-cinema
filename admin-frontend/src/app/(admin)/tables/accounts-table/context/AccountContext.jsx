@@ -3,7 +3,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export const AccountContext = createContext();
 
-const pageSize = 2;
+const pageSize = 10;
 
 const initialState = {
   accounts: [],

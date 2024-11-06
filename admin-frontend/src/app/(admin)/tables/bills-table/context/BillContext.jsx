@@ -128,7 +128,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export const BillContext = createContext();
 
-const pageSize = 2; // Số lượng phần tử trên mỗi trang
+const pageSize = 10; // Số lượng phần tử trên mỗi trang
 
 const initialState = {
   bills: [],

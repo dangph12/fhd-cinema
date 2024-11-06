@@ -94,7 +94,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export const CustomerContext = createContext();
 
-const pageSize = 3;  // Set pageSize to 3 as in the Postman request
+const pageSize = 10;  
 
 const initialState = {
   customers: [],
@@ -134,7 +134,7 @@ export const CustomerProvider = ({ children }) => {
   }, [state.currentPage, state.query, state.filters]);
 
   const fetchCustomers = (params = {}) => {
-    const { search = state.query, page = state.currentPage, pageSize = 3, sortBy = 'customerName', sortDirection = 'DESC' } = params;
+    const { search = state.query, page = state.currentPage, pageSize = 10, sortBy = 'customerName', sortDirection = 'DESC' } = params;
 
     // Construct the URL with query parameters
     const url = `${customerApiUrl}?search=${search}&page=${page}&pageSize=${pageSize}&sortBy=${sortBy}&sortDirection=${sortDirection}`;
