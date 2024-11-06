@@ -519,7 +519,7 @@
 
 //       <VisaBanner />
 //     </div>
-//   ); 
+//   );
 // };
 
 // export default News;
@@ -664,11 +664,11 @@ const News = () => {
                     {items.newsTitle}
                   </h4>
                 </h3>
-                <p>
-                  {items.newsDescription.length > 100
-                    ? `${items.newsDescription.substring(0, 100)}...`
-                    : items.newsDescription}
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: items.newsDescription,
+                  }}
+                ></p>
               </div>
             ))
           ) : (
