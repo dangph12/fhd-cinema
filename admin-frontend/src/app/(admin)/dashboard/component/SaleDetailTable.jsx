@@ -37,16 +37,16 @@ const SaleDetailTable = () => {
           </Dropdown.Toggle>
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => handleSortChange('bookingCreateAt', 'DESC')}>
-              Hiển thị giảm dần theo Booking Date
+              Show in descending order by Booking Date
             </Dropdown.Item>
             <Dropdown.Item onClick={() => handleSortChange('bookingCreateAt', 'ASC')}>
-              Hiển thị tăng dần theo Booking Date
+              Show in ascending order by Booking Date
             </Dropdown.Item>
             <Dropdown.Item onClick={() => handleSortChange('bookingPrice', 'DESC')}>
-              Hiển thị giảm dần theo Booking Price
+              Show in descending order by Booking Price
             </Dropdown.Item>
             <Dropdown.Item onClick={() => handleSortChange('bookingPrice', 'ASC')}>
-              Hiển thị tăng dần theo Booking Price
+              Show in ascending order by Booking Price
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
