@@ -158,7 +158,8 @@ function MovieDetailModal({ movieId, show, onHide }) {
             <Col>
                 <Form.Group className="m-2">
                   <Form.Label>Movie Description</Form.Label>
-                  <Form.Control as="textarea" rows={3} readOnly name="movieDescription" className="bg-body text-dark border-secondary" value={selectedMovie.movieDescription} />
+                  {/* <Form.Control as="textarea" rows={3} readOnly name="movieDescription" className="bg-body text-dark border-secondary" value={selectedMovie.movieDescription} /> */}
+                  <div dangerouslySetInnerHTML={{ __html: selectedMovie.movieDescription }} />
                 </Form.Group>
               </Col>
             </Row>

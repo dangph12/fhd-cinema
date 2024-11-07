@@ -132,6 +132,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Modal, Form, Button, Row, Col } from 'react-bootstrap';
 import { MovieContext } from '../context/MovieContext';
+import TextEditor from '../../common/TextEditor';
 
 function UpdateMovieModal({ movieId, show, fetchMovies, onHide }) {
   const { state } = useContext(MovieContext);
@@ -485,7 +486,7 @@ function UpdateMovieModal({ movieId, show, fetchMovies, onHide }) {
                 {/* Movie Description */}
                 <Form.Group className="m-2">
                   <Form.Label>Movie description</Form.Label>
-                  <Form.Control
+                  {/* <Form.Control
                     required
                     as="textarea"
                     rows={3}
@@ -494,6 +495,12 @@ function UpdateMovieModal({ movieId, show, fetchMovies, onHide }) {
                     name="movieDescription"
                     value={form.movieDescription}
                     isInvalid={!!errors.movieDescription}
+                  /> */}
+                  <TextEditor
+                    object="movie"
+                    description={form.movieDescription}
+                    field="movieDescription"
+                    setField={setField}
                   />
                   <Form.Control.Feedback type="invalid">{errors.movieDescription}</Form.Control.Feedback>
                 </Form.Group>

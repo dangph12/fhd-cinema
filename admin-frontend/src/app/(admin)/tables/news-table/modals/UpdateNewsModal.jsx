@@ -130,7 +130,7 @@
 // export default UpdateNewsModal
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Modal, Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { NewsContext } from '../context/NewsContext';
 import TextEditor from '../../common/TextEditor';
 
@@ -152,17 +152,17 @@ function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
     setUpdateShow(show);
   }, [show]);
 
-    // Hàm chuyển đổi từ dd/MM/yyyy HH:mm sang định dạng datetime-local (YYYY-MM-DDTHH:MM)
-    const toDatetimeLocal = (time) => {
-      if (!time) return '';
-  
-      const [datePart, timePart] = time.split(" ");
-      const [day, month, year] = datePart.split("/").map(Number);
-      const [hours, minutes] = timePart.split(":").map(Number);
-  
-      const date = new Date(year, month - 1, day, hours, minutes);
-      return date.toISOString().slice(0, 16); // Định dạng YYYY-MM-DDTHH:MM
-    };
+  // Hàm chuyển đổi từ dd/MM/yyyy HH:mm sang định dạng datetime-local (YYYY-MM-DDTHH:MM)
+  const toDatetimeLocal = (time) => {
+    if (!time) return '';
+
+    const [datePart, timePart] = time.split(" ");
+    const [day, month, year] = datePart.split("/").map(Number);
+    const [hours, minutes] = timePart.split(":").map(Number);
+
+    const date = new Date(year, month - 1, day, hours, minutes);
+    return date.toISOString().slice(0, 16); // Định dạng YYYY-MM-DDTHH:MM
+  };
 
   // Populate form with the selected news item details based on newsId
   useEffect(() => {
@@ -252,83 +252,89 @@ function UpdateNewsModal({ newsId, show, fetchNews, onHide }) {
   };
 
   return (
-    <Modal show={updateShow} onHide={() => closeUpdateShow()}>
+    <Modal fullscreen={true} show={updateShow} onHide={() => closeUpdateShow()}>
       <Modal.Header closeButton>
         <Modal.Title>Update News</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleUpdate} id="updateForm">
-          {/* News Title */}
-          <Form.Group className="m-2">
-            <Form.Label>News Title</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('newsTitle', e.target.value)}
-              placeholder="News title"
-              name="newsTitle"
-              value={form.newsTitle}
-              isInvalid={!!errors.newsTitle}
-            />
-            <Form.Control.Feedback type="invalid">{errors.newsTitle}</Form.Control.Feedback>
-          </Form.Group>
+          <Container>
+            <Row>
+              <Col>
+                {/* News Title */}
+                <Form.Group className="m-2">
+                  <Form.Label>News Title</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('newsTitle', e.target.value)}
+                    placeholder="News title"
+                    name="newsTitle"
+                    value={form.newsTitle}
+                    isInvalid={!!errors.newsTitle}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.newsTitle}</Form.Control.Feedback>
+                </Form.Group>
 
-          {/* News Description */}
-          <Form.Group className="m-2">
-            <Form.Label>News Description</Form.Label>
-            <TextEditor
-              object="news"
-              description={form.newsDescription}
-              field="newsDescription"
-              setField={setField}
-            />
-            <Form.Control.Feedback type="invalid">{errors.newsDescription}</Form.Control.Feedback>
-          </Form.Group>
+                {/* News Description */}
+                <Form.Group className="m-2">
+                  <Form.Label>News Description</Form.Label>
+                  <TextEditor
+                    object="news"
+                    description={form.newsDescription}
+                    field="newsDescription"
+                    setField={setField}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.newsDescription}</Form.Control.Feedback>
+                </Form.Group>
 
-          {/* News Create At */}
-          <Form.Group className="m-2">
-            <Form.Label>News Create At</Form.Label>
-            <Form.Control
-              type="datetime-local"
-              onChange={(e) => setField('newsCreateAt', e.target.value)}
-              placeholder="News create at"
-              name="newsCreateAt"
-              value={form.newsCreateAt}
-            />
-          </Form.Group>
+                {/* News Create At */}
+                <Form.Group className="m-2">
+                  <Form.Label>News Create At</Form.Label>
+                  <Form.Control
+                    type="datetime-local"
+                    onChange={(e) => setField('newsCreateAt', e.target.value)}
+                    placeholder="News create at"
+                    name="newsCreateAt"
+                    value={form.newsCreateAt}
+                  />
+                </Form.Group>
 
-          {/* News Image URL */}
-          <Form.Group className="m-2">
-            <Form.Label>News Image URL</Form.Label>
-            <Form.Control
-              type="text"
-              onChange={(e) => setField('newsImageUrl', e.target.value)}
-              placeholder="Image URL"
-              name="newsImageUrl"
-              value={form.newsImageUrl}
-            />
-          </Form.Group>
+                {/* News Image URL */}
+                <Form.Group className="m-2">
+                  <Form.Label>News Image URL</Form.Label>
+                  <Form.Control
+                    type="text"
+                    onChange={(e) => setField('newsImageUrl', e.target.value)}
+                    placeholder="Image URL"
+                    name="newsImageUrl"
+                    value={form.newsImageUrl}
+                  />
+                </Form.Group>
 
-          {/* News Category */}
-          <Form.Group className="m-2">
-            <Form.Label>News Category</Form.Label>
-            <Form.Select
-              required
-              name="newsCategoryId"
-              onChange={(e) => setField('newsCategoryId', e.target.value)}
-              className="bg-body text-dark border-secondary"
-              value={form.newsCategoryId}
-              isInvalid={!!errors.newsCategoryId}
-            >
-              <option value="">Select news category</option>
-              {state.newsCategories.map((newsCategory) => (
-                <option key={newsCategory.newsCategoryId} value={newsCategory.newsCategoryId}>
-                  {newsCategory.newsCategoryName}
-                </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.newsCategoryId}</Form.Control.Feedback>
-          </Form.Group>
+                {/* News Category */}
+                <Form.Group className="m-2">
+                  <Form.Label>News Category</Form.Label>
+                  <Form.Select
+                    required
+                    name="newsCategoryId"
+                    onChange={(e) => setField('newsCategoryId', e.target.value)}
+                    className="bg-body text-dark border-secondary"
+                    value={form.newsCategoryId}
+                    isInvalid={!!errors.newsCategoryId}
+                  >
+                    <option value="">Select news category</option>
+                    {state.newsCategories.map((newsCategory) => (
+                      <option key={newsCategory.newsCategoryId} value={newsCategory.newsCategoryId}>
+                        {newsCategory.newsCategoryName}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">{errors.newsCategoryId}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
         </Form>
       </Modal.Body>
       <Modal.Footer>
