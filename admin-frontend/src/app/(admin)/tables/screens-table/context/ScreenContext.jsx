@@ -5,7 +5,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 
 export const ScreenContext = createContext();
 
-const pageSize = 3;  
+const pageSize = 10;  
 
 const initialState = {
   screens: [],

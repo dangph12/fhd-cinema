@@ -139,7 +139,7 @@ const CustomerDetailTable = () => {
   const [showDetailModal, setShowDetailModal] = useState({ customerId: null, show: false });
   const [showCreateModal, setShowCreateModal] = useState({ show: false });
 
-  const pageSize = 3; // Hiển thị 3 phần tử mỗi trang
+  const pageSize = 10; 
 
   // Fetch dữ liệu lần đầu khi component render
   useEffect(() => {

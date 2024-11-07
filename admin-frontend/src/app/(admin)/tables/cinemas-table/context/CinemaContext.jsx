@@ -107,7 +107,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 // Create CinemaContext
 export const CinemaContext = createContext();
 
-const pageSize = 3; // Number of cinemas per page
+const pageSize = 10; // Number of cinemas per page
 
 // Initial state for CinemaContext
 const initialState = {

@@ -73,4 +73,17 @@ public interface BookingRepository extends JpaRepository<Booking, String> {
       @Param("bookingId") String bookingId,
       Pageable pageable);
 
+  @Query("SELECT b "
+      + "FROM Booking b "
+      + "JOIN b.customer c "
+      + "JOIN b.showtime sh "
+      + "JOIN sh.movie m "
+      + "JOIN sh.screen sc "
+      + "JOIN sc.cinema ci "
+      + "JOIN b.bill bill "
+      + "WHERE c.customerId = :customerId "
+      + "AND bill.isPaid = true")
+  List<Booking> searchBookingsByCustomerId(
+      @Param("customerId") String customerId);
+
 }

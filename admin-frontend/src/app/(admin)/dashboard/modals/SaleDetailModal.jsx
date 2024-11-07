@@ -1,167 +1,94 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Modal, Button, Container, Row, Col, Form } from 'react-bootstrap';
-import { SaleContext } from '../context/SaleContext';
+import React from 'react'
+import { Modal, Button, Container, Row, Col, Table } from 'react-bootstrap'
 
-function SaleDetailModal({ bookingId, show, onHide }) {
-  const { state } = useContext(SaleContext);
-  const [detailShow, setDetailShow] = useState(false);
-  const [selectedBooking, setSelectedBooking] = useState({
-    customerName: '',
-    movieTitle: '',
-    cinemaName: '',
-    tickets: [],
-    snacks: [],
-    ticketQuantity: 0,
-    customerPhone: '',
-    customerEmail: '',
-    bookingId: '',
-    bookingCreateAt: '',
-    bookingPrice: 0,
-  });
+const SaleDetailModal = ({ show, onHide, booking }) => {
+  if (!booking) return null
 
-  useEffect(() => {
-    setDetailShow(show);
-  }, [show]);
+  // Render danh sách ghế
+  const renderTickets = () => {
+    return booking.tickets.map((ticket, index) => (
+      <tr key={ticket.ticketId}>
+        <td>{index + 1}</td>
+        <td>{ticket.seat.seatType.seatTypeName}</td>
+        <td>{ticket.seat.seatName}</td>
+        <td>{ticket.ticketPrice.toLocaleString()} VND</td>
+      </tr>
+    ))
+  }
 
-  useEffect(() => {
-    if (bookingId) {
-      const booking = state.bookings.find((b) => b.bookingId === bookingId);
-      if (booking) {
-        setSelectedBooking({
-          customerName: booking.customerName,
-          movieTitle: booking.movieTitle,
-          cinemaName: booking.showtime.screen.cinema.cinemaName,
-          tickets: booking.tickets,
-          snacks: booking.snacks,
-          ticketQuantity: booking.tickets.length,
-          customerPhone: booking.customerPhone,
-          customerEmail: booking.customerEmail,
-          bookingId: booking.bookingId,
-          bookingCreateAt: booking.bookingCreateAt,
-          bookingPrice: booking.bookingPrice,
-        });
-      }
-    }
-  }, [bookingId, state.bookings]);
-
-  const closeDetailShow = () => {
-    onHide();
-    setDetailShow(false);
-    setSelectedBooking({
-      customerName: '',
-      movieTitle: '',
-      cinemaName: '',
-      tickets: [],
-      snacks: [],
-      ticketQuantity: 0,
-      customerPhone: '',
-      customerEmail: '',
-      bookingId: '',
-      bookingCreateAt: '',
-      bookingPrice: 0,
-    });
-  };
-
-  const formatTickets = () =>
-    selectedBooking.tickets.map(
-      (t) => `${t.seat.seatType.seatTypeName} ${t.seat.seatName}: ${t.ticketPrice.toLocaleString()} VND`
-    ).join(', ');
-
-  const formatSnacks = () =>
-    selectedBooking.snacks.map(
-      (s) => `${s.snackName}: ${s.snackPrice.toLocaleString()} VND`
-    ).join(', ');
+  // Render danh sách đồ ăn kèm
+  const renderSnacks = () => {
+    const snackCounts = {}
+    booking.snacks.forEach((snack) => {
+      snackCounts[snack.snackName] = (snackCounts[snack.snackName] || 0) + 1
+    })
+    return Object.keys(snackCounts).map((snackName, index) => (
+      <tr key={index}>
+        <td>{snackName}</td>
+        <td>{snackCounts[snackName]}x {booking.snacks[0].snackPrice.toLocaleString()} VND</td>
+      </tr>
+    ))
+  }
 
   return (
-    <Modal fullscreen={true} show={detailShow} onHide={closeDetailShow}>
+    <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
         <Modal.Title>Booking Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Container>
-            <Row>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Customer Name</Form.Label>
-                  <Form.Control readOnly type="text" value={selectedBooking.customerName} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Movie Title</Form.Label>
-                  <Form.Control readOnly type="text" value={selectedBooking.movieTitle} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Cinema</Form.Label>
-                  <Form.Control readOnly type="text" value={selectedBooking.cinemaName} />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Tickets</Form.Label>
-                  <Form.Control as="textarea" rows={2} readOnly value={formatTickets()} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Snacks</Form.Label>
-                  <Form.Control as="textarea" rows={2} readOnly value={formatSnacks()} />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Ticket Quantity</Form.Label>
-                  <Form.Control readOnly type="text" value={selectedBooking.ticketQuantity} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Phone</Form.Label>
-                  <Form.Control readOnly type="text" value={selectedBooking.customerPhone} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control readOnly type="text" value={selectedBooking.customerEmail} />
-                </Form.Group>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Booking ID</Form.Label>
-                  <Form.Control readOnly type="text" value={selectedBooking.bookingId} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Booking Date</Form.Label>
-                  <Form.Control readOnly type="text" value={new Date(selectedBooking.bookingCreateAt).toLocaleString()} />
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group className="m-2">
-                  <Form.Label>Booking Price</Form.Label>
-                  <Form.Control readOnly type="text" value={`${selectedBooking.bookingPrice.toLocaleString()} VND`} />
-                </Form.Group>
-              </Col>
-            </Row>
-          </Container>
-        </Form>
+        <Container>
+          <Row>
+            <Col><strong>Customer Name:</strong> {booking.customerName}</Col>
+            <Col><strong>Phone:</strong> {booking.customerPhone}</Col>
+          </Row>
+          <Row>
+            <Col><strong>Email:</strong> {booking.customerEmail}</Col>
+            <Col><strong>Booking ID:</strong> {booking.bookingId}</Col>
+          </Row>
+          <Row>
+            <Col><strong>Movie Title:</strong> {booking.movieTitle}</Col>
+            <Col><strong>Cinema:</strong> {booking.showtime.screen.cinema.cinemaName}</Col>
+          </Row>
+          <Row>
+            <Col><strong>Booking Date:</strong> {new Date(booking.bookingCreateAt).toLocaleString()}</Col>
+            <Col><strong>Total Price:</strong> {booking.bookingPrice.toLocaleString()} VND</Col>
+          </Row>
+
+          <h5 className="mt-4">Tickets</h5>
+          <Table striped bordered>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Seat Type</th>
+                <th>Seat Name</th>
+                <th>Ticket Price</th>
+              </tr>
+            </thead>
+            <tbody>{renderTickets()}</tbody>
+          </Table>
+
+          <Row className="mt-3">
+            <Col><strong>Ticket Quantity:</strong> {booking.tickets.length}</Col>
+          </Row>
+
+          <h5>Snacks</h5>
+          <Table striped bordered>
+            <thead>
+              <tr>
+                <th>Snack</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>{renderSnacks()}</tbody>
+          </Table>
+
+        </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={closeDetailShow}>Close</Button>
+        <Button variant="secondary" onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }
 
-export default SaleDetailModal;
+export default SaleDetailModal

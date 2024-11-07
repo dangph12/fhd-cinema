@@ -119,10 +119,12 @@ import { SocialIcon } from "react-social-icons";
 import VisaBanner from "../home/components/VisaBanner";
 
 function FilmDetails() {
+
   const { movieId } = useParams(); // Lấy movieId từ URL
   const [movieDetails, setMovieDetails] = useState(null); // mảng movies description rỗng
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getMovieDetails(movieId);
   }, [movieId]);
 

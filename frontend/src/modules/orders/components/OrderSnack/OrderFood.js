@@ -29,9 +29,10 @@ const OrderFood = () => {
   const [snacks, setSnacks] = useState([]);
   const [quantity, setQuantity] = useState({});
   const { setCheckoutData } = useCheckout();
-  window.scrollTo(0, 0);
+  
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchSnacks = async () => {
       try {
         const response = await axios.get('http://localhost:8080/snacks');

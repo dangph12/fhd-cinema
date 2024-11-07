@@ -144,6 +144,18 @@ public class BookingController {
         .build());
   }
 
+  @GetMapping("/customer/{customerId}")
+  ResponseEntity<ApiResponse<ApiViewBooking<BookingInfoDto>>> getBookingsByCustomerId(
+      @PathVariable("customerId") String customerId) {
+    ApiViewBooking<BookingInfoDto> bookingInfos = bookingService.getBookingsByCustomerId(customerId);
+
+    return ResponseEntity.ok().body(ApiResponse.<ApiViewBooking<BookingInfoDto>>builder()
+        .status(Status.SUCCESS.getValue())
+        .message(BookingStatusMessage.GET_SUCCESS.getMessage())
+        .data(bookingInfos)
+        .build());
+  }
+
   @PostMapping("/{bookingId}/snacks/{snackId}/add")
   public ResponseEntity<ApiResponse<BookingDto>> addSnackToBooking(
       @PathVariable("bookingId") String bookingId,
