@@ -331,7 +331,13 @@ function Register() {
         toast.error("Đăng ký thất bại!");
       }
     } catch (error) {
-      toast.error("Lỗi hệ thống. Vui lòng thử lại sau.");
+      if (error.response && error.response.data && error.response.data.message) {
+        // Hiển thị thông báo lỗi từ API response
+        toast.error(error.response.data.message);
+      } else {
+        // Hiển thị lỗi hệ thống nếu không có thông tin từ API
+        toast.error("Lỗi hệ thống. Vui lòng thử lại sau.");
+      }
     }
   };
 
