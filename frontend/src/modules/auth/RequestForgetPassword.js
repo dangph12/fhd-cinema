@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";  // Import useLocation
+import { useLocation, useNavigate } from "react-router-dom";  // Import useLocation
 import BannerSecond from "../home/components/BannerSecond";
 import VisaBanner from "../home/components/VisaBanner";
 import { Toast, ToastContainer } from "react-bootstrap";
@@ -21,6 +21,8 @@ function ResetForgetPassword() {
   // Lấy accountId từ query string
   const queryParams = new URLSearchParams(location.search);
   const accountId = queryParams.get('accountId');  // Đổi từ customerId thành accountId
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAccountDetails = async () => {
@@ -79,6 +81,7 @@ function ResetForgetPassword() {
       if (response.status === 200) {
         setToastMessage("Mật khẩu đã được cập nhật thành công.");
         setShowToast(true);
+        navigate("/")
       } else {
         setToastMessage("Có lỗi xảy ra, vui lòng thử lại.");
         setShowToast(true);

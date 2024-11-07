@@ -80,6 +80,8 @@ function NewsDetails() {
   const [newsDetails, setNewsDetails] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     getNewsDetails(newsId);
   }, [newsId]);
 
