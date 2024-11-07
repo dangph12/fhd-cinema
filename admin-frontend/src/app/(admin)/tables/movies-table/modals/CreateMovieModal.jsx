@@ -90,6 +90,11 @@ function CreateMovieModal({ show, onHide }) {
       setErrors({ ...errors, moviePosterUrl: 'Invalid image file' });
       return;
     }
+    // if file size is greater than 5MB then return error
+    if (file.size > 5 * 1024 * 1024) {
+      setErrors({ ...errors, moviePosterUrl: 'Image size should be less than 5MB' });
+      return;
+    }
     setPosterFile(file);
     setErrors({ ...errors, moviePosterUrl: '' });
   };

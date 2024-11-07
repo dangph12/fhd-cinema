@@ -836,9 +836,12 @@ function CreateNewsModal({ show, fetchNews, onHide }) {
       console.log(imageFile)
       return;
     }
+    if (file.size > 5 * 1024 * 1024) {
+      setErrors({ ...errors, newsImageUrl: 'Image size should be less than 5MB' });
+      return;
+    }
     setImageFile(file);
     setErrors({ ...errors, newsImageUrl: '' });
-    console.log(imageFile)
   };
 
   // Form validation
