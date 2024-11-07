@@ -11,7 +11,7 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
     setCreateShow(show)
   }, [show])
 
-  const [form, setForm] = useState({ cinemaName: '', locationId: '' })
+  const [form, setForm] = useState({ cinemaName: '', locationName: '' })
   const [validated, setValidated] = useState(false)
   const [errors, setErrors] = useState({})
 
@@ -25,7 +25,7 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
   const closeCreateShow = () => {
     onHide()
     setCreateShow(false)
-    setForm({ cinemaName: '', locationId: '' })
+    setForm({ cinemaName: '', locationName: '' })
     setValidated(false)
     setErrors({})
   }
@@ -33,7 +33,7 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
   const validateForm = () => {
     const newErrors = {}
     if (!form.cinemaName) newErrors.cinemaName = 'Cinema name is required'
-    if (!form.locationId) newErrors.locationId = 'Location is required'
+    if (!form.locationName) newErrors.locationId = 'Location is required'
     return newErrors
   }
 
@@ -91,18 +91,16 @@ function CreateCinemaModal({ show, fetchCinemas, onHide }) {
           </Form.Group>
           <Form.Group className="m-2">
             <Form.Label>Location</Form.Label>
-            <Form.Select
-              className="bg-body text-dark border-secondary"
+            <Form.Control
               required
-              onChange={(e) => setField('locationId', e.target.value)}
-              value={form.locationId}>
-              <option value="">Select location</option>
-              {state.locations.map((location) => (
-                <option key={location.locationId} value={location.locationId}>
-                  {location.locationName}
-                </option>
-              ))}
-            </Form.Select>
+              type="text"
+              onChange={(e) => setField('locationName', e.target.value)}
+              placeholder="Location Name"
+              name="locationName"
+              value={form.locationName}
+              isInvalid={!!errors.locationName}
+            />
+            <Form.Control.Feedback type="invalid">{errors.locationName}</Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>

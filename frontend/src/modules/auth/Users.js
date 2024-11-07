@@ -3034,10 +3034,815 @@
 
 // export default Users;
 
+// import React, { useEffect, useState } from "react";
+// import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios"; // Import axios for API calls
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// function Users() {
+//   const [customerId, setCustomerId] = useState("");
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+//   const [profileImage, setProfileImage] = useState(null);
+//   const [bookings, setBookings] = useState([]); // State for bookings
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [updatedInfo, setUpdatedInfo] = useState({
+//     customerName: "",
+//     customerEmail: "",
+//     customerPhone: "",
+//   });
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     sessionStorage.removeItem("account");
+//     localStorage.removeItem("account");
+//     navigate("/login");
+//   };
+
+//   useEffect(() => {
+//     const session = sessionStorage.getItem("account");
+//     const local = localStorage.getItem("account");
+
+//     if (session || local) {
+//       const accountData = JSON.parse(session || local);
+//       if (accountData && accountData.customer) {
+//         setCustomerId(accountData.customer.customerId);
+//         setCustomerName(accountData.customer.customerName);
+//         setCustomerEmail(accountData.customer.customerEmail);
+//         setCustomerPhone(accountData.customer.customerPhone);
+//         setUpdatedInfo({
+//           customerName: accountData.customer.customerName,
+//           customerEmail: accountData.customer.customerEmail,
+//           customerPhone: accountData.customer.customerPhone,
+//         });
+
+//         // Load profile image
+//         const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
+//         if (storedProfileImage) {
+//           setProfileImage(storedProfileImage);
+//         }
+
+//         // Load bookings
+//         if (accountData.booking) {
+//           setBookings(accountData.booking);
+//         }
+//       } else {
+//         navigate("/login");
+//       }
+//     } else {
+//       navigate("/login");
+//     }
+//   }, [navigate]);
+
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file && file.type !== "image/jpeg") {
+//       alert("Please upload a .jpg image.");
+//       return;
+//     }
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onloadend = () => {
+//         const base64String = reader.result;
+//         localStorage.setItem(`profileImage-${customerId}`, base64String);
+//         setProfileImage(base64String);
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+//   const handleEdit = () => {
+//     setIsEditing(true);
+//   };
+
+//   const handleCancelEdit = () => {
+//     setIsEditing(false);
+//     setUpdatedInfo({
+//       customerName,
+//       customerEmail,
+//       customerPhone,
+//     });
+//   };
+
+//   const handleSave = async () => {
+//     try {
+//       const response = await axios.put(`http://localhost:8080/customers/${customerId}`, {
+//         customerName: updatedInfo.customerName,
+//         customerEmail: updatedInfo.customerEmail,
+//         customerPhone: updatedInfo.customerPhone,
+//       });
+
+//       if (response.status === 200) {
+//         const updatedCustomer = response.data.data;
+
+//         // Update session storage with the new data
+//         let session = sessionStorage.getItem("account");
+//         if (session) {
+//           const accountData = JSON.parse(session);
+//           accountData.customer = updatedCustomer;
+//           sessionStorage.setItem("account", JSON.stringify(accountData));
+
+//           // Update the displayed customer info
+//           setCustomerName(updatedCustomer.customerName);
+//           setCustomerEmail(updatedCustomer.customerEmail);
+//           setCustomerPhone(updatedCustomer.customerPhone);
+//         }
+
+//         setIsEditing(false); // Exit editing mode
+//       }
+//     } catch (error) {
+//       console.error("Error updating customer info:", error);
+//     }
+//   };
+
+//   const profileTextStyle = {
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <Container className="mt-5">
+//         <h2 className="text-center mb-1" style={profileTextStyle}>
+//           Tài khoản
+//         </h2>
+//         <Row>
+//           <Col md={8} className="border p-4 rounded shadow">
+//             <div className="d-flex">
+//               <div className="mr-3">
+//                 <img
+//                   style={{ width: "35%", borderRadius: "50%" }}
+//                   src={profileImage || "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"}
+//                   alt="User Avatar"
+//                 />
+//                 <Form.Group controlId="formFile" className="mt-3">
+//                   <Form.Label>Upload Profile Image (.jpg only)</Form.Label>
+//                   <Form.Control type="file" onChange={handleImageChange} />
+//                 </Form.Group>
+//               </div>
+//               <div className="container">
+//                 <h5 style={profileTextStyle}>{customerName || "Không có tên"}</h5>
+//                 <p className="text-muted">Email: {customerEmail || "Không có email"}</p>
+//                 <p className="text-muted">Số điện thoại: {customerPhone || "Không có số điện thoại"}</p>
+//               </div>
+//             </div>
+
+//             <hr />
+
+//             <Form>
+//               <Form.Group controlId="formLastName" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
+//                 <Form.Label>Tên đệm và tên *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={updatedInfo.customerName}
+//                   onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerName: e.target.value })}
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               <Form.Group controlId="formEmail" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
+//                 <Form.Label>Email *</Form.Label>
+//                 <Form.Control
+//                   type="email"
+//                   value={updatedInfo.customerEmail}
+//                   onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerEmail: e.target.value })}
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               <Form.Group controlId="formPhoneNumber" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
+//                 <Form.Label>Số điện thoại *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={updatedInfo.customerPhone}
+//                   onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerPhone: e.target.value })}
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               {isEditing ? (
+//                 <div className="d-flex justify-content-between mt-5">
+//                   <Button variant="danger" onClick={handleCancelEdit}>Hủy</Button>
+//                   <Button variant="success" onClick={handleSave}>Lưu</Button>
+//                 </div>
+//               ) : (
+//                 <Button variant="primary" className="w-100 mt-5" onClick={handleEdit}>Chỉnh sửa</Button>
+//               )}
+//             </Form>
+//           </Col>
+
+//           <Col md={4} className="border p-4 rounded shadow text-center">
+//             <div className="mb-4">
+//               <img style={{ width: "30%" }} src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="logo" className="img-fluid" />
+//             </div>
+//             <p style={profileTextStyle}>Tên đăng nhập: {customerName || "Không có email"}</p>
+//             <Button variant="success" className="w-100 mb-2" onClick={handleLogout}>Đăng xuất</Button>
+//           </Col>
+//         </Row>
+
+//         <h5 className="mt-5" style={profileTextStyle}>
+//           Lịch sử giao dịch
+//         </h5>
+//         <Table striped bordered hover className="mt-3 mb-5">
+//           <thead>
+//             <tr>
+//               <th>STT</th>
+//               <th>Thời gian giao dịch</th>
+//               <th>Mã lấy vé</th>
+//               <th>Thông tin vé</th>
+//               <th>Tổng tiền</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {bookings.length > 0 ? (
+//               bookings.map((booking, index) => (
+//                 <tr key={booking.bookingId}>
+//                   <td>{index + 1}</td>
+//                   <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
+//                   <td>{booking.bookingId}</td>
+//                   <td>
+//                     {booking.tickets
+//                       ? booking.tickets.map((ticket) => ticket.ticketId).join(", ")
+//                       : "Không có vé"}
+//                   </td>
+//                   <td>{booking.bookingPrice} VND</td>
+//                 </tr>
+//               ))
+//             ) : (
+//               <tr>
+//                 <td colSpan="5" className="text-center">
+//                   Không có giao dịch
+//                 </td>
+//               </tr>
+//             )}
+//           </tbody>
+//           <tfoot>
+//             <tr>
+//               <td colSpan="4" className="text-right">
+//                 Tổng cộng
+//               </td>
+//               <td>
+//                 {bookings.reduce((sum, booking) => sum + booking.bookingPrice, 0)} VND
+//               </td>
+//             </tr>
+//           </tfoot>
+//         </Table>
+//       </Container>
+
+//       <VisaBanner />
+//     </div>
+//   );
+// }
+
+// export default Users;
+
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { Container, Row, Col, Button, Table } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// function Users() {
+//   const [customerId, setCustomerId] = useState("");
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+//   const [profileImage, setProfileImage] = useState(null);
+//   const [bookings, setBookings] = useState([]);
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     sessionStorage.removeItem("account");
+//     localStorage.removeItem("account");
+//     navigate("/login");
+//   };
+
+//   // Enhanced function to fetch booking data from the backend API
+//   const fetchBookings = async () => {
+//     if (!customerId) return;
+
+//     try {
+//       const response = await axios.get(`http://localhost:8080/bookings/customer/${customerId}`);
+//       if (response.status === 200 && response.data.data) {
+//         const fetchedBookings = response.data.data.result; // Extract the bookings array from the response
+//         setBookings(fetchedBookings); // Update bookings state
+//         sessionStorage.setItem("bookings", JSON.stringify(fetchedBookings)); // Optionally store in session
+//       }
+//     } catch (error) {
+//       console.error("Error fetching bookings:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const session = sessionStorage.getItem("account");
+//     const local = localStorage.getItem("account");
+
+//     if (session || local) {
+//       const accountData = JSON.parse(session || local);
+//       if (accountData && accountData.customer) {
+//         setCustomerId(accountData.customer.customerId);
+//         setCustomerName(accountData.customer.customerName);
+//         setCustomerEmail(accountData.customer.customerEmail);
+//         setCustomerPhone(accountData.customer.customerPhone);
+
+//         // Load profile image
+//         const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
+//         if (storedProfileImage) {
+//           setProfileImage(storedProfileImage);
+//         }
+
+//         // Fetch bookings on component load or when customerId changes
+//         fetchBookings();
+//       } else {
+//         navigate("/login");
+//       }
+//     } else {
+//       navigate("/login");
+//     }
+//   }, [navigate, customerId]);
+
+//   const profileTextStyle = {
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <Container className="mt-5">
+//         <h2 className="text-center mb-1" style={profileTextStyle}>
+//           Lịch sử giao dịch
+//         </h2>
+//         <Table striped bordered hover className="mt-3 mb-5">
+//           <thead>
+//             <tr>
+//               <th>STT</th>
+//               <th>Thời gian giao dịch</th>
+//               <th>Mã lấy vé</th>
+//               <th>Thông tin vé</th>
+//               <th>Tổng tiền</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {bookings.length > 0 ? (
+//               bookings.map((booking, index) => (
+//                 <tr key={booking.bookingId}>
+//                   <td>{index + 1}</td>
+//                   <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
+//                   <td>{booking.bookingId}</td>
+//                   <td>
+//                     {booking.tickets && booking.tickets.length > 0
+//                       ? booking.tickets.map((ticket) => ticket.ticketId).join(", ")
+//                       : "Không có vé"}
+//                   </td>
+//                   <td>{booking.bookingPrice} VND</td>
+//                 </tr>
+//               ))
+//             ) : (
+//               <tr>
+//                 <td colSpan="5" className="text-center">Không có giao dịch</td>
+//               </tr>
+//             )}
+//           </tbody>
+//           <tfoot>
+//             <tr>
+//               <td colSpan="4" className="text-right">Tổng cộng</td>
+//               <td>
+//                 {bookings.reduce((sum, booking) => sum + booking.bookingPrice, 0)} VND
+//               </td>
+//             </tr>
+//           </tfoot>
+//         </Table>
+//       </Container>
+
+//       <VisaBanner />
+//     </div>
+//   );
+// }
+
+// export default Users;
+
+
+
+// import React, { useEffect, useState } from "react";
+// import { Container, Row, Col, Button, Table } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// function Users() {
+//   const [customerId, setCustomerId] = useState("");
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+//   const [profileImage, setProfileImage] = useState(null);
+//   const [bookings, setBookings] = useState([]);
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     sessionStorage.removeItem("account");
+//     localStorage.removeItem("account");
+//     navigate("/login");
+//   };
+
+//   // Enhanced function to fetch booking data from the backend API
+//   const fetchBookings = async () => {
+//     if (!customerId) return;
+
+//     try {
+//       const response = await axios.get(`http://localhost:8080/bookings/customer/${customerId}`);
+//       if (response.status === 200 && response.data.data) {
+//         const fetchedBookings = response.data.data.result; // Extract the bookings array from the response
+//         setBookings(fetchedBookings); // Update bookings state
+//         sessionStorage.setItem("bookings", JSON.stringify(fetchedBookings)); // Optionally store in session
+//       }
+//     } catch (error) {
+//       console.error("Error fetching bookings:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const session = sessionStorage.getItem("account");
+//     const local = localStorage.getItem("account");
+
+//     if (session || local) {
+//       const accountData = JSON.parse(session || local);
+//       if (accountData && accountData.customer) {
+//         setCustomerId(accountData.customer.customerId);
+//         setCustomerName(accountData.customer.customerName);
+//         setCustomerEmail(accountData.customer.customerEmail);
+//         setCustomerPhone(accountData.customer.customerPhone);
+
+//         // Load profile image
+//         const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
+//         if (storedProfileImage) {
+//           setProfileImage(storedProfileImage);
+//         }
+
+//         // Fetch bookings on component load or when customerId changes
+//         fetchBookings();
+//       } else {
+//         navigate("/login");
+//       }
+//     } else {
+//       navigate("/login");
+//     }
+//   }, [navigate, customerId]);
+
+//   const profileTextStyle = {
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <Container className="mt-5">
+//         <h2 className="text-center mb-1" style={profileTextStyle}>
+//           Lịch sử giao dịch
+//         </h2>
+//         <Table striped bordered hover className="mt-3 mb-5">
+//           <thead>
+//             <tr>
+//               <th>STT</th>
+//               <th>Thời gian giao dịch</th>
+//               <th>Mã lấy vé</th>
+//               <th>Thông tin vé</th>
+//               <th>Tổng tiền</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {bookings.length > 0 ? (
+//               bookings.map((booking, index) => (
+//                 <tr key={booking.bookingId}>
+//                   <td>{index + 1}</td>
+//                   <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
+//                   <td>{booking.bookingId}</td>
+//                   <td>
+//                     {booking.tickets && booking.tickets.length > 0
+//                       ? booking.tickets.map((ticket) => ticket.ticketId).join(", ")
+//                       : "Không có vé"}
+//                   </td>
+//                   <td>{booking.bookingPrice} VND</td>
+//                 </tr>
+//               ))
+//             ) : (
+//               <tr>
+//                 <td colSpan="5" className="text-center">Không có giao dịch</td>
+//               </tr>
+//             )}
+//           </tbody>
+//           <tfoot>
+//             <tr>
+//               <td colSpan="4" className="text-right">Tổng cộng</td>
+//               <td>
+//                 {bookings.reduce((sum, booking) => sum + booking.bookingPrice, 0)} VND
+//               </td>
+//             </tr>
+//           </tfoot>
+//         </Table>
+//       </Container>
+
+//       <VisaBanner />
+//     </div>
+//   );
+// }
+
+// export default Users;
+
+
+// import React, { useEffect, useState } from "react";
+// import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
+// import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import BannerSecond from "../home/components/BannerSecond";
+// import VisaBanner from "../home/components/VisaBanner";
+
+// function Users() {
+//   const [customerId, setCustomerId] = useState("");
+//   const [customerName, setCustomerName] = useState("");
+//   const [customerEmail, setCustomerEmail] = useState("");
+//   const [customerPhone, setCustomerPhone] = useState("");
+//   const [profileImage, setProfileImage] = useState(null);
+//   const [bookings, setBookings] = useState([]);
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [updatedInfo, setUpdatedInfo] = useState({
+//     customerName: "",
+//     customerEmail: "",
+//     customerPhone: "",
+//   });
+//   const navigate = useNavigate();
+
+//   const handleLogout = () => {
+//     sessionStorage.removeItem("account");
+//     localStorage.removeItem("account");
+//     navigate("/login");
+//   };
+
+//   // Fetch booking data from the backend API
+//   const fetchBookings = async () => {
+//     if (!customerId) return;
+
+//     try {
+//       const response = await axios.get(`http://localhost:8080/bookings/customer/${customerId}`);
+//       if (response.status === 200 && response.data.data) {
+//         const fetchedBookings = response.data.data.result; // Extract the bookings array from the response
+//         setBookings(fetchedBookings); // Update bookings state
+//         sessionStorage.setItem("bookings", JSON.stringify(fetchedBookings)); // Optionally store in session
+//       }
+//     } catch (error) {
+//       console.error("Error fetching bookings:", error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const session = sessionStorage.getItem("account");
+//     const local = localStorage.getItem("account");
+
+//     if (session || local) {
+//       const accountData = JSON.parse(session || local);
+//       if (accountData && accountData.customer) {
+//         setCustomerId(accountData.customer.customerId);
+//         setCustomerName(accountData.customer.customerName);
+//         setCustomerEmail(accountData.customer.customerEmail);
+//         setCustomerPhone(accountData.customer.customerPhone);
+//         setUpdatedInfo({
+//           customerName: accountData.customer.customerName,
+//           customerEmail: accountData.customer.customerEmail,
+//           customerPhone: accountData.customer.customerPhone,
+//         });
+
+//         // Load profile image
+//         const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
+//         if (storedProfileImage) {
+//           setProfileImage(storedProfileImage);
+//         }
+
+//         // Fetch bookings on component load or when customerId changes
+//         fetchBookings();
+//       } else {
+//         navigate("/login");
+//       }
+//     } else {
+//       navigate("/login");
+//     }
+//   }, [navigate, customerId]);
+
+//   const handleImageChange = (e) => {
+//     const file = e.target.files[0];
+//     if (file && file.type !== "image/jpeg") {
+//       alert("Please upload a .jpg image.");
+//       return;
+//     }
+//     if (file) {
+//       const reader = new FileReader();
+//       reader.onloadend = () => {
+//         const base64String = reader.result;
+//         localStorage.setItem(`profileImage-${customerId}`, base64String);
+//         setProfileImage(base64String);
+//       };
+//       reader.readAsDataURL(file);
+//     }
+//   };
+
+//   const handleEdit = () => {
+//     setIsEditing(true);
+//   };
+
+//   const handleCancelEdit = () => {
+//     setIsEditing(false);
+//     setUpdatedInfo({
+//       customerName,
+//       customerEmail,
+//       customerPhone,
+//     });
+//   };
+
+//   const handleSave = async () => {
+//     try {
+//       const response = await axios.put(`http://localhost:8080/customers/${customerId}`, {
+//         customerName: updatedInfo.customerName,
+//         customerEmail: updatedInfo.customerEmail,
+//         customerPhone: updatedInfo.customerPhone,
+//       });
+
+//       if (response.status === 200) {
+//         const updatedCustomer = response.data.data;
+
+//         // Update session storage with the new data
+//         let session = sessionStorage.getItem("account");
+//         if (session) {
+//           const accountData = JSON.parse(session);
+//           accountData.customer = updatedCustomer;
+//           sessionStorage.setItem("account", JSON.stringify(accountData));
+
+//           // Update the displayed customer info
+//           setCustomerName(updatedCustomer.customerName);
+//           setCustomerEmail(updatedCustomer.customerEmail);
+//           setCustomerPhone(updatedCustomer.customerPhone);
+//         }
+
+//         setIsEditing(false); // Exit editing mode
+//       }
+//     } catch (error) {
+//       console.error("Error updating customer info:", error);
+//     }
+//   };
+
+//   const profileTextStyle = {
+//     color: "#8bc34a",
+//     fontWeight: "bold",
+//     fontFamily: "Arial, sans-serif",
+//   };
+
+//   return (
+//     <div>
+//       <BannerSecond />
+//       <Container className="mt-5">
+//         <h2 className="text-center mb-1" style={profileTextStyle}>
+//           Tài khoản
+//         </h2>
+//         <Row>
+//           <Col md={8} className="border p-4 rounded shadow">
+//             <div className="d-flex">
+//               <div className="mr-3">
+//                 <img
+//                   style={{ width: "35%", borderRadius: "50%" }}
+//                   src={profileImage || "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"}
+//                   alt="User Avatar"
+//                 />
+//                 <Form.Group controlId="formFile" className="mt-3">
+//                   <Form.Label>Upload Profile Image (.jpg only)</Form.Label>
+//                   <Form.Control type="file" onChange={handleImageChange} />
+//                 </Form.Group>
+//               </div>
+//               <div className="container">
+//                 <h5 style={profileTextStyle}>{customerName || "Không có tên"}</h5>
+//                 <p className="text-muted">Email: {customerEmail || "Không có email"}</p>
+//                 <p className="text-muted">Số điện thoại: {customerPhone || "Không có số điện thoại"}</p>
+//               </div>
+//             </div>
+
+//             <hr />
+
+//             <Form>
+//               <Form.Group controlId="formLastName" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
+//                 <Form.Label>Tên đệm và tên *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={updatedInfo.customerName}
+//                   onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerName: e.target.value })}
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               <Form.Group controlId="formEmail" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
+//                 <Form.Label>Email *</Form.Label>
+//                 <Form.Control
+//                   type="email"
+//                   value={updatedInfo.customerEmail}
+//                   onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerEmail: e.target.value })}
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               <Form.Group controlId="formPhoneNumber" style={{ textAlign: "left", marginTop: "20px", color: "#8bc34a" }}>
+//                 <Form.Label>Số điện thoại *</Form.Label>
+//                 <Form.Control
+//                   type="text"
+//                   value={updatedInfo.customerPhone}
+//                   onChange={(e) => setUpdatedInfo({ ...updatedInfo, customerPhone: e.target.value })}
+//                   readOnly={!isEditing}
+//                 />
+//               </Form.Group>
+
+//               {isEditing ? (
+//                 <div className="d-flex justify-content-between mt-5">
+//                   <Button variant="danger" onClick={handleCancelEdit}>Hủy</Button>
+//                   <Button variant="success" onClick={handleSave}>Lưu</Button>
+//                 </div>
+//               ) : (
+//                 <Button variant="primary" className="w-100 mt-5" onClick={handleEdit}>Chỉnh sửa</Button>
+//               )}
+//             </Form>
+//           </Col>
+
+//           <Col md={4} className="border p-4 rounded shadow text-center">
+//             <p style={profileTextStyle}>Tên đăng nhập: {customerName || "Không có tên"}</p>
+//             <Button variant="success" className="w-100 mb-2" onClick={handleLogout}>Đăng xuất</Button>
+//           </Col>
+//         </Row>
+
+//         <h5 className="mt-5" style={profileTextStyle}>
+//           Lịch sử giao dịch
+//         </h5>
+//         <Table striped bordered hover className="mt-3 mb-5">
+//           <thead>
+//             <tr>
+//               <th>STT</th>
+//               <th>Thời gian giao dịch</th>
+//               <th>Mã lấy vé</th>
+//               <th>Thông tin vé</th>
+//               <th>Tổng tiền</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {bookings.length > 0 ? (
+//               bookings.map((booking, index) => (
+//                 <tr key={booking.bookingId}>
+//                   <td>{index + 1}</td>
+//                   <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
+//                   <td>{booking.bookingId}</td>
+//                   <td>
+//                     {booking.tickets && booking.tickets.length > 0
+//                       ? booking.tickets.map((ticket) => ticket.ticketId).join(", ")
+//                       : "Không có vé"}
+//                   </td>
+//                   <td>{booking.bookingPrice} VND</td>
+//                 </tr>
+//               ))
+//             ) : (
+//               <tr>
+//                 <td colSpan="5" className="text-center">Không có giao dịch</td>
+//               </tr>
+//             )}
+//           </tbody>
+//           <tfoot>
+//             <tr>
+//               <td colSpan="4" className="text-right">Tổng cộng</td>
+//               <td>
+//                 {bookings.reduce((sum, booking) => sum + booking.bookingPrice, 0)} VND
+//               </td>
+//             </tr>
+//           </tfoot>
+//         </Table>
+//       </Container>
+
+//       <VisaBanner />
+//     </div>
+//   );
+// }
+
+// export default Users;
+
+
+
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios for API calls
+import axios from "axios";
 import BannerSecond from "../home/components/BannerSecond";
 import VisaBanner from "../home/components/VisaBanner";
 
@@ -3047,7 +3852,7 @@ function Users() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [customerPhone, setCustomerPhone] = useState("");
   const [profileImage, setProfileImage] = useState(null);
-  const [bookings, setBookings] = useState([]); // State for bookings
+  const [bookings, setBookings] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [updatedInfo, setUpdatedInfo] = useState({
     customerName: "",
@@ -3060,6 +3865,20 @@ function Users() {
     sessionStorage.removeItem("account");
     localStorage.removeItem("account");
     navigate("/login");
+  };
+
+  const fetchBookings = async () => {
+    if (!customerId) return;
+
+    try {
+      const response = await axios.get(`http://localhost:8080/bookings/customer/${customerId}`);
+      if (response.status === 200 && response.data.data) {
+        const fetchedBookings = response.data.data.result;
+        setBookings(fetchedBookings);
+      }
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+    }
   };
 
   useEffect(() => {
@@ -3079,23 +3898,19 @@ function Users() {
           customerPhone: accountData.customer.customerPhone,
         });
 
-        // Load profile image
         const storedProfileImage = localStorage.getItem(`profileImage-${accountData.customer.customerId}`);
         if (storedProfileImage) {
           setProfileImage(storedProfileImage);
         }
 
-        // Load bookings
-        if (accountData.booking) {
-          setBookings(accountData.booking);
-        }
+        fetchBookings();
       } else {
         navigate("/login");
       }
     } else {
       navigate("/login");
     }
-  }, [navigate]);
+  }, [navigate, customerId]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -3129,34 +3944,51 @@ function Users() {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put(`http://localhost:8080/customers/${customerId}`, {
+      // Construct the updated customer data from the `updatedInfo` state
+      const updatedCustomerData = {
         customerName: updatedInfo.customerName,
         customerEmail: updatedInfo.customerEmail,
         customerPhone: updatedInfo.customerPhone,
-      });
-
-      if (response.status === 200) {
+      };
+  
+      // Send a PUT request to update customer information in the database
+      const response = await axios.put(`http://localhost:8080/customers/${customerId}`, updatedCustomerData);
+  
+      // Check if the response is successful
+      if (response.status === 200 && response.data.status === "success") {
         const updatedCustomer = response.data.data;
-
-        // Update session storage with the new data
+  
+        // Update session storage with the new customer data
         let session = sessionStorage.getItem("account");
         if (session) {
           const accountData = JSON.parse(session);
           accountData.customer = updatedCustomer;
           sessionStorage.setItem("account", JSON.stringify(accountData));
-
-          // Update the displayed customer info
-          setCustomerName(updatedCustomer.customerName);
-          setCustomerEmail(updatedCustomer.customerEmail);
-          setCustomerPhone(updatedCustomer.customerPhone);
         }
-
-        setIsEditing(false); // Exit editing mode
+  
+        // Update the displayed customer information in the state
+        setCustomerName(updatedCustomer.customerName);
+        setCustomerEmail(updatedCustomer.customerEmail);
+        setCustomerPhone(updatedCustomer.customerPhone);
+        setUpdatedInfo({
+          customerName: updatedCustomer.customerName,
+          customerEmail: updatedCustomer.customerEmail,
+          customerPhone: updatedCustomer.customerPhone,
+        });
+  
+        // Exit editing mode
+        setIsEditing(false);
+        alert("Customer information updated successfully!");
+      } else {
+        console.error("Failed to update customer information.");
+        alert("Failed to update customer information. Please try again.");
       }
     } catch (error) {
       console.error("Error updating customer info:", error);
+      alert("An error occurred while updating your information. Please try again.");
     }
   };
+  
 
   const profileTextStyle = {
     color: "#8bc34a",
@@ -3176,7 +4008,7 @@ function Users() {
             <div className="d-flex">
               <div className="mr-3">
                 <img
-                  style={{ width: "100px", borderRadius: "50%" }}
+                  style={{ width: "35%", borderRadius: "50%" }}
                   src={profileImage || "https://bhdstar.vn/wp-content/assets/loodo/no-user.jpg"}
                   alt="User Avatar"
                 />
@@ -3235,15 +4067,16 @@ function Users() {
               )}
             </Form>
           </Col>
-
           <Col md={4} className="border p-4 rounded shadow text-center">
             <div className="mb-4">
-              <img style={{ width: "30%" }} src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="logo" className="img-fluid" />
-            </div>
-            <p style={profileTextStyle}>Tên đăng nhập: {customerName || "Không có email"}</p>
-            <Button variant="success" className="w-100 mb-2" onClick={handleLogout}>Đăng xuất</Button>
-          </Col>
-        </Row>
+               <img style={{ width: "30%" }} src="https://bhdstar.vn/wp-content/uploads/2023/08/logo.png" alt="logo" className="img-fluid" />
+             </div>
+             <p style={profileTextStyle}>Tên đăng nhập: {customerName || "Không có email"}</p>
+             <Button variant="success" className="w-100 mb-2" onClick={handleLogout}>Đăng xuất</Button>
+           </Col>
+         </Row>
+
+     
 
         <h5 className="mt-5" style={profileTextStyle}>
           Lịch sử giao dịch
@@ -3266,7 +4099,7 @@ function Users() {
                   <td>{new Date(booking.bookingCreateAt).toLocaleString()}</td>
                   <td>{booking.bookingId}</td>
                   <td>
-                    {booking.tickets
+                    {booking.tickets && booking.tickets.length > 0
                       ? booking.tickets.map((ticket) => ticket.ticketId).join(", ")
                       : "Không có vé"}
                   </td>
@@ -3275,17 +4108,13 @@ function Users() {
               ))
             ) : (
               <tr>
-                <td colSpan="5" className="text-center">
-                  Không có giao dịch
-                </td>
+                <td colSpan="5" className="text-center">Không có giao dịch</td>
               </tr>
             )}
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="4" className="text-right">
-                Tổng cộng
-              </td>
+              <td colSpan="4" className="text-right">Tổng cộng</td>
               <td>
                 {bookings.reduce((sum, booking) => sum + booking.bookingPrice, 0)} VND
               </td>

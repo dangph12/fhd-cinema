@@ -225,7 +225,7 @@ import { useLocation, useNavigate, Routes, Route } from 'react-router-dom';
 // Create TicketContext
 export const TicketContext = createContext();
 
-const pageSize = 3; // Number of items per page
+const pageSize = 10; // Number of items per page
 
 // Initial state for TicketContext
 const initialState = {

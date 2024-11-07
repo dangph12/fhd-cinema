@@ -130,8 +130,9 @@
 
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Container, Modal, Form, Button, Row, Col } from 'react-bootstrap';
 import { MovieContext } from '../context/MovieContext';
+import TextEditor from '../../common/TextEditor';
 
 function UpdateMovieModal({ movieId, show, fetchMovies, onHide }) {
   const { state } = useContext(MovieContext);
@@ -181,7 +182,7 @@ function UpdateMovieModal({ movieId, show, fetchMovies, onHide }) {
         });
       }
     }
-  }, [movieId, state.movies]);
+  }, [movieId]);
 
   // Set individual form field values
   const setField = (field, value) => {
@@ -263,224 +264,249 @@ function UpdateMovieModal({ movieId, show, fetchMovies, onHide }) {
   };
 
   return (
-    <Modal show={updateShow} onHide={() => closeUpdateShow()}>
+    <Modal fullscreen={true} show={updateShow} onHide={() => closeUpdateShow()}>
       <Modal.Header closeButton>
         <Modal.Title>Update Movie</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleUpdate} id="updateForm">
+          <Container>
+            <Row>
+              <Col>
+                {/* Movie Rating */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie Rating</Form.Label>
+                  <Form.Select
+                    required
+                    name="ratingId"
+                    onChange={(e) => setField('ratingId', e.target.value)}
+                    className="bg-body text-dark border-secondary"
+                    value={form.ratingId}
+                    isInvalid={!!errors.ratingId}
+                  >
+                    <option value="">Select movie rating</option>
 
-          {/* Movie Rating */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie Rating</Form.Label>
-            <Form.Select
-              required
-              name="ratingId"
-              onChange={(e) => setField('ratingId', e.target.value)}
-              className="bg-body text-dark border-secondary"
-              value={form.ratingId}
-              isInvalid={!!errors.ratingId}
-            >
-              <option value="">Select movie rating</option>
-              {/* <option value="3cdbbb96-73e0-11ef-ab6e-0242ac110001">P</option>
-              <option value="3cdbc1a0-73e0-11ef-ab6e-0242ac110002">K</option>
-              <option value="3cdbc2e2-73e0-11ef-ab6e-0242ac110003">T13</option>
-              <option value="3cdbc369-73e0-11ef-ab6e-0242ac110004">T16</option>
-              <option value="3cdbc3ee-73e0-11ef-ab6e-0242ac110005">T18</option> */}
-
-              {state.ratings.map((rating) => (
-                <option key={rating.ratingId} value={rating.ratingId}>
-                  {rating.ratingName}
-                </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.ratingId}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Title */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie Title</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('movieTitle', e.target.value)}
-              placeholder="Movie title"
-              name="movieTitle"
-              value={form.movieTitle}
-              isInvalid={!!errors.movieTitle}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieTitle}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie genre */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie genre</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('movieGenre', e.target.value)}
-              placeholder="Movie genre"
-              name="movieGenre"
-              value={form.movieGenre}
-              isInvalid={!!errors.movieGenre}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieGenre}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie director */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie director</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('movieDirector', e.target.value)}
-              placeholder="Movie director"
-              name="movieDirector"
-              value={form.movieDirector}
-              isInvalid={!!errors.movieDirector}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieDirector}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie cast */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie cast</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('movieCast', e.target.value)}
-              placeholder="Movie cast"
-              name="movieCast"
-              value={form.movieCast}
-              isInvalid={!!errors.movieCast}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieCast}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Status */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie Status</Form.Label>
-            <Form.Select
-              required
-              name="movieStatus"
-              onChange={(e) => setField('movieStatus', e.target.value)}
-              className="bg-body text-dark border-secondary"
-              value={form.movieStatus}
-              isInvalid={!!errors.movieStatus}
-            >
-              <option value="">Select movie status</option>
-              <option value="Now Showing">Now Showing</option>
-              <option value="Coming Soon">Coming Soon</option>
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.movieStatus}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Format */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie format</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('movieFormat', e.target.value)}
-              placeholder="Movie format"
-              name="movieFormat"
-              value={form.movieFormat}
-              isInvalid={!!errors.movieFormat}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieFormat}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Duration Minute */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie duration minute</Form.Label>
-            <Form.Control
-              required
-              type="number"
-              onChange={(e) => setField('movieDurationMinute', e.target.value)}
-              placeholder="Movie duration minute"
-              name="movieDurationMinute"
-              value={form.movieDurationMinute}
-              isInvalid={!!errors.movieDurationMinute}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieDurationMinute}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Release Date */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie release date</Form.Label>
-            <Form.Control
-              required
-              type="date"
-              onChange={(e) => setField('movieReleaseDate', e.target.value)}
-              placeholder="Movie release date"
-              name="movieReleaseDate"
-              value={form.movieReleaseDate}
-              isInvalid={!!errors.movieReleaseDate}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieReleaseDate}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Trailer URL */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie trailer URL</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('movieTrailerUrl', e.target.value)}
-              placeholder="Movie trailer URL"
-              name="movieTrailerUrl"
-              value={form.movieTrailerUrl}
-              isInvalid={!!errors.movieTrailerUrl}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieTrailerUrl}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Description */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie description</Form.Label>
-            <Form.Control
-              required
-              as="textarea"
-              rows={3}
-              onChange={(e) => setField('movieDescription', e.target.value)}
-              placeholder="Movie description"
-              name="movieDescription"
-              value={form.movieDescription}
-              isInvalid={!!errors.movieDescription}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieDescription}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Language */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie language</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('movieLanguage', e.target.value)}
-              placeholder="Movie language"
-              name="movieLanguage"
-              value={form.movieLanguage}
-              isInvalid={!!errors.movieLanguage}
-            />
-            <Form.Control.Feedback type="invalid">{errors.movieLanguage}</Form.Control.Feedback>
-          </Form.Group>
-
-          {/* Movie Poster URL */}
-          <Form.Group className="m-2">
-            <Form.Label>Movie poster URL</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              onChange={(e) => setField('moviePosterUrl', e.target.value)}
-              placeholder="Movie poster URL"
-              name="moviePosterUrl"
-              value={form.moviePosterUrl}
-              isInvalid={!!errors.moviePosterUrl}
-            />
-            <Form.Control.Feedback type="invalid">{errors.moviePosterUrl}</Form.Control.Feedback>
-          </Form.Group>
-
+                    {state.ratings.map((rating) => (
+                      <option key={rating.ratingId} value={rating.ratingId}>
+                        {rating.ratingName}
+                      </option>
+                    ))}
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">{errors.ratingId}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie Title */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie Title</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('movieTitle', e.target.value)}
+                    placeholder="Movie title"
+                    name="movieTitle"
+                    value={form.movieTitle}
+                    isInvalid={!!errors.movieTitle}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieTitle}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie genre */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie genre</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('movieGenre', e.target.value)}
+                    placeholder="Movie genre"
+                    name="movieGenre"
+                    value={form.movieGenre}
+                    isInvalid={!!errors.movieGenre}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieGenre}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {/* Movie director */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie director</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('movieDirector', e.target.value)}
+                    placeholder="Movie director"
+                    name="movieDirector"
+                    value={form.movieDirector}
+                    isInvalid={!!errors.movieDirector}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieDirector}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie cast */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie cast</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('movieCast', e.target.value)}
+                    placeholder="Movie cast"
+                    name="movieCast"
+                    value={form.movieCast}
+                    isInvalid={!!errors.movieCast}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieCast}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie Status */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie Status</Form.Label>
+                  <Form.Select
+                    required
+                    name="movieStatus"
+                    onChange={(e) => setField('movieStatus', e.target.value)}
+                    className="bg-body text-dark border-secondary"
+                    value={form.movieStatus}
+                    isInvalid={!!errors.movieStatus}
+                  >
+                    <option value="">Select movie status</option>
+                    <option value="Now Showing">Now Showing</option>
+                    <option value="Coming Soon">Coming Soon</option>
+                  </Form.Select>
+                  <Form.Control.Feedback type="invalid">{errors.movieStatus}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {/* Movie Format */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie format</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('movieFormat', e.target.value)}
+                    placeholder="Movie format"
+                    name="movieFormat"
+                    value={form.movieFormat}
+                    isInvalid={!!errors.movieFormat}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieFormat}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie Duration Minute */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie duration minute</Form.Label>
+                  <Form.Control
+                    required
+                    type="number"
+                    onChange={(e) => setField('movieDurationMinute', e.target.value)}
+                    placeholder="Movie duration minute"
+                    name="movieDurationMinute"
+                    value={form.movieDurationMinute}
+                    isInvalid={!!errors.movieDurationMinute}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieDurationMinute}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie Release Date */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie release date</Form.Label>
+                  <Form.Control
+                    required
+                    type="date"
+                    onChange={(e) => setField('movieReleaseDate', e.target.value)}
+                    placeholder="Movie release date"
+                    name="movieReleaseDate"
+                    value={form.movieReleaseDate}
+                    isInvalid={!!errors.movieReleaseDate}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieReleaseDate}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {/* Movie Trailer URL */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie trailer URL</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('movieTrailerUrl', e.target.value)}
+                    placeholder="Movie trailer URL"
+                    name="movieTrailerUrl"
+                    value={form.movieTrailerUrl}
+                    isInvalid={!!errors.movieTrailerUrl}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieTrailerUrl}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie Language */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie language</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('movieLanguage', e.target.value)}
+                    placeholder="Movie language"
+                    name="movieLanguage"
+                    value={form.movieLanguage}
+                    isInvalid={!!errors.movieLanguage}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieLanguage}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                {/* Movie Poster URL */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie poster URL</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    onChange={(e) => setField('moviePosterUrl', e.target.value)}
+                    placeholder="Movie poster URL"
+                    name="moviePosterUrl"
+                    value={form.moviePosterUrl}
+                    isInvalid={!!errors.moviePosterUrl}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.moviePosterUrl}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {/* Movie Description */}
+                <Form.Group className="m-2">
+                  <Form.Label>Movie description</Form.Label>
+                  {/* <Form.Control
+                    required
+                    as="textarea"
+                    rows={3}
+                    onChange={(e) => setField('movieDescription', e.target.value)}
+                    placeholder="Movie description"
+                    name="movieDescription"
+                    value={form.movieDescription}
+                    isInvalid={!!errors.movieDescription}
+                  /> */}
+                  <TextEditor
+                    object="movie"
+                    description={form.movieDescription}
+                    field="movieDescription"
+                    setField={setField}
+                  />
+                  <Form.Control.Feedback type="invalid">{errors.movieDescription}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+          </Container>
         </Form>
       </Modal.Body>
       <Modal.Footer>

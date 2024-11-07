@@ -1,89 +1,80 @@
-
-
-import React, { useState, useEffect, useContext } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
-import { ScreenContext } from '../context/ScreenContext'
+import React, { useState, useEffect, useContext } from 'react';
+import { Modal, Form, Button } from 'react-bootstrap';
+import { ScreenContext } from '../context/ScreenContext';
 
 function UpdateScreenModal({ screenId, show, fetchScreens, onHide }) {
-  const { state } = useContext(ScreenContext)
+  const { state } = useContext(ScreenContext);
 
-  const [updateShow, setUpdateShow] = useState(false)
-  const [form, setForm] = useState({ screenName: '', location: '', cinema: '' })
-  const [locations, setLocations] = useState([])
-  const [cinemas, setCinemas] = useState([])
-  const [validated, setValidated] = useState(false)
-  const [errors, setErrors] = useState({})
+  const [updateShow, setUpdateShow] = useState(false);
+  const [form, setForm] = useState({
+    screenName: '',
+    cinemaId: '',
+  });
+  const [cinemas, setCinemas] = useState([]);
+  const [validated, setValidated] = useState(false);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    setUpdateShow(show)
-  }, [show])
+    setUpdateShow(show);
+  }, [show]);
 
-  // Lấy thông tin màn hình hiện tại dựa trên `screenId` để cập nhật form
-  useEffect(() => {
-    if (screenId) {
-      const screen = state.screens.find((screen) => screen.screenId === screenId)
-      if (screen) {
-        setForm({
-          screenName: screen.screenName,
-          location: screen.locationId,
-          cinema: screen.cinemaId
-        })
-      }
-    }
-  }, [screenId, state.screens])
-
-  // Lấy dữ liệu locations từ API
-  useEffect(() => {
-    fetch('http://localhost:8080/locations')
-      .then((response) => response.json())
-      .then((json) => setLocations(json.data))
-      .catch((error) => console.error('Error fetching locations:', error))
-  }, [])
-
-  // Lấy dữ liệu cinemas từ API
+  // Fetch cinemas from API
   useEffect(() => {
     fetch('http://localhost:8080/cinemas')
       .then((response) => response.json())
       .then((json) => setCinemas(json.data))
-      .catch((error) => console.error('Error fetching cinemas:', error))
-  }, [])
+      .catch((error) => console.error('Error fetching cinemas:', error));
+  }, []);
+
+  // Populate form with the selected screen item details based on screenId
+  useEffect(() => {
+    if (screenId) {
+      const screen = state.screens.find((screenItem) => screenItem.screenId === screenId);
+      if (screen) {
+        setForm({
+          screenName: screen.screenName,
+          cinemaId: screen.cinema.cinemaId,
+        });
+      }
+    }
+  }, [screenId, state.screens]);
 
   const setField = (field, value) => {
     setForm({
       ...form,
       [field]: value,
-    })
-  }
+    });
+  };
 
   const validateForm = () => {
-    const newErrors = {}
-    if (!form.screenName) newErrors.screenName = 'Screen name is required'
-    if (!form.location) newErrors.location = 'Location is required'
-    if (!form.cinema) newErrors.cinema = 'Cinema is required'
-    return newErrors
-  }
+    const newErrors = {};
+    if (!form.screenName) newErrors.screenName = 'Screen name is required';
+    if (!form.cinemaId) newErrors.cinemaId = 'Cinema is required';
+    return newErrors;
+  };
 
   const closeUpdateShow = () => {
-    onHide()
-    setUpdateShow(false)
-    setForm({ screenName: '', location: '', cinema: '' })
-    setValidated(false)
-    setErrors({})
-  }
+    onHide();
+    setUpdateShow(false);
+    setForm({ screenName: '', cinemaId: '' });
+    setValidated(false);
+    setErrors({});
+  };
 
   const handleUpdate = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const newErrors = validateForm()
+    const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors)
-      e.stopPropagation()
+      setErrors(newErrors);
+      e.stopPropagation();
     } else {
       const updateData = {
+        screenId: screenId,
         screenName: form.screenName,
-        locationId: form.location,
-        cinemaId: form.cinema
-      }
+        cinemaId: form.cinemaId,
+      };
+
       fetch(`http://localhost:8080/screens/${screenId}`, {
         method: 'PUT',
         headers: {
@@ -93,18 +84,18 @@ function UpdateScreenModal({ screenId, show, fetchScreens, onHide }) {
       })
         .then((response) => {
           if (response.ok) {
-            fetchScreens()
-            closeUpdateShow() // Đóng modal sau khi cập nhật thành công
+            fetchScreens(); // Refresh the screen list after update
+            closeUpdateShow();
           } else {
-            console.error('Failed to update the screen')
+            console.error('Failed to update the screen');
           }
         })
         .catch((error) => {
-          console.error('Error:', error)
-        })
+          console.error('Error:', error);
+        });
     }
-    setValidated(true)
-  }
+    setValidated(true);
+  };
 
   return (
     <Modal show={updateShow} onHide={() => closeUpdateShow()}>
@@ -127,42 +118,23 @@ function UpdateScreenModal({ screenId, show, fetchScreens, onHide }) {
             <Form.Control.Feedback type="invalid">{errors.screenName}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="m-2">
-            <Form.Label>Location</Form.Label>
-            <Form.Select
-              required
-              name="location"
-              onChange={(e) => setField('location', e.target.value)}
-              value={form.location}
-              isInvalid={!!errors.location}
-              className="bg-body text-dark border-secondary"
-            >
-              <option value="">Select location</option>
-              {locations.map((location) => (
-                <option key={location.locationId} value={location.locationId}>
-                  {location.locationName}
-                </option>
-              ))}
-            </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.location}</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="m-2">
             <Form.Label>Cinema</Form.Label>
             <Form.Select
               required
-              name="cinema"
-              onChange={(e) => setField('cinema', e.target.value)}
-              value={form.cinema}
-              isInvalid={!!errors.cinema}
+              name="cinemaId"
+              onChange={(e) => setField('cinemaId', e.target.value)}
+              value={form.cinemaId}
+              isInvalid={!!errors.cinemaId}
               className="bg-body text-dark border-secondary"
             >
               <option value="">Select cinema</option>
               {cinemas.map((cinema) => (
                 <option key={cinema.cinemaId} value={cinema.cinemaId}>
-                  {cinema.cinemaName}
+                  {cinema.cinemaName} - {cinema.location.locationName}
                 </option>
               ))}
             </Form.Select>
-            <Form.Control.Feedback type="invalid">{errors.cinema}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.cinemaId}</Form.Control.Feedback>
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -175,8 +147,7 @@ function UpdateScreenModal({ screenId, show, fetchScreens, onHide }) {
         </Button>
       </Modal.Footer>
     </Modal>
-  )
+  );
 }
 
-export default UpdateScreenModal
-
+export default UpdateScreenModal;

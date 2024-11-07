@@ -37,19 +37,19 @@ const AccountDetailTable = () => {
       header: 'Account Type',
       accessorKey: 'accountType',
     },
-    {
-      id: 'update',
-      header: 'Update',
-      cell: ({
-        row: {
-          original: { accountId },
-        },
-      }) => (
-        <Button variant="warning" onClick={() => setShowUpdateModal({ accountId, show: true })}>
-          Update
-        </Button>
-      ),
-    },
+    // {
+    //   id: 'update',
+    //   header: 'Update',
+    //   cell: ({
+    //     row: {
+    //       original: { accountId },
+    //     },
+    //   }) => (
+    //     <Button variant="warning" onClick={() => setShowUpdateModal({ accountId, show: true })}>
+    //       Update
+    //     </Button>
+    //   ),
+    // },
     {
       id: 'delete',
       header: 'Delete',

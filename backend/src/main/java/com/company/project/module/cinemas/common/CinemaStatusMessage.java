@@ -14,6 +14,7 @@ public enum CinemaStatusMessage {
     CREATE_SUCCESS("The cinema was created successfully"),
     GET_SUCCESS("Get all cinemas successfully"),
     EMPTY_NAME("The cinema name must not be empty"),
+    EMPTY_LOCATION_NAME("The cinema location name must not be empty"),
     EMPTY_LOCATION_ID("The cinema location id must not be empty");
 
     private final String message;

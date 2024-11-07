@@ -129,78 +129,87 @@
 
 // export default UpdateCustomerModal
 
-import React, { useState, useEffect, useContext } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
-import { CustomerContext } from '../context/CustomerContext';
+import React, { useState, useEffect, useContext } from 'react'
+import { Modal, Form, Button } from 'react-bootstrap'
+import { CustomerContext } from '../context/CustomerContext'
 
 function UpdateCustomerModal({ customerId, show, fetchCustomers, onHide }) {
-  const { state } = useContext(CustomerContext);
+  const { state } = useContext(CustomerContext)
 
-  const [updateShow, setUpdateShow] = useState(false);
-  const [form, setForm] = useState({ customerName: '', customerPhone: '', customerEmail: '' });
-  const [validated, setValidated] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [updateShow, setUpdateShow] = useState(false)
+  const [form, setForm] = useState({ customerName: '', customerPhone: '', customerEmail: '' })
+  const [validated, setValidated] = useState(false)
+  const [errors, setErrors] = useState({})
 
   // Hiển thị modal khi nhấn nút Update
   useEffect(() => {
-    setUpdateShow(show);
-  }, [show]);
+    setUpdateShow(show)
+  }, [show])
 
   // Cập nhật thông tin form dựa trên customerId
   useEffect(() => {
     if (customerId) {
-      const customer = state.customers.find((customer) => customer.customerId === customerId);
+      const customer = state.customers.find((customer) => customer.customerId === customerId)
       if (customer) {
         setForm({
           customerName: customer.customerName || '',
           customerPhone: customer.customerPhone || '',
-          customerEmail: customer.customerEmail || ''
-        });
+          customerEmail: customer.customerEmail || '',
+        })
       }
     }
-  }, [customerId, state.customers]);
+  }, [customerId, state.customers])
 
   // Hàm để cập nhật giá trị form
   const setField = (field, value) => {
     setForm({
       ...form,
       [field]: value,
-    });
-  };
+    })
+  }
 
   // Hàm kiểm tra và trả về lỗi form (nếu có)
   const validateForm = () => {
-    const newErrors = {};
-    if (!form.customerName) newErrors.customerName = 'Customer name is required';
-    if (!form.customerPhone) newErrors.customerPhone = 'Customer phone is required';
-    if (!form.customerEmail) newErrors.customerEmail = 'Customer email is required';
-    return newErrors;
-  };
+    const newErrors = {}
+    if (!form.customerName) newErrors.customerName = 'Customer name is required'
+    if (!form.customerPhone) newErrors.customerPhone = 'Customer phone is required'
+    if (!form.customerEmail) newErrors.customerEmail = 'Customer email is required'
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const phoneRegex = /^(0|\+84)(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-9]|9[0-9])[0-9]{7}$/
+
+    if (form.customerEmail && !emailRegex.test(form.customerEmail)) {
+      newErrors.customerEmail = 'Invalid email format'
+    }
+    if (form.customerPhone && !phoneRegex.test(form.customerPhone)) {
+      newErrors.customerPhone = 'Invalid phone number format'
+    }
+    return newErrors
+  }
 
   // Đóng modal và reset form
   const closeUpdateShow = () => {
-    onHide();
-    setUpdateShow(false);
-    setForm({ customerName: '', customerPhone: '', customerEmail: '' });
-    setValidated(false);
-    setErrors({});
-  };
+    onHide()
+    setUpdateShow(false)
+    setForm({ customerName: '', customerPhone: '', customerEmail: '' })
+    setValidated(false)
+    setErrors({})
+  }
 
   // Xử lý cập nhật thông tin khách hàng khi submit form
   const handleUpdate = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const newErrors = validateForm();
+    const newErrors = validateForm()
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      e.stopPropagation();
+      setErrors(newErrors)
+      e.stopPropagation()
     } else {
       // Chuẩn bị dữ liệu để gửi (tương tự Postman)
       const updateData = {
         customerName: form.customerName,
         customerPhone: form.customerPhone,
         customerEmail: form.customerEmail,
-      };
+      }
 
       // Gửi yêu cầu cập nhật lên server
       fetch(`http://localhost:8080/customers/${customerId}`, {
@@ -208,27 +217,23 @@ function UpdateCustomerModal({ customerId, show, fetchCustomers, onHide }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updateData), 
+        body: JSON.stringify(updateData),
       })
         .then((response) => response.json())
         .then((data) => {
           if (data.status === 'success') {
-            fetchCustomers(); // Làm mới danh sách khách hàng
+            fetchCustomers() // Làm mới danh sách khách hàng
           } else {
-            console.error('Failed to update the customer');
+            console.error('Failed to update the customer')
           }
         })
         .catch((error) => {
-          console.error('Error:', error);
-        });
+          console.error('Error:', error)
+        })
 
-      setUpdateShow(false);
-      onHide();
-      setForm({ customerName: '', customerPhone: '', customerEmail: '' });
-      setErrors({});
+        closeUpdateShow()
     }
-    setValidated(true);
-  };
+  }
 
   return (
     <Modal show={updateShow} onHide={() => closeUpdateShow()}>
@@ -287,7 +292,7 @@ function UpdateCustomerModal({ customerId, show, fetchCustomers, onHide }) {
         </Button>
       </Modal.Footer>
     </Modal>
-  );
+  )
 }
 
-export default UpdateCustomerModal;
+export default UpdateCustomerModal

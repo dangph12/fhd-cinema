@@ -55,12 +55,6 @@ const NavBar = (props) => {
                                     <img src={user} />
                                 </NavLink>
                             </Nav.Link>
-        
-                            <Nav.Link className="nav-item active">
-                                <NavLink className="nav-link" to="/cart">
-                                    <img src={cart} />
-                                </NavLink>
-                            </Nav.Link>
                         </ul>
                     </div>
                 </div>

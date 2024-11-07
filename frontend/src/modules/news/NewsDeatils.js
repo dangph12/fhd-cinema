@@ -68,7 +68,6 @@
 
 // export default NewsDeatils;
 
-
 import React, { useEffect, useState } from "react";
 import BannerSecond from "../home/components/BannerSecond";
 import { SocialIcon } from "react-social-icons";
@@ -81,6 +80,8 @@ function NewsDetails() {
   const [newsDetails, setNewsDetails] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     getNewsDetails(newsId);
   }, [newsId]);
 
@@ -109,9 +110,15 @@ function NewsDetails() {
           {newsDetails && (
             <div className="film-description col-md-7" key={newsDetails.newsId}>
               <h1 className="film-title">{newsDetails.newsTitle}</h1>
-              <p className="film-synopsis">
+              {/* <p className="film-synopsis">
                 <strong>{newsDetails.newsDescription}</strong>
-              </p>
+              </p> */}
+              <p
+                className="film-synopsis"
+                dangerouslySetInnerHTML={{
+                  __html: newsDetails.newsDescription,
+                }}
+              ></p>
               <br />
               <p className="film-synopsis">
                 <strong>Ngày Đăng Tin Khuyến Mãi: </strong>

@@ -23,14 +23,16 @@ const snackImages = {
 const OrderFood = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { selectedSeats, showtimeDetails, movieDetails,customerId} = state || {};
+  const { selectedSeats, showtimeDetails, movieDetails,customerId, getTotalPrice} = state || {};
   const [movieTitle] = useState(movieDetails?.movieTitle || 'Unknown Movie Title');
   const [moviePosterUrl] = useState(movieDetails?.moviePosterUrl || '');
   const [snacks, setSnacks] = useState([]);
   const [quantity, setQuantity] = useState({});
   const { setCheckoutData } = useCheckout();
+  
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchSnacks = async () => {
       try {
         const response = await axios.get('http://localhost:8080/snacks');
@@ -82,7 +84,10 @@ const OrderFood = () => {
       totalPrice,
       snacks: selectedSnacks,
       moviePosterUrl,
-      customerId
+      customerId,
+      getTotalPrice,
+      totalTicketPrice
+      
     });
     
     navigate('/checkout');
@@ -90,9 +95,45 @@ const OrderFood = () => {
 
   return (
     <Container fluid>
-      <h2 className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold' }}>
+      
+      <h2 className="text-center mt-4" style={{ fontSize: '1.9rem', fontWeight: 'bold'}}>
         BƯỚC 3: CHỌN ĐỒ ĂN
       </h2>
+      <div className="movie-card">
+          <img
+            src={movieDetails?.moviePosterUrl}
+            alt="Movie Poster"
+            className="movie-poster"
+          />
+
+          {movieDetails && (
+            <div className="movie-details">
+              <h3 className="movie-title">{movieDetails.movieTitle}</h3>
+              <p className="movie-description">{movieDetails.movieDescription}</p>
+              <p>
+                <strong>Đạo diễn:</strong>{" "}
+                <a href="#">{movieDetails.movieDirector}</a>
+              </p>
+              <p>
+                <strong>Diễn viên:</strong> <a href="#">Blake Lively</a>,{" "}
+                <a href="#">Justin Baldoni</a>
+              </p>
+              <p>
+                <strong>Thể loại:</strong> <a href="#">{movieDetails.movieGenre}</a>
+              </p>
+              <p>
+                <strong>Khởi chiếu:</strong> {movieDetails.movieReleaseDate} |{" "}
+                <strong>Thời lượng:</strong> 130 phút
+              </p>
+              <p>
+                <strong>Định Dạng:</strong> {movieDetails.movieFormat}
+              </p>
+              <button className="movie-button" onClick={() => navigate("/")}>
+                ← CHỌN PHIM KHÁC
+              </button>
+            </div>
+          )}
+        </div>
       <Row>
         <Col md={8}>
           <SnackList snacks={snacks} quantity={quantity} onQuantityChange={handleQuantityChange} />

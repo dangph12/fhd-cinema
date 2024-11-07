@@ -1,6 +1,7 @@
 package com.company.project.module.bookings.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,10 +9,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.company.project.common.ApiPagination;
+import com.company.project.common.ApiViewBooking;
 import com.company.project.common.Status;
 import com.company.project.module.bookings.common.BookingStatusMessage;
 import com.company.project.module.bookings.dto.request.BookingCreationRequest;
 import com.company.project.module.bookings.dto.response.BookingDto;
+import com.company.project.module.bookings.dto.response.BookingInfoDto;
 import com.company.project.module.bookings.entity.Booking;
 import com.company.project.module.bookings.exception.BookingException;
 import com.company.project.module.bookings.repository.BookingRepository;
@@ -58,6 +61,21 @@ public class BookingService {
 
   private BookingDto convertToBookingDto(Booking booking) {
     return modelMapper.map(booking, BookingDto.class);
+  }
+
+  private BookingInfoDto convertToBookingInforDto(Booking booking) {
+    return BookingInfoDto.builder()
+        .bookingId(booking.getBookingId())
+        .bookingPrice(booking.getBookingPrice())
+        .bookingCreateAt(booking.getBookingCreateAt())
+        .tickets(booking.getTickets())
+        .snacks(booking.getSnacks())
+        .showtime(booking.getShowtime())
+        .customerName(booking.getCustomer().getCustomerName())
+        .customerPhone(booking.getCustomer().getCustomerPhone())
+        .customerEmail(booking.getCustomer().getCustomerEmail())
+        .movieTitle(booking.getShowtime().getMovie().getMovieTitle())
+        .build();
   }
 
   public List<BookingDto> getAllBookings() {
@@ -165,6 +183,63 @@ public class BookingService {
         .build();
   }
 
+  public ApiViewBooking<BookingInfoDto> filterBookingInfos(String bookingId, String cinemaId, LocalDateTime startDate,
+      LocalDateTime endDate,
+      String movieId, String customerPhone, String customerEmail,
+      int page, int pageSize, String sortBy, String sortDirection) {
+    if (page < 1 || pageSize < 1) {
+      throw new BookingException(Status.FAIL.getValue(), BookingStatusMessage.LESS_THAN_ZERO.getMessage());
+    }
+
+    Sort.Direction direction = Sort.Direction.fromString(sortDirection);
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(direction, sortBy));
+
+    Page<Booking> bookingPages = bookingRepository.searchBookings(startDate, endDate, emptyToNull(movieId),
+        emptyToNull(customerPhone),
+        emptyToNull(customerEmail), emptyToNull(cinemaId), emptyToNull(bookingId), pageable);
+    long count = bookingPages.getTotalElements();
+
+    List<BookingInfoDto> bookingInfoDtos = bookingPages.getContent().stream()
+        .map(this::convertToBookingInforDto)
+        .collect(Collectors.toList());
+
+    return ApiViewBooking.<BookingInfoDto>builder()
+        .result(bookingInfoDtos)
+        .totalPrice(this.calculateTotalPayment(bookingInfoDtos))
+        .count(count)
+        .build();
+  }
+
+  public ApiViewBooking<BookingInfoDto> getBookingsByCustomerId(String customerId) {
+    if (customerId == null || customerId.isEmpty()) {
+      throw new BookingException(Status.FAIL.getValue(), BookingStatusMessage.EMPTY_CUSTOMER.getMessage());
+    }
+
+    List<Booking> bookings = bookingRepository.searchBookingsByCustomerId(customerId);
+
+    List<BookingInfoDto> bookingInfoDtos = bookings.stream()
+        .map(this::convertToBookingInforDto)
+        .collect(Collectors.toList());
+
+    return ApiViewBooking.<BookingInfoDto>builder()
+        .result(bookingInfoDtos)
+        .totalPrice(this.calculateTotalPayment(bookingInfoDtos))
+        .count(bookingInfoDtos.size())
+        .build();
+  }
+
+  public int calculateTotalPayment(List<BookingInfoDto> bookingInfoDtos) {
+    int total = 0;
+    for (BookingInfoDto bookingInfoDto : bookingInfoDtos) {
+      total += bookingInfoDto.getBookingPrice();
+    }
+    return total;
+  }
+
+  private String emptyToNull(String value) {
+    return (value == null || value.trim().isEmpty()) ? null : value;
+  }
+
   public void calculateTotalBookingPrice(Booking booking) {
     int totalTicketPrice = Optional.ofNullable(booking.getTickets())
         .orElse(Collections.emptyList())
@@ -190,7 +265,7 @@ public class BookingService {
     Snack snack = snackService.getSnackById(snackId);
 
     if (booking.getSnacks() == null) {
-        booking.setSnacks(new ArrayList<>());
+      booking.setSnacks(new ArrayList<>());
     }
 
     booking.getSnacks().add(snack);

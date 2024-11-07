@@ -24,6 +24,10 @@ const uploadToS3 = async (folder: any, file: any) => {
     if (!file.type.includes("image")) {
       return "Invalid file type";
     }
+
+    if (file.size > 5 * 1024 * 1024) {
+      return 'Image size should be less than 5MB';
+    }
   
     try {
       const response = await client.send(command);
