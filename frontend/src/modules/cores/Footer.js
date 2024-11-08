@@ -6,42 +6,19 @@ const Footer = (props) => {
         <div>
             <footer className="footer-section" >
                 <div className="container relative">
-                    {/* <div className="row">
-                        <div className="col-lg-">
-                            <div className="subscription-form">
-                                <h3 className="d-flex align-items-center"><span className="me-1"><img src="img/logo-100x100.png"
-                                    alt="Image" className="img-fluid" /></span><span></span></h3>
-                                <form action="#" className="row g-3">
-                                    <div className="col-auto">
-                                        <input type="text" className="form-control" placeholder="Enter your name" />
-                                    </div>
-                                    <div className="col-auto">
-                                        <input type="email" className="form-control" placeholder="Enter your email" />
-                                    </div>
-                                    <div className="col-auto">
-                                        <button className="btn btn-primary">
-                                            <span className="fa fa-paper-plane"></span>
-                                        </button>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div> */}
-
                     <div className="row g-5 mb-5">
                         <div className="col-lg-4">
                             <p className="mb-4"><img src="https://www.bhdstar.vn/wp-content/uploads/2024/09/logo2024.png"
                                 alt="Image" className="img-fluid" /></p>
 
-                            <ul className="list-unstyled custom-social">
-                                <li><a href="#"><span className="fa fa-brands fa-facebook-f"></span></a></li>
-                                <li><a href="#"><span className="fa fa-brands fa-twitter"></span></a></li>
+                            <ul style={{textAlign: "center"}} className="list-unstyled custom-social">
+                                <li><a href="https://www.facebook.com/profile.php?id=61567537853490"><span className="fa fa-brands fa-facebook-f"></span></a></li>
+                                {/* <li><a href="#"><span className="fa fa-brands fa-twitter"></span></a></li>
                                 <li><a href="#"><span className="fa fa-brands fa-instagram"></span></a></li>
-                                <li><a href="#"><span className="fa fa-brands fa-linkedin"></span></a></li>
+                                <li><a href="#"><span className="fa fa-brands fa-linkedin"></span></a></li> */}
                             </ul>
-                        </div>
-
+                        </div>  
+{/* 
                         <div className="col-lg-8">
                             <div className="row links-wrap">
                                 <div className="col-6 col-sm-6 col-md-3">
@@ -78,7 +55,7 @@ const Footer = (props) => {
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
 
@@ -91,12 +68,12 @@ const Footer = (props) => {
                                 </p>
                             </div>
 
-                            <div className="col-lg-6 text-center text-lg-end">
+                            {/* <div className="col-lg-6 text-center text-lg-end">
                                 <ul className="list-unstyled d-inline-flex ms-auto">
                                     <li className="me-4"><a href="#">Terms &amp; Conditions</a></li>
                                     <li><a href="#">Privacy Policy</a></li>
                                 </ul>
-                            </div>
+                            </div> */}
 
                         </div>
                     </div>
