@@ -164,7 +164,7 @@ public class AccountService {
 
   @Transactional
   public AccountDto createAccount(AccountCreationRequest request) {
-    if (accountRepository.existsByAccountNameAndIsDeletedFalse(request.getAccountName())) {
+    if (accountRepository.existsByAccountName(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 
@@ -201,7 +201,7 @@ public class AccountService {
     Account existingAccount = this.getAccountById(accountId);
 
     if (!existingAccount.getAccountName().equals(request.getAccountName()) &&
-        accountRepository.existsByAccountNameAndIsDeletedFalse(request.getAccountName())) {
+        accountRepository.existsByAccountName(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
 

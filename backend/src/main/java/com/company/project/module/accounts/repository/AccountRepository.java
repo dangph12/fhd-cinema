@@ -18,6 +18,8 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
   boolean existsByAccountIdAndIsDeletedFalse(String accountId);
 
+  boolean existsByAccountName(String accountName);
+
   boolean existsByAccountNameAndIsDeletedFalse(String accountName);
 
   List<Account> findAllByIsDeletedFalse();
