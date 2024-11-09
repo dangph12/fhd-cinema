@@ -124,7 +124,7 @@ public class AccountService {
 
   @Transactional
   public AccountDto createAccountByAdmin(AccountCreationByAdminRequest request) {
-    if (accountRepository.existsByAccountNameAndIsDeletedFalse(request.getAccountName())) {
+    if (accountRepository.existsByAccountName(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
     String password = this.generatePassword(8);
@@ -140,7 +140,7 @@ public class AccountService {
     Customer customer = null;
     if (request.getAccountType().equalsIgnoreCase("Customer")) {
       CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
-      customerCreationRequest.setCustomerName(request.getAccountName());
+      customerCreationRequest.setCustomerName(request.getCustomerName());
       customerCreationRequest.setCustomerPhone(request.getCustomerPhone());
       customerCreationRequest.setCustomerEmail(request.getCustomerEmail());
       customerCreationRequest.setAccountId(account.getAccountId());
