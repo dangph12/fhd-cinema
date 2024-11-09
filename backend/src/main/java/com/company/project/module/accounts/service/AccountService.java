@@ -140,7 +140,7 @@ public class AccountService {
     Customer customer = null;
     if (request.getAccountType().equalsIgnoreCase("Customer")) {
       CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
-      customerCreationRequest.setCustomerName(request.getAccountName());
+      customerCreationRequest.setCustomerName(request.getCustomerName());
       customerCreationRequest.setCustomerPhone(request.getCustomerPhone());
       customerCreationRequest.setCustomerEmail(request.getCustomerEmail());
       customerCreationRequest.setAccountId(account.getAccountId());
