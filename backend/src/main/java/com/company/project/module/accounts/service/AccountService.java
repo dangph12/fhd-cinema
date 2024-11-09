@@ -124,7 +124,7 @@ public class AccountService {
 
   @Transactional
   public AccountDto createAccountByAdmin(AccountCreationByAdminRequest request) {
-    if (accountRepository.existsByAccountNameAndIsDeletedFalse(request.getAccountName())) {
+    if (accountRepository.existsByAccountName(request.getAccountName())) {
       throw new AccountException(Status.FAIL.getValue(), AccountStatusMessage.EXIST_NAME.getMessage());
     }
     String password = this.generatePassword(8);
