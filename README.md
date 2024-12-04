@@ -19,6 +19,9 @@ Cấu trúc project
 ├── frontend
 │   ├── ...
 │   └── Dockerfile
+├── admin-frontend
+│   ├── ...
+│   └── Dockerfile
 ├── compose.yaml
 └── README.md
 ```
@@ -34,6 +37,7 @@ $ docker compose up -d --build
 ```
 Kết quả trả về
 ```
+Creating fhd-cinema-admin-frontend-1 ... done
 Creating fhd-cinema-frontend-1 ... done
 Creating fhd-cinema-db-1       ... done
 Creating fhd-cinema-backend-1  ... done
@@ -49,9 +53,9 @@ Hướng dẫn sửa code trực tiếp trên container từ máy host xem tại
 >
 > Mỗi lần có code mới cũng chạy lại lệnh trên để update code trong các container
 > 
-> Docker sẽ mở cổng 3000, 3306 từ các container đến các cổng tương đương trên máy host
+> Docker sẽ mở cổng 3000, 3306, 8080, 5713 từ các container đến các cổng tương đương trên máy host
 > 
-> Hãy đảm bảo các cổng 3000, 3306 trên máy host không được sử dụng
+> Hãy đảm bảo các cổng 3000, 3306, 8080, 5713 trên máy host không được sử dụng
 
 ## Kết quả mong muốn
 
@@ -64,20 +68,11 @@ $ docker ps
 Kết quả trả về
 ```
 CONTAINER ID        IMAGE                       COMMAND                  CREATED             STATUS              PORTS                                NAMES
-a63dee74d79e        fhd-cinema-backend      "java -cp app:app/li…"   39 seconds ago      Up 37 seconds       0.0.0.0:8080->8080/tcp                             swp-template_backend-1
-6a7364c0812e        fhd-cinema-frontend     "docker-entrypoint.s…"   39 seconds ago      Up 33 seconds       0.0.0.0:3000->3000/tcp               swp-template_frontend-1
-b176b18fbec4        mysql:8.0.36-debian       "docker-entrypoint.s…"   39 seconds ago      Up 37 seconds       0.0.0.0:3306->3306/tcp, 33060/tcp    swp-template_db-1
+a63dee74d79e        fhd-cinema-backend      "java -cp app:app/li…"   39 seconds ago      Up 37 seconds       0.0.0.0:8080->8080/tcp                             fhd-cinema_backend-1
+6a7364c0812e        fhd-cinema-frontend     "docker-entrypoint.s…"   39 seconds ago      Up 33 seconds       0.0.0.0:3000->3000/tcp               fhd-cinema_frontend-1
+6a8765c0812e        fhd-cinema-admin-frontend     "docker-entrypoint.s…"   39 seconds ago      Up 33 seconds       0.0.0.0:5713->5713/tcp               fhd-cinema_admin-frontend-1
+b176b18fbec4        mysql:8.0.36-debian       "docker-entrypoint.s…"   39 seconds ago      Up 37 seconds       0.0.0.0:3306->3306/tcp, 33060/tcp    fhd-cinema_db-1
 ```
-
-
-## Kiểm tra các cổng kết nối
-
-Sau khi app chạy, kiểm tra url `http://localhost:3000` trên browser
-![page](./tutorials/output.jpg)
-
-Kiểm tra cổng 3306 của MySQL bằng MySQL Workbench với tài khoản `root` và mật khẩu trong [file password.txt](db/password.txt)
-
-![page](./tutorials/database.jpg)
 
 ## Dừng project bằng Docker
 
@@ -90,9 +85,11 @@ Kết quả mong muốn
 ```
 Stopping fhd-cinema-backend-1  ... done
 Stopping fhd-cinema-frontend-1 ... done
+Stopping fhd-cinema-admin-frontend-1 ... done
 Stopping fhd-cinema-db-1       ... done
 Removing fhd-cinema-backend-1  ... done
 Removing fhd-cinema-frontend-1 ... done
+Removing fhd-cinema-admin-frontend-1 ... done
 Removing fhd-cinema-db-1       ... done
 Removing network fhd-cinema-default
 ```
