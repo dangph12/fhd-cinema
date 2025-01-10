@@ -39,9 +39,8 @@ services:
   frontend:
     build:
       context: frontend
-      target: development
     ports:
-      - 3000:3000
+      - 3000:80
     volumes:
       - ./frontend/src:/code/src
       - /project/node_modules
@@ -55,12 +54,9 @@ services:
   admin-frontend:
     build:
       context: admin-frontend
-      target: development
     restart: always
     ports:
-      - 5173:5173
-    expose:
-      - 5173
+      - 5173:80
     networks:
       - react-spring
     depends_on:

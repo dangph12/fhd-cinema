@@ -12,27 +12,21 @@ COPY . /code
 ENV CI=true
 ENV PORT=5173
 
-CMD [ "npm", "run", "dev" ]
-
 FROM development AS dev-envs
-RUN <<EOF
-apt-get update
-apt-get install -y git
-EOF
+RUN apt-get update && apt-get install -y git
 
-RUN <<EOF
-useradd -s /bin/bash -m vscode
-groupadd docker
-usermod -aG docker vscode
-EOF
+RUN useradd -s /bin/bash -m vscode && \
+    groupadd docker && \
+    usermod -aG docker vscode
+
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
-CMD [ "npm", "run", "dev" ]
 
 FROM development AS build
-
-RUN ["npm", "run", "build"]
+RUN npm run build
 
 FROM nginx:1.13-alpine
 
-COPY --from=build /code/build /usr/share/nginx/html
+COPY --from=build /code/dist /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]
